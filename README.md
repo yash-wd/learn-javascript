@@ -1,16 +1,21 @@
-<p align="center">
-  👉 <a href="https://yash-wd.github.io/learn-javascript/"><b>Click here to open the live course</b></a> 👈
-  <br>
-  <sub>Free · runs in your browser · no install needed</sub>
-</p>
+<div align="center">
+
+# ⚡ Learn JavaScript
+
+**A complete step-by-step course — from zero to expert.**
+<br>52 short lessons · 5 real projects · 100% free · no sign-up
+
+<br>
+
+## 👉 &nbsp; [Open the Live Course](https://yash-wd.github.io/learn-javascript/) &nbsp; 👈
+
+<sub>Runs right in your browser — no install needed</sub>
+
+</div>
 
 <br>
 
 ---
-
-<br>
-
-# Learn JavaScript — A Complete Step-by-Step Course
 
 A beginner-friendly course that starts from **zero** and goes all the way to
 **expert** and **interview** level. **52 short lessons** plus **5 real projects**.
