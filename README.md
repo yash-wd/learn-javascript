@@ -1,15 +1,15 @@
 <div align="center">
 
+## 👉 &nbsp; [Open the Live Course](https://yash-wd.github.io/learn-javascript/) &nbsp; 👈
+
+<sub>Runs right in your browser — no install needed</sub>
+
+<br>
+
 # ⚡ Learn JavaScript
 
 **A complete step-by-step course — from zero to expert.**
 <br>52 short lessons · 5 real projects · 100% free · no sign-up
-
-<br>
-
-## 👉 &nbsp; [Open the Live Course](https://yash-wd.github.io/learn-javascript/) &nbsp; 👈
-
-<sub>Runs right in your browser — no install needed</sub>
 
 </div>
 
