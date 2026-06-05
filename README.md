@@ -1,7 +1,12 @@
 <p align="center">
   <a href="https://yash-wd.github.io/learn-javascript/">
-    <img src="https://img.shields.io/badge/%F0%9F%9A%80%20Launch%20Now-Open%20the%20Live%20Course-6366f1?style=for-the-badge" alt="Launch Now — open the live course">
+    <img src="https://img.shields.io/badge/%E2%96%B6%20CLICK%20TO%20LAUNCH-Open%20the%20Live%20Course-22c55e?style=for-the-badge&labelColor=15803d" alt="Click to launch the live course" height="46">
   </a>
+</p>
+
+<p align="center">
+  👉 <a href="https://yash-wd.github.io/learn-javascript/"><b>Click here to open the live course</b></a> 👈<br>
+  <sub>Free · runs in your browser · no install needed</sub>
 </p>
 
 # Learn JavaScript — A Complete Step-by-Step Course
