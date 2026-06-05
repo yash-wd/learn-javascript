@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>⛅ Weather</h1>
+
+      <form id="search-form" class="search">
+        <input
+          id="city-input"
+          type="text"
+          placeholder="Enter a city… (e.g. Tokyo)"
+          autocomplete="off"
+        />
+        <button type="submit">Search</button>
+      </form>
+
+      <!-- Status line: loading / error messages go here -->
+      <p id="status" class="status"></p>
+
+      <!-- Results card (hidden until we have data) -->
+      <section id="result" class="result hidden">
+        <h2 id="place"></h2>
+        <p id="date" class="date"></p>
+        <div class="temp">
+          <span id="emoji" class="emoji"></span>
+          <span id="temp"></span>
+        </div>
+        <p id="condition" class="condition"></p>
+        <p id="wind" class="wind"></p>
+      </section>
+    </main>
+
+    <!-- Starter. Switch to solution.js to see the finished app. -->
+    <script src="app.js"></script>
+  </body>
+</html>

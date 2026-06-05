@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Virtual List</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>⚡ Virtual List</h1>
+      <p class="subtitle">
+        Scrolling <strong id="total">50,000</strong> rows while keeping only the
+        visible handful in the DOM — the <strong>windowing</strong> technique
+        from lesson 41.
+      </p>
+
+      <!-- Live proof it's working -->
+      <p id="stats" class="stats"></p>
+
+      <button id="jump" class="jump">Jump to a random row</button>
+
+      <!-- The scroll viewport. Only visible rows live inside #sizer. -->
+      <div id="viewport" class="viewport">
+        <div id="sizer" class="sizer"></div>
+      </div>
+    </main>
+
+    <!-- Starter. Switch to solution.js to see the finished app. -->
+    <script src="app.js"></script>
+  </body>
+</html>

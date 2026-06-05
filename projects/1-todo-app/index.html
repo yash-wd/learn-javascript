@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>📝 My Tasks</h1>
+
+      <!-- Add-task form -->
+      <form id="todo-form" class="todo-form">
+        <input
+          id="todo-input"
+          type="text"
+          placeholder="What needs doing?"
+          autocomplete="off"
+        />
+        <button type="submit">Add</button>
+      </form>
+
+      <!-- Filter buttons -->
+      <div class="filters" id="filters">
+        <button data-filter="all" class="active">All</button>
+        <button data-filter="active">Active</button>
+        <button data-filter="done">Done</button>
+      </div>
+
+      <!-- The list (filled by JavaScript) -->
+      <ul id="todo-list" class="todo-list"></ul>
+
+      <!-- Footer count -->
+      <p class="count"><span id="count">0</span> task(s) left</p>
+    </main>
+
+    <!--
+      This loads the STARTER (app.js). When you want to see the finished app,
+      change this line to:  <script src="solution.js"></script>
+    -->
+    <script src="app.js"></script>
+  </body>
+</html>

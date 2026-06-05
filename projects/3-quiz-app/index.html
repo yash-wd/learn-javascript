@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>🧠 JS Quiz</h1>
+
+      <!-- Question view -->
+      <section id="quiz" class="quiz">
+        <p id="progress" class="progress"></p>
+        <h2 id="question" class="question"></h2>
+        <div id="options" class="options"></div>
+        <button id="next" class="next" disabled>Next</button>
+      </section>
+
+      <!-- Results view (hidden until the end) -->
+      <section id="results" class="results hidden">
+        <h2>Quiz complete! 🎉</h2>
+        <p id="score" class="score"></p>
+        <button id="restart" class="next">Play again</button>
+      </section>
+    </main>
+
+    <!-- Starter. Switch to solution.js to see the finished app. -->
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learn JavaScript — A Complete Step-by-Step Course</title>
+    <meta
+      name="description"
+      content="A complete, beginner-friendly JavaScript course. 52 short lessons from your first line of code to advanced, expert and interview-level topics, plus 5 real projects. Read, run, repeat."
+    />
+    <meta name="color-scheme" content="dark light" />
+    <style>
+      /* ===================================================================
+       * Self-contained landing page. No external fonts, CDNs or build step:
+       * one file, works offline, renders the same now and years from now.
+       * =================================================================== */
+      :root {
+        --bg: #0b1020;
+        --bg-soft: #11182e;
+        --card: #151d36;
+        --card-2: #1a2342;
+        --line: #26304f;
+        --ink: #e7ecf6;
+        --ink-soft: #aab4cf;
+        --ink-dim: #7c89ab;
+        --brand: #6366f1;
+        --brand-2: #8b5cf6;
+        --cyan: #22d3ee;
+        --emerald: #34d399;
+        --amber: #fbbf24;
+        --radius: 16px;
+        --maxw: 1080px;
+        --shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.6);
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #f6f7fb;
+          --bg-soft: #eef1f8;
+          --card: #ffffff;
+          --card-2: #f4f6fc;
+          --line: #e2e7f2;
+          --ink: #161c2d;
+          --ink-soft: #3c4763;
+          --ink-dim: #6b7596;
+          --shadow: 0 10px 30px -16px rgba(40, 50, 90, 0.35);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      a { color: inherit; }
+      code, kbd, .mono {
+        font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+      }
+      .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+
+      /* ---------- Nav ---------- */
+      header.nav {
+        position: sticky; top: 0; z-index: 50;
+        backdrop-filter: blur(10px);
+        background: color-mix(in srgb, var(--bg) 82%, transparent);
+        border-bottom: 1px solid var(--line);
+      }
+      .nav .wrap { display: flex; align-items: center; gap: 18px; height: 62px; }
+      .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; }
+      .logo {
+        width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center;
+        font-weight: 800; color: #0b1020;
+        background: linear-gradient(135deg, var(--amber), #ffe08a); box-shadow: var(--shadow);
+      }
+      .nav nav { margin-left: auto; display: flex; gap: 4px; flex-wrap: wrap; }
+      .nav nav a {
+        text-decoration: none; color: var(--ink-soft); padding: 8px 12px;
+        border-radius: 10px; font-size: 0.92rem; font-weight: 500;
+      }
+      .nav nav a:hover { color: var(--ink); background: var(--card); }
+      @media (max-width: 720px) { .nav nav { display: none; } }
+
+      /* ---------- Hero ---------- */
+      .hero {
+        position: relative; overflow: hidden; border-bottom: 1px solid var(--line);
+        background:
+          radial-gradient(60% 120% at 12% -10%, rgba(99, 102, 241, 0.28), transparent 60%),
+          radial-gradient(50% 100% at 100% 0%, rgba(34, 211, 238, 0.16), transparent 55%);
+      }
+      .hero .wrap { padding-top: 70px; padding-bottom: 58px; }
+      .eyebrow {
+        display: inline-flex; align-items: center; gap: 8px; font-size: 0.82rem;
+        font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; color: var(--cyan);
+        background: color-mix(in srgb, var(--cyan) 12%, transparent);
+        border: 1px solid color-mix(in srgb, var(--cyan) 30%, transparent);
+        padding: 6px 12px; border-radius: 999px;
+      }
+      h1.title {
+        font-size: clamp(2.1rem, 5.2vw, 3.4rem); line-height: 1.08; margin: 18px 0 14px;
+        letter-spacing: -0.02em; font-weight: 800;
+      }
+      h1.title .grad {
+        background: linear-gradient(120deg, var(--brand), var(--brand-2) 45%, var(--cyan));
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .lede { font-size: clamp(1.04rem, 2.1vw, 1.2rem); color: var(--ink-soft); max-width: 680px; }
+      .cta { display: flex; flex-wrap: wrap; gap: 12px; margin: 26px 0 10px; }
+      .btn {
+        display: inline-flex; align-items: center; gap: 9px; text-decoration: none; font-weight: 600;
+        padding: 12px 18px; border-radius: 12px; border: 1px solid var(--line);
+        background: var(--card); color: var(--ink);
+        transition: transform 0.12s ease, border-color 0.12s ease;
+      }
+      .btn:hover { transform: translateY(-1px); border-color: var(--brand); }
+      .btn.primary {
+        background: linear-gradient(120deg, var(--brand), var(--brand-2));
+        border-color: transparent; color: white; box-shadow: var(--shadow);
+      }
+      .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 32px; }
+      @media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+      .stat {
+        background: color-mix(in srgb, var(--card) 70%, transparent);
+        border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px;
+      }
+      .stat b { display: block; font-size: 1.55rem; font-weight: 800; line-height: 1.1; }
+      .stat span { color: var(--ink-dim); font-size: 0.86rem; }
+
+      /* ---------- Sections ---------- */
+      section.block { padding: 60px 0; border-bottom: 1px solid var(--line); }
+      .kicker {
+        color: var(--brand-2); font-weight: 700; letter-spacing: 0.3px;
+        text-transform: uppercase; font-size: 0.8rem; margin: 0 0 8px;
+      }
+      h2.h { font-size: clamp(1.5rem, 3.4vw, 2rem); margin: 0 0 10px; letter-spacing: -0.01em; font-weight: 800; }
+      .sub { color: var(--ink-soft); max-width: 720px; margin: 0 0 8px; }
+
+      /* ---------- Start in 3 steps ---------- */
+      .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 26px; }
+      @media (max-width: 760px) { .three { grid-template-columns: 1fr; } }
+      .stepbox {
+        background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 22px; position: relative;
+      }
+      .stepbox .sn {
+        width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center;
+        font-weight: 800; font-size: 1.05rem; color: white; margin-bottom: 12px;
+        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      }
+      .stepbox h3 { margin: 0 0 6px; font-size: 1.08rem; }
+      .stepbox p { margin: 0; color: var(--ink-soft); font-size: 0.95rem; }
+      .stepbox code {
+        background: #0a0f1f; border: 1px solid var(--line); border-radius: 7px;
+        padding: 2px 7px; font-size: 0.86rem; color: #d7def0;
+      }
+
+      /* ---------- Ladder (the path) ---------- */
+      .flow { margin-top: 28px; display: grid; gap: 14px; }
+      .stage { display: grid; grid-template-columns: 56px 1fr; gap: 18px; align-items: stretch; }
+      .rail { position: relative; display: grid; place-items: start center; }
+      .dot {
+        width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+        font-weight: 800; color: #0b1020; box-shadow: var(--shadow); z-index: 2;
+        background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      }
+      .rail::after {
+        content: ""; position: absolute; top: 44px; bottom: -14px; width: 2px;
+        background: linear-gradient(var(--line), transparent);
+      }
+      .stage:last-child .rail::after { display: none; }
+      .stage .body { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; }
+      .stage .body .top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+      .stage .body h3 { margin: 0; font-size: 1.08rem; }
+      .stage .body .range {
+        font-size: 0.78rem; color: var(--ink-dim); font-weight: 600; background: var(--card-2);
+        border: 1px solid var(--line); padding: 2px 9px; border-radius: 999px;
+      }
+      .stage .body p { margin: 6px 0 0; color: var(--ink-soft); font-size: 0.94rem; }
+
+      /* ---------- Lesson cards ---------- */
+      .parts { display: grid; gap: 30px; margin-top: 28px; }
+      .part-head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+      .part-head .num {
+        font-size: 0.78rem; font-weight: 800; letter-spacing: 0.5px; color: var(--cyan);
+        border: 1px solid color-mix(in srgb, var(--cyan) 30%, transparent);
+        background: color-mix(in srgb, var(--cyan) 10%, transparent);
+        padding: 3px 10px; border-radius: 999px; white-space: nowrap;
+      }
+      .part-head h3 { margin: 0; font-size: 1.2rem; }
+      .part-why { color: var(--ink-dim); font-size: 0.92rem; margin: 0 0 14px; }
+      .lessons { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 12px; }
+      a.lesson {
+        text-decoration: none; display: block; background: var(--card); border: 1px solid var(--line);
+        border-radius: 13px; padding: 13px 15px;
+        transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+      }
+      a.lesson:hover { transform: translateY(-2px); border-color: var(--brand); background: var(--card-2); }
+      a.lesson .row { display: flex; align-items: center; gap: 9px; }
+      a.lesson .n {
+        font-weight: 800; font-size: 0.82rem; color: var(--brand-2);
+        background: color-mix(in srgb, var(--brand) 14%, transparent);
+        border-radius: 7px; padding: 2px 7px; min-width: 30px; text-align: center;
+      }
+      a.lesson .name { font-weight: 650; font-size: 0.97rem; }
+      a.lesson .tag {
+        margin-left: auto; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.4px; color: var(--amber);
+        border: 1px solid color-mix(in srgb, var(--amber) 35%, transparent);
+        padding: 1px 6px; border-radius: 6px; text-transform: uppercase;
+      }
+      a.lesson .desc { margin: 7px 0 0; color: var(--ink-dim); font-size: 0.83rem; line-height: 1.45; }
+
+      /* ---------- Projects & tracks ---------- */
+      .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 24px; }
+      a.project, .panel {
+        text-decoration: none; background: var(--card); border: 1px solid var(--line);
+        border-radius: var(--radius); padding: 20px; display: block;
+        transition: transform 0.12s ease, border-color 0.12s ease;
+      }
+      a.project:hover { transform: translateY(-2px); border-color: var(--brand-2); }
+      a.project .pnum, .panel .pnum { font-weight: 800; font-size: 0.78rem; color: var(--emerald); }
+      a.project h3, .panel h3 { margin: 6px 0 8px; font-size: 1.1rem; }
+      a.project p, .panel p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; }
+      a.project .builds { margin-top: 12px; font-size: 0.78rem; color: var(--ink-dim); }
+      .panel ol, .panel ul { margin: 8px 0 0; padding-left: 18px; color: var(--ink-soft); font-size: 0.9rem; }
+      .panel li { margin: 4px 0; }
+      .panel a.inline { color: var(--brand-2); text-decoration: none; font-weight: 600; }
+      .panel a.inline:hover { text-decoration: underline; }
+
+      /* ---------- Code block ---------- */
+      .code {
+        background: #0a0f1f; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
+        overflow-x: auto; margin-top: 18px; font-size: 0.9rem; line-height: 1.7; color: #d7def0;
+      }
+      .code .c { color: #6b7596; }
+      .code .g { color: var(--emerald); }
+
+      /* ---------- FAQ ---------- */
+      .faq { display: grid; gap: 12px; margin-top: 24px; }
+      details {
+        background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 4px 18px;
+      }
+      details summary {
+        cursor: pointer; font-weight: 650; padding: 14px 0; list-style: none; font-size: 1rem;
+      }
+      details summary::-webkit-details-marker { display: none; }
+      details summary::before { content: "＋ "; color: var(--brand-2); font-weight: 800; }
+      details[open] summary::before { content: "－ "; }
+      details p { margin: 0 0 16px; color: var(--ink-soft); font-size: 0.95rem; }
+      details code {
+        background: #0a0f1f; border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; font-size: 0.85rem;
+      }
+
+      /* ---------- Footer ---------- */
+      footer { padding: 40px 0 60px; color: var(--ink-dim); font-size: 0.9rem; }
+      footer .wrap { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+      footer a { color: var(--ink-soft); text-decoration: none; }
+      footer a:hover { color: var(--ink); }
+      footer .sep { margin-left: auto; }
+    </style>
+  </head>
+  <body>
+    <!-- ============================ NAV ============================ -->
+    <header class="nav">
+      <div class="wrap">
+        <a class="brand" href="#top"><span class="logo">JS</span><span>Learn JavaScript</span></a>
+        <nav>
+          <a href="#start">Start here</a>
+          <a href="#path">The path</a>
+          <a href="#lessons">Lessons</a>
+          <a href="#projects">Projects</a>
+          <a href="#help">Help</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ============================ HERO ============================ -->
+    <a id="top"></a>
+    <section class="hero">
+      <div class="wrap">
+        <span class="eyebrow">● No experience needed · learn at your own pace</span>
+        <h1 class="title">Learn <span class="grad">JavaScript</span>, one small step at a time</h1>
+        <p class="lede">
+          A complete course that starts from absolutely zero and takes you all the
+          way to expert and interview level. Every lesson is one short file you
+          <strong>read</strong>, then <strong>run</strong>, then move on. That's the
+          whole method — no setup maze, no jargon, no getting lost.
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="#start">▶ Start here</a>
+          <a class="btn" href="#path">See the full path</a>
+          <a class="btn" href="bundle/JS_Learn_Everything.pdf">📕 Offline PDF</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>52</b><span>short lessons, in order</span></div>
+          <div class="stat"><b>5</b><span>levels: beginner → expert</span></div>
+          <div class="stat"><b>5</b><span>real projects you build</span></div>
+          <div class="stat"><b>0</b><span>prior coding needed</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ START IN 3 STEPS ============================ -->
+    <section class="block" id="start">
+      <div class="wrap">
+        <p class="kicker">Brand new? Read this first</p>
+        <h2 class="h">Start in 3 simple steps</h2>
+        <p class="sub">
+          If you have never written code before, this is everything you need to do.
+          Don't worry about any of the folders yet — you only ever touch two of them.
+        </p>
+        <div class="three">
+          <div class="stepbox">
+            <div class="sn">1</div>
+            <h3>Install Node.js</h3>
+            <p>
+              It's a free program that runs JavaScript on your computer. Get it from
+              <strong>nodejs.org</strong> (pick the "LTS" version) and install it like
+              any other app. This is your one-time setup.
+            </p>
+          </div>
+          <div class="stepbox">
+            <div class="sn">2</div>
+            <h3>Open your first lesson</h3>
+            <p>
+              In your editor, open <code>lessons/01-variables.js</code> and read it
+              top to bottom. Every line is explained in plain English, and
+              <code>// =&gt;</code> shows you exactly what it prints.
+            </p>
+          </div>
+          <div class="stepbox">
+            <div class="sn">3</div>
+            <h3>Run it &amp; repeat</h3>
+            <p>
+              In a terminal, type <code>node lessons/01-variables.js</code> and press
+              Enter. Compare the output. Then open lesson 02 and repeat — that's the
+              entire course.
+            </p>
+          </div>
+        </div>
+
+        <div class="code mono">
+<span class="c"># 1. run your very first lesson</span>
+node lessons/01-variables.js
+
+<span class="c"># 2. when you finish, go to the next one</span>
+node lessons/02-data-types.js
+
+<span class="c"># …keep going in order, all the way to lesson 52.</span>
+        </div>
+        <p class="sub" style="margin-top: 16px">
+          👉 <strong>The golden rule:</strong> read it → run it → change a value and
+          run it again → only move on once it makes sense. That's how it sticks.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================ THE PATH (5 levels) ============================ -->
+    <section class="block" id="path">
+      <div class="wrap">
+        <p class="kicker">The big picture</p>
+        <h2 class="h">Your learning path, from beginner to expert</h2>
+        <p class="sub">
+          The lessons are numbered 01–52 and are meant to be done <em>in that order</em>.
+          They climb through five levels — each one builds on the last, so you always
+          know what comes next.
+        </p>
+        <div class="flow">
+          <div class="stage">
+            <div class="rail"><div class="dot">1</div></div>
+            <div class="body">
+              <div class="top"><h3>Foundation</h3><span class="range">Lessons 01–08</span></div>
+              <p>The absolute basics: storing values, doing math, working with text, and making decisions. The alphabet of code.</p>
+            </div>
+          </div>
+          <div class="stage">
+            <div class="rail"><div class="dot">2</div></div>
+            <div class="body">
+              <div class="top"><h3>Core Concepts</h3><span class="range">Lessons 09–16</span></div>
+              <p>The everyday tools you'll use forever: functions, arrays, objects, and how to reshape data cleanly.</p>
+            </div>
+          </div>
+          <div class="stage">
+            <div class="rail"><div class="dot">3</div></div>
+            <div class="body">
+              <div class="top"><h3>Intermediate</h3><span class="range">Lessons 17–25</span></div>
+              <p>Build real, interactive apps: classes, waiting for things (async), changing web pages, and loading data from the internet.</p>
+            </div>
+          </div>
+          <div class="stage">
+            <div class="rail"><div class="dot">4</div></div>
+            <div class="body">
+              <div class="top"><h3>Advanced</h3><span class="range">Lessons 26–37</span></div>
+              <p>Deeper language power and the modern toolbox — including today's newest JavaScript features.</p>
+            </div>
+          </div>
+          <div class="stage">
+            <div class="rail"><div class="dot">5</div></div>
+            <div class="body">
+              <div class="top"><h3>Expert</h3><span class="range">Lessons 38–52</span></div>
+              <p>Think like a professional: testing, security, performance, computer-science core (data structures &amp; algorithms), and more. This is the interview-ready level.</p>
+            </div>
+          </div>
+          <div class="stage">
+            <div class="rail"><div class="dot">★</div></div>
+            <div class="body">
+              <div class="top"><h3>Then: build &amp; prepare</h3><span class="range">Projects + tracks</span></div>
+              <p>Apply everything in <a href="#projects" style="color: var(--brand-2)">5 real projects</a>, then follow the <a href="#tracks" style="color: var(--brand-2)">Interview Prep &amp; Best Practices tracks</a> to sharpen up.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ LESSONS (grouped by level) ============================ -->
+    <section class="block" id="lessons">
+      <div class="wrap">
+        <p class="kicker">Every lesson</p>
+        <h2 class="h">All 52 lessons, grouped by level</h2>
+        <p class="sub">
+          Click any lesson to open it. Most run in your terminal with
+          <code>node lessons/NN-name.js</code>. A few are tagged
+          <span style="color: var(--amber); font-weight: 700">BROWSER</span> — those
+          run in a web page instead (see the Help section below).
+        </p>
+
+        <div class="parts">
+          <!-- LEVEL 1 -->
+          <div>
+            <div class="part-head"><span class="num">LEVEL 1</span><h3>Foundation</h3></div>
+            <p class="part-why">Start here. The basic building blocks every program is made of.</p>
+            <div class="lessons">
+              <a class="lesson" href="lessons/01-variables.js"><div class="row"><span class="n">01</span><span class="name">Variables</span></div><p class="desc">storing values with <code>let</code> &amp; <code>const</code></p></a>
+              <a class="lesson" href="lessons/02-data-types.js"><div class="row"><span class="n">02</span><span class="name">Data Types</span></div><p class="desc">text, numbers, true/false, and more</p></a>
+              <a class="lesson" href="lessons/03-operators.js"><div class="row"><span class="n">03</span><span class="name">Operators</span></div><p class="desc">math, comparison, and logic</p></a>
+              <a class="lesson" href="lessons/04-type-conversion.js"><div class="row"><span class="n">04</span><span class="name">Type Conversion</span></div><p class="desc">turning one type into another</p></a>
+              <a class="lesson" href="lessons/05-strings.js"><div class="row"><span class="n">05</span><span class="name">Strings</span></div><p class="desc">working with text</p></a>
+              <a class="lesson" href="lessons/06-numbers-math.js"><div class="row"><span class="n">06</span><span class="name">Numbers &amp; Math</span></div><p class="desc">calculations and rounding</p></a>
+              <a class="lesson" href="lessons/07-conditionals.js"><div class="row"><span class="n">07</span><span class="name">Conditionals</span></div><p class="desc">making decisions with <code>if/else</code></p></a>
+              <a class="lesson" href="lessons/08-loops.js"><div class="row"><span class="n">08</span><span class="name">Loops</span></div><p class="desc">repeating work automatically</p></a>
+            </div>
+          </div>
+
+          <!-- LEVEL 2 -->
+          <div>
+            <div class="part-head"><span class="num">LEVEL 2</span><h3>Core Concepts</h3></div>
+            <p class="part-why">The everyday tools you'll reach for in almost every program.</p>
+            <div class="lessons">
+              <a class="lesson" href="lessons/09-functions.js"><div class="row"><span class="n">09</span><span class="name">Functions</span></div><p class="desc">reusable blocks of code</p></a>
+              <a class="lesson" href="lessons/10-scope-closures.js"><div class="row"><span class="n">10</span><span class="name">Scope &amp; Closures</span></div><p class="desc">where variables live and survive</p></a>
+              <a class="lesson" href="lessons/11-this-keyword.js"><div class="row"><span class="n">11</span><span class="name">The <code>this</code> Keyword</span></div><p class="desc">the famously tricky one, made simple</p></a>
+              <a class="lesson" href="lessons/12-arrays.js"><div class="row"><span class="n">12</span><span class="name">Arrays</span></div><p class="desc">ordered lists of things</p></a>
+              <a class="lesson" href="lessons/13-array-methods.js"><div class="row"><span class="n">13</span><span class="name">Array Methods</span></div><p class="desc"><code>map</code>, <code>filter</code>, <code>reduce</code> &amp; friends</p></a>
+              <a class="lesson" href="lessons/14-objects.js"><div class="row"><span class="n">14</span><span class="name">Objects</span></div><p class="desc">grouping related data + JSON</p></a>
+              <a class="lesson" href="lessons/15-destructuring-spread.js"><div class="row"><span class="n">15</span><span class="name">Destructuring &amp; Spread</span></div><p class="desc">unpacking and copying data</p></a>
+              <a class="lesson" href="lessons/16-sets-maps.js"><div class="row"><span class="n">16</span><span class="name">Sets &amp; Maps</span></div><p class="desc">two more handy collections</p></a>
+            </div>
+          </div>
+
+          <!-- LEVEL 3 -->
+          <div>
+            <div class="part-head"><span class="num">LEVEL 3</span><h3>Intermediate</h3></div>
+            <p class="part-why">Where it gets exciting — build interactive apps that load real data.</p>
+            <div class="lessons">
+              <a class="lesson" href="lessons/17-classes-oop.js"><div class="row"><span class="n">17</span><span class="name">Classes &amp; OOP</span></div><p class="desc">blueprints for objects</p></a>
+              <a class="lesson" href="lessons/18-prototypes.js"><div class="row"><span class="n">18</span><span class="name">Prototypes</span></div><p class="desc">how inheritance really works</p></a>
+              <a class="lesson" href="lessons/19-callbacks-promises.js"><div class="row"><span class="n">19</span><span class="name">Callbacks &amp; Promises</span></div><p class="desc">handling things that take time</p></a>
+              <a class="lesson" href="lessons/20-async-await.js"><div class="row"><span class="n">20</span><span class="name">Async / Await</span></div><p class="desc">the clean way to wait for data</p></a>
+              <a class="lesson" href="lessons/21-error-handling.js"><div class="row"><span class="n">21</span><span class="name">Error Handling</span></div><p class="desc">dealing with things that go wrong</p></a>
+              <a class="lesson" href="lessons/22-modules.js"><div class="row"><span class="n">22</span><span class="name">Modules</span></div><p class="desc">splitting code across files</p></a>
+              <a class="lesson" href="lessons/23-dom.js"><div class="row"><span class="n">23</span><span class="name">The DOM</span><span class="tag">browser</span></div><p class="desc">changing what's on a web page</p></a>
+              <a class="lesson" href="lessons/24-events.js"><div class="row"><span class="n">24</span><span class="name">Events</span><span class="tag">browser</span></div><p class="desc">reacting to clicks &amp; typing</p></a>
+              <a class="lesson" href="lessons/25-fetch-apis.js"><div class="row"><span class="n">25</span><span class="name">Fetch &amp; APIs</span></div><p class="desc">loading data from the internet</p></a>
+            </div>
+          </div>
+
+          <!-- LEVEL 4 -->
+          <div>
+            <div class="part-head"><span class="num">LEVEL 4</span><h3>Advanced</h3></div>
+            <p class="part-why">Deeper language power and today's modern features.</p>
+            <div class="lessons">
+              <a class="lesson" href="lessons/26-regular-expressions.js"><div class="row"><span class="n">26</span><span class="name">Regular Expressions</span></div><p class="desc">powerful text patterns</p></a>
+              <a class="lesson" href="lessons/27-generators-iterators.js"><div class="row"><span class="n">27</span><span class="name">Generators &amp; Iterators</span></div><p class="desc">producing values lazily</p></a>
+              <a class="lesson" href="lessons/28-symbols-proxy-reflect.js"><div class="row"><span class="n">28</span><span class="name">Symbols, Proxy &amp; Reflect</span></div><p class="desc">metaprogramming</p></a>
+              <a class="lesson" href="lessons/29-advanced-async.js"><div class="row"><span class="n">29</span><span class="name">Advanced Async</span></div><p class="desc">debounce, retry, concurrency</p></a>
+              <a class="lesson" href="lessons/30-functional-programming.js"><div class="row"><span class="n">30</span><span class="name">Functional Programming</span></div><p class="desc">purity, currying, compose</p></a>
+              <a class="lesson" href="lessons/31-tricky-concepts.js"><div class="row"><span class="n">31</span><span class="name">Tricky Concepts</span></div><p class="desc">the classic gotchas</p></a>
+              <a class="lesson" href="lessons/32-dates-time.js"><div class="row"><span class="n">32</span><span class="name">Dates &amp; Time</span></div><p class="desc">working with calendars &amp; clocks</p></a>
+              <a class="lesson" href="lessons/33-browser-storage.js"><div class="row"><span class="n">33</span><span class="name">Browser Storage</span></div><p class="desc">saving data in the browser</p></a>
+              <a class="lesson" href="lessons/34-bom-timers.js"><div class="row"><span class="n">34</span><span class="name">BOM &amp; Timers</span></div><p class="desc">the browser window &amp; timing</p></a>
+              <a class="lesson" href="lessons/35-debugging-console.js"><div class="row"><span class="n">35</span><span class="name">Debugging &amp; Console</span></div><p class="desc">finding and fixing problems</p></a>
+              <a class="lesson" href="lessons/36-weakmap-memory.js"><div class="row"><span class="n">36</span><span class="name">WeakMap &amp; Memory</span></div><p class="desc">how memory is managed</p></a>
+              <a class="lesson" href="lessons/37-modern-js.js"><div class="row"><span class="n">37</span><span class="name">Modern JavaScript</span></div><p class="desc">the newest features (to 2026)</p></a>
+            </div>
+          </div>
+
+          <!-- LEVEL 5 -->
+          <div>
+            <div class="part-head"><span class="num">LEVEL 5</span><h3>Expert</h3></div>
+            <p class="part-why">Ship real software and pass interviews — engineering plus computer-science core.</p>
+            <div class="lessons">
+              <a class="lesson" href="lessons/38-testing.js"><div class="row"><span class="n">38</span><span class="name">Testing</span></div><p class="desc">proving your code works</p></a>
+              <a class="lesson" href="lessons/39-security.js"><div class="row"><span class="n">39</span><span class="name">Security Essentials</span></div><p class="desc">don't get hacked</p></a>
+              <a class="lesson" href="lessons/40-design-patterns.js"><div class="row"><span class="n">40</span><span class="name">Design Patterns</span></div><p class="desc">proven, reusable solutions</p></a>
+              <a class="lesson" href="lessons/41-performance.js"><div class="row"><span class="n">41</span><span class="name">Performance</span></div><p class="desc">make it fast (and Big-O)</p></a>
+              <a class="lesson" href="lessons/42-polyfills.js"><div class="row"><span class="n">42</span><span class="name">Polyfills</span></div><p class="desc">rebuild the built-ins yourself</p></a>
+              <a class="lesson" href="lessons/43-typescript.js"><div class="row"><span class="n">43</span><span class="name">TypeScript On-Ramp</span></div><p class="desc">JavaScript with types</p></a>
+              <a class="lesson" href="lessons/44-tooling.js"><div class="row"><span class="n">44</span><span class="name">Tooling &amp; Build</span></div><p class="desc">the modern workflow</p></a>
+              <a class="lesson" href="lessons/45-nodejs.js"><div class="row"><span class="n">45</span><span class="name">Node.js</span></div><p class="desc">JavaScript on the server</p></a>
+              <a class="lesson" href="lessons/46-browser-apis.js"><div class="row"><span class="n">46</span><span class="name">Advanced Browser APIs</span><span class="tag">browser</span></div><p class="desc">Workers, PWA, IndexedDB &amp; more</p></a>
+              <a class="lesson" href="lessons/47-realtime-and-production.js"><div class="row"><span class="n">47</span><span class="name">Real-Time &amp; Production</span></div><p class="desc">live data &amp; running for real</p></a>
+              <a class="lesson" href="lessons/48-data-structures.js"><div class="row"><span class="n">48</span><span class="name">Data Structures</span></div><p class="desc">Stacks, Queues, Trees, Graphs</p></a>
+              <a class="lesson" href="lessons/49-algorithms.js"><div class="row"><span class="n">49</span><span class="name">Algorithms</span></div><p class="desc">searching, sorting, problem-solving</p></a>
+              <a class="lesson" href="lessons/50-binary-data.js"><div class="row"><span class="n">50</span><span class="name">Binary Data</span></div><p class="desc">raw bytes, files &amp; uploads</p></a>
+              <a class="lesson" href="lessons/51-bigint-and-language-corners.js"><div class="row"><span class="n">51</span><span class="name">BigInt &amp; Language Corners</span></div><p class="desc">the last little details</p></a>
+              <a class="lesson" href="lessons/52-internationalization.js"><div class="row"><span class="n">52</span><span class="name">Internationalization</span></div><p class="desc">languages, dates &amp; formats worldwide</p></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ PROJECTS ============================ -->
+    <section class="block" id="projects">
+      <div class="wrap">
+        <p class="kicker">Build to learn</p>
+        <h2 class="h">5 real projects</h2>
+        <p class="sub">
+          Reading shows you <em>what</em>; building shows you <em>how</em>. After the
+          lessons, build these. Each one has a starter with friendly
+          <code>// TODO</code> notes, plus a full solution to compare against. Open
+          the project's <code>index.html</code> in your browser.
+        </p>
+        <div class="cards">
+          <a class="project" href="projects/1-todo-app/"><div class="pnum">PROJECT 01</div><h3>To-Do App</h3><p>Add, complete and delete tasks that survive a refresh.</p><div class="builds">Practises lessons 13, 14, 23, 24, 33</div></a>
+          <a class="project" href="projects/2-weather-app/"><div class="pnum">PROJECT 02</div><h3>Weather App</h3><p>Type a city and fetch live weather from a free public service.</p><div class="builds">Practises lessons 20, 21, 25, 32</div></a>
+          <a class="project" href="projects/3-quiz-app/"><div class="pnum">PROJECT 03</div><h3>Quiz App</h3><p>A multi-question quiz — all about managing state.</p><div class="builds">Practises lessons 09, 13, 23, 24</div></a>
+          <a class="project" href="projects/4-route-finder/"><div class="pnum">PROJECT 04</div><h3>Route Finder</h3><p>Find the shortest path through a map using a graph.</p><div class="builds">Practises lessons 48, 49, 16, 23, 24</div></a>
+          <a class="project" href="projects/5-virtual-list/"><div class="pnum">PROJECT 05</div><h3>Virtual List</h3><p>Smoothly scroll 50,000 rows with only a handful on screen.</p><div class="builds">Practises lessons 41, 13, 23, 24, 29</div></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ TRACKS ============================ -->
+    <section class="block" id="tracks">
+      <div class="wrap">
+        <p class="kicker">Optional focus tracks</p>
+        <h2 class="h">Going for a job? Two extra tracks</h2>
+        <p class="sub">
+          These don't add new lessons — they're shortcuts that point you at the
+          lessons that matter most for a specific goal, once you've done the basics.
+        </p>
+        <div class="cards">
+          <div class="panel">
+            <div class="pnum">TRACK A</div>
+            <h3>Interview Preparation</h3>
+            <p>The topics that come up again and again in coding interviews:</p>
+            <ul>
+              <li><a class="inline" href="lessons/10-scope-closures.js">10 · Closures</a> &amp; <a class="inline" href="lessons/11-this-keyword.js">11 · this</a></li>
+              <li><a class="inline" href="lessons/18-prototypes.js">18 · Prototypes</a></li>
+              <li><a class="inline" href="lessons/31-tricky-concepts.js">31 · Tricky Concepts</a></li>
+              <li><a class="inline" href="lessons/42-polyfills.js">42 · Polyfills</a></li>
+              <li><a class="inline" href="lessons/48-data-structures.js">48 · Data Structures</a> &amp; <a class="inline" href="lessons/49-algorithms.js">49 · Algorithms</a></li>
+            </ul>
+          </div>
+          <div class="panel">
+            <div class="pnum">TRACK B</div>
+            <h3>Professional Best Practices</h3>
+            <p>What turns working code into code a team can trust and maintain:</p>
+            <ul>
+              <li><a class="inline" href="lessons/21-error-handling.js">21 · Error Handling</a></li>
+              <li><a class="inline" href="lessons/38-testing.js">38 · Testing</a></li>
+              <li><a class="inline" href="lessons/39-security.js">39 · Security</a></li>
+              <li><a class="inline" href="lessons/40-design-patterns.js">40 · Design Patterns</a></li>
+              <li><a class="inline" href="lessons/41-performance.js">41 · Performance</a> &amp; <a class="inline" href="lessons/44-tooling.js">44 · Tooling</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ HELP / FAQ ============================ -->
+    <section class="block" id="help">
+      <div class="wrap">
+        <p class="kicker">First-timer questions</p>
+        <h2 class="h">Help &amp; common questions</h2>
+        <p class="sub">New to all of this? These answer the things that trip people up at the start.</p>
+        <div class="faq">
+          <details>
+            <summary>I see lots of folders. Which ones do I actually use?</summary>
+            <p>
+              Only two: <code>lessons/</code> (the 52 lessons you learn from) and
+              <code>projects/</code> (the apps you build later). You can completely
+              ignore <code>assets/</code>, <code>bundle/</code> and <code>tools/</code>
+              — those are just packaging for this website and the offline PDF.
+            </p>
+          </details>
+          <details>
+            <summary>What is a "terminal" and how do I open one?</summary>
+            <p>
+              The terminal is a window where you type commands. On Windows it's
+              "Command Prompt" or "PowerShell"; on Mac it's "Terminal". Easiest of
+              all: open this folder in a code editor and use its built-in terminal,
+              then type <code>node lessons/01-variables.js</code>.
+            </p>
+          </details>
+          <details>
+            <summary>Do I need to install anything?</summary>
+            <p>
+              Just one thing: <strong>Node.js</strong> from <code>nodejs.org</code>
+              (the "LTS" version). That lets you run the lessons. For the projects and
+              the browser lessons, you also use a normal web browser — which you
+              already have.
+            </p>
+          </details>
+          <details>
+            <summary>What about the lessons marked "BROWSER"?</summary>
+            <p>
+              A few lessons (23, 24, 46) change web pages, so they run in a browser
+              instead of the terminal. Open <code>playground.html</code>, change the
+              line near the bottom to point at that lesson, then open the page and
+              press <kbd>F12</kbd> to see the output in the Console.
+            </p>
+          </details>
+          <details>
+            <summary>How long will this take?</summary>
+            <p>
+              There's no clock. Some lessons take ten minutes, some take an hour.
+              Go at your own pace and don't move on until the current lesson makes
+              sense. Finishing all 52 plus the projects is a genuine, job-ready
+              foundation.
+            </p>
+          </details>
+          <details>
+            <summary>Can I read it all offline or on paper?</summary>
+            <p>
+              Yes. Every lesson is bundled into a single
+              <a href="bundle/JS_Learn_Everything.pdf" style="color: var(--brand-2)">PDF</a>
+              and <a href="bundle/JS_Learn_Everything.md" style="color: var(--brand-2)">Markdown file</a>
+              you can read or print.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================ FOOTER ============================ -->
+    <footer>
+      <div class="wrap">
+        <span>A complete JavaScript course · 52 lessons · 5 projects</span>
+        <a class="sep" href="#start">Start learning</a>
+        <a href="bundle/JS_Learn_Everything.pdf">PDF</a>
+        <a href="README.md">README</a>
+      </div>
+    </footer>
+  </body>
+</html>

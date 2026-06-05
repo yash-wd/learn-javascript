@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Route Finder</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>🚇 Route Finder</h1>
+      <p class="subtitle">
+        Shortest path across a transit network — a <strong>graph</strong> (lesson 48)
+        searched with <strong>BFS</strong> (lesson 49).
+      </p>
+
+      <!-- Controls -->
+      <section class="controls">
+        <label>
+          From
+          <select id="start"></select>
+        </label>
+        <button id="swap" class="swap" title="Swap start and destination">⇅</button>
+        <label>
+          To
+          <select id="goal"></select>
+        </label>
+        <button id="find" class="find">Find route</button>
+      </section>
+
+      <!-- Result -->
+      <section id="result" class="result"></section>
+
+      <!-- Network map (the graph's edges, so you can see the structure) -->
+      <section class="network">
+        <h2>Network map</h2>
+        <ul id="map" class="map"></ul>
+      </section>
+    </main>
+
+    <!-- Starter. Switch to solution.js to see the finished app. -->
+    <script src="app.js"></script>
+  </body>
+</html>
