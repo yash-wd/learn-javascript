@@ -9,11 +9,14 @@
 # How it decides which lesson is "the one":
 #   1. It lists EVERY lesson that mentions the keyword, ranked by how often it
 #      appears (so you can see the full picture, not just one guess).
-#   2. It then picks the best bet:
-#        - FIRST preference: a lesson whose *filename* contains the keyword
-#          (e.g. "array" -> 13-array-methods.js). The filename is the most
-#          reliable signal of what a lesson actually teaches.
-#        - Otherwise: the lesson with the most mentions.
+#   2. It then picks the best bet, in order of how trustworthy the signal is:
+#        a. CONFIRMED — the keyword is in the lesson's *filename* (the canonical
+#           topic slug, e.g. "array" -> 12-arrays.js). Most specific signal.
+#        b. CONFIRMED — the keyword is in the lesson's TITLE header (the
+#           "NN · TOPIC — ..." block at the top). Used when no filename matches
+#           (e.g. "reduce" is in lesson 13's title but no file is named for it).
+#        c. BEST GUESS — neither matched, so it falls back to the lesson with
+#           the most mentions. Check the full list above too.
 #   3. It prints that lesson's PRACTICE exercises.
 
 set -euo pipefail
@@ -45,21 +48,40 @@ fi
 
 echo "$RANKED" | sed 's/^/  /'
 
-# --- Step 2: pick the best bet ---
-# Prefer a file whose NAME contains the keyword (strongest signal of the topic).
-NAME_MATCH="$(echo "$RANKED" | cut -d: -f1 | grep -i -- "$KEYWORD" | head -1 || true)"
+# --- Step 2: pick the best bet, strongest signal first ---
+CANDIDATES="$(echo "$RANKED" | cut -d: -f1)"
+
+# (a) keyword in the TITLE header — the top comment block, before the first */.
+#     This is what the lesson is literally about, so it's the most trustworthy.
+TITLE_MATCH=""
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  if awk '/\*\//{exit} {print}' "$f" | grep -iq -- "$KEYWORD"; then
+    TITLE_MATCH="$f"
+    break
+  fi
+done <<< "$CANDIDATES"
+
+# (b) keyword in the filename.
+NAME_MATCH="$(echo "$CANDIDATES" | grep -i -- "$KEYWORD" | head -1 || true)"
 
 if [ -n "$NAME_MATCH" ]; then
   TOP_FILE="$NAME_MATCH"
-  REASON="its filename matches '$KEYWORD' — this is almost certainly the topic's lesson"
+  CONFIDENCE="CONFIRMED"
+  REASON="'$KEYWORD' is in this lesson's filename — the canonical name for this topic"
+elif [ -n "$TITLE_MATCH" ]; then
+  TOP_FILE="$TITLE_MATCH"
+  CONFIDENCE="CONFIRMED"
+  REASON="'$KEYWORD' is in this lesson's title — this lesson teaches it"
 else
   TOP_FILE="$(echo "$RANKED" | head -1 | cut -d: -f1)"
-  REASON="it mentions '$KEYWORD' the most (no lesson is named after it, so this is a best guess — check the list above too)"
+  CONFIDENCE="BEST GUESS"
+  REASON="no lesson's title or name matches '$KEYWORD', so this is the one that mentions it most — check the list above too"
 fi
 
 echo ""
-echo "Best bet: $(basename "$TOP_FILE")"
-echo "  (chosen because $REASON)"
+echo "Best bet [$CONFIDENCE]: $(basename "$TOP_FILE")"
+echo "  ($REASON)"
 
 # --- Step 3: show the practice exercises in that lesson ---
 echo ""

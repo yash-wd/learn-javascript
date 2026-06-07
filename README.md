@@ -73,12 +73,18 @@ What it does:
 
 1. **Lists every lesson** that mentions the keyword, ranked by how often it
    appears — so you see the full picture, not just one guess.
-2. **Picks the best bet** — preferring a lesson whose *filename* matches the
-   topic (e.g. `array` → `12-arrays.js`), since the filename is the most
-   reliable sign of what a lesson actually teaches. If nothing matches by name,
-   it falls back to the most-mentioned lesson.
+2. **Picks the best bet**, using the most trustworthy signal available:
+   - **filename match** (e.g. `array` → `12-arrays.js`) — the canonical name
+     for a topic, so this is `[CONFIRMED]`;
+   - else **title match** — the keyword appears in the lesson's title header
+     (e.g. `reduce` is in lesson 13's title), also `[CONFIRMED]`;
+   - else **most mentions** — a `[BEST GUESS]`; check the printed list yourself.
 3. **Prints that lesson's `PRACTICE`** exercises so you know exactly where to
    start.
+
+> ⚠️ For a short word that's part of another topic (e.g. `map` also matches
+> `weakmap`), the pick can be ambiguous — that's why the full ranked list is
+> always shown, so you make the final call.
 
 (On Windows, run it with `bash findtopic.sh reduce`.)
 
