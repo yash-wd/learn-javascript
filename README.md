@@ -69,10 +69,18 @@ helper script with a keyword:
 ./findtopic.sh "async"
 ```
 
-It ranks the lessons by how often the keyword appears — the top file is the one
-that actually **teaches** the topic — and prints that lesson's `PRACTICE`
-exercises so you know exactly where to start. (On Windows, run it with
-`bash findtopic.sh reduce`.)
+What it does:
+
+1. **Lists every lesson** that mentions the keyword, ranked by how often it
+   appears — so you see the full picture, not just one guess.
+2. **Picks the best bet** — preferring a lesson whose *filename* matches the
+   topic (e.g. `array` → `12-arrays.js`), since the filename is the most
+   reliable sign of what a lesson actually teaches. If nothing matches by name,
+   it falls back to the most-mentioned lesson.
+3. **Prints that lesson's `PRACTICE`** exercises so you know exactly where to
+   start.
+
+(On Windows, run it with `bash findtopic.sh reduce`.)
 
 ---
 

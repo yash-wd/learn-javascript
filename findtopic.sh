@@ -6,14 +6,18 @@
 #   ./findtopic.sh reduce
 #   ./findtopic.sh "async"
 #
-# It ranks lesson files by how often the keyword appears (the file with the
-# most matches is almost always the one that *teaches* the topic), then prints
-# the PRACTICE block from the top file so you know exactly where to practice.
+# How it decides which lesson is "the one":
+#   1. It lists EVERY lesson that mentions the keyword, ranked by how often it
+#      appears (so you can see the full picture, not just one guess).
+#   2. It then picks the best bet:
+#        - FIRST preference: a lesson whose *filename* contains the keyword
+#          (e.g. "array" -> 13-array-methods.js). The filename is the most
+#          reliable signal of what a lesson actually teaches.
+#        - Otherwise: the lesson with the most mentions.
+#   3. It prints that lesson's PRACTICE exercises.
 
 set -euo pipefail
 
-# Resolve the lessons directory relative to THIS script, so it works no matter
-# where you run it from.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LESSONS_DIR="$SCRIPT_DIR/lessons"
 
@@ -30,24 +34,37 @@ if [ ! -d "$LESSONS_DIR" ]; then
   exit 1
 fi
 
-echo "Best lesson files for '$KEYWORD' (ranked by mentions):"
-RANKED="$(grep -rc "$KEYWORD" "$LESSONS_DIR" | grep -v ':0$' | sort -t: -k2 -rn || true)"
+# --- Step 1: list every lesson that mentions the keyword, ranked by count ---
+echo "Lessons mentioning '$KEYWORD' (ranked by how often it appears):"
+RANKED="$(grep -rc -- "$KEYWORD" "$LESSONS_DIR" | grep -v ':0$' | sort -t: -k2 -rn || true)"
 
 if [ -z "$RANKED" ]; then
   echo "  No lessons mention '$KEYWORD'. Try a different keyword."
   exit 0
 fi
 
-echo "$RANKED" | head -5 | sed 's/^/  /'
+echo "$RANKED" | sed 's/^/  /'
 
-TOP_FILE="$(echo "$RANKED" | head -1 | cut -d: -f1)"
+# --- Step 2: pick the best bet ---
+# Prefer a file whose NAME contains the keyword (strongest signal of the topic).
+NAME_MATCH="$(echo "$RANKED" | cut -d: -f1 | grep -i -- "$KEYWORD" | head -1 || true)"
+
+if [ -n "$NAME_MATCH" ]; then
+  TOP_FILE="$NAME_MATCH"
+  REASON="its filename matches '$KEYWORD' — this is almost certainly the topic's lesson"
+else
+  TOP_FILE="$(echo "$RANKED" | head -1 | cut -d: -f1)"
+  REASON="it mentions '$KEYWORD' the most (no lesson is named after it, so this is a best guess — check the list above too)"
+fi
 
 echo ""
-echo "Top match: $TOP_FILE"
+echo "Best bet: $(basename "$TOP_FILE")"
+echo "  (chosen because $REASON)"
+
+# --- Step 3: show the practice exercises in that lesson ---
 echo ""
 echo "Practice exercises in that lesson:"
 if grep -q "PRACTICE" "$TOP_FILE"; then
-  # Print from the PRACTICE marker to the end of that comment block.
   awk '/PRACTICE/{f=1} f{print "  "$0} f&&/\*\//{exit}' "$TOP_FILE"
 else
   echo "  (No PRACTICE block found — open the file and read through it.)"
