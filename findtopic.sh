@@ -70,10 +70,24 @@ clean_practice() {
   zone_practice "$1" \
     | grep -vE '(PRACTICE|^[[:space:]]*\*?[[:space:]]*-{5,})' \
     | sed -E 's#^[[:space:]]*\*/?##; s#[[:space:]]*\*/[[:space:]]*$##' \
-    | sed -E '/^[[:space:]]*$/d'
+    | sed -E '/^[[:space:]]*$/d' \
+    | sed -E 's/^   //'                # dedent the lesson's own 3-space indent
 }
 
 has() { grep -q $GFLAGS -- "$KEYWORD"; }   # reads stdin; 0 if keyword present
+
+# How to actually run a lesson: use its own "Run:" header line, flag browser-only
+# lessons, and otherwise fall back to the standard node command.
+run_hint() {
+  local f="$1" hdr line
+  hdr="$(awk '/\*\//{exit}{print}' "$f")"
+  if echo "$hdr" | grep -qiE 'browser only|\(browser\)'; then
+    echo "open index.html in a browser, then DevTools (F12) → Console"
+    return
+  fi
+  line="$(echo "$hdr" | grep -m1 -iE '[[:space:]]Run:' | sed -E 's#.*[Rr]un:[[:space:]]*##')"
+  [ -n "$line" ] && echo "$line" || echo "node lessons/$(basename "$f")"
+}
 
 # --- score one lesson: prints "score|count|signals|file" ---
 score_file() {
@@ -110,6 +124,7 @@ STRONG_OTHERS="$(echo "$STRONG" | awk -F'|' -v bf="$BF" '$4!=bf')"
 # =============================== HEADLINE ===================================
 echo ""
 echo "  $KEYWORD  →  $(basename "$BF")   [$CONF: ${BSIG//,/, }]"
+echo "  run:  $(run_hint "$BF")"
 
 # =============================== PRACTICE ==================================
 echo ""

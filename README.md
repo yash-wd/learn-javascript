@@ -71,14 +71,16 @@ helper script with a keyword:
 ./findtopic.sh -v scope        # verbose: full ranked table + every match
 ```
 
-By default it prints a short, clean answer — the **best bet**, its **practice
-exercises**, and a few other lessons that **also teach** the topic:
+By default it prints a short, clean answer — the **best bet**, **how to run it**,
+its **practice exercises**, and a few other lessons that **also teach** the topic:
 
 ```text
   scope  →  10-scope-closures.js   [CONFIRMED: title, learn, name]
+  run:  node lessons/10-scope-closures.js
 
   Practice here:
     1. Write makeAdder(x) that returns a function adding x to its argument.
+       const add5 = makeAdder(5); add5(10) === 15
     2. Build a once(fn) wrapper that runs fn only the first time it's called.
     3. Explain why `count` survives between counter() calls.
 
@@ -87,6 +89,10 @@ exercises**, and a few other lessons that **also teach** the topic:
 
   6 lessons mention "scope" · run  ./findtopic.sh -v scope  for the full table
 ```
+
+The `run:` line uses each lesson's own instructions — so for the browser-based
+lessons (23, 24, 46) it tells you to open `index.html` and use DevTools instead
+of running `node`.
 
 **How it ranks (a scoring checklist, not "first match wins").** Every lesson has
 the same shape — a title header, a `WHAT YOU'LL LEARN` list, and a `PRACTICE`
