@@ -58,6 +58,24 @@ in a browser instead of the terminal. Open `playground.html`, point its
 
 ---
 
+## Find a topic fast
+
+Want to practice a specific topic but not sure which lesson covers it? Run the
+helper script with a keyword:
+
+```bash
+./findtopic.sh reduce
+./findtopic.sh closures
+./findtopic.sh "async"
+```
+
+It ranks the lessons by how often the keyword appears — the top file is the one
+that actually **teaches** the topic — and prints that lesson's `PRACTICE`
+exercises so you know exactly where to start. (On Windows, run it with
+`bash findtopic.sh reduce`.)
+
+---
+
 ## Repository layout
 
 ```text
@@ -65,6 +83,7 @@ in a browser instead of the terminal. Open `playground.html`, point its
 ├── curriculum.html     → visual learning path + beginner FAQ  (start here)
 ├── index.html          → front door (sends you to the curriculum)
 ├── playground.html     → host page for the browser-only lessons
+├── findtopic.sh        → find which lesson teaches a topic + its practice
 │
 ├── lessons/            → ⭐ the 52 lessons — this is the course
 │   ├── modules-demo/   → small runnable example for lesson 22
