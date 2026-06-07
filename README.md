@@ -81,7 +81,15 @@ What it does:
    - else **most mentions** — a `[BEST GUESS]`; check the printed list yourself.
 3. **Prints that lesson's `PRACTICE`** exercises so you know exactly where to
    start.
+4. **Suggests other recommended lessons** ("see also") that also teach or use
+   the topic, so you know where else to look.
 
+> 💪 **Why it isn't fooled by your own code:** the winner is chosen by filename
+> and title (which are curated), *not* by raw word count. So even if you write a
+> keyword dozens of times practicing in some unrelated lesson, the script still
+> points to the lesson that actually teaches it. Word count is only a last-resort
+> `[BEST GUESS]`, and it's labelled as such.
+>
 > ⚠️ For a short word that's part of another topic (e.g. `map` also matches
 > `weakmap`), the pick can be ambiguous — that's why the full ranked list is
 > always shown, so you make the final call.
