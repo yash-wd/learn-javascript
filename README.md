@@ -67,7 +67,25 @@ helper script with a keyword:
 ./findtopic.sh reduce
 ./findtopic.sh closures
 ./findtopic.sh "async"
-./findtopic.sh --word map     # whole-word: matches "map" but not "weakmap"
+./findtopic.sh --word map      # whole-word: matches "map" but not "weakmap"
+./findtopic.sh -v scope        # verbose: full ranked table + every match
+```
+
+By default it prints a short, clean answer — the **best bet**, its **practice
+exercises**, and a few other lessons that **also teach** the topic:
+
+```text
+  scope  →  10-scope-closures.js   [CONFIRMED: title, learn, name]
+
+  Practice here:
+    1. Write makeAdder(x) that returns a function adding x to its argument.
+    2. Build a once(fn) wrapper that runs fn only the first time it's called.
+    3. Explain why `count` survives between counter() calls.
+
+  Also teaches "scope":
+    - 01-variables.js  (learn)
+
+  6 lessons mention "scope" · run  ./findtopic.sh -v scope  for the full table
 ```
 
 **How it ranks (a scoring checklist, not "first match wins").** Every lesson has
@@ -85,17 +103,14 @@ location tells you how central the topic is:
 
 Lessons are ranked by total score. The top one is the **best bet**
 (`[CONFIRMED]` if it matched a real signal, `[BEST GUESS]` if it only appears in
-the body).
+the body). Recommendations only ever include lessons that *genuinely* teach the
+topic (a title / learn / practice / filename match) — never a file that just
+mentions it in passing.
 
-It then prints:
-
-1. **The full ranked table** with each lesson's score and *where* it matched.
-2. **The best bet's `PRACTICE`** exercises.
-3. **Every PRACTICE exercise that names the keyword**, across all lessons — so
-   you can jump straight to a drill.
-4. **Other recommended lessons** that *genuinely* teach the topic (title / learn
-   / practice / filename match) — never a file that just mentions it in passing.
-
+> 🔍 **`-v` / `--verbose`:** adds the full ranked table (every lesson with its
+> score and *where* it matched) plus every PRACTICE exercise that names the
+> keyword across all lessons — so you can jump straight to a drill.
+>
 > 💪 **Why it isn't fooled by your own code:** the body only ever adds +1
 > (presence, not count). So even if you write a keyword 100 times practicing in
 > some unrelated lesson, it still scores 1 there and can't out-rank the lesson

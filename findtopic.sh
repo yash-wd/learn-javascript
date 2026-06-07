@@ -30,12 +30,14 @@
 
 set -euo pipefail
 
-# --- arguments: optional --word/-w flag, then the keyword ---
+# --- arguments: optional flags, then the keyword ---
 WORD=0
+VERBOSE=0
 KEYWORD=""
 for a in "$@"; do
   case "$a" in
     -w|--word) WORD=1 ;;
+    -v|--verbose|--all) VERBOSE=1 ;;
     -h|--help)
       grep '^#' "$0" | grep -v '^#!' | sed 's/^# \{0,1\}//'
       exit 0 ;;
@@ -44,8 +46,8 @@ for a in "$@"; do
 done
 
 if [ -z "$KEYWORD" ]; then
-  echo "Usage: $0 [--word] <topic-keyword>"
-  echo "Example: $0 reduce        |  $0 --word map"
+  echo "Usage: $0 [--word] [--verbose] <topic-keyword>"
+  echo "Example: $0 reduce   |   $0 --word map   |   $0 -v scope"
   exit 1
 fi
 
@@ -60,6 +62,16 @@ if [ "$WORD" = "1" ]; then GFLAGS="-iw"; MODE="whole-word"; else GFLAGS="-i"; MO
 zone_title()    { awk '/·/{print; exit}' "$1"; }                                   # the "NN · TOPIC" line
 zone_learn()    { awk "/WHAT YOU'LL LEARN/{f=1;next} f&&/\\*\\//{exit} f{print}" "$1"; }
 zone_practice() { awk '/PRACTICE/{f=1} f{print} f&&/\*\//{exit}' "$1"; }
+
+# Practice block with the comment scaffolding stripped, for clean display:
+# drops the "/* PRACTICE", the dashed dividers and the closing "*/", and the
+# leading " * " on each line — leaving just the numbered exercises.
+clean_practice() {
+  zone_practice "$1" \
+    | grep -vE '(PRACTICE|^[[:space:]]*\*?[[:space:]]*-{5,})' \
+    | sed -E 's#^[[:space:]]*\*/?##; s#[[:space:]]*\*/[[:space:]]*$##' \
+    | sed -E '/^[[:space:]]*$/d'
+}
 
 has() { grep -q $GFLAGS -- "$KEYWORD"; }   # reads stdin; 0 if keyword present
 
@@ -86,70 +98,68 @@ fi
 RESULTS="$(while IFS= read -r f; do [ -n "$f" ] && score_file "$f"; done <<< "$FILES" \
           | sort -t'|' -k1,1rn -k2,2rn)"
 
-# --- ranked table ---
-echo "Lessons for '$KEYWORD' ($MODE), ranked by how central the topic is:"
-printf "  %-5s  %-26s  %s\n" "score" "matched in" "lesson"
-while IFS='|' read -r s c sig f; do
-  [ -z "$f" ] && continue
-  printf "  %-5s  %-26s  %s\n" "$s" "${sig//,/, }" "$(basename "$f")"
-done <<< "$RESULTS"
-
-# --- best bet ---
+# --- best bet (top of the ranked results) ---
 IFS='|' read -r BS BC BSIG BF <<< "$(echo "$RESULTS" | head -1)"
-if [ "$BSIG" = "body" ]; then
-  CONF="BEST GUESS"
-  NOTE="only appears in the body — no title/learn/practice/name match, so this is a guess; check the table above"
-else
-  CONF="CONFIRMED"
-  NOTE="matched in: ${BSIG//,/, }"
-fi
-echo ""
-echo "Best bet [$CONF]: $(basename "$BF")"
-echo "  ($NOTE)"
+if [ "$BSIG" = "body" ]; then CONF="BEST GUESS"; else CONF="CONFIRMED"; fi
+TOTAL="$(echo "$RESULTS" | grep -c '|' || true)"
 
-# --- best bet's PRACTICE block ---
+# Count the "strong" lessons (a real signal, not body-only) for the summaries.
+STRONG="$(echo "$RESULTS" | awk -F'|' '$3!="body"')"
+STRONG_OTHERS="$(echo "$STRONG" | awk -F'|' -v bf="$BF" '$4!=bf')"
+
+# =============================== HEADLINE ===================================
 echo ""
-echo "Practice exercises in $(basename "$BF"):"
+echo "  $KEYWORD  →  $(basename "$BF")   [$CONF: ${BSIG//,/, }]"
+
+# =============================== PRACTICE ==================================
+echo ""
+echo "  Practice here:"
 if grep -q "PRACTICE" "$BF"; then
-  zone_practice "$BF" | sed 's/^/  /'
+  clean_practice "$BF" | sed 's/^/    /'
 else
-  echo "  (No PRACTICE block found — open the file and read through it.)"
+  echo "    (open the file and read through it — no PRACTICE block found)"
 fi
 
-# --- (D) every PRACTICE exercise that mentions the keyword, across lessons ---
-echo ""
-echo "Where you can practice '$KEYWORD' (matching exercises):"
-PFOUND=0
-while IFS='|' read -r s c sig f; do
-  [ -z "$f" ] && continue
-  case ",$sig," in *,practice,*)
-    line="$(zone_practice "$f" | grep -n $GFLAGS -- "$KEYWORD" | sed 's/^/      /')"
-    echo "  $(basename "$f"):"
-    echo "$line"
-    PFOUND=1 ;;
-  esac
-done <<< "$RESULTS"
-if [ "$PFOUND" = "0" ]; then
-  echo "  (no PRACTICE exercise names it directly — use the best bet's practice above)"
+# =========================== ALSO TEACHES IT ===============================
+if [ -n "$STRONG_OTHERS" ]; then
+  echo ""
+  echo "  Also teaches \"$KEYWORD\":"
+  shown=0; more=0
+  while IFS='|' read -r s c sig f; do
+    [ -z "$f" ] && continue
+    if [ "$shown" -lt 4 ]; then
+      echo "    - $(basename "$f")  (${sig//,/, })"
+    else
+      more=$((more + 1))
+    fi
+    shown=$((shown + 1))
+  done <<< "$STRONG_OTHERS"
+  [ "$more" -gt 0 ] && echo "    - ...and $more more"
 fi
 
-# --- (B) other recommended lessons: must genuinely teach it, never random ---
+# =============================== FOOTER ====================================
 echo ""
-echo "Other recommended lessons (also teach '$KEYWORD'):"
-RFOUND=0; RMORE=0
-while IFS='|' read -r s c sig f; do
-  [ -z "$f" ] && continue
-  [ "$f" = "$BF" ] && continue
-  [ "$sig" = "body" ] && continue          # skip files that only mention it
-  if [ "$RFOUND" -lt 6 ]; then
-    echo "  - $(basename "$f")  (matched in: ${sig//,/, })"
-  else
-    RMORE=$((RMORE + 1))
-  fi
-  RFOUND=$((RFOUND + 1))
-done <<< "$RESULTS"
-if [ "$RFOUND" = "0" ]; then
-  echo "  (none — no other lesson specifically teaches '$KEYWORD')"
-elif [ "$RMORE" -gt 0 ]; then
-  echo "  ...and $RMORE more (see the full ranked table above)"
+if [ "$VERBOSE" = "1" ]; then
+  echo "  ── full breakdown ($TOTAL lessons mention \"$KEYWORD\", $MODE) ──"
+  printf "    %-5s  %-24s  %s\n" "score" "matched in" "lesson"
+  while IFS='|' read -r s c sig f; do
+    [ -z "$f" ] && continue
+    printf "    %-5s  %-24s  %s\n" "$s" "${sig//,/, }" "$(basename "$f")"
+  done <<< "$RESULTS"
+
+  # (D) every PRACTICE exercise that names the keyword, across all lessons.
+  echo ""
+  echo "  Matching practice exercises across all lessons:"
+  pfound=0
+  while IFS='|' read -r s c sig f; do
+    [ -z "$f" ] && continue
+    case ",$sig," in *,practice,*)
+      echo "    $(basename "$f"):"
+      zone_practice "$f" | grep $GFLAGS -- "$KEYWORD" | sed -E 's#^[[:space:]]*\*?[[:space:]]*#      • #'
+      pfound=1 ;;
+    esac
+  done <<< "$RESULTS"
+  [ "$pfound" = "0" ] && echo "    (none name it directly)"
+else
+  echo "  $TOTAL lessons mention \"$KEYWORD\" · run  ./findtopic.sh -v $KEYWORD  for the full table"
 fi
