@@ -67,32 +67,43 @@ helper script with a keyword:
 ./findtopic.sh reduce
 ./findtopic.sh closures
 ./findtopic.sh "async"
+./findtopic.sh --word map     # whole-word: matches "map" but not "weakmap"
 ```
 
-What it does:
+**How it ranks (a scoring checklist, not "first match wins").** Every lesson has
+the same shape — a title header, a `WHAT YOU'LL LEARN` list, and a `PRACTICE`
+block. The script scores each lesson by *where* the keyword appears, because
+location tells you how central the topic is:
 
-1. **Lists every lesson** that mentions the keyword, ranked by how often it
-   appears — so you see the full picture, not just one guess.
-2. **Picks the best bet**, using the most trustworthy signal available:
-   - **filename match** (e.g. `array` → `12-arrays.js`) — the canonical name
-     for a topic, so this is `[CONFIRMED]`;
-   - else **title match** — the keyword appears in the lesson's title header
-     (e.g. `reduce` is in lesson 13's title), also `[CONFIRMED]`;
-   - else **most mentions** — a `[BEST GUESS]`; check the printed list yourself.
-3. **Prints that lesson's `PRACTICE`** exercises so you know exactly where to
-   start.
-4. **Suggests other recommended lessons** ("see also") that also teach or use
-   the topic, so you know where else to look.
+| Keyword appears in… | Points |
+| --- | --- |
+| the **title** line (`NN · TOPIC`) | +5 |
+| **WHAT YOU'LL LEARN** | +3 |
+| the **PRACTICE** block | +3 |
+| the **filename** | +2 |
+| the **body** (presence only, capped) | +1 |
 
-> 💪 **Why it isn't fooled by your own code:** the winner is chosen by filename
-> and title (which are curated), *not* by raw word count. So even if you write a
-> keyword dozens of times practicing in some unrelated lesson, the script still
-> points to the lesson that actually teaches it. Word count is only a last-resort
-> `[BEST GUESS]`, and it's labelled as such.
+Lessons are ranked by total score. The top one is the **best bet**
+(`[CONFIRMED]` if it matched a real signal, `[BEST GUESS]` if it only appears in
+the body).
+
+It then prints:
+
+1. **The full ranked table** with each lesson's score and *where* it matched.
+2. **The best bet's `PRACTICE`** exercises.
+3. **Every PRACTICE exercise that names the keyword**, across all lessons — so
+   you can jump straight to a drill.
+4. **Other recommended lessons** that *genuinely* teach the topic (title / learn
+   / practice / filename match) — never a file that just mentions it in passing.
+
+> 💪 **Why it isn't fooled by your own code:** the body only ever adds +1
+> (presence, not count). So even if you write a keyword 100 times practicing in
+> some unrelated lesson, it still scores 1 there and can't out-rank the lesson
+> that actually teaches it.
 >
-> ⚠️ For a short word that's part of another topic (e.g. `map` also matches
-> `weakmap`), the pick can be ambiguous — that's why the full ranked list is
-> always shown, so you make the final call.
+> 🔤 **`--word` flag:** for a short word that's part of another topic (e.g.
+> `map` inside `weakmap`), add `--word` to match whole words only. Trade-off: it
+> won't match plurals like `maps`, so use it when a substring is causing noise.
 
 (On Windows, run it with `bash findtopic.sh reduce`.)
 

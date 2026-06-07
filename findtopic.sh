@@ -1,137 +1,155 @@
 #!/usr/bin/env bash
 #
-# findtopic.sh — locate which lesson teaches a topic, and its practice exercises.
+# findtopic.sh — find which lesson teaches a topic, and where to practice it.
 #
 # Usage:
 #   ./findtopic.sh reduce
 #   ./findtopic.sh "async"
+#   ./findtopic.sh --word map      # whole-word match: "map" but not "weakmap"
 #
-# How it decides which lesson is "the one":
-#   It ranks candidates by SIGNAL STRENGTH, not by raw word count — so a file
-#   where you happened to write the keyword a lot (e.g. your own practice code)
-#   can't beat the lesson that actually teaches the topic. The signals, strongest
-#   first:
-#     a. [CONFIRMED] filename match — the keyword is in the lesson's *filename*,
-#        the canonical slug for the topic (e.g. "array" -> 12-arrays.js).
-#     b. [CONFIRMED] title match — the keyword is in the lesson's TITLE header
-#        (the "NN · TOPIC ..." block + "WHAT YOU'LL LEARN" at the top). This is
-#        curated, so adding practice code to a file never changes it.
-#     c. [BEST GUESS] most mentions — only when nothing above matches. This is
-#        the one signal your own code *could* skew, so it's clearly labelled.
+# HOW IT RANKS (a scoring checklist, NOT "first filename/title wins"):
+#   Every lesson has the same shape — a title header, a "WHAT YOU'LL LEARN"
+#   list, and a "PRACTICE" block. The script scores each lesson by WHERE the
+#   keyword shows up, because location tells you how central the topic is:
 #
-# It also prints:
-#   * the full list of every lesson mentioning the keyword (so you can verify),
-#   * the best bet's PRACTICE exercises,
-#   * OTHER RECOMMENDED lessons that also teach/use the topic (a "see also").
+#       +5  in the TITLE line   (NN · TOPIC ...)   the lesson's subject
+#       +3  in WHAT YOU'LL LEARN                   an explicit learning goal
+#       +3  in the PRACTICE block                  you can drill it here
+#       +2  in the FILENAME                        the canonical topic slug
+#       +1  anywhere in the body (presence only)   weakest — and capped, so
+#                                                   your own practice code can
+#                                                   never out-vote the signals
+#                                                   above
+#
+#   Lessons are ranked by total score. A lesson that only appears in the body
+#   (score 1) is a [BEST GUESS]; anything with a real signal is [CONFIRMED].
+#
+# It then prints: the best bet's PRACTICE, every PRACTICE exercise that mentions
+# the keyword (so you know exactly where to drill), and other lessons that
+# genuinely teach it — never a random file that just mentions it in passing.
 
 set -euo pipefail
 
+# --- arguments: optional --word/-w flag, then the keyword ---
+WORD=0
+KEYWORD=""
+for a in "$@"; do
+  case "$a" in
+    -w|--word) WORD=1 ;;
+    -h|--help)
+      grep '^#' "$0" | grep -v '^#!' | sed 's/^# \{0,1\}//'
+      exit 0 ;;
+    *) [ -z "$KEYWORD" ] && KEYWORD="$a" ;;
+  esac
+done
+
+if [ -z "$KEYWORD" ]; then
+  echo "Usage: $0 [--word] <topic-keyword>"
+  echo "Example: $0 reduce        |  $0 --word map"
+  exit 1
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LESSONS_DIR="$SCRIPT_DIR/lessons"
+[ -d "$LESSONS_DIR" ] || { echo "No lessons dir at: $LESSONS_DIR"; exit 1; }
 
-if [ "$#" -lt 1 ]; then
-  echo "Usage: $0 <topic-keyword>"
-  echo "Example: $0 reduce"
-  exit 1
-fi
+# grep flags: case-insensitive, plus whole-word when --word is set.
+if [ "$WORD" = "1" ]; then GFLAGS="-iw"; MODE="whole-word"; else GFLAGS="-i"; MODE="substring"; fi
 
-KEYWORD="$1"
+# --- zone extractors (each prints one section of a lesson file) ---
+zone_title()    { awk '/·/{print; exit}' "$1"; }                                   # the "NN · TOPIC" line
+zone_learn()    { awk "/WHAT YOU'LL LEARN/{f=1;next} f&&/\\*\\//{exit} f{print}" "$1"; }
+zone_practice() { awk '/PRACTICE/{f=1} f{print} f&&/\*\//{exit}' "$1"; }
 
-if [ ! -d "$LESSONS_DIR" ]; then
-  echo "Could not find lessons directory at: $LESSONS_DIR"
-  exit 1
-fi
+has() { grep -q $GFLAGS -- "$KEYWORD"; }   # reads stdin; 0 if keyword present
 
-# True if the keyword is in the file's NAME.
-is_name_match() { basename "$1" | grep -iq -- "$KEYWORD"; }
-# True if the keyword is in the file's TITLE header (top comment block, the part
-# before the first "*/"). This is the curated description of the lesson.
-is_title_match() { awk '/\*\//{exit} {print}' "$1" | grep -iq -- "$KEYWORD"; }
+# --- score one lesson: prints "score|count|signals|file" ---
+score_file() {
+  local f="$1" s=0 sig=""
+  if zone_title    "$f" | has; then s=$((s+5)); sig="$sig,title";    fi
+  if zone_learn    "$f" | has; then s=$((s+3)); sig="$sig,learn";    fi
+  if zone_practice "$f" | has; then s=$((s+3)); sig="$sig,practice"; fi
+  if basename "$f" | has;      then s=$((s+2)); sig="$sig,name";     fi
+  local c; c=$(grep -c $GFLAGS -- "$KEYWORD" "$f" 2>/dev/null || true); c=${c:-0}
+  if [ "$c" -gt 0 ]; then s=$((s+1)); fi
+  sig="${sig#,}"; [ -z "$sig" ] && sig="body"
+  printf '%s|%s|%s|%s\n' "$s" "$c" "$sig" "$f"
+}
 
-# --- Step 1: list every lesson that mentions the keyword, ranked by count ---
-echo "Lessons mentioning '$KEYWORD' (ranked by how often it appears):"
-RANKED="$(grep -rc -- "$KEYWORD" "$LESSONS_DIR" | grep -v ':0$' | sort -t: -k2 -rn || true)"
-
-if [ -z "$RANKED" ]; then
-  echo "  No lessons mention '$KEYWORD'. Try a different keyword."
+# --- find candidate lessons (top-level lesson sheets only) ---
+FILES="$(grep -l $GFLAGS -- "$KEYWORD" "$LESSONS_DIR"/*.js 2>/dev/null || true)"
+if [ -z "$FILES" ]; then
+  echo "No lesson contains '$KEYWORD' ($MODE match). Try another keyword, or drop --word."
   exit 0
 fi
 
-echo "$RANKED" | sed 's/^/  /'
+RESULTS="$(while IFS= read -r f; do [ -n "$f" ] && score_file "$f"; done <<< "$FILES" \
+          | sort -t'|' -k1,1rn -k2,2rn)"
 
-CANDIDATES="$(echo "$RANKED" | cut -d: -f1)"
-
-# --- Step 2: classify candidates by signal strength (count order preserved) ---
-NAME_MATCHES=""   # keyword in filename
-TITLE_MATCHES=""  # keyword in title header (but not filename)
-while IFS= read -r f; do
+# --- ranked table ---
+echo "Lessons for '$KEYWORD' ($MODE), ranked by how central the topic is:"
+printf "  %-5s  %-26s  %s\n" "score" "matched in" "lesson"
+while IFS='|' read -r s c sig f; do
   [ -z "$f" ] && continue
-  if is_name_match "$f"; then
-    NAME_MATCHES+="$f"$'\n'
-  elif is_title_match "$f"; then
-    TITLE_MATCHES+="$f"$'\n'
-  fi
-done <<< "$CANDIDATES"
+  printf "  %-5s  %-26s  %s\n" "$s" "${sig//,/, }" "$(basename "$f")"
+done <<< "$RESULTS"
 
-# Strong matches = lessons that genuinely teach the topic (name or title).
-STRONG="$(printf '%s%s' "$NAME_MATCHES" "$TITLE_MATCHES")"
-
-# --- Pick the best bet, strongest signal first ---
-if [ -n "$NAME_MATCHES" ]; then
-  TOP_FILE="$(echo "$NAME_MATCHES" | head -1)"
-  CONFIDENCE="CONFIRMED"
-  REASON="'$KEYWORD' is in this lesson's filename — the canonical name for this topic"
-elif [ -n "$TITLE_MATCHES" ]; then
-  TOP_FILE="$(echo "$TITLE_MATCHES" | head -1)"
-  CONFIDENCE="CONFIRMED"
-  REASON="'$KEYWORD' is in this lesson's title — this lesson teaches it"
+# --- best bet ---
+IFS='|' read -r BS BC BSIG BF <<< "$(echo "$RESULTS" | head -1)"
+if [ "$BSIG" = "body" ]; then
+  CONF="BEST GUESS"
+  NOTE="only appears in the body — no title/learn/practice/name match, so this is a guess; check the table above"
 else
-  TOP_FILE="$(echo "$RANKED" | head -1 | cut -d: -f1)"
-  CONFIDENCE="BEST GUESS"
-  REASON="no lesson's title or name matches '$KEYWORD', so this is just the one that mentions it most — your own practice code could skew this, so check the list above"
+  CONF="CONFIRMED"
+  NOTE="matched in: ${BSIG//,/, }"
 fi
-
 echo ""
-echo "Best bet [$CONFIDENCE]: $(basename "$TOP_FILE")"
-echo "  ($REASON)"
+echo "Best bet [$CONF]: $(basename "$BF")"
+echo "  ($NOTE)"
 
-# --- Step 3: show the practice exercises in that lesson ---
+# --- best bet's PRACTICE block ---
 echo ""
-echo "Practice exercises in that lesson:"
-if grep -q "PRACTICE" "$TOP_FILE"; then
-  awk '/PRACTICE/{f=1} f{print "  "$0} f&&/\*\//{exit}' "$TOP_FILE"
+echo "Practice exercises in $(basename "$BF"):"
+if grep -q "PRACTICE" "$BF"; then
+  zone_practice "$BF" | sed 's/^/  /'
 else
   echo "  (No PRACTICE block found — open the file and read through it.)"
 fi
 
-# --- Step 4: other recommended lessons (a "see also") ---
+# --- (D) every PRACTICE exercise that mentions the keyword, across lessons ---
 echo ""
-echo "Other recommended lessons:"
-SHOWN=0
-while IFS= read -r f; do
+echo "Where you can practice '$KEYWORD' (matching exercises):"
+PFOUND=0
+while IFS='|' read -r s c sig f; do
   [ -z "$f" ] && continue
-  [ "$f" = "$TOP_FILE" ] && continue
-  if is_name_match "$f"; then
-    why="name matches"
-  else
-    why="teaches it (in title)"
-  fi
-  echo "  - $(basename "$f")  ($why)"
-  SHOWN=$((SHOWN + 1))
-  [ "$SHOWN" -ge 4 ] && break
-done <<< "$STRONG"
-
-if [ "$SHOWN" -eq 0 ]; then
-  # No other strong matches — offer the next files by count, clearly hedged.
-  while IFS= read -r f; do
-    [ -z "$f" ] && continue
-    [ "$f" = "$TOP_FILE" ] && continue
-    echo "  - $(basename "$f")  (only mentions it — may just use the topic in passing)"
-    SHOWN=$((SHOWN + 1))
-    [ "$SHOWN" -ge 3 ] && break
-  done <<< "$CANDIDATES"
+  case ",$sig," in *,practice,*)
+    line="$(zone_practice "$f" | grep -n $GFLAGS -- "$KEYWORD" | sed 's/^/      /')"
+    echo "  $(basename "$f"):"
+    echo "$line"
+    PFOUND=1 ;;
+  esac
+done <<< "$RESULTS"
+if [ "$PFOUND" = "0" ]; then
+  echo "  (no PRACTICE exercise names it directly — use the best bet's practice above)"
 fi
 
-if [ "$SHOWN" -eq 0 ]; then
-  echo "  (none — this is the only lesson involving '$KEYWORD')"
+# --- (B) other recommended lessons: must genuinely teach it, never random ---
+echo ""
+echo "Other recommended lessons (also teach '$KEYWORD'):"
+RFOUND=0; RMORE=0
+while IFS='|' read -r s c sig f; do
+  [ -z "$f" ] && continue
+  [ "$f" = "$BF" ] && continue
+  [ "$sig" = "body" ] && continue          # skip files that only mention it
+  if [ "$RFOUND" -lt 6 ]; then
+    echo "  - $(basename "$f")  (matched in: ${sig//,/, })"
+  else
+    RMORE=$((RMORE + 1))
+  fi
+  RFOUND=$((RFOUND + 1))
+done <<< "$RESULTS"
+if [ "$RFOUND" = "0" ]; then
+  echo "  (none — no other lesson specifically teaches '$KEYWORD')"
+elif [ "$RMORE" -gt 0 ]; then
+  echo "  ...and $RMORE more (see the full ranked table above)"
 fi
