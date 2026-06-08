@@ -20,7 +20,7 @@ const ROOT = process.argv[2] || join(dirname(fileURLToPath(import.meta.url)), '.
 const L = join(ROOT, 'lessons');
 const OUT = join(ROOT, 'bundle');
 mkdirSync(OUT, { recursive: true });
-const today = '2026-06-05'; // Date.now() is intentionally avoided; bump on rebuild
+const today = '2026-06-08'; // Date.now() is intentionally avoided; bump on rebuild
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const lessonFiles = readdirSync(L).filter((f) => /^\d+.*\.js$/.test(f)).sort();

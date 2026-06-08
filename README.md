@@ -162,7 +162,7 @@ The 52 lessons climb through **five levels**, beginner to expert. Do them
 
 | # | Lesson | What you learn |
 | --- | --- | --- |
-| 01 | [Variables](lessons/01-variables.js) | `var`, `let`, `const`, scope, hoisting |
+| 01 | [Variables](lessons/01-variables.js) | `var`, `let`, `const`, reassignment, redeclaration, scope, hoisting |
 | 02 | [Data Types](lessons/02-data-types.js) | primitives vs objects, `typeof` |
 | 03 | [Operators](lessons/03-operators.js) | arithmetic, comparison, logical, nullish |
 | 04 | [Type Conversion](lessons/04-type-conversion.js) | coercion, truthy/falsy, `==` vs `===` |

@@ -1,6 +1,6 @@
 # JavaScript — Learn Everything
 
-> Complete course bundle · 52 lessons · generated 2026-06-05
+> Complete course bundle · 52 lessons · generated 2026-06-08
 > Every lesson's full, runnable source in one document. Source of truth: the
 > individual files in `lessons/` — regenerate this bundle after edits.
 
@@ -15,7 +15,7 @@ The 52 lessons climb through **five levels**, beginner to expert. Do them
 
 | # | Lesson | What you learn |
 | --- | --- | --- |
-| 01 | [Variables](lessons/01-variables.js) | `var`, `let`, `const`, scope, hoisting |
+| 01 | [Variables](lessons/01-variables.js) | `var`, `let`, `const`, reassignment, redeclaration, scope, hoisting |
 | 02 | [Data Types](lessons/02-data-types.js) | primitives vs objects, `typeof` |
 | 03 | [Operators](lessons/03-operators.js) | arithmetic, comparison, logical, nullish |
 | 04 | [Type Conversion](lessons/04-type-conversion.js) | coercion, truthy/falsy, `==` vs `===` |
@@ -182,7 +182,35 @@ user.name = 'Alex';   // ✅ allowed — we mutate the object, not the binding
 console.log(user);    // => { name: 'Alex' }
 
 
-// ── 3. Scope ─────────────────────────────────────────────────────────────────
+// ── 3. Redeclaration ─────────────────────────────────────────────────────────
+// "Redeclaration" = declaring a variable with the SAME name twice in the SAME
+// scope. This is different from reassignment (which only changes the value).
+
+// `var` ALLOWS redeclaration — the second `var` is silently merged into the
+// first. This is a common source of bugs, since you can clobber a variable
+// without realising it:
+var total = 1;
+var total = 2;        // ✅ no error — `var` lets you redeclare
+console.log(total);   // => 2
+
+// `let` and `const` FORBID redeclaration in the same scope:
+// let count = 1;
+// let count = 2;     // ❌ SyntaxError: Identifier 'count' has already been declared
+//
+// const PI = 3.14;
+// const PI = 3.15;   // ❌ SyntaxError: Identifier 'PI' has already been declared
+
+// NOTE: redeclaring in a *different* (nested) block is fine — that's a brand new
+// variable that "shadows" the outer one, not a redeclaration:
+let level = 'outer';
+{
+  let level = 'inner'; // ✅ separate variable in its own block
+  console.log(level);  // => inner
+}
+console.log(level);    // => outer
+
+
+// ── 4. Scope ─────────────────────────────────────────────────────────────────
 // `var` is FUNCTION-scoped. `let`/`const` are BLOCK-scoped ({ ... }).
 
 function demoScope() {
@@ -206,7 +234,7 @@ console.log(leaks); // => I escape the block  (this is why var is confusing)
 // console.log(trapped); // ❌ ReferenceError: trapped is not defined
 
 
-// ── 4. Hoisting & the Temporal Dead Zone (TDZ) ──────────────────────────────
+// ── 5. Hoisting & the Temporal Dead Zone (TDZ) ──────────────────────────────
 // `var` declarations are "hoisted" to the top and start as `undefined`.
 console.log(hoistedVar); // => undefined  (declared below, but already exists)
 var hoistedVar = 'now I have a value';
