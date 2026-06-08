@@ -1,8 +1,8 @@
 # JavaScript — Learn Everything
 
-> Complete course bundle · 52 lessons · generated 2026-06-08
+> Complete course bundle · 52 lessons · 6 projects · generated 2026-06-08
 > Every lesson's full, runnable source in one document. Source of truth: the
-> individual files in `lessons/` — regenerate this bundle after edits.
+> individual files in `lessons/` and `projects/` — regenerate after edits.
 
 ## Roadmap
 
@@ -6742,3 +6742,1120 @@ Every project folder has:
 
 Build all six and you'll have gone from "I read about JavaScript" to
 "I build things with JavaScript." 🚀
+
+---
+
+## Project 1 — To-Do App
+
+Your first real app. It uses the DOM, events, arrays/objects, and saves your
+tasks so they survive a page refresh.
+
+## What it does
+- Add a task by typing and pressing Enter (or clicking **Add**)
+- Click a task to mark it **done** (toggles a strikethrough)
+- Delete a task with its ✕ button
+- Filter: **All / Active / Done**
+- Tasks **persist** in `localStorage` — refresh the page and they're still there
+- A live count of remaining tasks
+
+## Lessons you'll apply
+- **23 DOM** — selecting elements, creating `<li>`s
+- **24 Events** — `addEventListener`, form `submit`, event **delegation**
+- **13 Array methods** — `filter`, `find`, `push`
+- **14 Objects** — each todo is an object `{ id, text, done }`
+- **33 Browser Storage** — `localStorage` + `JSON.stringify/parse`
+
+## How to run
+Open `index.html` in your browser. It loads `app.js` (the starter).
+To see the finished version, change `index.html`'s script tag to `solution.js`.
+
+## Build it step by step
+The starter (`app.js`) has these `// TODO:`s. Do them in order:
+
+1. **State** — keep an array `todos`, where each item is
+   `{ id, text, done }`.
+2. **render()** — clear the list, then for each todo create an `<li>` with the
+   text and a delete button. Add a `done` class when `todo.done` is true.
+3. **addTodo(text)** — push a new todo object, then `save()` and `render()`.
+4. **Form submit** — read the input, call `addTodo`, clear the input.
+   Remember `event.preventDefault()` so the page doesn't reload!
+5. **Delegation** — one click listener on the `<ul>`:
+   - click on the ✕ button → delete that todo
+   - click on the text → toggle `done`
+6. **Filters** — track `currentFilter` and show all / only active / only done.
+7. **Persistence** — `save()` writes `todos` to localStorage; on startup, load
+   them back.
+
+## Make it your own (extensions)
+- Add an "Edit" button to rename a task (double-click to edit inline).
+- Add a "Clear completed" button.
+- Show the date each task was created (use **lesson 32**'s Intl formatting).
+- Add drag-to-reorder, or a priority flag with colors.
+
+## Concepts this cements
+- The **render pattern**: keep data in a JS array (the "state"), and write ONE
+  `render()` function that draws the UI from it. Every change → update data →
+  re-render. This is the core idea behind React, Vue, and every modern UI lib.
+
+### solution.js
+
+```js
+/* =============================================================================
+ * TO-DO APP — SOLUTION
+ * =============================================================================
+ * A complete, working version. Compare it with your app.js AFTER you've tried.
+ * Read the comments — they explain the "why", not just the "what".
+ *
+ * Lessons used: 23 DOM · 24 Events · 13 Array methods · 14 Objects · 33 Storage
+ * ========================================================================== */
+
+const form = document.querySelector('#todo-form');
+const input = document.querySelector('#todo-input');
+const list = document.querySelector('#todo-list');
+const filters = document.querySelector('#filters');
+const countEl = document.querySelector('#count');
+
+const STORAGE_KEY = 'todos';
+
+// ── State: load saved todos, or start empty (lesson 33) ──────────────────────
+// We wrap JSON.parse in try/catch so corrupted storage can't crash the app.
+function load() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+let todos = load(); // [{ id, text, done }]
+let currentFilter = 'all';
+
+function save() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+}
+
+// ── render(): draw the whole list from the `todos` array ─────────────────────
+// The render pattern: state changes → call render() → UI matches state.
+function render() {
+  list.innerHTML = ''; // clear, then rebuild
+
+  // Choose which todos to show (lesson 13 .filter)
+  const visible = todos.filter((todo) => {
+    if (currentFilter === 'active') return !todo.done;
+    if (currentFilter === 'done') return todo.done;
+    return true; // 'all'
+  });
+
+  for (const todo of visible) {
+    const li = document.createElement('li');
+    li.dataset.id = todo.id;          // remember which todo this row is
+    if (todo.done) li.classList.add('done');
+
+    const span = document.createElement('span');
+    span.className = 'text';
+    span.textContent = todo.text;     // textContent (not innerHTML) is XSS-safe
+
+    const del = document.createElement('button');
+    del.className = 'delete';
+    del.textContent = '✕';
+    del.setAttribute('aria-label', 'Delete task');
+
+    li.append(span, del);
+    list.appendChild(li);
+  }
+
+  // Update the "tasks left" counter (count of not-done items)
+  const remaining = todos.filter((t) => !t.done).length;
+  countEl.textContent = remaining;
+}
+
+// ── addTodo: create a todo, persist, redraw ──────────────────────────────────
+function addTodo(text) {
+  todos.push({ id: Date.now(), text, done: false });
+  save();
+  render();
+}
+
+// ── Form submit (lesson 24) ──────────────────────────────────────────────────
+form.addEventListener('submit', (event) => {
+  event.preventDefault();             // stop the page from reloading
+  const text = input.value.trim();
+  if (!text) return;                  // ignore empty input
+  addTodo(text);
+  input.value = '';                   // clear the box for the next task
+  input.focus();
+});
+
+// ── List clicks: delegation handles BOTH delete and toggle ───────────────────
+// One listener on the <ul> covers every <li> — even ones added later.
+list.addEventListener('click', (event) => {
+  const li = event.target.closest('li');
+  if (!li) return;
+  const id = Number(li.dataset.id);
+
+  if (event.target.classList.contains('delete')) {
+    // Delete: keep every todo EXCEPT this one (non-mutating filter)
+    todos = todos.filter((t) => t.id !== id);
+  } else {
+    // Toggle done: flip the matching todo's `done`
+    const todo = todos.find((t) => t.id === id);
+    if (todo) todo.done = !todo.done;
+  }
+  save();
+  render();
+});
+
+// ── Filter buttons ───────────────────────────────────────────────────────────
+filters.addEventListener('click', (event) => {
+  const btn = event.target.closest('button[data-filter]');
+  if (!btn) return;
+  currentFilter = btn.dataset.filter;
+
+  // Move the "active" highlight to the clicked button
+  filters.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  render();
+});
+
+// ── Start ────────────────────────────────────────────────────────────────────
+render();
+```
+
+---
+
+## Project 2 — Weather App
+
+A real app that talks to the internet. Type a city, and it fetches live weather
+from a free public API and displays it — with the current date nicely formatted.
+
+## What it does
+- Type a city and submit
+- Looks up the city's coordinates (geocoding API)
+- Fetches current weather for those coordinates (weather API)
+- Shows temperature, a condition (☀️ 🌧️ ❄️ …), wind, and the formatted date
+- Shows a **loading** state while fetching and a friendly **error** if it fails
+
+## Why this API?
+It uses **Open-Meteo** — completely free, **no API key**, no sign-up. Two calls:
+1. `https://geocoding-api.open-meteo.com/v1/search?name=CITY&count=1`
+   → returns `latitude`, `longitude`, `name`, `country`
+2. `https://api.open-meteo.com/v1/forecast?latitude=LAT&longitude=LON&current=temperature_2m,weather_code,wind_speed_10m`
+   → returns `current.temperature_2m`, `current.weather_code`, etc.
+
+## Lessons you'll apply
+- **25 Fetch & APIs** — `fetch`, checking `response.ok`, parsing JSON
+- **20 Async/Await** — `async` functions, `await`, sequential calls
+- **21 Error handling** — `try/catch`, showing a friendly message
+- **32 Dates & Time** — `Intl.DateTimeFormat` for the current date
+- **23 DOM** — updating the page with results
+
+## How to run
+Open `index.html` in your browser (you need an internet connection).
+It loads `app.js` (starter). Switch to `solution.js` to see it finished.
+
+> ⚠️ Some browsers restrict `fetch` from a `file://` page. If a request is
+> blocked, run a tiny local server from this folder instead:
+> `python3 -m http.server` then open http://localhost:8000
+
+## Build it step by step
+1. **getCoordinates(city)** — fetch the geocoding URL, check `response.ok`,
+   parse JSON. If `data.results` is empty, throw an Error("City not found").
+   Return `{ name, country, latitude, longitude }`.
+2. **getWeather(lat, lon)** — fetch the forecast URL, check `ok`, return
+   `data.current`.
+3. **describe(code)** — map the numeric `weather_code` to text + an emoji
+   (a small lookup object is provided in the starter).
+4. **showWeather(...)** — write the results into the page (temperature, etc.)
+   and the current date via `Intl.DateTimeFormat`.
+5. **Wire it up** — on form submit: `preventDefault`, show "Loading…", then
+   `await getCoordinates` → `await getWeather` → `showWeather`. Wrap it all in
+   `try/catch` and show the error message on failure.
+
+## Make it your own
+- Add a 7-day forecast (the API supports `daily=temperature_2m_max,...`).
+- Detect the user's location with `navigator.geolocation` (lesson 34) and load
+  local weather on startup.
+- Add a °C / °F toggle.
+- Cache the last searched city in `localStorage` (lesson 33) and reload it.
+
+## Concepts this cements
+- **Chaining async calls**: the second request needs the first's result —
+  classic `await A; await B(A)`.
+- **Handling the real world**: networks fail, cities are misspelled. Good apps
+  always show loading and error states, not just the happy path.
+
+### solution.js
+
+```js
+/* =============================================================================
+ * WEATHER APP — SOLUTION
+ * =============================================================================
+ * Complete, working version. Compare with your app.js after trying.
+ *
+ * Lessons used: 25 Fetch · 20 Async/Await · 21 Errors · 32 Dates · 23 DOM
+ * ========================================================================== */
+
+const form = document.querySelector('#search-form');
+const cityInput = document.querySelector('#city-input');
+const statusEl = document.querySelector('#status');
+const result = document.querySelector('#result');
+const placeEl = document.querySelector('#place');
+const dateEl = document.querySelector('#date');
+const emojiEl = document.querySelector('#emoji');
+const tempEl = document.querySelector('#temp');
+const conditionEl = document.querySelector('#condition');
+const windEl = document.querySelector('#wind');
+
+const WEATHER = {
+  0: ['Clear sky', '☀️'],
+  1: ['Mainly clear', '🌤️'],
+  2: ['Partly cloudy', '⛅'],
+  3: ['Overcast', '☁️'],
+  45: ['Foggy', '🌫️'],
+  48: ['Rime fog', '🌫️'],
+  51: ['Light drizzle', '🌦️'],
+  61: ['Light rain', '🌧️'],
+  63: ['Rain', '🌧️'],
+  65: ['Heavy rain', '⛈️'],
+  71: ['Light snow', '🌨️'],
+  73: ['Snow', '❄️'],
+  80: ['Rain showers', '🌦️'],
+  95: ['Thunderstorm', '⛈️'],
+};
+function describe(code) {
+  return WEATHER[code] || ['Unknown', '❓'];
+}
+
+// ── Step 1: city name → coordinates ──────────────────────────────────────────
+async function getCoordinates(city) {
+  const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+    city
+  )}&count=1`;
+
+  const response = await fetch(url);
+  if (!response.ok) throw new Error('Could not reach the location service');
+
+  const data = await response.json();
+  // The geocoding API omits `results` entirely when nothing matches:
+  if (!data.results || data.results.length === 0) {
+    throw new Error(`City "${city}" not found`);
+  }
+
+  const { name, country, latitude, longitude } = data.results[0];
+  return { name, country, latitude, longitude };
+}
+
+// ── Step 2: coordinates → current weather ────────────────────────────────────
+async function getWeather(lat, lon) {
+  const url =
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+    `&current=temperature_2m,weather_code,wind_speed_10m`;
+
+  const response = await fetch(url);
+  if (!response.ok) throw new Error('Could not load the weather');
+
+  const data = await response.json();
+  return data.current; // { temperature_2m, weather_code, wind_speed_10m, ... }
+}
+
+// ── Step 3: render results ───────────────────────────────────────────────────
+function showWeather(place, weather) {
+  const [text, emoji] = describe(weather.weather_code);
+
+  placeEl.textContent = `${place.name}, ${place.country}`;
+  emojiEl.textContent = emoji;
+  tempEl.textContent = `${Math.round(weather.temperature_2m)}°C`;
+  conditionEl.textContent = text;
+  windEl.textContent = `💨 Wind: ${weather.wind_speed_10m} km/h`;
+
+  // Format today's date nicely (lesson 32)
+  dateEl.textContent = new Intl.DateTimeFormat('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  }).format(new Date());
+
+  result.classList.remove('hidden');
+}
+
+// ── Wire up the form: chain the two async calls with proper error handling ───
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const city = cityInput.value.trim();
+  if (!city) return;
+
+  // Loading state
+  statusEl.textContent = 'Loading…';
+  statusEl.classList.remove('error');
+  result.classList.add('hidden');
+
+  try {
+    const place = await getCoordinates(city);              // first call
+    const weather = await getWeather(place.latitude, place.longitude); // second
+    showWeather(place, weather);
+    statusEl.textContent = '';                             // clear loading
+  } catch (err) {
+    // Any failure (bad city, network down, API error) lands here.
+    statusEl.textContent = `⚠️ ${err.message}`;
+    statusEl.classList.add('error');
+    result.classList.add('hidden');
+  }
+});
+```
+
+---
+
+## Project 3 — Quiz App
+
+The capstone. No internet needed — this is all about **managing state**: showing
+one question at a time, tracking the score, and reacting to user choices.
+
+## What it does
+- Shows one multiple-choice question at a time, with a progress indicator
+- Click an answer → highlights correct (green) / wrong (red), then enables Next
+- Tracks your score across all questions
+- Shows a final results screen with your score and a "Play again" button
+
+## Lessons you'll apply
+- **14 Objects / 12 Arrays** — questions modelled as an array of objects
+- **13 Array methods** — rendering options, checking answers
+- **09 Functions** — small functions that each do one job
+- **23 DOM / 24 Events** — rendering and handling clicks
+
+## How to run
+Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see
+the finished version.
+
+## The data model (given to you in the starter)
+```js
+const QUESTIONS = [
+  {
+    question: 'Which keyword declares a constant?',
+    options: ['var', 'let', 'const', 'static'],
+    answer: 2, // index into options (const)
+  },
+  // ...more
+];
+```
+
+## Build it step by step
+1. **State** — track `current` (which question index) and `score`.
+2. **renderQuestion()** — show the current question text, the progress
+   ("Question 2 of 5"), and a button for each option (lesson 13 `.map`/loop).
+3. **selectAnswer(index)** — compare to the correct answer:
+   - mark the clicked button correct/wrong, reveal the correct one
+   - update the score if right
+   - disable further clicking and enable the **Next** button
+4. **Next button** — advance `current`; if there are more questions,
+   `renderQuestion()`, else `renderResults()`.
+5. **renderResults()** — show "You scored X / N" and a Play-again button that
+   resets state and starts over.
+
+## Make it your own
+- Add a **timer** per question (lesson 34 `setInterval`); auto-advance at 0.
+- **Shuffle** the questions and the options each play (Fisher–Yates).
+- Save the **high score** to `localStorage` (lesson 33).
+- Add categories/difficulty, or load questions from a quiz API (lesson 25).
+
+## Concepts this cements
+- **State machine thinking**: the app is always in one clear state (showing a
+  question, showing feedback, or showing results). Each user action moves it to
+  the next state. Naming your state and rendering from it is how all real UIs
+  stay manageable as they grow.
+
+### solution.js
+
+```js
+/* =============================================================================
+ * QUIZ APP — SOLUTION
+ * =============================================================================
+ * Complete, working version. Compare with your app.js after trying.
+ *
+ * Lessons used: 09 Functions · 12–14 arrays/objects · 13 array methods · 23 DOM · 24 Events
+ * ========================================================================== */
+
+const QUESTIONS = [
+  {
+    question: 'Which keyword declares a value that cannot be reassigned?',
+    options: ['var', 'let', 'const', 'static'],
+    answer: 2,
+  },
+  {
+    question: 'What does [1,2,3].map(x => x * 2) return?',
+    options: ['[1,2,3]', '[2,4,6]', '6', '[1,4,9]'],
+    answer: 1,
+  },
+  {
+    question: 'typeof null returns…',
+    options: ['"null"', '"undefined"', '"object"', '"none"'],
+    answer: 2,
+  },
+  {
+    question: 'Which method adds an item to the END of an array?',
+    options: ['push()', 'pop()', 'shift()', 'unshift()'],
+    answer: 0,
+  },
+  {
+    question: 'What keyword pauses inside an async function until a Promise settles?',
+    options: ['pause', 'await', 'yield', 'stop'],
+    answer: 1,
+  },
+];
+
+const quizEl = document.querySelector('#quiz');
+const progressEl = document.querySelector('#progress');
+const questionEl = document.querySelector('#question');
+const optionsEl = document.querySelector('#options');
+const nextBtn = document.querySelector('#next');
+const resultsEl = document.querySelector('#results');
+const scoreEl = document.querySelector('#score');
+const restartBtn = document.querySelector('#restart');
+
+// ── State: the app is always defined by these two values ─────────────────────
+let current = 0;
+let score = 0;
+
+// ── renderQuestion: draw the current question from state ──────────────────────
+function renderQuestion() {
+  const q = QUESTIONS[current];
+
+  progressEl.textContent = `Question ${current + 1} of ${QUESTIONS.length}`;
+  questionEl.textContent = q.question;
+
+  // Build a button per option (lesson 13/23)
+  optionsEl.innerHTML = '';
+  q.options.forEach((option, index) => {
+    const btn = document.createElement('button');
+    btn.textContent = option;
+    btn.dataset.index = index;              // remember which option this is
+    btn.addEventListener('click', () => selectAnswer(index));
+    optionsEl.appendChild(btn);
+  });
+
+  nextBtn.disabled = true;                  // can't advance until they answer
+}
+
+// ── selectAnswer: reveal feedback and score ──────────────────────────────────
+function selectAnswer(index) {
+  const q = QUESTIONS[current];
+  const buttons = optionsEl.querySelectorAll('button');
+
+  // Lock all options so the answer can't be changed
+  buttons.forEach((btn) => {
+    btn.disabled = true;
+    const i = Number(btn.dataset.index);
+    if (i === q.answer) btn.classList.add('correct');     // always show the right one
+    if (i === index && index !== q.answer) btn.classList.add('wrong'); // their wrong pick
+  });
+
+  if (index === q.answer) score++;
+
+  nextBtn.disabled = false;                 // now they can go Next
+}
+
+// ── Next: advance or show results ────────────────────────────────────────────
+nextBtn.addEventListener('click', () => {
+  current++;
+  if (current < QUESTIONS.length) {
+    renderQuestion();
+  } else {
+    renderResults();
+  }
+});
+
+// ── renderResults: swap to the results screen ────────────────────────────────
+function renderResults() {
+  quizEl.classList.add('hidden');
+  resultsEl.classList.remove('hidden');
+  scoreEl.textContent = `You scored ${score} / ${QUESTIONS.length}`;
+}
+
+// ── Play again: reset state and restart ──────────────────────────────────────
+restartBtn.addEventListener('click', () => {
+  current = 0;
+  score = 0;
+  resultsEl.classList.add('hidden');
+  quizEl.classList.remove('hidden');
+  renderQuestion();
+});
+
+// ── Start ────────────────────────────────────────────────────────────────────
+renderQuestion();
+```
+
+---
+
+## Project 4 — Route Finder
+
+The computer-science capstone. No internet needed — this is about turning two
+**CS-core lessons into a real, visual app**: model a transit network as a
+**graph** (lesson 48) and find the fewest-stops route with **BFS** (lesson 49).
+
+## What it does
+- Pick a **From** and **To** station from two dropdowns
+- Click **Find route** → shows the shortest path as `A → B → C` with a stop count
+- A **swap** (⇅) button flips start/destination and re-routes instantly
+- Handles "no route" and "same station" cleanly
+- Renders the whole **network map** so you can see the graph it's searching
+
+## Lessons you'll apply
+- **48 Data Structures** — the `Graph` (adjacency list via `Map`) holds the network
+- **49 Algorithms** — `bfsShortestPath` does the actual work (BFS + path rebuild)
+- **16 Sets & Maps** — `visited` Set, `cameFrom` map
+- **13 Array methods / 15 destructuring** — render the path, swap values
+- **23 DOM / 24 Events** — dropdowns, buttons, rendering
+
+## How to run
+Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see
+the finished version:
+`<script src="app.js">` → `<script src="solution.js">`
+
+## The data model (given to you in the starter)
+```js
+const EDGES = [
+  ['Central', 'North'],
+  ['Central', 'East'],
+  // ...each pair is a TWO-WAY connection
+];
+```
+The `Graph` class (from lesson 48) is also provided — you focus on wiring it up
+and writing the search.
+
+## Build it step by step
+1. **Build the graph** — loop `EDGES`, call `network.addEdge(a, b)` for each.
+2. **populateSelects()** — add an `<option>` for every `network.nodes` station to
+   both dropdowns; default "To" to a different station than "From".
+3. **bfsShortestPath(graph, start, goal)** — the heart of it:
+   - `start === goal` → return `[start]`
+   - keep a `queue`, a `visited` Set, and a `cameFrom` map
+   - BFS: `shift()` a node, visit each unvisited neighbour, record `cameFrom`
+   - the **first** time you reach `goal`, rebuild the path by walking `cameFrom`
+     backwards — BFS guarantees it's the shortest (fewest hops)
+   - return `null` if the queue empties first
+4. **renderRoute(path, …)** — no path → an `.error`; else stops joined by `→`
+   plus a "N stops" summary.
+5. **renderNetworkMap()** — list each station and its neighbours.
+6. **swap button** — swap the two dropdown values, then find the route again.
+
+## Why BFS (and not DFS)?
+BFS explores the graph **level by level** — all 1-hop neighbours, then all
+2-hop, and so on. So the moment it touches the destination, it has used the
+fewest possible edges. DFS (lesson 49) dives deep and would find *a* path, but
+not necessarily the **shortest** one. That's the whole reason BFS is the
+go-to for shortest paths in unweighted graphs.
+
+## Make it your own
+- **Weighted edges** (distance/time per link) → upgrade BFS to **Dijkstra's**
+  algorithm with a priority queue (uses the heap idea from lesson 48).
+- Let users **add/remove stations or connections** at runtime and re-route.
+- **Highlight the route** on the network map (bold the stations in the path).
+- Show **all stations reachable within N hops** of a station (BFS with a depth).
+- Persist the user's last From/To to **localStorage** (lesson 33).
+- Render the network as an actual **SVG graph** instead of a list.
+
+## Concepts this cements
+- **Graphs model relationships** — transit maps, social networks, dependencies,
+  the web. The adjacency list (`Map<node, neighbours[]>`) is the workhorse form.
+- **BFS = shortest path** in an unweighted graph, and the `cameFrom` trick to
+  rebuild the route is a pattern you'll reuse for mazes, word ladders, and
+  game AI. This is the exact shape of countless interview problems.
+
+### solution.js
+
+```js
+/* =============================================================================
+ * ROUTE FINDER — SOLUTION
+ * =============================================================================
+ * Complete, working version. Compare with your app.js after trying.
+ *
+ * Lessons used: 48 Graph · 49 BFS shortest path · 16 Map/Set · 23 DOM · 24 Events
+ * ========================================================================== */
+
+// ── The network (data model): each pair is a two-way connection ──────────────
+const EDGES = [
+  ['Central', 'North'],
+  ['Central', 'East'],
+  ['Central', 'West'],
+  ['Central', 'South'],
+  ['North', 'Airport'],
+  ['East', 'Harbor'],
+  ['Harbor', 'Airport'],
+  ['West', 'Museum'],
+  ['Museum', 'South'],
+  ['South', 'Stadium'],
+];
+
+// ── Graph (from lesson 48) ───────────────────────────────────────────────────
+class Graph {
+  #adj = new Map();
+  addNode(node) {
+    if (!this.#adj.has(node)) this.#adj.set(node, []);
+    return this;
+  }
+  addEdge(a, b) {
+    this.addNode(a).addNode(b);
+    this.#adj.get(a).push(b);
+    this.#adj.get(b).push(a);
+    return this;
+  }
+  neighbours(node) { return this.#adj.get(node) ?? []; }
+  get nodes() { return [...this.#adj.keys()].sort(); }
+}
+
+// ── Elements ─────────────────────────────────────────────────────────────────
+const startSel = document.querySelector('#start');
+const goalSel = document.querySelector('#goal');
+const swapBtn = document.querySelector('#swap');
+const findBtn = document.querySelector('#find');
+const resultEl = document.querySelector('#result');
+const mapEl = document.querySelector('#map');
+
+// ── 1. Build the graph from EDGES ─────────────────────────────────────────────
+const network = new Graph();
+for (const [a, b] of EDGES) network.addEdge(a, b);
+
+// ── 2. Fill the two dropdowns with every station ─────────────────────────────
+function populateSelects() {
+  for (const station of network.nodes) {
+    startSel.appendChild(new Option(station, station));
+    goalSel.appendChild(new Option(station, station));
+  }
+  // Start at the first station, aim at the last → an interesting default route.
+  startSel.selectedIndex = 0;
+  goalSel.selectedIndex = network.nodes.length - 1;
+}
+
+// ── 3. BFS shortest path (the algorithm — lesson 49) ─────────────────────────
+// BFS explores level by level, so the first time it reaches the goal it has
+// used the fewest hops. cameFrom lets us rebuild the actual path afterwards.
+function bfsShortestPath(graph, start, goal) {
+  if (start === goal) return [start];
+
+  const visited = new Set([start]);
+  const queue = [start];
+  const cameFrom = { [start]: null }; // node → the node we arrived from
+
+  while (queue.length) {
+    const node = queue.shift();        // FIFO: take from the front
+    for (const next of graph.neighbours(node)) {
+      if (visited.has(next)) continue;
+      visited.add(next);
+      cameFrom[next] = node;
+      if (next === goal) {
+        // Walk cameFrom backwards from goal to start, then reverse.
+        const path = [next];
+        while (cameFrom[path[0]] !== null) path.unshift(cameFrom[path[0]]);
+        return path;
+      }
+      queue.push(next);
+    }
+  }
+  return null; // goal unreachable
+}
+
+// ── 4. Show the route (or an error) ──────────────────────────────────────────
+function renderRoute(path, start, goal) {
+  if (!path) {
+    resultEl.innerHTML = `<div class="error">No route from <b>${start}</b> to <b>${goal}</b>.</div>`;
+    return;
+  }
+
+  // Build "A → B → C" with styled spans (lesson 13 map + join).
+  const stops = path
+    .map((station) => `<span class="stop">${station}</span>`)
+    .join('<span class="arrow">→</span>');
+
+  const hops = path.length - 1;
+  resultEl.innerHTML = `
+    <div class="route">
+      ${stops}
+      <div class="summary">${hops} stop${hops === 1 ? '' : 's'} · ${path.length} stations</div>
+    </div>`;
+}
+
+// ── 5. Draw the network map (so the graph is visible) ────────────────────────
+function renderNetworkMap() {
+  mapEl.innerHTML = '';
+  for (const station of network.nodes) {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <span class="station">${station}</span>
+      <span class="links">↔ ${network.neighbours(station).join(', ')}</span>`;
+    mapEl.appendChild(li);
+  }
+}
+
+// ── Wire up the buttons ──────────────────────────────────────────────────────
+function findRoute() {
+  const start = startSel.value;
+  const goal = goalSel.value;
+  renderRoute(bfsShortestPath(network, start, goal), start, goal);
+}
+
+findBtn.addEventListener('click', findRoute);
+
+swapBtn.addEventListener('click', () => {
+  [startSel.value, goalSel.value] = [goalSel.value, startSel.value]; // swap (lesson 15)
+  findRoute();
+});
+
+// ── Start ────────────────────────────────────────────────────────────────────
+populateSelects();
+renderNetworkMap();
+findRoute(); // show the default route immediately
+```
+
+---
+
+## Project 5 — Virtual List
+
+The performance capstone. No internet needed — this is about one high-impact
+technique from lesson 41: **virtualization (windowing)**. You'll scroll a list
+of **50,000 rows** while keeping only ~17 of them in the DOM.
+
+## What it does
+- Renders a 50,000-row contact list that scrolls perfectly smoothly
+- Shows a live readout: which rows are on screen, and how few `<div>`s actually
+  exist in the DOM (the whole point)
+- A "Jump to a random row" button proves it works at any scroll position
+
+## The problem it solves
+Naively, `items.map(renderRow)` for 50,000 rows = 50,000 DOM nodes. The browser
+chokes: slow first paint, janky scroll, big memory. **Virtualization** renders
+only the rows in the viewport and repositions them as you scroll — so DOM size
+stays *constant* no matter how long the list is. This is how every fast
+table/feed/chat app (and libraries like TanStack Virtual, react-window) work.
+
+## Lessons you'll apply
+- **41 Performance** — the windowing technique, and reducing DOM work
+- **13 Array methods** — `Array.from` to generate the data
+- **23 DOM / 24 Events** — building rows, the scroll listener
+- **29 / 46** — throttling the scroll handler with `requestAnimationFrame`
+
+## How to run
+Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see
+the finished version:
+`<script src="app.js">` → `<script src="solution.js">`
+
+## How it works (the 3 moving parts)
+```
+.viewport   fixed height, overflow-y:auto   ← the window you see through
+  .sizer    height = TOTAL * ROW_H          ← empty but tall → real scrollbar
+    .row    position:absolute; top: i*ROW_H ← only the visible ones exist
+```
+1. The **sizer** is one tall empty element. Its height makes the scrollbar
+   behave as if all 50,000 rows were there.
+2. On scroll, you compute **which slice** is visible from `scrollTop`, and
+   render only those rows — each placed at its true `top: i * ROW_H`.
+3. Scroll again → recompute the slice, rebuild ~17 rows. Cheap, every frame.
+
+## Build it step by step
+1. **Generate the data** — `Array.from({ length: TOTAL }, (_, i) => ({...}))`.
+   Keep it in JS; it never all goes into the DOM.
+2. **Size the scrollbar** — `sizer.style.height = TOTAL * ROW_H + 'px'`.
+3. **render()** — from `viewport.scrollTop`:
+   - `start = floor(scrollTop / ROW_H) − OVERSCAN`
+   - `count = ceil(viewport.clientHeight / ROW_H) + OVERSCAN*2`
+   - clear the sizer, create rows `start…end`, each at `top: i*ROW_H`
+   - update the stats line with how many rows are really in the DOM
+4. **Scroll listener** → `render()`. Bonus: wrap it in `requestAnimationFrame`
+   so it runs at most once per frame (a throttle — lesson 29).
+5. **Jump button** → set `viewport.scrollTop` to a random `i * ROW_H`, render.
+
+## Why `OVERSCAN`?
+Rendering exactly the visible rows means a fast scroll can show a blank strip
+for a frame before the new rows appear. Rendering a few extra rows above and
+below (the "overscan") hides that — a tiny cost for seamless scrolling.
+
+## Make it your own
+- **Variable row heights** — the hard mode: track each row's measured height and
+  compute offsets from a running total (what real libraries do).
+- **Recycle nodes** instead of rebuilding: keep the ~17 row elements and just
+  update their text/position (even less work per frame).
+- Add a **search box** that filters `items` and re-renders (the virtual list
+  just works on the filtered array).
+- **Sticky headers** per letter (A, B, C…) like a phone contacts list.
+- Compare: render all 50,000 rows the naive way and watch the page freeze —
+  feel the difference virtualization makes.
+
+## Concepts this cements
+- **DOM size is the bottleneck**, not data size. Keeping the DOM small is the
+  single biggest lever for list/table/feed performance.
+- **Render what's visible, derive the rest from math** — a pattern that shows up
+  in maps, canvases, infinite scroll, and game engines (only draw what's in view).
+
+### solution.js
+
+```js
+/* =============================================================================
+ * VIRTUAL LIST — SOLUTION
+ * =============================================================================
+ * Complete, working version. Compare with your app.js after trying.
+ *
+ * THE IDEA (lesson 41): render ONLY the visible rows, repositioned on scroll.
+ * 50,000 logical rows, but only ~17 <div>s in the DOM at any moment.
+ *
+ * Lessons used: 41 performance/virtualization · 13 array methods · 23 DOM · 24 Events · 29 throttle (rAF)
+ * ========================================================================== */
+
+const TOTAL = 50_000;
+const ROW_H = 48;   // must match .row height in CSS
+const OVERSCAN = 4; // extra rows above/below the window so scrolling looks seamless
+
+// ── Elements ─────────────────────────────────────────────────────────────────
+const viewport = document.querySelector('#viewport');
+const sizer = document.querySelector('#sizer');
+const statsEl = document.querySelector('#stats');
+const totalEl = document.querySelector('#total');
+const jumpBtn = document.querySelector('#jump');
+
+totalEl.textContent = TOTAL.toLocaleString();
+
+// ── 1. The data — held in JS, NOT in the DOM ─────────────────────────────────
+const COLORS = ['#f87171', '#fbbf24', '#34d399', '#60a5fa', '#a78bfa', '#f472b6'];
+const items = Array.from({ length: TOTAL }, (_, i) => ({
+  name: `Person ${i}`,
+  email: `person${i}@example.com`,
+  color: COLORS[i % COLORS.length],
+}));
+
+// ── 2. Size the scrollbar as if every row existed ────────────────────────────
+sizer.style.height = `${TOTAL * ROW_H}px`;
+
+// ── 3. Render only the visible window ─────────────────────────────────────────
+function render() {
+  const scrollTop = viewport.scrollTop;
+
+  // Which slice of items is on screen right now?
+  const start = Math.max(0, Math.floor(scrollTop / ROW_H) - OVERSCAN);
+  const visibleCount = Math.ceil(viewport.clientHeight / ROW_H) + OVERSCAN * 2;
+  const end = Math.min(TOTAL, start + visibleCount);
+
+  // Rebuild just those rows. (Rebuilding ~17 nodes per frame is cheap.)
+  sizer.innerHTML = '';
+  for (let i = start; i < end; i++) {
+    const item = items[i];
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.style.top = `${i * ROW_H}px`; // place it at its REAL position
+    row.innerHTML = `
+      <span class="avatar" style="background:${item.color}">${item.name[0]}</span>
+      <span class="index">#${i}</span>
+      <span class="name">${item.name}</span>
+      <span class="email">${item.email}</span>`;
+    sizer.appendChild(row);
+  }
+
+  // Proof it's working: tiny DOM, huge list.
+  const inDom = sizer.children.length;
+  statsEl.textContent =
+    `Rows ${start.toLocaleString()}–${(end - 1).toLocaleString()} on screen · ` +
+    `${inDom} <div>s in the DOM (not ${TOTAL.toLocaleString()})`;
+}
+
+// ── 4. Re-render on scroll — throttled to one render per animation frame ──────
+let ticking = false;
+viewport.addEventListener('scroll', () => {
+  if (ticking) return;           // already scheduled → skip (lesson 29 throttle idea)
+  ticking = true;
+  requestAnimationFrame(() => {  // run at most once per frame (lesson 46 rAF)
+    render();
+    ticking = false;
+  });
+});
+
+// ── 5. Jump to a random row ──────────────────────────────────────────────────
+jumpBtn.addEventListener('click', () => {
+  const target = Math.floor(Math.random() * TOTAL);
+  viewport.scrollTop = target * ROW_H; // scroll fires → render() runs
+  render();                            // render immediately too (no flash)
+});
+
+// ── Start ────────────────────────────────────────────────────────────────────
+render();
+```
+
+---
+
+## Project 6 — Form Validation
+
+The most common real-world JavaScript task there is. Almost every app has a form —
+sign up, log in, checkout, settings — and every one needs to **validate input
+before trusting it**. This project builds a signup form that checks each field
+*as you type*, shows clear per-field errors, and only enables the button once
+everything is valid.
+
+## What it does
+- Five fields: full name, email, password, confirm-password, and age
+- Validates each field live (on input and on blur), with a helpful message under it
+- Colours each field green (valid) or red (invalid)
+- Keeps the **Create account** button disabled until the whole form is valid
+- On submit, shows a success message and resets the form
+
+## Lessons you'll apply
+- **23 DOM** — selecting inputs and their error `<span>`s, toggling classes
+- **24 Events** — `input`, `blur`, and the form's `submit` event (with `preventDefault`)
+- **26 Regular Expressions** — a real email pattern, and `/\d/` for "has a number"
+- **21 Error Handling** — each rule *returns* its error message, kept next to the check
+- **07 Conditionals** — the validation rules themselves (`if` / ternary / early return)
+
+## How to run
+Open `index.html` in your browser. It loads `app.js` (the starter). Switch to the
+finished version by changing the last line:
+`<script src="app.js">` → `<script src="solution.js">`
+
+## Build it step by step
+1. **Write the rules.** Each `validators[field]` takes the value and returns an
+   error string, or `''` when valid. Keeping the message *with* the check (rather
+   than scattered `if`s) makes the form easy to extend.
+2. **`validateField(key)`** — run the rule, write the message into `#${key}-error`
+   with `textContent`, and toggle the input's `valid` / `invalid` class. Return
+   whether it passed.
+3. **`refreshFormState()`** — the form is valid only if **every** field passes;
+   set `submitBtn.disabled` to match.
+4. **Live validation** — add `input` + `blur` listeners on each field that mark it
+   "touched", validate it, and refresh the button. (Re-check `confirm` whenever
+   `password` changes.)
+5. **Submit** — `preventDefault()`, mark all fields touched, validate everything,
+   and either show the success message + reset, or let the errors appear.
+
+## Why "touched"?
+If you validated everything on load, the user would see five red "required!"
+errors before typing a single character — hostile. Tracking which fields have been
+**touched** means errors only appear once the user has actually interacted with a
+field. This is exactly how real form libraries (Formik, React Hook Form) behave.
+
+## Make it your own
+- **A password-strength meter** — weak / medium / strong as the user types.
+- **Show/hide password** toggle (a small 👁 button that flips `type` between
+  `password` and `text`).
+- **Async check** — pretend to check "is this email taken?" with a delayed
+  Promise (lesson 19/20), showing a spinner while it runs.
+- **Debounce** the email check so it doesn't fire on every keystroke (lesson 29).
+- Add a **"passwords must match" live indicator** that updates as you type either box.
+
+## Concepts this cements
+- **Never trust input** — validate on the client for UX, but remember a real app
+  must *also* validate on the server (a user can bypass your JS entirely — lesson 39).
+- **Derive UI from state** — the button's enabled/disabled state is computed from
+  the fields, never set by hand in five different places. One source of truth.
+- **Keep the rule and its message together** — returning the error from the
+  validator scales far better than a wall of `if`s sprinkled through the handler.
+
+### solution.js
+
+```js
+/* =============================================================================
+ * FORM VALIDATION — SOLUTION
+ * =============================================================================
+ * Complete, working version. Compare with your app.js after trying.
+ *
+ * Lessons used: 23 DOM · 24 Events · 26 Regular Expressions · 21 Error Handling · 07 Conditionals
+ * ========================================================================== */
+
+// ── Elements ─────────────────────────────────────────────────────────────────
+const form = document.querySelector('#signup-form');
+const submitBtn = document.querySelector('#submit');
+const successEl = document.querySelector('#success');
+
+const fields = {
+  name: document.querySelector('#name'),
+  email: document.querySelector('#email'),
+  password: document.querySelector('#password'),
+  confirm: document.querySelector('#confirm'),
+  age: document.querySelector('#age'),
+};
+
+// Track which fields the user has touched, so we don't show "required" errors
+// on fields they haven't reached yet.
+const touched = new Set();
+
+// ── The rules ─────────────────────────────────────────────────────────────────
+// Each validator returns an ERROR STRING, or '' when the value is valid.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const validators = {
+  name(value) {
+    return value.trim().length >= 2 ? '' : 'Please enter your full name.';
+  },
+  email(value) {
+    return EMAIL_RE.test(value.trim()) ? '' : 'Enter a valid email address.';
+  },
+  password(value) {
+    if (value.length < 8) return 'At least 8 characters.';
+    if (!/\d/.test(value)) return 'Add at least one number.';
+    return '';
+  },
+  confirm(value) {
+    if (!value) return 'Please confirm your password.';
+    return value === fields.password.value ? '' : 'Passwords do not match.';
+  },
+  age(value) {
+    const n = Number(value);
+    if (value.trim() === '' || Number.isNaN(n)) return 'Enter your age.';
+    if (n < 13) return 'You must be at least 13.';
+    if (n > 120) return 'Please enter a real age.';
+    return '';
+  },
+};
+
+// ── Validate ONE field: run its rule, show/clear its error, colour the input ───
+function validateField(key) {
+  const input = fields[key];
+  const msg = validators[key](input.value);
+  const errorEl = document.querySelector('#' + key + '-error');
+
+  // only surface the error once the user has interacted with this field
+  if (touched.has(key)) {
+    errorEl.textContent = msg; // textContent, never innerHTML — no injection
+    input.classList.toggle('invalid', msg !== '');
+    input.classList.toggle('valid', msg === '' && input.value !== '');
+  }
+  return msg === '';
+}
+
+// ── Is the WHOLE form valid? Enable/disable the button to match ───────────────
+function refreshFormState() {
+  const allValid = Object.keys(fields).every((key) => validateField(key));
+  submitBtn.disabled = !allValid;
+}
+
+// ── Live validation: validate each field as the user types and on blur ────────
+Object.keys(fields).forEach((key) => {
+  fields[key].addEventListener('input', () => {
+    touched.add(key);
+    validateField(key);
+    if (key === 'password') validateField('confirm'); // keep confirm in sync
+    refreshFormState();
+  });
+  fields[key].addEventListener('blur', () => {
+    touched.add(key);
+    validateField(key);
+    refreshFormState();
+  });
+});
+
+// ── Submit ────────────────────────────────────────────────────────────────────
+form.addEventListener('submit', (e) => {
+  e.preventDefault(); // never let the browser do a real submit here
+
+  // mark everything touched so any remaining errors become visible
+  Object.keys(fields).forEach((key) => touched.add(key));
+  const allValid = Object.keys(fields).every((key) => validateField(key));
+
+  if (!allValid) {
+    refreshFormState();
+    return;
+  }
+
+  successEl.classList.remove('hidden');
+  form.reset();
+  touched.clear();
+  Object.values(fields).forEach((i) => i.classList.remove('valid', 'invalid'));
+  submitBtn.disabled = true;
+});
+
+// start with the button disabled until the form is valid
+refreshFormState();
+```
+

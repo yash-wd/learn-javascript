@@ -3,39 +3,132 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JavaScript Playground — run a browser lesson</title>
+    <title>JavaScript Playground — run JS in your browser</title>
     <link rel="stylesheet" href="assets/style.css" />
+    <style>
+      body { background: #0f172a; color: #e2e8f0; padding: 32px 20px; max-width: 860px; margin: 0 auto; }
+      a { color: #818cf8; }
+      h1 { margin-bottom: 6px; }
+      h2 { margin: 0 0 8px; }
+      .muted { color: #94a3b8; }
+      .card { margin: 18px 0; padding: 18px; border: 1px solid #334155; border-radius: 12px; background: #1e293b; }
+      #code {
+        width: 100%; min-height: 200px; resize: vertical; padding: 14px;
+        border: 1px solid #334155; border-radius: 10px; background: #0b1220; color: #e2e8f0;
+        font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 14px; line-height: 1.5;
+      }
+      #code:focus { outline: 2px solid #6366f1; outline-offset: 1px; }
+      .row { margin: 12px 0; display: flex; gap: 10px; flex-wrap: wrap; }
+      button {
+        padding: 10px 18px; border: none; border-radius: 9px; font: inherit; font-weight: 600; cursor: pointer;
+      }
+      #run { background: #6366f1; color: #fff; }
+      #run:hover { background: #4f46e5; }
+      #clear { background: #334155; color: #e2e8f0; }
+      button:focus-visible { outline: 2px solid #a5b4fc; outline-offset: 2px; }
+      #output {
+        margin-top: 12px; min-height: 64px; padding: 12px 14px; border-radius: 10px;
+        background: #0b1220; border: 1px solid #334155; color: #cbd5e1;
+        font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13px;
+        white-space: pre-wrap; word-break: break-word;
+      }
+      kbd { background: #334155; border-radius: 4px; padding: 1px 6px; font-size: 0.85em; }
+      select { padding: 6px 10px; font: inherit; border-radius: 8px; }
+      @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+    </style>
   </head>
   <body>
+    <a class="skip" href="#code" style="position:absolute;left:-9999px">Skip to the editor</a>
     <h1>JavaScript Playground</h1>
-    <p>
-      New here? Start at the
-      <strong><a href="curriculum.html">course curriculum</a></strong>.
-    </p>
-    <p>
-      Most lessons run in the terminal with Node — see
-      <strong>README.md</strong>. This page is for the <em>browser</em> lessons.
-      Open DevTools (F12) → Console to see their output here.
+    <p class="muted">
+      New here? Start at the <a href="curriculum.html">course curriculum</a>. Most lessons
+      run in the terminal with Node — but you can try JavaScript right here, no install needed.
     </p>
 
-    <div style="margin: 18px 0; padding: 16px; border: 1px solid #334155; border-radius: 10px; max-width: 460px">
-      <label for="lesson-picker"><strong>Run a browser lesson:</strong></label>
-      <select id="lesson-picker" style="margin-left: 8px; padding: 6px 10px; font: inherit">
+    <!-- ===================== IN-BROWSER RUNNER ===================== -->
+    <section class="card">
+      <h2>▶ Try JavaScript right here</h2>
+      <p class="muted" style="margin-bottom: 12px">
+        Type JS, press <strong>Run</strong> (or <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>Enter</kbd>).
+        Paste any non-browser lesson snippet to experiment with it.
+      </p>
+      <textarea id="code" spellcheck="false" aria-label="JavaScript code to run">// Edit me, then press Run (Ctrl/Cmd+Enter)
+const greet = (name) => `Hello, ${name}!`;
+console.log(greet('world'));
+
+const evens = [1, 2, 3, 4, 5, 6].filter((n) => n % 2 === 0);
+console.log('evens:', evens);
+
+// async works too:
+setTimeout(() => console.log('…and this logs a moment later'), 300);
+</textarea>
+      <div class="row">
+        <button id="run" type="button">▶ Run</button>
+        <button id="clear" type="button">Clear output</button>
+      </div>
+      <pre id="output" aria-live="polite" aria-label="Program output">// output appears here</pre>
+    </section>
+
+    <!-- ===================== BROWSER-LESSON PICKER ===================== -->
+    <section class="card">
+      <h2 style="font-size: 1.1rem">Run a built-in browser lesson</h2>
+      <p class="muted" style="margin: 6px 0 12px">
+        Lessons <strong>23, 24, 46</strong> manipulate the page itself. Pick one — it runs on
+        load; open DevTools (<kbd>F12</kbd>) → Console too. The page reloads to run a fresh copy.
+      </p>
+      <label for="lesson-picker"><strong>Lesson:</strong></label>
+      <select id="lesson-picker" aria-label="Choose a browser lesson to run">
         <option value="">— choose a lesson —</option>
         <option value="lessons/23-dom.js">23 · DOM</option>
         <option value="lessons/24-events.js">24 · Events</option>
         <option value="lessons/46-browser-apis.js">46 · Advanced Browser APIs</option>
       </select>
-      <p style="margin-top: 10px">
-        <small>Pick one, then open DevTools (<strong>F12</strong>) → Console to see its
-        output. The page reloads to run a fresh copy.</small>
-      </p>
-    </div>
+    </section>
 
-    <!-- Loads assets/script.js (a pointer back to the curriculum) plus, if you've
-         picked one above, the selected browser lesson. -->
     <script src="assets/script.js"></script>
     <script>
+      // ── In-browser runner: capture console output into the pane ──────────────
+      (function () {
+        var outEl = document.getElementById('output');
+        var codeEl = document.getElementById('code');
+
+        function fmt(a) {
+          if (typeof a === 'string') return a;
+          if (a instanceof Error) return a.name + ': ' + a.message;
+          try { return JSON.stringify(a); } catch (e) { return String(a); }
+        }
+        function line(text, color) {
+          var div = document.createElement('div');
+          if (color) div.style.color = color;
+          div.textContent = text;
+          outEl.appendChild(div);
+        }
+        // Persistent capture so async logs (setTimeout/Promise) show up too.
+        console.log = function () { line([].map.call(arguments, fmt).join(' ')); };
+        console.info = console.log;
+        console.warn = function () { line([].map.call(arguments, fmt).join(' '), '#fbbf24'); };
+        console.error = function () { line('⛔ ' + [].map.call(arguments, fmt).join(' '), '#f87171'); };
+
+        function run() {
+          outEl.textContent = '';
+          try {
+            var result = (0, eval)(codeEl.value); // indirect eval → global scope
+            if (result !== undefined) line('⇒ ' + fmt(result), '#34d399');
+          } catch (e) {
+            line('⛔ ' + (e && e.name ? e.name + ': ' + e.message : e), '#f87171');
+          }
+          if (!outEl.textContent) outEl.textContent = '(no output — use console.log to print)';
+        }
+        document.getElementById('run').addEventListener('click', run);
+        document.getElementById('clear').addEventListener('click', function () {
+          outEl.textContent = '// output appears here';
+        });
+        codeEl.addEventListener('keydown', function (e) {
+          if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); run(); }
+        });
+      })();
+
+      // ── Browser-lesson picker (runs the chosen lesson on load) ───────────────
       (function () {
         var pick = document.getElementById('lesson-picker');
         var KEY = 'jslearn-playground-lesson', saved = null;
@@ -44,14 +137,14 @@
           pick.value = saved;
           var s = document.createElement('script');
           s.src = saved;
-          document.body.appendChild(s); // run the chosen lesson
+          document.body.appendChild(s);
         }
         pick.addEventListener('change', function () {
           try {
             if (pick.value) localStorage.setItem(KEY, pick.value);
             else localStorage.removeItem(KEY);
           } catch (e) {}
-          location.reload(); // re-run cleanly with the new choice
+          location.reload();
         });
       })();
     </script>

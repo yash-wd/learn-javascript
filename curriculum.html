@@ -689,6 +689,11 @@ node lessons/02-data-types.js
       #progress-text { font-size: 13px; color: var(--muted, #94a3b8); margin-top: 7px; display: inline-block; }
       #progress-text button { background: none; border: none; color: var(--brand-2, #22c55e); cursor: pointer; font: inherit; padding-left: 10px; text-decoration: underline; }
       .nav-toggle { display: none; }
+      .done-toggle:focus-visible, #lesson-search:focus-visible,
+      .skip-link:focus { outline: 2px solid var(--brand-2, #22c55e); outline-offset: 2px; }
+      .skip-link { position: absolute; left: -9999px; top: 0; background: #111827; color: #fff; padding: 10px 14px; z-index: 50; }
+      .skip-link:focus { left: 8px; top: 8px; }
+      @media (prefers-reduced-motion: reduce) { .done-toggle, #progress-bar > i { transition: none; } }
       @media (max-width: 720px) {
         .nav-toggle {
           display: inline-flex; background: none; border: 1px solid var(--line, #334155);
@@ -699,6 +704,11 @@ node lessons/02-data-types.js
     </style>
     <script>
       (function () {
+        // skip-to-content link for keyboard users
+        var skip = document.createElement('a');
+        skip.className = 'skip-link'; skip.href = '#lessons'; skip.textContent = 'Skip to lessons';
+        document.body.insertBefore(skip, document.body.firstChild);
+
         var cards = Array.prototype.slice.call(document.querySelectorAll('a.lesson'));
 
         // 1) PROGRESS — remembered in localStorage
@@ -726,7 +736,7 @@ node lessons/02-data-types.js
           var h = section.querySelector('h2.h');
           var wrap = document.createElement('div');
           wrap.id = 'progress-wrap';
-          wrap.innerHTML = '<div id="progress-bar"><i></i></div><span id="progress-text"></span>';
+          wrap.innerHTML = '<div id="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-label="Lessons completed"><i></i></div><span id="progress-text"></span>';
           if (h && h.parentNode) h.parentNode.insertBefore(wrap, h.nextSibling);
           fill = wrap.querySelector('#progress-bar > i');
           text = wrap.querySelector('#progress-text');
@@ -736,6 +746,7 @@ node lessons/02-data-types.js
           var n = cards.filter(function (c) { return done.has(c.getAttribute('href')); }).length;
           var pct = cards.length ? Math.round((n / cards.length) * 100) : 0;
           fill.style.width = pct + '%';
+          fill.parentElement.setAttribute('aria-valuenow', String(pct));
           text.textContent = n + ' / ' + cards.length + ' lessons done (' + pct + '%)';
           if (n > 0) {
             var b = document.createElement('button');
@@ -756,6 +767,7 @@ node lessons/02-data-types.js
           var search = document.createElement('input');
           search.id = 'lesson-search'; search.type = 'search';
           search.placeholder = '🔎 Filter lessons (e.g. "async", "array", "regex")…';
+          search.setAttribute('aria-label', 'Filter lessons by keyword');
           parts.parentNode.insertBefore(search, parts);
           search.addEventListener('input', function () {
             var q = search.value.trim().toLowerCase();
