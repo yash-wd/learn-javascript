@@ -141,7 +141,7 @@ mentions it in passing.
 │
 ├── lessons/            → ⭐ the 52 lessons — this is the course
 │   ├── modules-demo/   → small runnable example for lesson 22
-│   └── solutions/      → worked answers for exercises 48–50
+│   └── solutions/      → one answer file per lesson to fill in (48–50 worked)
 ├── projects/           → ⭐ 5 projects to build (starter + solution + README)
 │
 ├── assets/             → styles/script for the web pages   (ignore)
@@ -244,9 +244,11 @@ includes both the engineering around the language and the computer-science core.
 | 51 | [BigInt & Language Corners](lessons/51-bigint-and-language-corners.js) | `BigInt`, `Object.fromEntries`, `flatMap`, labeled statements, `eval`/`Function` (and why to avoid them) |
 | 52 | [Internationalization](lessons/52-internationalization.js) | the full `Intl` API: `Collator`, `PluralRules`, `RelativeTimeFormat`, `ListFormat`, `Segmenter` |
 
-> 💡 **Stuck on the exercises in 48–50?** Worked, runnable solutions live in
-> [lessons/solutions/](lessons/solutions/). Try each yourself first, then compare —
-> e.g. `node lessons/solutions/49-solutions.js`.
+> 💡 **Practice your own answers.** [lessons/solutions/](lessons/solutions/) has a
+> matching `NN-solutions.js` file for every lesson — each pre-filled with that
+> lesson's PRACTICE questions and a `TODO` for you to write your solution, then
+> run it (e.g. `node lessons/solutions/09-solutions.js`). Lessons 48–50 ship with
+> worked, runnable answers as a reference — try them yourself first, then compare.
 
 ### Optional focus tracks (for job seekers)
 
