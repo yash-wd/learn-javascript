@@ -82,15 +82,13 @@ function debounce(fn, wait) {
 // "No matter how often this fires (scroll/resize), run at most once per 200ms."
 function throttle(fn, interval) {
   let last = 0;
-  let lastArgs = null;
   return function (...args) {
     const now = Date.now();
     if (now - last >= interval) {
       last = now;
       fn.apply(this, args);
-    } else {
-      lastArgs = args; // remember the most recent call (optional trailing run)
     }
+    // (a production throttle often also schedules a trailing call; omitted here)
   };
 }
 // debounce → "settle then act" (search box). throttle → "steady rate" (scroll).

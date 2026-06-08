@@ -4,9 +4,9 @@
  * Complete, working version. Compare with your app.js after trying.
  *
  * THE IDEA (lesson 41): render ONLY the visible rows, repositioned on scroll.
- * 50,000 logical rows, but only ~13 <div>s in the DOM at any moment.
+ * 50,000 logical rows, but only ~17 <div>s in the DOM at any moment.
  *
- * Lessons used: 41 performance/virtualization · 13 array methods · 23 DOM · 24 Events
+ * Lessons used: 41 performance/virtualization · 13 array methods · 23 DOM · 24 Events · 29 throttle (rAF)
  * ========================================================================== */
 
 const TOTAL = 50_000;
@@ -42,7 +42,7 @@ function render() {
   const visibleCount = Math.ceil(viewport.clientHeight / ROW_H) + OVERSCAN * 2;
   const end = Math.min(TOTAL, start + visibleCount);
 
-  // Rebuild just those rows. (Rebuilding ~13 nodes per frame is cheap.)
+  // Rebuild just those rows. (Rebuilding ~17 nodes per frame is cheap.)
   sizer.innerHTML = '';
   for (let i = start; i < end; i++) {
     const item = items[i];

@@ -3,7 +3,7 @@
  * =============================================================================
  * Fill in the TODOs. README has the full walkthrough. Solution in solution.js.
  *
- * Lessons used: 12–14 arrays/objects · 13 array methods · 23 DOM · 24 Events
+ * Lessons used: 09 Functions · 12–14 arrays/objects · 13 array methods · 23 DOM · 24 Events
  * ========================================================================== */
 
 // ── The questions (data model) ───────────────────────────────────────────────

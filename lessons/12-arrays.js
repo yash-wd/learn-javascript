@@ -70,6 +70,9 @@ const copy2 = source.slice();     // slice copy
 copy1.push(4);
 console.log(source, copy1);       // => [1,2,3] [1,2,3,4]  (source untouched)
 
+// `fill` overwrites a range with one value (mutates the array):
+console.log([1, 2, 3, 4].fill(0, 1, 3)); // => [1, 0, 0, 4]  (indices 1–2 → 0)
+
 
 /* MUTATING vs NON-MUTATING ---------------------------------------------------
  *   MUTATES:     push pop shift unshift splice sort reverse fill

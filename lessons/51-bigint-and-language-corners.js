@@ -19,7 +19,7 @@
 // ── 1. BigInt — arbitrary-precision integers ─────────────────────────────────
 // Regular numbers are 64-bit floats. They can only represent integers EXACTLY
 // up to Number.MAX_SAFE_INTEGER. Past that, math silently goes wrong:
-console.log(Number.MAX_SAFE_INTEGER);       // => 9007199254775807 (2^53 - 1)
+console.log(Number.MAX_SAFE_INTEGER);       // => 9007199254740991 (2^53 - 1)
 console.log(9007199254740991 + 1);          // => 9007199254740992 ✅
 console.log(9007199254740991 + 2);          // => 9007199254740992 ❌ (should be ...93!)
 

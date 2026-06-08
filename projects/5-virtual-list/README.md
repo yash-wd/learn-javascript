@@ -2,7 +2,7 @@
 
 The performance capstone. No internet needed — this is about one high-impact
 technique from lesson 41: **virtualization (windowing)**. You'll scroll a list
-of **50,000 rows** while keeping only ~13 of them in the DOM.
+of **50,000 rows** while keeping only ~17 of them in the DOM.
 
 ## What it does
 - Renders a 50,000-row contact list that scrolls perfectly smoothly
@@ -38,7 +38,7 @@ the finished version:
    behave as if all 50,000 rows were there.
 2. On scroll, you compute **which slice** is visible from `scrollTop`, and
    render only those rows — each placed at its true `top: i * ROW_H`.
-3. Scroll again → recompute the slice, rebuild ~13 rows. Cheap, every frame.
+3. Scroll again → recompute the slice, rebuild ~17 rows. Cheap, every frame.
 
 ## Build it step by step
 1. **Generate the data** — `Array.from({ length: TOTAL }, (_, i) => ({...}))`.
@@ -61,7 +61,7 @@ below (the "overscan") hides that — a tiny cost for seamless scrolling.
 ## Make it your own
 - **Variable row heights** — the hard mode: track each row's measured height and
   compute offsets from a running total (what real libraries do).
-- **Recycle nodes** instead of rebuilding: keep the ~13 row elements and just
+- **Recycle nodes** instead of rebuilding: keep the ~17 row elements and just
   update their text/position (even less work per frame).
 - Add a **search box** that filters `items` and re-renders (the virtual list
   just works on the filtered array).

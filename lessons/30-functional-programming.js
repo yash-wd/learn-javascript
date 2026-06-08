@@ -101,9 +101,9 @@ const orders = [
 ];
 const grandTotal = orders
   .map((o) => o.price * o.qty)   // line totals: [15, 16, 12]
-  .filter((t) => t >= 12)        // keep big lines: [15, 16, 12]
+  .filter((t) => t >= 13)        // keep big lines: [15, 16]  (drops the 12)
   .reduce((sum, t) => sum + t, 0);
-console.log(grandTotal); // => 43
+console.log(grandTotal); // => 31
 
 
 /* WHY FP? --------------------------------------------------------------------

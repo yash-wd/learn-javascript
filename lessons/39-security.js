@@ -76,7 +76,7 @@ console.log(validateSignup({ email: 'a@b.co', age: 30 })); // => { ok: true, err
 //   encrypted — anyone can read it. Don't put secrets in it; verify the signature.
 const fakeJwt = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYW5hIn0.sig';
 const [, payload] = fakeJwt.split('.');
-console.log(JSON.parse(Buffer.from(payload, 'base64').toString())); // => { user: 'ana' }
+console.log(JSON.parse(Buffer.from(payload, 'base64url').toString())); // => { user: 'ana' }  (JWTs use base64url, not plain base64)
 // • Store session tokens in cookies set:  HttpOnly; Secure; SameSite=Strict
 //   (HttpOnly = JS can't read it → safe from XSS theft; Secure = HTTPS only.)
 

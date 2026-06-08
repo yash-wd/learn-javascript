@@ -4,7 +4,7 @@
  * A complete, working version. Compare it with your app.js AFTER you've tried.
  * Read the comments — they explain the "why", not just the "what".
  *
- * Lessons used: 23 DOM · 24 Events · 13 Array methods · 33 Storage
+ * Lessons used: 23 DOM · 24 Events · 13 Array methods · 14 Objects · 33 Storage
  * ========================================================================== */
 
 const form = document.querySelector('#todo-form');

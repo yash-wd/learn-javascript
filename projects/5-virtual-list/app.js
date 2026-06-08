@@ -7,7 +7,7 @@
  * render ONLY the ~10 rows currently visible, and reposition them as you scroll.
  * The list FEELS infinite; the DOM stays tiny.
  *
- * Lessons used: 41 performance/virtualization · 13 array methods · 23 DOM · 24 Events
+ * Lessons used: 41 performance/virtualization · 13 array methods · 23 DOM · 24 Events · 29 throttle (rAF)
  * ========================================================================== */
 
 const TOTAL = 50_000; // how many rows the list "contains"

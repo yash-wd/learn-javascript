@@ -11,24 +11,16 @@
  *   • Read it top to bottom — every concept has a comment + a `// =>` output.
  *   • Then change the values, re-run, and see what happens.
  *
- * The lessons (run them in order):
- *   BASICS → INTERMEDIATE                          ADVANCED (Part 8)
- *   01 Variables            14 Objects             26 Regular Expressions
- *   02 Data Types           15 Destructuring/Spread 27 Generators & Iterators
- *   03 Operators            16 Sets & Maps          28 Symbols/Proxy/Reflect
- *   04 Type Conversion      17 Classes & OOP        29 Advanced Async
- *   05 Strings              18 Prototypes           30 Functional Programming
- *   06 Numbers & Math       19 Callbacks & Promises 31 Tricky Concepts
- *   07 Conditionals         20 Async / Await
- *   08 Loops                21 Error Handling       BROWSER & REAL APPS (Part 9)
- *   09 Functions            22 Modules              32 Dates & Time
- *   10 Scope & Closures     23 DOM        (browser) 33 Browser Storage
- *   11 The `this` Keyword   24 Events     (browser) 34 BOM & Timers
- *   12 Arrays               25 Fetch & APIs         35 Debugging & Console
- *   13 Array Methods                                36 WeakMap & Memory
+ * The 52 lessons climb through five levels (run them in order):
+ *   Level 1 · Foundation       01–08   variables → loops
+ *   Level 2 · Core Concepts    09–16   functions, arrays, objects, sets/maps
+ *   Level 3 · Intermediate     17–25   OOP, async, DOM, events, fetch
+ *   Level 4 · Advanced         26–37   regex, generators, FP, modern JS (to 2026)
+ *   Level 5 · Expert           38–52   testing, security, data structures,
+ *                                      algorithms, i18n, and more
  *
- *   MODERN JS (Part 10)
- *   37 Modern JS (ES2021–ES2026): groupBy, toSorted, iterator helpers, Set ops…
+ * Browser-only lessons (open via playground.html, not Node): 23, 24, 46.
+ * See README.md or curriculum.html for the full clickable path.
  * ========================================================================== */
 
 console.log('👋 Open curriculum.html, or start with: node lessons/01-variables.js');

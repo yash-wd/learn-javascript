@@ -62,9 +62,9 @@ try {
   level1();
 } catch (err) {
   console.log('message:', err.message); // => something failed deep down
-  // err.stack shows the call path TOP-to-bottom (where it threw → who called it):
+  // err.stack lists the call path innermost-first: where it threw, then its callers.
   console.log('first stack line:', err.stack.split('\n')[1].trim());
-  // Read stacks from the TOP: that's where the error actually happened.
+  // Read stacks from the TOP: the first line is where the error actually happened.
 }
 
 

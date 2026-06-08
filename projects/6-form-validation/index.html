@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Validation</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>📝 Sign Up</h1>
+      <p class="intro">A signup form that checks each field as you type. Fix every field to unlock the button.</p>
+
+      <form id="signup-form" novalidate>
+        <div class="field">
+          <label for="name">Full name</label>
+          <input id="name" name="name" type="text" autocomplete="name" />
+          <span id="name-error" class="error" aria-live="polite"></span>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" />
+          <span id="email-error" class="error" aria-live="polite"></span>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="new-password" />
+          <span id="password-error" class="error" aria-live="polite"></span>
+        </div>
+
+        <div class="field">
+          <label for="confirm">Confirm password</label>
+          <input id="confirm" name="confirm" type="password" autocomplete="new-password" />
+          <span id="confirm-error" class="error" aria-live="polite"></span>
+        </div>
+
+        <div class="field">
+          <label for="age">Age</label>
+          <input id="age" name="age" type="number" min="13" max="120" />
+          <span id="age-error" class="error" aria-live="polite"></span>
+        </div>
+
+        <button id="submit" type="submit" disabled>Create account</button>
+      </form>
+
+      <p id="success" class="success hidden" role="status">✅ Account created! (demo — nothing was sent anywhere)</p>
+    </main>
+
+    <!-- Starter. Switch to solution.js to see the finished app. -->
+    <script src="app.js"></script>
+  </body>
+</html>

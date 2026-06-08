@@ -69,7 +69,7 @@ const long = new Intl.DateTimeFormat('en-US', {
 console.log(long.format(date)); // => Thursday, June 4, 2026
 
 const withTime = new Intl.DateTimeFormat('en-US', {
-  hour: '2-digit', minute: '2-digit',
+  hour: '2-digit', minute: '2-digit', hour12: true, // set hour12 so AM/PM isn't locale-dependent
 });
 console.log(withTime.format(date)); // => 03:05 PM
 

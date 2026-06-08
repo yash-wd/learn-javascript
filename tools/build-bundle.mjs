@@ -44,7 +44,7 @@ md += `> Complete course bundle · ${lessons.length} lessons · generated ${toda
 md += `> Every lesson's full, runnable source in one document. Source of truth: the\n`;
 md += `> individual files in \`lessons/\` — regenerate this bundle after edits.\n\n`;
 md += `## Roadmap\n\n`;
-md += rootReadme.split('## Roadmap')[1].split('## How to study')[0].trim() + '\n\n';
+md += rootReadme.split('## Roadmap')[1].split('## 🛠️ Projects')[0].trim() + '\n\n';
 md += `---\n\n# Lessons\n\n`;
 for (const l of lessons) {
   md += `## ${l.title}\n\n\`\`\`js\n${l.src.trimEnd()}\n\`\`\`\n\n---\n\n`;

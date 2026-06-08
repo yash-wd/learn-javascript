@@ -19,7 +19,7 @@ console.log(0xff);   // => 255      (hexadecimal)
 
 // ── 2. Formatting & rounding ─────────────────────────────────────────────────
 const price = 19.99876;
-console.log(price.toFixed(2));   // => "19.99"  (string, 2 decimal places)
+console.log(price.toFixed(2));   // => "20.00"  (string — toFixed ROUNDS: ...876 rounds up)
 console.log(Math.round(2.5));    // => 3   (nearest integer)
 console.log(Math.floor(2.9));    // => 2   (round DOWN)
 console.log(Math.ceil(2.1));     // => 3   (round UP)

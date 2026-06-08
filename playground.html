@@ -18,12 +18,42 @@
       Open DevTools (F12) → Console to see their output here.
     </p>
 
-    <!--
-      Most lessons are meant for Node:  node lessons/01-variables.js
-      To run a BROWSER lesson (23 DOM, 24 Events, 46 Advanced Browser APIs),
-      swap the src below, e.g.:
-        <script src="lessons/23-dom.js"></script>
-    -->
+    <div style="margin: 18px 0; padding: 16px; border: 1px solid #334155; border-radius: 10px; max-width: 460px">
+      <label for="lesson-picker"><strong>Run a browser lesson:</strong></label>
+      <select id="lesson-picker" style="margin-left: 8px; padding: 6px 10px; font: inherit">
+        <option value="">— choose a lesson —</option>
+        <option value="lessons/23-dom.js">23 · DOM</option>
+        <option value="lessons/24-events.js">24 · Events</option>
+        <option value="lessons/46-browser-apis.js">46 · Advanced Browser APIs</option>
+      </select>
+      <p style="margin-top: 10px">
+        <small>Pick one, then open DevTools (<strong>F12</strong>) → Console to see its
+        output. The page reloads to run a fresh copy.</small>
+      </p>
+    </div>
+
+    <!-- Loads assets/script.js (a pointer back to the curriculum) plus, if you've
+         picked one above, the selected browser lesson. -->
     <script src="assets/script.js"></script>
+    <script>
+      (function () {
+        var pick = document.getElementById('lesson-picker');
+        var KEY = 'jslearn-playground-lesson', saved = null;
+        try { saved = localStorage.getItem(KEY); } catch (e) {}
+        if (saved) {
+          pick.value = saved;
+          var s = document.createElement('script');
+          s.src = saved;
+          document.body.appendChild(s); // run the chosen lesson
+        }
+        pick.addEventListener('change', function () {
+          try {
+            if (pick.value) localStorage.setItem(KEY, pick.value);
+            else localStorage.removeItem(KEY);
+          } catch (e) {}
+          location.reload(); // re-run cleanly with the new choice
+        });
+      })();
+    </script>
   </body>
 </html>

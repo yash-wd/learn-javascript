@@ -39,7 +39,8 @@ for a in "$@"; do
     -w|--word) WORD=1 ;;
     -v|--verbose|--all) VERBOSE=1 ;;
     -h|--help)
-      grep '^#' "$0" | grep -v '^#!' | sed 's/^# \{0,1\}//'
+      # print only the leading doc block (stop at the first non-comment line)
+      awk 'NR==1 && /^#!/ {next} /^#/ {sub(/^# ?/,""); print; next} {exit}' "$0"
       exit 0 ;;
     *) [ -z "$KEYWORD" ] && KEYWORD="$a" ;;
   esac
@@ -55,8 +56,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LESSONS_DIR="$SCRIPT_DIR/lessons"
 [ -d "$LESSONS_DIR" ] || { echo "No lessons dir at: $LESSONS_DIR"; exit 1; }
 
-# grep flags: case-insensitive, plus whole-word when --word is set.
-if [ "$WORD" = "1" ]; then GFLAGS="-iw"; MODE="whole-word"; else GFLAGS="-i"; MODE="substring"; fi
+# grep flags: case-insensitive + fixed-string (so a keyword like "." or "[" is
+# matched literally, never as a regex), plus whole-word when --word is set.
+if [ "$WORD" = "1" ]; then GFLAGS="-iwF"; MODE="whole-word"; else GFLAGS="-iF"; MODE="substring"; fi
 
 # --- zone extractors (each prints one section of a lesson file) ---
 zone_title()    { awk '/·/{print; exit}' "$1"; }                                   # the "NN · TOPIC" line

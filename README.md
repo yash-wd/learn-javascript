@@ -9,7 +9,7 @@
 # ⚡ Learn JavaScript
 
 **A complete step-by-step course — from zero to expert.**
-<br>52 short lessons · 5 real projects · 100% free · no sign-up
+<br>52 short lessons · 6 real projects · 100% free · no sign-up
 
 </div>
 
@@ -18,7 +18,7 @@
 ---
 
 A beginner-friendly course that starts from **zero** and goes all the way to
-**expert** and **interview** level. **52 short lessons** plus **5 real projects**.
+**expert** and **interview** level. **52 short lessons** plus **6 real projects**.
 Every lesson is a single file you **read**, then **run**, then move on. That's the
 whole method.
 
@@ -142,7 +142,7 @@ mentions it in passing.
 ├── lessons/            → ⭐ the 52 lessons — this is the course
 │   ├── modules-demo/   → small runnable example for lesson 22
 │   └── solutions/      → one answer file per lesson to fill in (48–50 worked)
-├── projects/           → ⭐ 5 projects to build (starter + solution + README)
+├── projects/           → ⭐ 6 projects to build (starter + solution + README)
 │
 ├── assets/             → styles/script for the web pages   (ignore)
 ├── bundle/             → offline PDF + Markdown of the whole course  (ignore)
@@ -262,7 +262,7 @@ These add no new lessons — they point you at the ones that matter most for a g
 ## 🛠️ Projects — build to learn
 
 Once you've worked through the lessons, **apply** them. The [projects/](projects/)
-folder has five guided builds, each with a starter (with `// TODO:`s), a complete
+folder has six guided builds, each with a starter (with `// TODO:`s), a complete
 solution, and a README. Open the project's `index.html` in your browser.
 
 | # | Project | Builds on | What you practice |
@@ -271,7 +271,8 @@ solution, and a README. Open the project's `index.html` in your browser.
 | 2 | [Weather App](projects/2-weather-app/) | 20, 21, 25, 32 | real API calls, async UI, error states |
 | 3 | [Quiz App](projects/3-quiz-app/) | 09, 13, 23, 24 | managing app state |
 | 4 | [Route Finder](projects/4-route-finder/) | 48, 49, 16, 23, 24 | a graph + BFS shortest path in a real UI |
-| 5 | [Virtual List](projects/5-virtual-list/) | 41, 13, 23, 24, 29 | virtualization: scroll 50k rows with ~13 in the DOM |
+| 5 | [Virtual List](projects/5-virtual-list/) | 41, 13, 23, 24, 29 | virtualization: scroll 50k rows with ~17 in the DOM |
+| 6 | [Form Validation](projects/6-form-validation/) | 23, 24, 26, 21, 07 | live per-field validation, accessible errors, submit gating |
 
 > Reading shows you *what*; building shows you *how*. Don't skip these.
 

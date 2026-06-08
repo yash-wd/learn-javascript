@@ -14,7 +14,8 @@ tasks so they survive a page refresh.
 ## Lessons you'll apply
 - **23 DOM** — selecting elements, creating `<li>`s
 - **24 Events** — `addEventListener`, form `submit`, event **delegation**
-- **13 Array methods** — `map`, `filter`, `push`, `findIndex`
+- **13 Array methods** — `filter`, `find`, `push`
+- **14 Objects** — each todo is an object `{ id, text, done }`
 - **33 Browser Storage** — `localStorage` + `JSON.stringify/parse`
 
 ## How to run

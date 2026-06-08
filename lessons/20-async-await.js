@@ -27,7 +27,7 @@ async function loadData() {
 }
 
 // Compare to the promise version — same thing, fewer .then() callbacks:
-//   loadData() === getData().then(result => ...)
+//   const x = await loadData()   ===   loadData().then(x => ...)
 
 
 // ── 2. Error handling with try/catch (clean!) ────────────────────────────────

@@ -4,7 +4,7 @@
  * Fill in the TODOs below. Refer to the README for step-by-step guidance.
  * Stuck? The complete version is in solution.js — but try first!
  *
- * Lessons used: 23 DOM · 24 Events · 13 Array methods · 33 Storage
+ * Lessons used: 23 DOM · 24 Events · 13 Array methods · 14 Objects · 33 Storage
  * ========================================================================== */
 
 // ── Grab the elements we'll work with (lesson 23) ────────────────────────────

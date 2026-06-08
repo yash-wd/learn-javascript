@@ -112,24 +112,6 @@ These add no new lessons — they point you at the ones that matter most for a g
 
 ---
 
-## 🛠️ Projects — build to learn
-
-Once you've worked through the lessons, **apply** them. The [projects/](projects/)
-folder has five guided builds, each with a starter (with `// TODO:`s), a complete
-solution, and a README. Open the project's `index.html` in your browser.
-
-| # | Project | Builds on | What you practice |
-| --- | --- | --- | --- |
-| 1 | [To-Do App](projects/1-todo-app/) | 13, 14, 23, 24, 33 | DOM + events + localStorage persistence |
-| 2 | [Weather App](projects/2-weather-app/) | 20, 21, 25, 32 | real API calls, async UI, error states |
-| 3 | [Quiz App](projects/3-quiz-app/) | 09, 13, 23, 24 | managing app state |
-| 4 | [Route Finder](projects/4-route-finder/) | 48, 49, 16, 23, 24 | a graph + BFS shortest path in a real UI |
-| 5 | [Virtual List](projects/5-virtual-list/) | 41, 13, 23, 24, 29 | virtualization: scroll 50k rows with ~13 in the DOM |
-
-> Reading shows you *what*; building shows you *how*. Don't skip these.
-
----
-
 ---
 
 # Lessons
@@ -607,7 +589,7 @@ console.log(0xff);   // => 255      (hexadecimal)
 
 // ── 2. Formatting & rounding ─────────────────────────────────────────────────
 const price = 19.99876;
-console.log(price.toFixed(2));   // => "19.99"  (string, 2 decimal places)
+console.log(price.toFixed(2));   // => "20.00"  (string — toFixed ROUNDS: ...876 rounds up)
 console.log(Math.round(2.5));    // => 3   (nearest integer)
 console.log(Math.floor(2.9));    // => 2   (round DOWN)
 console.log(Math.ceil(2.1));     // => 3   (round UP)
@@ -1274,6 +1256,9 @@ const copy1 = [...source];        // spread copy
 const copy2 = source.slice();     // slice copy
 copy1.push(4);
 console.log(source, copy1);       // => [1,2,3] [1,2,3,4]  (source untouched)
+
+// `fill` overwrites a range with one value (mutates the array):
+console.log([1, 2, 3, 4].fill(0, 1, 3)); // => [1, 0, 0, 4]  (indices 1–2 → 0)
 
 
 /* MUTATING vs NON-MUTATING ---------------------------------------------------
@@ -2188,7 +2173,7 @@ async function loadData() {
 }
 
 // Compare to the promise version — same thing, fewer .then() callbacks:
-//   loadData() === getData().then(result => ...)
+//   const x = await loadData()   ===   loadData().then(x => ...)
 
 
 // ── 2. Error handling with try/catch (clean!) ────────────────────────────────
@@ -3403,15 +3388,13 @@ function debounce(fn, wait) {
 // "No matter how often this fires (scroll/resize), run at most once per 200ms."
 function throttle(fn, interval) {
   let last = 0;
-  let lastArgs = null;
   return function (...args) {
     const now = Date.now();
     if (now - last >= interval) {
       last = now;
       fn.apply(this, args);
-    } else {
-      lastArgs = args; // remember the most recent call (optional trailing run)
     }
+    // (a production throttle often also schedules a trailing call; omitted here)
   };
 }
 // debounce → "settle then act" (search box). throttle → "steady rate" (scroll).
@@ -3598,9 +3581,9 @@ const orders = [
 ];
 const grandTotal = orders
   .map((o) => o.price * o.qty)   // line totals: [15, 16, 12]
-  .filter((t) => t >= 12)        // keep big lines: [15, 16, 12]
+  .filter((t) => t >= 13)        // keep big lines: [15, 16]  (drops the 12)
   .reduce((sum, t) => sum + t, 0);
-console.log(grandTotal); // => 43
+console.log(grandTotal); // => 31
 
 
 /* WHY FP? --------------------------------------------------------------------
@@ -3829,7 +3812,7 @@ const long = new Intl.DateTimeFormat('en-US', {
 console.log(long.format(date)); // => Thursday, June 4, 2026
 
 const withTime = new Intl.DateTimeFormat('en-US', {
-  hour: '2-digit', minute: '2-digit',
+  hour: '2-digit', minute: '2-digit', hour12: true, // set hour12 so AM/PM isn't locale-dependent
 });
 console.log(withTime.format(date)); // => 03:05 PM
 
@@ -4168,9 +4151,9 @@ try {
   level1();
 } catch (err) {
   console.log('message:', err.message); // => something failed deep down
-  // err.stack shows the call path TOP-to-bottom (where it threw → who called it):
+  // err.stack lists the call path innermost-first: where it threw, then its callers.
   console.log('first stack line:', err.stack.split('\n')[1].trim());
-  // Read stacks from the TOP: that's where the error actually happened.
+  // Read stacks from the TOP: the first line is where the error actually happened.
 }
 
 
@@ -4835,7 +4818,7 @@ console.log(validateSignup({ email: 'a@b.co', age: 30 })); // => { ok: true, err
 //   encrypted — anyone can read it. Don't put secrets in it; verify the signature.
 const fakeJwt = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYW5hIn0.sig';
 const [, payload] = fakeJwt.split('.');
-console.log(JSON.parse(Buffer.from(payload, 'base64').toString())); // => { user: 'ana' }
+console.log(JSON.parse(Buffer.from(payload, 'base64url').toString())); // => { user: 'ana' }  (JWTs use base64url, not plain base64)
 // • Store session tokens in cookies set:  HttpOnly; Secure; SameSite=Strict
 //   (HttpOnly = JS can't read it → safe from XSS theft; Secure = HTTPS only.)
 
@@ -6476,7 +6459,7 @@ console.log('Atomics value:', Atomics.load(sharedView, 0)); // => 105
 // ── 1. BigInt — arbitrary-precision integers ─────────────────────────────────
 // Regular numbers are 64-bit floats. They can only represent integers EXACTLY
 // up to Number.MAX_SAFE_INTEGER. Past that, math silently goes wrong:
-console.log(Number.MAX_SAFE_INTEGER);       // => 9007199254775807 (2^53 - 1)
+console.log(Number.MAX_SAFE_INTEGER);       // => 9007199254740991 (2^53 - 1)
 console.log(9007199254740991 + 1);          // => 9007199254740992 ✅
 console.log(9007199254740991 + 2);          // => 9007199254740992 ❌ (should be ...93!)
 
@@ -6715,7 +6698,7 @@ console.log('grapheme count:', graphemes.length); // => 3  ('.length' would say 
 
 # JavaScript Projects — Build to Learn
 
-Reading teaches you *what*. Building teaches you *how*. These five projects make
+Reading teaches you *what*. Building teaches you *how*. These six projects make
 you apply the lessons in real, working apps that run in the browser.
 
 ## How each project works
@@ -6743,10 +6726,11 @@ Every project folder has:
 | # | Project | Lessons it uses | New skill |
 | --- | --- | --- | --- |
 | 1 | [To-Do App](1-todo-app/) | 13–14 arrays/objects, 23 DOM, 24 events, 33 storage | DOM + events + persistence |
-| 2 | [Weather App](2-weather-app/) | 19–21 async, 25 fetch, 32 dates | real API calls + async UI |
+| 2 | [Weather App](2-weather-app/) | 20–21 async, 25 fetch, 32 dates | real API calls + async UI |
 | 3 | [Quiz App](3-quiz-app/) | 09 functions, 13 array methods, 23–24 DOM/events | managing app "state" |
 | 4 | [Route Finder](4-route-finder/) | 48 graph, 49 BFS, 16 Map/Set, 23–24 DOM/events | data structures + algorithms in a real UI |
-| 5 | [Virtual List](5-virtual-list/) | 41 performance, 13 array methods, 23–24 DOM/events | virtualization — render only what's visible |
+| 5 | [Virtual List](5-virtual-list/) | 41 performance, 13 array methods, 23–24 DOM/events, 29 throttle | virtualization — render only what's visible |
+| 6 | [Form Validation](6-form-validation/) | 23 DOM, 24 events, 26 regex, 21 errors, 07 conditionals | validate input before you trust it |
 
 ## The right way to use these
 
@@ -6756,5 +6740,5 @@ Every project folder has:
 4. **Then extend it** — every README has "Make it your own" ideas. That's where
    real learning happens.
 
-Build all five and you'll have gone from "I read about JavaScript" to
+Build all six and you'll have gone from "I read about JavaScript" to
 "I build things with JavaScript." 🚀
