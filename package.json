@@ -7,7 +7,8 @@
   "_comment": "No \"type\" field on purpose: .js stays CommonJS by default (lesson 22 relies on this), while Node still auto-detects the few lessons that use ESM import syntax (37, 38, 45). Setting type to commonjs OR module would break one group or the other.",
   "scripts": {
     "lesson": "node",
-    "test": "node --test",
+    "test": "node --test lessons/38-testing.js",
+    "verify": "bash scripts/verify.sh",
     "bundle": "node tools/build-bundle.mjs"
   },
   "keywords": ["javascript", "course", "tutorial", "learning", "beginner"],

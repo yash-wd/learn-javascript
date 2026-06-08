@@ -11,6 +11,12 @@
 **A complete step-by-step course — from zero to expert.**
 <br>52 short lessons · 6 real projects · 100% free · no sign-up
 
+<br>
+
+[![CI](https://github.com/yash-wd/learn-javascript/actions/workflows/ci.yml/badge.svg)](https://github.com/yash-wd/learn-javascript/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A520-339933?logo=node.js&logoColor=white)](https://nodejs.org)
+
 </div>
 
 <br>
