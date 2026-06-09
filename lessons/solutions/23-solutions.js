@@ -3,20 +3,32 @@
  * =============================================================================
  * Run:  node lessons/solutions/23-solutions.js
  *
- * Your workspace for the PRACTICE block in lessons/23-dom.js.
- * Write each answer YOURSELF, then run this file to check. There's always more
- * than one correct approach — aim for clear, not clever.
+ * Worked answers to the PRACTICE block in lessons/23-dom.js.
+ * Try each problem YOURSELF first — then compare.
  *
- * ⚠️  BROWSER ONLY — these run in a browser console / index.html, not Node.
+ * ⚠️  BROWSER ONLY — open index.html and paste these into the console, or wire
+ *     this file in via a <script> tag. In Node there's no `document`, so the
+ *     guard below just prints a reminder.
  * ========================================================================== */
 
-// ── 1. Add a <ul id="list"></ul> to index.html, then append 3 <li>s with JS. ──
-// TODO: write your solution here
+if (typeof document === 'undefined') {
+  console.log('⚠️  This is a BROWSER lesson. Open it via index.html — see lesson 23.');
+} else {
+  // ── 1. Add a <ul id="list"></ul> to index.html, then append 3 <li>s with JS. ──
+  const list = document.querySelector('#list');
+  ['Apples', 'Bread', 'Coffee'].forEach((text) => {
+    const li = document.createElement('li');
+    li.textContent = text;     // safe: sets text, not HTML
+    list.appendChild(li);      // attach it to the page
+  });
 
+  // ── 2. Select the <h1> and change its color and text. ──────────────────────
+  const title = document.querySelector('h1');
+  title.textContent = 'Changed by JS!';
+  title.style.color = 'rebeccapurple'; // inline style wins over the stylesheet
 
-// ── 2. Select the <h1> and change its color and text. ────────────────────────
-// TODO: write your solution here
-
-
-// ── 3. Toggle a "dark" class on the <body> from the console. ─────────────────
-// TODO: write your solution here
+  // ── 3. Toggle a "dark" class on the <body> from the console. ───────────────
+  // .toggle adds the class if absent, removes it if present — returns the new state.
+  const isDark = document.body.classList.toggle('dark');
+  console.log('body is now dark?', isDark);
+}

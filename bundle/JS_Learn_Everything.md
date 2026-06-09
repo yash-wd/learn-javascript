@@ -1,6 +1,6 @@
 # JavaScript — Learn Everything
 
-> Complete course bundle · 52 lessons · 6 projects · generated 2026-06-08
+> Complete course bundle · 52 lessons · 6 projects · generated 2026-06-09
 > Every lesson's full, runnable source in one document. Source of truth: the
 > individual files in `lessons/` and `projects/` — regenerate after edits.
 
@@ -97,11 +97,11 @@ includes both the engineering around the language and the computer-science core.
 | 51 | [BigInt & Language Corners](lessons/51-bigint-and-language-corners.js) | `BigInt`, `Object.fromEntries`, `flatMap`, labeled statements, `eval`/`Function` (and why to avoid them) |
 | 52 | [Internationalization](lessons/52-internationalization.js) | the full `Intl` API: `Collator`, `PluralRules`, `RelativeTimeFormat`, `ListFormat`, `Segmenter` |
 
-> 💡 **Practice your own answers.** [lessons/solutions/](lessons/solutions/) has a
-> matching `NN-solutions.js` file for every lesson — each pre-filled with that
-> lesson's PRACTICE questions and a `TODO` for you to write your solution, then
-> run it (e.g. `node lessons/solutions/09-solutions.js`). Lessons 48–50 ship with
-> worked, runnable answers as a reference — try them yourself first, then compare.
+> 💡 **Practice, then compare.** [lessons/solutions/](lessons/solutions/) has a
+> matching `NN-solutions.js` file for every lesson — each with clear, runnable
+> **worked answers** to that lesson's PRACTICE questions. Try each problem
+> YOURSELF first, then run the solution to check yourself
+> (e.g. `node lessons/solutions/09-solutions.js`).
 
 ### Optional focus tracks (for job seekers)
 
@@ -7171,7 +7171,7 @@ const QUESTIONS = [
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * Lessons used: 09 Functions · 12–14 arrays/objects · 13 array methods · 23 DOM · 24 Events
+ * Lessons used: 09 Functions · 13 array methods · 23 DOM · 24 Events
  * ========================================================================== */
 
 const QUESTIONS = [

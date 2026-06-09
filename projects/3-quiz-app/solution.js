@@ -3,7 +3,7 @@
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * Lessons used: 09 Functions · 12–14 arrays/objects · 13 array methods · 23 DOM · 24 Events
+ * Lessons used: 09 Functions · 13 array methods · 23 DOM · 24 Events
  * ========================================================================== */
 
 const QUESTIONS = [

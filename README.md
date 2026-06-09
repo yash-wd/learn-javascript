@@ -250,11 +250,11 @@ includes both the engineering around the language and the computer-science core.
 | 51 | [BigInt & Language Corners](lessons/51-bigint-and-language-corners.js) | `BigInt`, `Object.fromEntries`, `flatMap`, labeled statements, `eval`/`Function` (and why to avoid them) |
 | 52 | [Internationalization](lessons/52-internationalization.js) | the full `Intl` API: `Collator`, `PluralRules`, `RelativeTimeFormat`, `ListFormat`, `Segmenter` |
 
-> 💡 **Practice your own answers.** [lessons/solutions/](lessons/solutions/) has a
-> matching `NN-solutions.js` file for every lesson — each pre-filled with that
-> lesson's PRACTICE questions and a `TODO` for you to write your solution, then
-> run it (e.g. `node lessons/solutions/09-solutions.js`). Lessons 48–50 ship with
-> worked, runnable answers as a reference — try them yourself first, then compare.
+> 💡 **Practice, then compare.** [lessons/solutions/](lessons/solutions/) has a
+> matching `NN-solutions.js` file for every lesson — each with clear, runnable
+> **worked answers** to that lesson's PRACTICE questions. Try each problem
+> YOURSELF first, then run the solution to check yourself
+> (e.g. `node lessons/solutions/09-solutions.js`).
 
 ### Optional focus tracks (for job seekers)
 

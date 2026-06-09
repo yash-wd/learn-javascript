@@ -3,18 +3,21 @@
  * =============================================================================
  * Run:  node lessons/solutions/03-solutions.js
  *
- * Your workspace for the PRACTICE block in lessons/03-operators.js.
- * Write each answer YOURSELF, then run this file to check. There's always more
- * than one correct approach — aim for clear, not clever.
+ * Worked answers to the PRACTICE block in lessons/03-operators.js.
+ * Try each problem YOURSELF first — then compare.
  * ========================================================================== */
 
-// ── 1. Use % to check whether 17 is even or odd. ─────────────────────────────
-// TODO: write your solution here
+// ── 1. Even or odd with the remainder operator % ─────────────────────────────
+console.log('1.', 17 % 2 === 0 ? 'even' : 'odd'); // => 1. odd
 
+// ── 2. Predict, then verify the equalities ───────────────────────────────────
+// 0 == ''  → true  (both coerce to 0)
+// 0 === '' → false (different types, no coercion)
+// null == undefined → true (special rule, only equal to each other)
+console.log('2.', 0 == '', 0 === '', null == undefined); // => 2. true false true
 
-// ── 2. Predict then verify: 0 == '', 0 === '', null == undefined. ────────────
-// TODO: write your solution here
-
-
-// ── 3. Give a setting a default with ?? where 0 should be a valid value. ─────
-// TODO: write your solution here
+// ── 3. Default with ?? where 0 must stay valid ───────────────────────────────
+// `||` would wrongly replace 0; `??` only defaults on null/undefined.
+const volume = 0;
+const setting = volume ?? 5;
+console.log('3.', setting); // => 3. 0

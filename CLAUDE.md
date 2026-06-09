@@ -45,9 +45,10 @@ appear only in the `.md`.
 
 ### ➕ Add a new lesson
 - [ ] `lessons/NN-name.js` (follow the standard shape above).
-- [ ] `lessons/solutions/NN-solutions.js` — a scaffold mirroring its PRACTICE block
-      (header + each question as a `// ── N. ──` divider + `// TODO:`). Match the
-      style of an existing solutions file.
+- [ ] `lessons/solutions/NN-solutions.js` — clear, runnable **worked answers** to its
+      PRACTICE block (header + each question as a `// ── N. ──` divider + a correct
+      solution with a `// =>` output comment). Match the style of an existing
+      solutions file, and confirm it runs clean: `node lessons/solutions/NN-solutions.js`.
 - [ ] **README.md**: add a row to the right Level table; bump every lesson-count
       ("52") — intro line, `<br>` line, repo-layout note, hero/stat text.
 - [ ] **curriculum.html**: add a lesson card under the right Level; update the
@@ -64,8 +65,9 @@ appear only in the `.md`.
 - [ ] **Regenerate the bundle.**
 
 ### 📝 Change a lesson's PRACTICE block
-- [ ] Update the matching `lessons/solutions/NN-solutions.js` so its questions
-      still line up (48–50 have *worked* answers — keep those correct).
+- [ ] Update the matching `lessons/solutions/NN-solutions.js` so its worked answers
+      still line up with the questions, then re-run it to confirm the `// =>`
+      outputs are still correct: `node lessons/solutions/NN-solutions.js`.
 - [ ] `findtopic.sh` reads PRACTICE blocks live — no code change needed, but its
       example output in **README.md** may need refreshing if you changed wording.
 - [ ] **Regenerate the bundle.**
@@ -158,6 +160,9 @@ when you regenerate the bundle for a release — it's hardcoded on purpose
 ```bash
 # 1. every lesson still runs cleanly
 for f in lessons/[0-9]*.js; do node "$f" >/dev/null 2>&1 || echo "FAIL: $f"; done
+
+# 1b. every solution file still runs cleanly (they're worked answers, not stubs)
+for f in lessons/solutions/[0-9]*.js; do node "$f" >/dev/null 2>&1 || echo "FAIL: $f"; done
 
 # 2. bundle is in sync with sources (expect NO diff on the .md)
 node tools/build-bundle.mjs && git diff --quiet bundle/JS_Learn_Everything.md \
