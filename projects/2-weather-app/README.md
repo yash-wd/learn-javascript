@@ -18,11 +18,11 @@ It uses **Open-Meteo** — completely free, **no API key**, no sign-up. Two call
    → returns `current.temperature_2m`, `current.weather_code`, etc.
 
 ## Lessons you'll apply
-- **25 Fetch & APIs** — `fetch`, checking `response.ok`, parsing JSON
+- **26 Fetch & APIs** — `fetch`, checking `response.ok`, parsing JSON
 - **20 Async/Await** — `async` functions, `await`, sequential calls
-- **21 Error handling** — `try/catch`, showing a friendly message
-- **32 Dates & Time** — `Intl.DateTimeFormat` for the current date
-- **23 DOM** — updating the page with results
+- **22 Error handling** — `try/catch`, showing a friendly message
+- **33 Dates & Time** — `Intl.DateTimeFormat` for the current date
+- **24 DOM** — updating the page with results
 
 ## How to run
 Open `index.html` in your browser (you need an internet connection).

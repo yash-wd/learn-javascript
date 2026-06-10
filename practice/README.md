@@ -19,10 +19,10 @@ To grade **your own** file, set `PRACTICE=mine`:
 
 ```bash
 # check the reference solution (always passes)
-node --test practice/42-polyfills.test.mjs
+node --test practice/43-polyfills.test.mjs
 
-# check YOUR work in 10-closures.mjs
-PRACTICE=mine node --test practice/42-polyfills.test.mjs
+# check YOUR work in 43-polyfills.mjs
+PRACTICE=mine node --test practice/43-polyfills.test.mjs
 
 # run every practice test at once
 node --test practice/*.test.mjs
@@ -36,8 +36,8 @@ Red ❌ tells you exactly which case failed; green ✅ means move on.
 | 1 · Foundation | [`06-numbers`](06-numbers.mjs) | `clamp`, `isPrime`, `roundTo` |
 | 2 · Core | [`13-array-methods`](13-array-methods.mjs) | `sumOfEvens`, `groupBy`, `countWords` |
 | 3 · Intermediate | [`20-async`](20-async.mjs) | `delay`, `retry` |
-| 4 · Advanced | [`30-functional`](30-functional.mjs) | `compose`, `pipe`, `curry` |
-| 5 · Expert | [`42-polyfills`](42-polyfills.mjs) | `myMap`, `myFilter`, `myReduce`, `myBind` |
+| 4 · Advanced | [`31-functional`](31-functional.mjs) | `compose`, `pipe`, `curry` |
+| 5 · Expert | [`43-polyfills`](43-polyfills.mjs) | `myMap`, `myFilter`, `myReduce`, `myBind` |
 
 > This is a starter set spanning all five levels — the pattern is meant to be
 > copied. To add a set for any other lesson, drop in the same three files and the

@@ -13,7 +13,7 @@ one question at a time, tracking the score, and reacting to user choices.
 - **14 Objects / 12 Arrays** — questions modelled as an array of objects
 - **13 Array methods** — rendering options, checking answers
 - **09 Functions** — small functions that each do one job
-- **23 DOM / 24 Events** — rendering and handling clicks
+- **24 DOM / 25 Events** — rendering and handling clicks
 
 ## How to run
 Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see

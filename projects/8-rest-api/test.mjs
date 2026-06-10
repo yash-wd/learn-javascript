@@ -30,7 +30,9 @@ before(async () => {
 after(() => server.close());
 
 const json = (path, options) =>
-  fetch(base + path, { headers: { 'Content-Type': 'application/json' }, ...options });
+  // AbortSignal.timeout means an UNIMPLEMENTED handler (PRACTICE=mine, before you
+  // wire up res.end) fails the test cleanly instead of hanging the whole runner.
+  fetch(base + path, { headers: { 'Content-Type': 'application/json' }, signal: AbortSignal.timeout(5000), ...options });
 
 test('GET /tasks returns an array (with the seeded task)', async () => {
   const res = await json('/tasks');

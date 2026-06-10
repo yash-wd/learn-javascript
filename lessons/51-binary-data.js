@@ -126,9 +126,10 @@ console.log('decoded back:', decoder.decode(encoded)); // => Hi 👋
 
 
 // ── 8. SharedArrayBuffer + Atomics — memory shared between threads ────────────
-// A normal ArrayBuffer is copied (transferred) when sent to a Web Worker
-// (lesson 47) / Node worker_thread (lesson 46). A SharedArrayBuffer is the SAME
-// memory seen by BOTH threads at once — true shared state, no copying.
+// A normal ArrayBuffer is copied (structured clone) when sent to a Web Worker
+// (lesson 47) / Node worker_thread (lesson 46) — unless you explicitly transfer
+// it (move it without copying, which detaches the original). A SharedArrayBuffer
+// is the SAME memory seen by BOTH threads at once — true shared state, no copying.
 // (Browsers require special COOP/COEP headers to enable it, for security.)
 const shared = new SharedArrayBuffer(8); // 8 bytes, shareable across threads
 const sharedView = new Int32Array(shared);

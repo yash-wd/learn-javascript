@@ -49,6 +49,14 @@ else
   echo "  ✗ bundle .md is stale — run: node tools/build-bundle.mjs (then regen the PDF)"; status=1
 fi
 
+echo "▶ Checking generated browser assets are in sync…"
+node tools/build-search-index.mjs >/dev/null 2>&1
+if git diff --quiet -- assets/search-index.js assets/lesson-sources.js assets/lessons-manifest.js; then
+  echo "  ✓ search-index / lesson-sources / manifest match sources"
+else
+  echo "  ✗ generated assets are stale — run: npm run search-index"; status=1
+fi
+
 echo "▶ Checking counts line up…"
 L=$(ls lessons/[0-9]*.js | wc -l | tr -d ' ')
 S=$(ls lessons/solutions/*.js | wc -l | tr -d ' ')

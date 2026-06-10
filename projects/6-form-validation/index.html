@@ -14,31 +14,31 @@
       <form id="signup-form" novalidate>
         <div class="field">
           <label for="name">Full name</label>
-          <input id="name" name="name" type="text" autocomplete="name" />
+          <input id="name" name="name" type="text" autocomplete="name" aria-describedby="name-error" />
           <span id="name-error" class="error" aria-live="polite"></span>
         </div>
 
         <div class="field">
           <label for="email">Email</label>
-          <input id="email" name="email" type="email" autocomplete="email" />
+          <input id="email" name="email" type="email" autocomplete="email" aria-describedby="email-error" />
           <span id="email-error" class="error" aria-live="polite"></span>
         </div>
 
         <div class="field">
           <label for="password">Password</label>
-          <input id="password" name="password" type="password" autocomplete="new-password" />
+          <input id="password" name="password" type="password" autocomplete="new-password" aria-describedby="password-error" />
           <span id="password-error" class="error" aria-live="polite"></span>
         </div>
 
         <div class="field">
           <label for="confirm">Confirm password</label>
-          <input id="confirm" name="confirm" type="password" autocomplete="new-password" />
+          <input id="confirm" name="confirm" type="password" autocomplete="new-password" aria-describedby="confirm-error" />
           <span id="confirm-error" class="error" aria-live="polite"></span>
         </div>
 
         <div class="field">
           <label for="age">Age</label>
-          <input id="age" name="age" type="number" min="13" max="120" />
+          <input id="age" name="age" type="number" min="13" max="120" aria-describedby="age-error" />
           <span id="age-error" class="error" aria-live="polite"></span>
         </div>
 

@@ -49,14 +49,15 @@ node lessons/02-data-types.js    # the next one… and so on, in order
 **The golden rule:** read it → run it → change a value and run again → only move
 on once it makes sense.
 
-🟡 **You only ever use two folders:** `lessons/` (what you learn from) and
-`projects/` (what you build later). You can safely **ignore** `assets/`,
-`bundle/`, and `tools/` — those are just packaging for the website and the
-offline PDF.
+🟡 **You mainly use two folders:** `lessons/` (what you learn from) and
+`projects/` (what you build later) — plus the optional `practice/` folder for
+auto-graded drills. You can safely **ignore** `assets/`, `bundle/`, and `tools/`
+— those are just packaging for the website and the offline PDF.
 
 💻 **Browser lessons:** a few lessons (24, 25, 47) change web pages, so they run
-in a browser instead of the terminal. Open `playground.html`, point its
-`<script src>` at that lesson, then open the page and press **F12** → Console.
+in a browser instead of the terminal. Open `playground.html`, pick the lesson
+from its dropdown, and it runs on a live demo stage with the console mirrored
+right below it (press **F12** for the full DevTools console).
 
 📖 **Read offline / on paper:** every lesson is bundled into
 [bundle/JS_Learn_Everything.pdf](bundle/JS_Learn_Everything.pdf) and
@@ -265,8 +266,8 @@ includes both the engineering around the language and the computer-science core.
 
 These add no new lessons — they point you at the ones that matter most for a goal:
 
-- **Interview Prep:** 10 Closures · 11 `this` · 18 Prototypes · 31 Tricky Concepts · 42 Polyfills · 48 Data Structures · 49 Algorithms
-- **Best Practices:** 21 Error Handling · 38 Testing · 39 Security · 40 Design Patterns · 41 Performance · 44 Tooling
+- **Interview Prep:** 10 Closures · 11 `this` · 18 Prototypes · 32 Tricky Concepts · 43 Polyfills · 49 Data Structures · 50 Algorithms
+- **Best Practices:** 22 Error Handling · 39 Testing · 40 Security · 41 Design Patterns · 42 Performance · 45 Tooling
 
 ---
 
@@ -292,7 +293,7 @@ back-end REST API you run with Node.
 >
 > 🧪 **Want graded practice?** [`practice/`](practice/) has fill-in exercises (one
 > per level) with tests that turn red→green as you solve them, plus a capstone.
-> Run `PRACTICE=mine node --test practice/42-polyfills.test.mjs`.
+> Run `PRACTICE=mine node --test practice/43-polyfills.test.mjs`.
 
 ---
 

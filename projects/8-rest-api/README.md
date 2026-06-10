@@ -15,11 +15,11 @@ exactly what Express and friends do for you under the hood.
   server never crashes on a bad request or a bug in a handler
 
 ## Lessons you'll apply
-- **45 Node.js** — the `http` module, `req`/`res` streams, `process.env`
-- **25 Fetch & HTTP** — the same methods/status codes/REST, now from the server side
-- **21 Error handling** — custom error class + one place that catches everything
-- **39 Security** — validate all input, cap the body size, don't leak error details
-- **38 Testing** — black-box tests that hit the real server with `fetch`
+- **46 Node.js** — the `http` module, `req`/`res` streams, `process.env`
+- **26 Fetch & HTTP** — the same methods/status codes/REST, now from the server side
+- **22 Error handling** — custom error class + one place that catches everything
+- **40 Security** — validate all input, cap the body size, don't leak error details
+- **39 Testing** — black-box tests that hit the real server with `fetch`
 
 ## How to run
 ```bash

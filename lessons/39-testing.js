@@ -126,7 +126,7 @@ describe('hooks (before/after)', () => {
  *   // npm i -D @playwright/test  &&  npx playwright install
  *   import { test, expect } from '@playwright/test';
  *   test('user can log in', async ({ page }) => {
- *     await page.goto('https://localhost:3000');
+ *     await page.goto('http://localhost:3000');
  *     await page.fill('#email', 'ana@example.com');
  *     await page.fill('#password', 'secret');
  *     await page.click('button[type=submit]');

@@ -68,7 +68,7 @@ function render() {
 
 // ── addTodo: create a todo, persist, redraw ──────────────────────────────────
 function addTodo(text) {
-  todos.push({ id: Date.now(), text, done: false });
+  todos.push({ id: crypto.randomUUID(), text, done: false });
   save();
   render();
 }
@@ -88,7 +88,7 @@ form.addEventListener('submit', (event) => {
 list.addEventListener('click', (event) => {
   const li = event.target.closest('li');
   if (!li) return;
-  const id = Number(li.dataset.id);
+  const id = li.dataset.id; // ids are unique strings (crypto.randomUUID)
 
   if (event.target.classList.contains('delete')) {
     // Delete: keep every todo EXCEPT this one (non-mutating filter)

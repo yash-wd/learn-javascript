@@ -120,10 +120,10 @@ console.log(String.raw`C:\new\test`); // => C:\new\test  (\n NOT a newline)
 
 /* 🎉 THAT'S THE WHOLE CORE LANGUAGE — basics, intermediate, advanced, and the
  *    browser. From here the course shifts gears:
- *      • Part 10  (37)     — modern JS (ES2021–ES2026)
- *      • Part 11  (38–47)  — professional & production engineering
- *      • Part 12  (48–50)  — computer-science core (data structures,
- *                            algorithms) and binary data
+ *      • Part 10  (38)     — modern JS (ES2021–ES2026)
+ *      • Part 11  (39–47)  — professional & production engineering
+ *      • Part 12  (48–56)  — computer-science core (data structures,
+ *                            algorithms, binary data) + specialist topics
  *    A great next step right now: build a small app (to-do, weather, quiz)
  *    using lessons 24–26 + 33. Building is what makes it all stick. */
 

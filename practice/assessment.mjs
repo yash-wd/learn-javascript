@@ -25,13 +25,13 @@ export async function mapSeries(items, asyncFn) {
   // TODO
 }
 
-// L4 · Advanced [10 closures, 30 FP]
+// L4 · Advanced [10 closures, 31 FP]
 // memoize(fn): cache results by the first argument so fn runs once per input.
 export function memoize(fn) {
   // TODO
 }
 
-// L5 · Expert [49 algorithms]
+// L5 · Expert [50 algorithms]
 // binarySearch(sorted, target): index of target in an ascending array, or -1.
 export function binarySearch(sorted, target) {
   // TODO

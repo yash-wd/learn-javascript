@@ -25,11 +25,11 @@ requests (`POST`/`PUT`/`DELETE`) and replies realistically:
 > flow without standing up a backend.
 
 ## Lessons you'll apply
-- **25 Fetch & APIs** — `fetch` with `POST`/`PUT`/`DELETE`, checking `response.ok`
+- **26 Fetch & APIs** — `fetch` with `POST`/`PUT`/`DELETE`, checking `response.ok`
 - **20 Async/Await** — `async` functions and `await` for each request
-- **21 Error handling** — `try/catch` to detect failure and trigger a rollback
+- **22 Error handling** — `try/catch` to detect failure and trigger a rollback
 - **14 Objects** — modelling each note as `{ id, serverId, text, pending }`
-- **23 DOM / 24 Events** — rendering the list and wiring add/edit/delete
+- **24 DOM / 25 Events** — rendering the list and wiring add/edit/delete
 
 ## How to run
 Open `index.html` in your browser (you need an internet connection).

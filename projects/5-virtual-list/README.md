@@ -18,10 +18,10 @@ stays *constant* no matter how long the list is. This is how every fast
 table/feed/chat app (and libraries like TanStack Virtual, react-window) work.
 
 ## Lessons you'll apply
-- **41 Performance** — the windowing technique, and reducing DOM work
+- **42 Performance** — the windowing technique, and reducing DOM work
 - **13 Array methods** — `Array.from` to generate the data
-- **23 DOM / 24 Events** — building rows, the scroll listener
-- **29 / 46** — throttling the scroll handler with `requestAnimationFrame`
+- **24 DOM / 25 Events** — building rows, the scroll listener
+- **30 Advanced Async** — throttling the scroll handler with `requestAnimationFrame`
 
 ## How to run
 Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see

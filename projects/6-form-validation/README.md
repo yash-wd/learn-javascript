@@ -14,10 +14,10 @@ everything is valid.
 - On submit, shows a success message and resets the form
 
 ## Lessons you'll apply
-- **23 DOM** — selecting inputs and their error `<span>`s, toggling classes
-- **24 Events** — `input`, `blur`, and the form's `submit` event (with `preventDefault`)
-- **26 Regular Expressions** — a real email pattern, and `/\d/` for "has a number"
-- **21 Error Handling** — each rule *returns* its error message, kept next to the check
+- **24 DOM** — selecting inputs and their error `<span>`s, toggling classes
+- **25 Events** — `input`, `blur`, and the form's `submit` event (with `preventDefault`)
+- **27 Regular Expressions** — a real email pattern, and `/\d/` for "has a number"
+- **22 Error Handling** — each rule *returns* its error message, kept next to the check
 - **07 Conditionals** — the validation rules themselves (`if` / ternary / early return)
 
 ## How to run

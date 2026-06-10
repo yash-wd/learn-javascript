@@ -12,11 +12,11 @@ The computer-science capstone. No internet needed — this is about turning two
 - Renders the whole **network map** so you can see the graph it's searching
 
 ## Lessons you'll apply
-- **48 Data Structures** — the `Graph` (adjacency list via `Map`) holds the network
-- **49 Algorithms** — `bfsShortestPath` does the actual work (BFS + path rebuild)
+- **49 Data Structures** — the `Graph` (adjacency list via `Map`) holds the network
+- **50 Algorithms** — `bfsShortestPath` does the actual work (BFS + path rebuild)
 - **16 Sets & Maps** — `visited` Set, `cameFrom` map
 - **13 Array methods / 15 destructuring** — render the path, swap values
-- **23 DOM / 24 Events** — dropdowns, buttons, rendering
+- **24 DOM / 25 Events** — dropdowns, buttons, rendering
 
 ## How to run
 Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see

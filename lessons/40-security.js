@@ -107,7 +107,7 @@ console.log(unsafeQuery);
 // ── 8. Dependency & supply-chain safety ──────────────────────────────────────
 // • Run `npm audit` and keep dependencies patched.
 // • Pin versions (lockfile) and review what you install — packages run code.
-// • Don't commit secrets; use environment variables (see lesson 45/45).
+// • Don't commit secrets; use environment variables (see lessons 45 & 46).
 
 
 /* PRACTICE -------------------------------------------------------------------

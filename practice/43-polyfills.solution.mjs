@@ -1,4 +1,4 @@
-/* PRACTICE · 42 Polyfills — reference solution ──────────────────────────── */
+/* PRACTICE · 43 Polyfills — reference solution ──────────────────────────── */
 
 export function myMap(arr, fn) {
   const out = [];

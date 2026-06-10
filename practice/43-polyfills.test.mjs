@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-const src = process.env.PRACTICE === 'mine' ? './42-polyfills.mjs' : './42-polyfills.solution.mjs';
+const src = process.env.PRACTICE === 'mine' ? './43-polyfills.mjs' : './43-polyfills.solution.mjs';
 const { myMap, myFilter, myReduce, myBind } = await import(src);
 
 test('myMap transforms each item', () => {

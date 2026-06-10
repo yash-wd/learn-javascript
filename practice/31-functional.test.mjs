@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-const src = process.env.PRACTICE === 'mine' ? './30-functional.mjs' : './30-functional.solution.mjs';
+const src = process.env.PRACTICE === 'mine' ? './31-functional.mjs' : './31-functional.solution.mjs';
 const { compose, pipe, curry } = await import(src);
 
 const inc = (x) => x + 1;

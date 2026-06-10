@@ -1,6 +1,6 @@
-/* PRACTICE · 30 Functional Programming ──────────────────────────────────────
+/* PRACTICE · 31 Functional Programming ──────────────────────────────────────
  * Fill in the bodies, then grade your work:
- *   PRACTICE=mine node --test practice/30-functional.test.mjs
+ *   PRACTICE=mine node --test practice/31-functional.test.mjs
  * ------------------------------------------------------------------------- */
 
 // compose(...fns): combine functions RIGHT-to-left.

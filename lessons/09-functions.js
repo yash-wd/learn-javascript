@@ -58,7 +58,7 @@ console.log(greetUser());       // => Welcome, Guest!  (default kicks in)
 
 // ── 5. Rest parameters — collect "the rest" into an array ────────────────────
 function sum(...numbers) {        // numbers is a real array: [1, 2, 3, 4]
-  return numbers.reduce((total, n) => total + n, 0);
+  return numbers.reduce((total, n) => total + n, 0); // reduce = "sum the array" (lesson 13)
 }
 console.log(sum(1, 2, 3, 4));   // => 10
 console.log(sum(5, 5));         // => 10

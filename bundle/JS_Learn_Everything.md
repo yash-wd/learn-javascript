@@ -111,8 +111,8 @@ includes both the engineering around the language and the computer-science core.
 
 These add no new lessons — they point you at the ones that matter most for a goal:
 
-- **Interview Prep:** 10 Closures · 11 `this` · 18 Prototypes · 31 Tricky Concepts · 42 Polyfills · 48 Data Structures · 49 Algorithms
-- **Best Practices:** 21 Error Handling · 38 Testing · 39 Security · 40 Design Patterns · 41 Performance · 44 Tooling
+- **Interview Prep:** 10 Closures · 11 `this` · 18 Prototypes · 32 Tricky Concepts · 43 Polyfills · 49 Data Structures · 50 Algorithms
+- **Best Practices:** 22 Error Handling · 39 Testing · 40 Security · 41 Design Patterns · 42 Performance · 45 Tooling
 
 ---
 
@@ -919,7 +919,7 @@ console.log(greetUser());       // => Welcome, Guest!  (default kicks in)
 
 // ── 5. Rest parameters — collect "the rest" into an array ────────────────────
 function sum(...numbers) {        // numbers is a real array: [1, 2, 3, 4]
-  return numbers.reduce((total, n) => total + n, 0);
+  return numbers.reduce((total, n) => total + n, 0); // reduce = "sum the array" (lesson 13)
 }
 console.log(sum(1, 2, 3, 4));   // => 10
 console.log(sum(5, 5));         // => 10
@@ -4556,10 +4556,10 @@ console.log(String.raw`C:\new\test`); // => C:\new\test  (\n NOT a newline)
 
 /* 🎉 THAT'S THE WHOLE CORE LANGUAGE — basics, intermediate, advanced, and the
  *    browser. From here the course shifts gears:
- *      • Part 10  (37)     — modern JS (ES2021–ES2026)
- *      • Part 11  (38–47)  — professional & production engineering
- *      • Part 12  (48–50)  — computer-science core (data structures,
- *                            algorithms) and binary data
+ *      • Part 10  (38)     — modern JS (ES2021–ES2026)
+ *      • Part 11  (39–47)  — professional & production engineering
+ *      • Part 12  (48–56)  — computer-science core (data structures,
+ *                            algorithms, binary data) + specialist topics
  *    A great next step right now: build a small app (to-do, weather, quiz)
  *    using lessons 24–26 + 33. Building is what makes it all stick. */
 
@@ -4940,7 +4940,7 @@ describe('hooks (before/after)', () => {
  *   // npm i -D @playwright/test  &&  npx playwright install
  *   import { test, expect } from '@playwright/test';
  *   test('user can log in', async ({ page }) => {
- *     await page.goto('https://localhost:3000');
+ *     await page.goto('http://localhost:3000');
  *     await page.fill('#email', 'ana@example.com');
  *     await page.fill('#password', 'secret');
  *     await page.click('button[type=submit]');
@@ -5098,7 +5098,7 @@ console.log(unsafeQuery);
 // ── 8. Dependency & supply-chain safety ──────────────────────────────────────
 // • Run `npm audit` and keep dependencies patched.
 // • Pin versions (lockfile) and review what you install — packages run code.
-// • Don't commit secrets; use environment variables (see lesson 45/45).
+// • Don't commit secrets; use environment variables (see lessons 45 & 46).
 
 
 /* PRACTICE -------------------------------------------------------------------
@@ -6702,9 +6702,10 @@ console.log('decoded back:', decoder.decode(encoded)); // => Hi 👋
 
 
 // ── 8. SharedArrayBuffer + Atomics — memory shared between threads ────────────
-// A normal ArrayBuffer is copied (transferred) when sent to a Web Worker
-// (lesson 47) / Node worker_thread (lesson 46). A SharedArrayBuffer is the SAME
-// memory seen by BOTH threads at once — true shared state, no copying.
+// A normal ArrayBuffer is copied (structured clone) when sent to a Web Worker
+// (lesson 47) / Node worker_thread (lesson 46) — unless you explicitly transfer
+// it (move it without copying, which detaches the original). A SharedArrayBuffer
+// is the SAME memory seen by BOTH threads at once — true shared state, no copying.
 // (Browsers require special COOP/COEP headers to enable it, for security.)
 const shared = new SharedArrayBuffer(8); // 8 bytes, shareable across threads
 const sharedView = new Int32Array(shared);
@@ -7644,11 +7645,11 @@ tasks so they survive a page refresh.
 - A live count of remaining tasks
 
 ## Lessons you'll apply
-- **23 DOM** — selecting elements, creating `<li>`s
-- **24 Events** — `addEventListener`, form `submit`, event **delegation**
+- **24 DOM** — selecting elements, creating `<li>`s
+- **25 Events** — `addEventListener`, form `submit`, event **delegation**
 - **13 Array methods** — `filter`, `find`, `push`
 - **14 Objects** — each todo is an object `{ id, text, done }`
-- **33 Browser Storage** — `localStorage` + `JSON.stringify/parse`
+- **34 Browser Storage** — `localStorage` + `JSON.stringify/parse`
 
 ## How to run
 Open `index.html` in your browser. It loads `app.js` (the starter).
@@ -7755,7 +7756,7 @@ function render() {
 
 // ── addTodo: create a todo, persist, redraw ──────────────────────────────────
 function addTodo(text) {
-  todos.push({ id: Date.now(), text, done: false });
+  todos.push({ id: crypto.randomUUID(), text, done: false });
   save();
   render();
 }
@@ -7775,7 +7776,7 @@ form.addEventListener('submit', (event) => {
 list.addEventListener('click', (event) => {
   const li = event.target.closest('li');
   if (!li) return;
-  const id = Number(li.dataset.id);
+  const id = li.dataset.id; // ids are unique strings (crypto.randomUUID)
 
   if (event.target.classList.contains('delete')) {
     // Delete: keep every todo EXCEPT this one (non-mutating filter)
@@ -7828,11 +7829,11 @@ It uses **Open-Meteo** — completely free, **no API key**, no sign-up. Two call
    → returns `current.temperature_2m`, `current.weather_code`, etc.
 
 ## Lessons you'll apply
-- **25 Fetch & APIs** — `fetch`, checking `response.ok`, parsing JSON
+- **26 Fetch & APIs** — `fetch`, checking `response.ok`, parsing JSON
 - **20 Async/Await** — `async` functions, `await`, sequential calls
-- **21 Error handling** — `try/catch`, showing a friendly message
-- **32 Dates & Time** — `Intl.DateTimeFormat` for the current date
-- **23 DOM** — updating the page with results
+- **22 Error handling** — `try/catch`, showing a friendly message
+- **33 Dates & Time** — `Intl.DateTimeFormat` for the current date
+- **24 DOM** — updating the page with results
 
 ## How to run
 Open `index.html` in your browser (you need an internet connection).
@@ -8005,7 +8006,7 @@ one question at a time, tracking the score, and reacting to user choices.
 - **14 Objects / 12 Arrays** — questions modelled as an array of objects
 - **13 Array methods** — rendering options, checking answers
 - **09 Functions** — small functions that each do one job
-- **23 DOM / 24 Events** — rendering and handling clicks
+- **24 DOM / 25 Events** — rendering and handling clicks
 
 ## How to run
 Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see
@@ -8211,11 +8212,11 @@ The computer-science capstone. No internet needed — this is about turning two
 - Renders the whole **network map** so you can see the graph it's searching
 
 ## Lessons you'll apply
-- **48 Data Structures** — the `Graph` (adjacency list via `Map`) holds the network
-- **49 Algorithms** — `bfsShortestPath` does the actual work (BFS + path rebuild)
+- **49 Data Structures** — the `Graph` (adjacency list via `Map`) holds the network
+- **50 Algorithms** — `bfsShortestPath` does the actual work (BFS + path rebuild)
 - **16 Sets & Maps** — `visited` Set, `cameFrom` map
 - **13 Array methods / 15 destructuring** — render the path, swap values
-- **23 DOM / 24 Events** — dropdowns, buttons, rendering
+- **24 DOM / 25 Events** — dropdowns, buttons, rendering
 
 ## How to run
 Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see
@@ -8441,10 +8442,10 @@ stays *constant* no matter how long the list is. This is how every fast
 table/feed/chat app (and libraries like TanStack Virtual, react-window) work.
 
 ## Lessons you'll apply
-- **41 Performance** — the windowing technique, and reducing DOM work
+- **42 Performance** — the windowing technique, and reducing DOM work
 - **13 Array methods** — `Array.from` to generate the data
-- **23 DOM / 24 Events** — building rows, the scroll listener
-- **29 / 46** — throttling the scroll handler with `requestAnimationFrame`
+- **24 DOM / 25 Events** — building rows, the scroll listener
+- **30 Advanced Async** — throttling the scroll handler with `requestAnimationFrame`
 
 ## How to run
 Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see
@@ -8614,10 +8615,10 @@ everything is valid.
 - On submit, shows a success message and resets the form
 
 ## Lessons you'll apply
-- **23 DOM** — selecting inputs and their error `<span>`s, toggling classes
-- **24 Events** — `input`, `blur`, and the form's `submit` event (with `preventDefault`)
-- **26 Regular Expressions** — a real email pattern, and `/\d/` for "has a number"
-- **21 Error Handling** — each rule *returns* its error message, kept next to the check
+- **24 DOM** — selecting inputs and their error `<span>`s, toggling classes
+- **25 Events** — `input`, `blur`, and the form's `submit` event (with `preventDefault`)
+- **27 Regular Expressions** — a real email pattern, and `/\d/` for "has a number"
+- **22 Error Handling** — each rule *returns* its error message, kept next to the check
 - **07 Conditionals** — the validation rules themselves (`if` / ternary / early return)
 
 ## How to run
@@ -8731,6 +8732,9 @@ function validateField(key) {
     errorEl.textContent = msg; // textContent, never innerHTML — no injection
     input.classList.toggle('invalid', msg !== '');
     input.classList.toggle('valid', msg === '' && input.value !== '');
+    // a11y: tell screen readers this field is invalid (paired with the
+    // aria-describedby="…-error" on the input, so the message is announced).
+    input.setAttribute('aria-invalid', msg !== '' ? 'true' : 'false');
   }
   return msg === '';
 }
@@ -8772,7 +8776,10 @@ form.addEventListener('submit', (e) => {
   successEl.classList.remove('hidden');
   form.reset();
   touched.clear();
-  Object.values(fields).forEach((i) => i.classList.remove('valid', 'invalid'));
+  Object.values(fields).forEach((i) => {
+    i.classList.remove('valid', 'invalid');
+    i.removeAttribute('aria-invalid');
+  });
   submitBtn.disabled = true;
 });
 
@@ -8809,11 +8816,11 @@ requests (`POST`/`PUT`/`DELETE`) and replies realistically:
 > flow without standing up a backend.
 
 ## Lessons you'll apply
-- **25 Fetch & APIs** — `fetch` with `POST`/`PUT`/`DELETE`, checking `response.ok`
+- **26 Fetch & APIs** — `fetch` with `POST`/`PUT`/`DELETE`, checking `response.ok`
 - **20 Async/Await** — `async` functions and `await` for each request
-- **21 Error handling** — `try/catch` to detect failure and trigger a rollback
+- **22 Error handling** — `try/catch` to detect failure and trigger a rollback
 - **14 Objects** — modelling each note as `{ id, serverId, text, pending }`
-- **23 DOM / 24 Events** — rendering the list and wiring add/edit/delete
+- **24 DOM / 25 Events** — rendering the list and wiring add/edit/delete
 
 ## How to run
 Open `index.html` in your browser (you need an internet connection).
@@ -9051,11 +9058,11 @@ exactly what Express and friends do for you under the hood.
   server never crashes on a bad request or a bug in a handler
 
 ## Lessons you'll apply
-- **45 Node.js** — the `http` module, `req`/`res` streams, `process.env`
-- **25 Fetch & HTTP** — the same methods/status codes/REST, now from the server side
-- **21 Error handling** — custom error class + one place that catches everything
-- **39 Security** — validate all input, cap the body size, don't leak error details
-- **38 Testing** — black-box tests that hit the real server with `fetch`
+- **46 Node.js** — the `http` module, `req`/`res` streams, `process.env`
+- **26 Fetch & HTTP** — the same methods/status codes/REST, now from the server side
+- **22 Error handling** — custom error class + one place that catches everything
+- **40 Security** — validate all input, cap the body size, don't leak error details
+- **39 Testing** — black-box tests that hit the real server with `fetch`
 
 ## How to run
 ```bash

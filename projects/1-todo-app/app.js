@@ -18,7 +18,7 @@ const STORAGE_KEY = 'todos';
 
 // ── State ────────────────────────────────────────────────────────────────────
 // TODO 1: Load saved todos from localStorage, or start with an empty array.
-//   Each todo looks like: { id: <number>, text: <string>, done: <boolean> }
+//   Each todo looks like: { id: <string>, text: <string>, done: <boolean> }
 let todos = []; // ← replace with the loaded value
 let currentFilter = 'all'; // 'all' | 'active' | 'done'
 
@@ -44,7 +44,7 @@ function render() {
 // ── Add a new todo ───────────────────────────────────────────────────────────
 function addTodo(text) {
   // TODO 3: push a new todo object onto `todos`, then save() and render().
-  //   Use a unique id, e.g. Date.now().
+  //   Use a unique id, e.g. crypto.randomUUID().
 }
 
 // ── Form submit: add the typed task (lesson 25) ──────────────────────────────

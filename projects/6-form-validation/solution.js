@@ -63,6 +63,9 @@ function validateField(key) {
     errorEl.textContent = msg; // textContent, never innerHTML — no injection
     input.classList.toggle('invalid', msg !== '');
     input.classList.toggle('valid', msg === '' && input.value !== '');
+    // a11y: tell screen readers this field is invalid (paired with the
+    // aria-describedby="…-error" on the input, so the message is announced).
+    input.setAttribute('aria-invalid', msg !== '' ? 'true' : 'false');
   }
   return msg === '';
 }
@@ -104,7 +107,10 @@ form.addEventListener('submit', (e) => {
   successEl.classList.remove('hidden');
   form.reset();
   touched.clear();
-  Object.values(fields).forEach((i) => i.classList.remove('valid', 'invalid'));
+  Object.values(fields).forEach((i) => {
+    i.classList.remove('valid', 'invalid');
+    i.removeAttribute('aria-invalid');
+  });
   submitBtn.disabled = true;
 });
 

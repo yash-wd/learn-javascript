@@ -1,6 +1,6 @@
-/* PRACTICE · 42 Polyfills (interview gold) ──────────────────────────────────
+/* PRACTICE · 43 Polyfills (interview gold) ──────────────────────────────────
  * Re-implement the built-ins from scratch — no using the native versions.
- *   PRACTICE=mine node --test practice/42-polyfills.test.mjs
+ *   PRACTICE=mine node --test practice/43-polyfills.test.mjs
  * ------------------------------------------------------------------------- */
 
 // myMap(arr, fn): like arr.map(fn) — new array of fn(item, i) for each item.
