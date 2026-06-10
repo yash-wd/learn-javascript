@@ -8,7 +8,7 @@ matrix below before editing — it lists every file that must stay in sync.**
 
 ## What this repo is
 
-A self-paced JavaScript course: **52 lessons** (`lessons/NN-name.js`) + **6
+A self-paced JavaScript course: **52 lessons** (`lessons/NN-name.js`) + **7
 projects** (`projects/N-name/`). Each lesson is one runnable file you read → run
 with Node → move on. There is **no build step** for the course itself; the only
 generated artifact is the offline bundle (PDF/Markdown).
@@ -22,13 +22,15 @@ Remote: `git@github.com:yash-wd/learn-javascript.git` (branch `main`)
 
 | Kind | Files | Rule |
 | --- | --- | --- |
-| **Source of truth** | `lessons/*.js`, `lessons/solutions/*.js`, `projects/**`, `README.md`, `projects/README.md`, `curriculum.html`, `index.html`, `playground.html`, `assets/*`, `findtopic.sh` | Hand-edited. |
+| **Source of truth** | `lessons/*.js`, `lessons/solutions/*.js`, `projects/**`, `README.md`, `projects/README.md`, `curriculum.html`, `index.html`, `playground.html`, `assets/*`, `findtopic.sh`, `backlog.js` | Hand-edited. |
+| **Planning** | `backlog.js` | Living "what's missing" tracker — runnable (`node backlog.js`). Not in the bundle; add an item when you spot a gap. |
 | **Generated** | `bundle/JS_Learn_Everything.md`, `.pdf`, `.html` | **Never hand-edit.** Always regenerate with `node tools/build-bundle.mjs` (+ PDF step). |
 
 The bundle is built from: **every `lessons/*.js`** + the **Roadmap section of
 `README.md`** (the slice between `## Roadmap` and `## 🛠️ Projects`) + **all of
-`projects/README.md`**. ⚠️ The HTML/PDF embed **lessons only** — the projects
-appear only in the `.md`.
+`projects/README.md`** + **each project's `README.md` + `solution.js`**. The
+`.md`, `.html`, and `.pdf` now embed **both lessons and projects** — the builder
+appends a `# Projects` section to all three outputs.
 
 ---
 
@@ -76,7 +78,7 @@ appear only in the `.md`.
 - [ ] Create/delete `projects/N-name/` with all 5 files: `index.html`,
       `style.css`, `app.js` (starter w/ `// TODO:`), `solution.js` (complete),
       `README.md`. Match an existing project's structure & dark theme.
-- [ ] Bump the **project count ("6")** everywhere:
+- [ ] Bump the **project count ("7")** everywhere:
       **README.md** (projects table + "N real projects" prose + repo-layout note),
       **projects/README.md** (table + "these N projects" / "build all N" prose),
       **curriculum.html** (project cards, hero `<b>6</b>` stat, "N real projects"
@@ -88,7 +90,7 @@ appear only in the `.md`.
 
 ### 🎨 UI change (`curriculum.html`, `index.html`, `playground.html`, `assets/*`)
 - [ ] These are **not** in the bundle — no regenerate needed for pure UI tweaks.
-- [ ] Keep counts (52 lessons / 6 projects) consistent if you touch hero stats,
+- [ ] Keep counts (52 lessons / 7 projects) consistent if you touch hero stats,
       headings, or the footer.
 - [ ] The curriculum "enhancement layer" (progress tracking, lesson filter, mobile
       nav) is one `<style>`+`<script>` block at the **bottom of `curriculum.html`**,
@@ -105,7 +107,7 @@ appear only in the `.md`.
 | Value | Lives in |
 | --- | --- |
 | **52 lessons** | `README.md` (table + intro + stats), `curriculum.html` (links, `<b>52</b>`, "All 52 lessons", `<meta>`), `assets/script.js` (level map), bundle |
-| **6 projects** | `README.md` (table + prose + layout), `projects/README.md` (table + prose), `curriculum.html` (cards, `<b>6</b>`, heading, footer, `<meta>`), bundle |
+| **7 projects** | `README.md` (table + prose + layout), `projects/README.md` (table + prose), `curriculum.html` (cards, `<b>7</b>`, heading, footer, `<meta>`), bundle |
 | **5 levels / browser lessons (23, 24, 46)** | `README.md`, `curriculum.html`, `playground.html` |
 
 ---
@@ -144,9 +146,10 @@ when you regenerate the bundle for a release — it's hardcoded on purpose
   run every lesson (see verification) to confirm all 52 still exit 0.
 - **`.gitignore`**: `bundle/*.html` is intentionally ignored (transient build
   step); the `.md` and `.pdf` ARE committed. Don't commit the HTML.
-- **PDF/HTML bundle = lessons only.** Projects live only in the `.md`. If you ever
-  want projects in the PDF, extend `tools/build-bundle.mjs` (it builds `body` from
-  `lessons` only).
+- **PDF/HTML/MD bundle = lessons + projects.** `tools/build-bundle.mjs` embeds
+  every lesson and every project (its `README.md` + `solution.js`) into all three
+  outputs. After edits, sanity-check the build log line — it prints the live
+  `N lessons + M projects embedded` counts.
 - **`findtopic.sh`** searches only top-level `lessons/*.js` (never `solutions/` or
   `modules-demo/`) and matches keywords as **fixed strings** (`-iF`). Keep both.
 - **Browser-only lessons (23, 24, 46)** can't run in Node — they print a guard

@@ -2,7 +2,7 @@
  * build-bundle.mjs — regenerate the "Learn Everything" bundle from the lessons
  * =============================================================================
  * Produces bundle/JS_Learn_Everything.md and .html from every lessons/*.js +
- * the 6 projects + READMEs, so the bundle never drifts from the source files.
+ * the 7 projects + READMEs, so the bundle never drifts from the source files.
  * Run this after editing lessons/projects, then convert the HTML to PDF:
  *
  *   node tools/build-bundle.mjs           # writes bundle/.md and bundle/.html
