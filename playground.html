@@ -111,7 +111,8 @@ setTimeout(() => console.log('…and this logs a moment later'), 300);
       <h2 style="font-size: 1.1rem">Practice any of the 56 lessons</h2>
       <p class="muted" style="margin: 6px 0 12px">
         Pick any lesson from the whole syllabus. Its code loads into the editor above so you can
-        <strong>run, read and tweak</strong> it, and its practice tasks appear below. The three
+        <strong>run, read and tweak</strong> it, its practice tasks appear below, and a
+        <strong>✅ Run worked solution</strong> button runs that lesson's answers right here. The three
         browser lessons (<strong>24 DOM</strong>, <strong>25 Events</strong>, <strong>47 Browser
         APIs</strong>) run live on an isolated <strong>demo stage</strong> instead — click and type
         against real elements; <code>console.log</code> output is mirrored under the stage (open
@@ -251,6 +252,27 @@ setTimeout(() => console.log('…and this logs a moment later'), 300);
           });
         }
 
+        // ── load & RUN a lesson's worked solution ────────────────────────────
+        //    Non-browser solutions load into the editor and run (console output
+        //    in the pane). Browser solutions need a DOM, so they run on the demo
+        //    stage. (Node-only solutions using require/process/fs won't fully run
+        //    in a browser — the on-screen error then points you to `node …`.)
+        function loadAndRunSolution(L) {
+          var path = 'lessons/solutions/' + pad2(L.num) + '-solutions.js';
+          if (L.browser) {
+            runStage(path);
+            host.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+          }
+          if (window.fetch) {
+            fetch(path).then(function (r) { if (!r.ok) throw 0; return r.text(); })
+              .then(function (t) { setEditor(t); run(); codeEl.scrollIntoView({ behavior: 'smooth', block: 'center' }); })
+              .catch(function () { outEl.textContent = ''; line('⛔ Could not load ' + path + '. Run it in a terminal:  node ' + path, '#fbbf24'); });
+          } else {
+            outEl.textContent = ''; line('⛔ Run this solution in a terminal:  node ' + path, '#fbbf24');
+          }
+        }
+
         // ── browser-lesson demo stage (isolated iframe) ──────────────────────
         var host = document.getElementById('lesson-frame');
         function frameDoc(lessonPath) {
@@ -325,7 +347,6 @@ setTimeout(() => console.log('…and this logs a moment later'), 300);
         function renderPanel(L) {
           panel.innerHTML = '';
           if (!L) return;
-          var sol = 'lessons/solutions/' + pad2(L.num) + '-solutions.js'; // solutions are numbered, not slugged
           var qs = (L.questions || []).map(function (q) { return '<li>' + esc(q) + '</li>'; }).join('');
           var how = L.browser
             ? 'This lesson changes a web page — it is running live on the demo stage below. Try clicking and typing; its console output is mirrored under the stage.'
@@ -338,7 +359,7 @@ setTimeout(() => console.log('…and this logs a moment later'), 300);
             + (qs ? '<ol>' + qs + '</ol>' : '<p class="muted">Read through it and experiment freely.</p>')
             + '<p class="muted" style="margin-top:12px">'
             + '<a href="lesson.html?l=' + encodeURIComponent(L.href) + '">📖 Open the full lesson</a> &nbsp;·&nbsp; '
-            + '<a href="' + sol + '">✅ View worked solution</a>'
+            + '<button type="button" class="ghost run-sol">✅ Run worked solution</button>'
             + '</p>'
             + '</div>';
         }
@@ -363,6 +384,12 @@ setTimeout(() => console.log('…and this logs a moment later'), 300);
         pick.addEventListener('change', function () {
           if (pick.value) selectLesson(pick.value, { scroll: true });
           else { try { localStorage.removeItem(KEY); } catch (e) {} renderPanel(null); runStage(''); }
+        });
+        panel.addEventListener('click', function (e) {
+          var btn = e.target && e.target.closest ? e.target.closest('.run-sol') : null;
+          if (!btn) return;
+          var L = byHref(pick.value);
+          if (L) loadAndRunSolution(L);
         });
         document.getElementById('random-lesson').addEventListener('click', function () {
           if (!MAN.length) return;

@@ -51,8 +51,8 @@ fi
 
 echo "▶ Checking generated browser assets are in sync…"
 node tools/build-search-index.mjs >/dev/null 2>&1
-if git diff --quiet -- assets/search-index.js assets/lesson-sources.js assets/lessons-manifest.js; then
-  echo "  ✓ search-index / lesson-sources / manifest match sources"
+if git diff --quiet -- assets/search-index.js assets/lesson-sources.js assets/lessons-manifest.js assets/solution-sources.js; then
+  echo "  ✓ search-index / lesson-sources / manifest / solution-sources match sources"
 else
   echo "  ✗ generated assets are stale — run: npm run search-index"; status=1
 fi

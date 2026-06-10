@@ -1,70 +1,37 @@
 # Changelog
 
-All notable changes to this course are documented here.
-The format follows [Keep a Changelog](https://keepachangelog.com/), and the
-project aims to follow [Semantic Versioning](https://semver.org/).
+Notable changes to this course. It's versioned simply as **1.0** — small fixes
+and improvements are folded in here rather than bumped to new version numbers.
 
-## [1.0.1] — 2026-06-10
+## 1.0
 
-### Added
-- **One-click solution preview for every browser project.** Each project's
-  `index.html` loads the `app.js` starter, so the finished UI was previously only
-  viewable by hand-editing the `<script>` tag. Projects 1–7 now ship a
-  `solution.html` that loads `solution.js` — open it to see the finished app
-  running immediately. Project READMEs, `projects/README.md`, the `index.html`
-  comments, and `CLAUDE.md` were updated to match. (Project 8 is a backend with no
-  UI — it still runs via `node`.)
+A complete, self-paced JavaScript course — from absolute beginner to
+professional / interview level.
 
-## [1.0.0] — 2026-06-10
+### Course
+- **56 lessons** across five levels, each a single runnable file you read, run,
+  then tweak.
+- **56 worked-solution files** — one per lesson, with runnable answers to every
+  PRACTICE block.
+- **8 projects** — seven browser apps + one Node REST API — each with a starter
+  (`// TODO`s), a complete solution, and a README. Every browser project also has
+  a one-click **`solution.html`** to see the finished app running.
+- **Graded practice** (one set per level) + a capstone, with `node:test` suites
+  and a `PRACTICE=mine` self-grading toggle.
 
-First public release: a complete, self-paced JavaScript course that takes a
-learner from absolute beginner to professional/interview level.
+### Web experience
+- `curriculum.html` (visual path + FAQ), `lesson.html` (in-browser lesson viewer
+  — plus a themed viewer for each lesson's **worked solution** via `?sol=`), and
+  `playground.html` (run any lesson **or its worked solution** in the browser,
+  with a live demo stage for the browser-only lessons 24/25/47).
+- Offline bundle: `bundle/JS_Learn_Everything.{md,pdf}`.
+- `findtopic.sh` ranks which lesson teaches a given keyword.
 
-### Added
-- **56 lessons** (`lessons/NN-name.js`) across five levels — foundation → core →
-  intermediate → advanced → expert — each a single runnable file you read, run,
-  then change.
-- **56 worked-solution files** (`lessons/solutions/`) — one per lesson, with
-  runnable answers to every PRACTICE block.
-- **8 projects** (`projects/`) — seven browser apps + one Node REST API backend,
-  each with a starter (`// TODO`s), a complete solution, and a README.
-- **Graded practice** (`practice/`) — fill-in exercises (one set per level) plus a
-  capstone, with `node:test` suites and a `PRACTICE=mine` self-grading toggle.
-- **Web experience** — `curriculum.html` (visual path + FAQ), `lesson.html`
-  (in-browser lesson viewer), and `playground.html` (run any lesson, with a live
-  demo stage for the browser-only lessons 24/25/47).
-- **Offline bundle** — `bundle/JS_Learn_Everything.{md,pdf}` embedding every
-  lesson and project.
-- **Topic finder** — `findtopic.sh` ranks which lesson teaches a given keyword.
-- **Quality gates** — a self-verifying output harness (`tools/check-outputs.mjs`,
-  583 `// =>` assertions), `scripts/verify.sh`, and GitHub Actions CI.
+### Quality
+- Self-verifying output harness (583 `// =>` assertions), a full `verify.sh`
+  health check (lessons, tests, bundle + generated-asset drift, counts), and CI.
+- Content audit: corrected lesson cross-reference numbering, every project
+  README's "lessons you'll apply" list, and the web-UI counts; accessibility and
+  robustness fixes across the projects.
 
-### Fixed (final pre-release audit)
-- Corrected a family of **lesson cross-reference drift** introduced as the course
-  grew past 50 lessons: stale "see lesson NN" pointers in lessons 37/39/40/51, the
-  Interview-Prep / Best-Practices track numbers in `README.md`, and the level-range
-  and browser-lesson labels in the web UI (`curriculum.html`, `playground.html`,
-  `lesson.html`).
-- Rewrote **every project README's "lessons you'll apply"** list to the correct,
-  authoritative lesson numbers.
-- Renamed two practice sets to match the lesson they teach
-  (`30-functional` → `31-functional`, `42-polyfills` → `43-polyfills`) and fixed a
-  stale command reference in `practice/README.md`.
-- Clarified a `copy` vs `transfer` explanation for `ArrayBuffer`/Web Workers
-  (lesson 51) and an `https://localhost` → `http://localhost` example (lesson 39).
-
-### Improved
-- **To-Do project** now uses `crypto.randomUUID()` for task ids instead of
-  `Date.now()` (no same-millisecond collisions; consistent with the REST-API
-  project).
-- **Form-Validation project** now sets `aria-invalid` and links inputs to their
-  error messages via `aria-describedby`, so screen readers announce validation
-  errors.
-- **REST-API tests** use `AbortSignal.timeout`, so an unimplemented handler
-  (`PRACTICE=mine`) fails cleanly instead of hanging the test runner.
-- `scripts/verify.sh` now also checks the generated browser assets
-  (`search-index.js`, `lesson-sources.js`, `lessons-manifest.js`) for drift, not
-  just the bundle.
-
-[1.0.1]: https://github.com/yash-wd/learn-javascript/releases/tag/v1.0.1
-[1.0.0]: https://github.com/yash-wd/learn-javascript/releases/tag/v1.0.0
+[v1.0]: https://github.com/yash-wd/learn-javascript/releases/tag/v1.0
