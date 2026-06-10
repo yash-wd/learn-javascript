@@ -8,8 +8,8 @@ matrix below before editing — it lists every file that must stay in sync.**
 
 ## What this repo is
 
-A self-paced JavaScript course: **52 lessons** (`lessons/NN-name.js`) + **7
-projects** (`projects/N-name/`). Each lesson is one runnable file you read → run
+A self-paced JavaScript course: **53 lessons** (`lessons/NN-name.js`) + **8
+projects** (`projects/N-name/`; project 8 is a Node backend — no `index.html`). Each lesson is one runnable file you read → run
 with Node → move on. There is **no build step** for the course itself; the only
 generated artifact is the offline bundle (PDF/Markdown).
 
@@ -22,8 +22,9 @@ Remote: `git@github.com:yash-wd/learn-javascript.git` (branch `main`)
 
 | Kind | Files | Rule |
 | --- | --- | --- |
-| **Source of truth** | `lessons/*.js`, `lessons/solutions/*.js`, `projects/**`, `README.md`, `projects/README.md`, `curriculum.html`, `index.html`, `playground.html`, `assets/*`, `findtopic.sh`, `backlog.js` | Hand-edited. |
+| **Source of truth** | `lessons/*.js`, `lessons/solutions/*.js`, `projects/**`, `practice/**`, `README.md`, `projects/README.md`, `curriculum.html`, `index.html`, `playground.html`, `assets/*`, `findtopic.sh`, `backlog.js` | Hand-edited. |
 | **Planning** | `backlog.js` | Living "what's missing" tracker — runnable (`node backlog.js`). Not in the bundle; add an item when you spot a gap. |
+| **Quality gates** | `tools/check-outputs.mjs`, `scripts/verify.sh`, `practice/*.test.mjs`, `projects/8-rest-api/test.mjs` | `check-outputs.mjs` asserts every lesson's `// =>` comments match real output; `verify.sh` (CI) runs lessons + output check + all test suites. Run `npm run check` after editing any `// =>`. |
 | **Generated** | `bundle/JS_Learn_Everything.md`, `.pdf`, `.html` | **Never hand-edit.** Always regenerate with `node tools/build-bundle.mjs` (+ PDF step). |
 
 The bundle is built from: **every `lessons/*.js`** + the **Roadmap section of
@@ -52,9 +53,9 @@ appends a `# Projects` section to all three outputs.
       solution with a `// =>` output comment). Match the style of an existing
       solutions file, and confirm it runs clean: `node lessons/solutions/NN-solutions.js`.
 - [ ] **README.md**: add a row to the right Level table; bump every lesson-count
-      ("52") — intro line, `<br>` line, repo-layout note, hero/stat text.
+      ("53") — intro line, `<br>` line, repo-layout note, hero/stat text.
 - [ ] **curriculum.html**: add a lesson card under the right Level; update the
-      "All 52 lessons" heading, hero `<b>52</b>` stat, footer, and `<meta>` description.
+      "All 53 lessons" heading, hero `<b>53</b>` stat, footer, and `<meta>` description.
 - [ ] **assets/script.js**: update the level map if the range changed.
 - [ ] If browser-only, tag it `(browser)` and add it to the playground picker
       (`playground.html`) and the browser-lesson lists (README + curriculum).
@@ -62,7 +63,7 @@ appends a `# Projects` section to all three outputs.
 
 ### 🔢 Remove or renumber a lesson
 - [ ] Same surface as "add", in reverse. Filenames are zero-padded and sequential
-      (`01`…`52`) — renumbering touches the file, its `solutions/` twin, README,
+      (`01`…`53`) — renumbering touches the file, its `solutions/` twin, README,
       curriculum links, and any cross-references in other lessons/projects.
 - [ ] **Regenerate the bundle.**
 
@@ -90,7 +91,7 @@ appends a `# Projects` section to all three outputs.
 
 ### 🎨 UI change (`curriculum.html`, `index.html`, `playground.html`, `assets/*`)
 - [ ] These are **not** in the bundle — no regenerate needed for pure UI tweaks.
-- [ ] Keep counts (52 lessons / 7 projects) consistent if you touch hero stats,
+- [ ] Keep counts (53 lessons / 8 projects) consistent if you touch hero stats,
       headings, or the footer.
 - [ ] The curriculum "enhancement layer" (progress tracking, lesson filter, mobile
       nav) is one `<style>`+`<script>` block at the **bottom of `curriculum.html`**,
@@ -106,8 +107,8 @@ appends a `# Projects` section to all three outputs.
 
 | Value | Lives in |
 | --- | --- |
-| **52 lessons** | `README.md` (table + intro + stats), `curriculum.html` (links, `<b>52</b>`, "All 52 lessons", `<meta>`), `assets/script.js` (level map), bundle |
-| **7 projects** | `README.md` (table + prose + layout), `projects/README.md` (table + prose), `curriculum.html` (cards, `<b>7</b>`, heading, footer, `<meta>`), bundle |
+| **53 lessons** | `README.md` (table + intro + stats), `curriculum.html` (links, `<b>53</b>`, "All 53 lessons", `<meta>`), `assets/script.js` (level map), `package.json` (description), bundle |
+| **8 projects** | `README.md` (table + prose + layout), `projects/README.md` (table + prose), `curriculum.html` (cards, `<b>8</b>`, heading, footer, `<meta>`), `package.json` (description), bundle |
 | **5 levels / browser lessons (23, 24, 46)** | `README.md`, `curriculum.html`, `playground.html` |
 
 ---
@@ -143,7 +144,7 @@ when you regenerate the bundle for a release — it's hardcoded on purpose
   CommonJS (lesson 22 relies on this), while Node still auto-detects the few
   lessons that use ESM `import` syntax (**37, 38, 45**). Setting `type` to either
   `commonjs` or `module` breaks one group or the other. After any change here,
-  run every lesson (see verification) to confirm all 52 still exit 0.
+  run every lesson (see verification) to confirm all 53 still exit 0.
 - **`.gitignore`**: `bundle/*.html` is intentionally ignored (transient build
   step); the `.md` and `.pdf` ARE committed. Don't commit the HTML.
 - **PDF/HTML/MD bundle = lessons + projects.** `tools/build-bundle.mjs` embeds

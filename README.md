@@ -9,7 +9,7 @@
 # ⚡ Learn JavaScript
 
 **A complete step-by-step course — from zero to expert.**
-<br>52 short lessons · 7 real projects · 100% free · no sign-up
+<br>53 short lessons · 8 real projects · 100% free · no sign-up
 
 <br>
 
@@ -24,7 +24,7 @@
 ---
 
 A beginner-friendly course that starts from **zero** and goes all the way to
-**expert** and **interview** level. **52 short lessons** plus **7 real projects**.
+**expert** and **interview** level. **53 short lessons** plus **8 real projects**.
 Every lesson is a single file you **read**, then **run**, then move on. That's the
 whole method.
 
@@ -39,7 +39,7 @@ whole method.
 2. **Open the first lesson** — read [`lessons/01-variables.js`](lessons/01-variables.js)
    top to bottom. Every line is explained, and `// =>` shows what it prints.
 3. **Run it, then repeat** — in a terminal, run the lesson and compare the output.
-   Then go to the next one. Keep going in order, all the way to lesson 52.
+   Then go to the next one. Keep going in order, all the way to lesson 53.
 
 ```bash
 node lessons/01-variables.js     # your first lesson
@@ -145,21 +145,22 @@ mentions it in passing.
 ├── playground.html     → host page for the browser-only lessons
 ├── findtopic.sh        → find which lesson teaches a topic + its practice
 │
-├── lessons/            → ⭐ the 52 lessons — this is the course
+├── lessons/            → ⭐ the 53 lessons — this is the course
 │   ├── modules-demo/   → small runnable example for lesson 22
-│   └── solutions/      → one answer file per lesson to fill in (48–50 worked)
-├── projects/           → ⭐ 7 projects to build (starter + solution + README)
+│   └── solutions/      → one worked-answer file per lesson
+├── projects/           → ⭐ 8 projects to build (starter + solution + README)
+├── practice/           → fill-in exercises with auto-grading tests (optional)
 │
 ├── assets/             → styles/script for the web pages   (ignore)
 ├── bundle/             → offline PDF + Markdown of the whole course  (ignore)
-└── tools/              → script that regenerates the bundle  (ignore)
+└── tools/              → build-bundle + check-outputs scripts  (ignore)
 ```
 
 ---
 
 ## Roadmap
 
-The 52 lessons climb through **five levels**, beginner to expert. Do them
+The 53 lessons climb through **five levels**, beginner to expert. Do them
 **in order** — each level builds on the one before.
 
 ### Level 1 — Foundation
@@ -249,6 +250,7 @@ includes both the engineering around the language and the computer-science core.
 | 50 | [Binary Data](lessons/50-binary-data.js) | `ArrayBuffer`, typed arrays, `DataView`, `Blob`/`File`, `FormData`, `TextEncoder`, streaming, `Atomics` |
 | 51 | [BigInt & Language Corners](lessons/51-bigint-and-language-corners.js) | `BigInt`, `Object.fromEntries`, `flatMap`, labeled statements, `eval`/`Function` (and why to avoid them) |
 | 52 | [Internationalization](lessons/52-internationalization.js) | the full `Intl` API: `Collator`, `PluralRules`, `RelativeTimeFormat`, `ListFormat`, `Segmenter` |
+| 53 | [Modern Authentication](lessons/53-modern-auth.js) | authN vs authZ, password hashing (scrypt/salt), sessions vs JWT, cookie flags, OAuth/OIDC, passkeys, refresh tokens |
 
 > 💡 **Practice, then compare.** [lessons/solutions/](lessons/solutions/) has a
 > matching `NN-solutions.js` file for every lesson — each with clear, runnable
@@ -268,8 +270,9 @@ These add no new lessons — they point you at the ones that matter most for a g
 ## 🛠️ Projects — build to learn
 
 Once you've worked through the lessons, **apply** them. The [projects/](projects/)
-folder has seven guided builds, each with a starter (with `// TODO:`s), a complete
-solution, and a README. Open the project's `index.html` in your browser.
+folder has eight guided builds, each with a starter (with `// TODO:`s), a complete
+solution, and a README. The first seven open in your browser; the eighth is a
+back-end REST API you run with Node.
 
 | # | Project | Builds on | What you practice |
 | --- | --- | --- | --- |
@@ -280,8 +283,13 @@ solution, and a README. Open the project's `index.html` in your browser.
 | 5 | [Virtual List](projects/5-virtual-list/) | 41, 13, 23, 24, 29 | virtualization: scroll 50k rows with ~17 in the DOM |
 | 6 | [Form Validation](projects/6-form-validation/) | 23, 24, 26, 21, 07 | live per-field validation, accessible errors, submit gating |
 | 7 | [Notes App](projects/7-notes-app/) | 14, 20, 25, 21, 23, 24 | full CRUD against a REST API + optimistic UI with rollback |
+| 8 | [REST API](projects/8-rest-api/) **(backend)** | 45, 25, 21, 39, 38 | build the server: routing, validation, status codes, tests |
 
 > Reading shows you *what*; building shows you *how*. Don't skip these.
+>
+> 🧪 **Want graded practice?** [`practice/`](practice/) has fill-in exercises (one
+> per level) with tests that turn red→green as you solve them, plus a capstone.
+> Run `PRACTICE=mine node --test practice/42-polyfills.test.mjs`.
 
 ---
 

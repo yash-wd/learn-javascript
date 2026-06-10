@@ -73,8 +73,12 @@ setTimeout(() => console.log('…and this logs a moment later'), 300);
     <section class="card">
       <h2 style="font-size: 1.1rem">Run a built-in browser lesson</h2>
       <p class="muted" style="margin: 6px 0 12px">
-        Lessons <strong>23, 24, 46</strong> manipulate the page itself. Pick one — it runs on
-        load; open DevTools (<kbd>F12</kbd>) → Console too. The page reloads to run a fresh copy.
+        Lessons <strong>23 (DOM)</strong> and <strong>24 (Events)</strong> manipulate the page.
+        Pick one and it runs in the isolated <strong>demo stage</strong> below against real
+        elements — try clicking and typing; its <code>console.log</code> output is mirrored under
+        the stage (open DevTools <kbd>F12</kbd> for the full console). Lesson <strong>46</strong>
+        is mostly read-the-code (Web Workers etc. need their own files) — open it and study the
+        comments.
       </p>
       <label for="lesson-picker"><strong>Lesson:</strong></label>
       <select id="lesson-picker" aria-label="Choose a browser lesson to run">
@@ -83,6 +87,7 @@ setTimeout(() => console.log('…and this logs a moment later'), 300);
         <option value="lessons/24-events.js">24 · Events</option>
         <option value="lessons/46-browser-apis.js">46 · Advanced Browser APIs</option>
       </select>
+      <div id="lesson-frame" style="margin-top: 14px"></div>
     </section>
 
     <script src="assets/script.js"></script>
@@ -128,23 +133,64 @@ setTimeout(() => console.log('…and this logs a moment later'), 300);
         });
       })();
 
-      // ── Browser-lesson picker (runs the chosen lesson on load) ───────────────
+      // ── Browser-lesson picker — runs the lesson in an isolated iframe stage ──
+      // The lesson scripts query elements like #box, #myButton, h1, ul. We give
+      // them a clean scaffold document inside an <iframe> (so they can't touch
+      // the playground's own chrome) and mirror the iframe's console into the page.
       (function () {
         var pick = document.getElementById('lesson-picker');
-        var KEY = 'jslearn-playground-lesson', saved = null;
-        try { saved = localStorage.getItem(KEY); } catch (e) {}
-        if (saved) {
-          pick.value = saved;
-          var s = document.createElement('script');
-          s.src = saved;
-          document.body.appendChild(s);
+        var host = document.getElementById('lesson-frame');
+        var KEY = 'jslearn-playground-lesson';
+
+        // The scaffold: every element lessons 23 & 24 look for, plus a console
+        // mirror. `<\/script>` is escaped so it doesn't close THIS script tag.
+        function frameDoc(lessonPath) {
+          return [
+            '<!doctype html><html><head><meta charset="utf-8"><style>',
+            'body{font:14px/1.5 system-ui,sans-serif;color:#e2e8f0;background:#0b1220;padding:14px}',
+            'h1{font-size:1.3rem;margin:.2rem 0}.item{padding:2px 0}a{color:#818cf8}',
+            'button,input{font:inherit;margin:4px 4px 4px 0;padding:6px 10px;border-radius:8px;border:1px solid #334155;background:#1e293b;color:#e2e8f0}',
+            'hr{border:none;border-top:1px solid #334155;margin:12px 0}',
+            '#__out{margin-top:12px;padding:10px;border-top:1px solid #334155;white-space:pre-wrap;color:#cbd5e1;font-family:ui-monospace,monospace;font-size:12px}',
+            '</style></head><body>',
+            '<h1>DOM demo heading</h1>',
+            '<p id="box" class="item">I am #box (class "item")</p>',
+            '<ul><li class="item">list item one</li><li class="item">list item two</li></ul>',
+            '<a href="https://example.com">a sample link</a><hr>',
+            '<button id="myButton" type="button">#myButton — click me</button>',
+            '<input id="nameInput" placeholder="#nameInput — type here">',
+            '<form id="myForm"><input name="field" placeholder="form field"><button type="submit">#myForm submit</button></form>',
+            '<p>Todos (#todoList):</p><ul id="todoList"></ul>',
+            '<pre id="__out">// console output from the lesson appears here</pre>',
+            '<script>(function(){var o=document.getElementById("__out"),first=true;',
+            'function f(a){if(typeof a==="string")return a;if(a&&a.nodeName)return "<"+a.nodeName.toLowerCase()+">";try{return JSON.stringify(a)}catch(e){return String(a)}}',
+            '["log","info","warn","error"].forEach(function(m){var orig=console[m];console[m]=function(){if(first){o.textContent="";first=false}o.textContent+=[].map.call(arguments,f).join(" ")+"\\n";orig.apply(console,arguments)}})})();<\/script>',
+            '<script src="' + lessonPath + '"><\/script>',
+            '</body></html>',
+          ].join('');
         }
+
+        function runLesson(path) {
+          host.innerHTML = '';
+          if (!path) return;
+          var frame = document.createElement('iframe');
+          frame.title = 'Browser lesson demo stage';
+          frame.style.cssText =
+            'width:100%;min-height:340px;border:1px solid #334155;border-radius:10px;background:#0b1220';
+          frame.srcdoc = frameDoc(path);
+          host.appendChild(frame);
+        }
+
+        var saved = null;
+        try { saved = localStorage.getItem(KEY); } catch (e) {}
+        if (saved) { pick.value = saved; runLesson(saved); }
+
         pick.addEventListener('change', function () {
           try {
             if (pick.value) localStorage.setItem(KEY, pick.value);
             else localStorage.removeItem(KEY);
           } catch (e) {}
-          location.reload();
+          runLesson(pick.value);
         });
       })();
     </script>

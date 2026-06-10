@@ -1,12 +1,12 @@
 # JavaScript — Learn Everything
 
-> Complete course bundle · 52 lessons · 7 projects · generated 2026-06-10
+> Complete course bundle · 53 lessons · 8 projects · generated 2026-06-10
 > Every lesson's full, runnable source in one document. Source of truth: the
 > individual files in `lessons/` and `projects/` — regenerate after edits.
 
 ## Roadmap
 
-The 52 lessons climb through **five levels**, beginner to expert. Do them
+The 53 lessons climb through **five levels**, beginner to expert. Do them
 **in order** — each level builds on the one before.
 
 ### Level 1 — Foundation
@@ -96,6 +96,7 @@ includes both the engineering around the language and the computer-science core.
 | 50 | [Binary Data](lessons/50-binary-data.js) | `ArrayBuffer`, typed arrays, `DataView`, `Blob`/`File`, `FormData`, `TextEncoder`, streaming, `Atomics` |
 | 51 | [BigInt & Language Corners](lessons/51-bigint-and-language-corners.js) | `BigInt`, `Object.fromEntries`, `flatMap`, labeled statements, `eval`/`Function` (and why to avoid them) |
 | 52 | [Internationalization](lessons/52-internationalization.js) | the full `Intl` API: `Collator`, `PluralRules`, `RelativeTimeFormat`, `ListFormat`, `Segmenter` |
+| 53 | [Modern Authentication](lessons/53-modern-auth.js) | authN vs authZ, password hashing (scrypt/salt), sessions vs JWT, cookie flags, OAuth/OIDC, passkeys, refresh tokens |
 
 > 💡 **Practice, then compare.** [lessons/solutions/](lessons/solutions/) has a
 > matching `NN-solutions.js` file for every lesson — each with clear, runnable
@@ -1236,7 +1237,7 @@ console.log(nums);          // => [ 1, 'x', 'y', 4, 5 ]
 const letters = ['a', 'b', 'c', 'd'];
 console.log(letters.slice(1, 3)); // => [ 'b', 'c' ]  (end not included)
 console.log(letters.slice(-2));   // => [ 'c', 'd' ]
-console.log(letters);             // => unchanged: [ 'a','b','c','d' ]
+console.log(letters);             // => [ 'a', 'b', 'c', 'd' ]  (unchanged — slice copies)
 
 
 // ── 5. Searching ─────────────────────────────────────────────────────────────
@@ -6830,12 +6831,216 @@ console.log('grapheme count:', graphemes.length); // => 3  ('.length' would say 
 
 ---
 
+## 53 · MODERN AUTHENTICATION
+
+```js
+/* =============================================================================
+ * 53 · MODERN AUTHENTICATION
+ * =============================================================================
+ * Run:  node lessons/53-modern-auth.js
+ *
+ * WHAT YOU'LL LEARN
+ *   • AuthN vs AuthZ — who you are vs what you're allowed to do
+ *   • Storing passwords safely with a slow, salted KDF (scrypt/bcrypt/argon2)
+ *   • Sessions vs tokens (JWT): the trade-offs, and how to choose
+ *   • JWT anatomy, cookie security flags, OAuth/OIDC, passkeys, refresh tokens
+ *
+ * Auth is the front door of every app — get it wrong and nothing else matters.
+ * Lesson 39 grazed tokens & cookies; this goes deeper. Rule #1: don't roll your
+ * own crypto or your own auth protocol — use vetted libraries and providers.
+ * ========================================================================== */
+
+const { scryptSync, randomBytes, timingSafeEqual } = require('node:crypto');
+
+// ── 1. AuthN vs AuthZ ────────────────────────────────────────────────────────
+// Two different questions people constantly conflate:
+//   • AUTHENTICATION (authn) = WHO ARE YOU?  Proving identity (login).
+//   • AUTHORIZATION  (authz) = WHAT MAY YOU DO?  Permissions/roles (access).
+// You authenticate ONCE, then authorize EVERY request. A logged-in user is not
+// automatically allowed to do everything — check permissions on each action.
+function can(user, action) {
+  const policy = { admin: ['read', 'write', 'delete'], member: ['read', 'write'] };
+  return (policy[user.role] ?? []).includes(action);
+}
+const ana = { name: 'ana', role: 'member' };
+console.log(can(ana, 'read'));   // => true
+console.log(can(ana, 'delete')); // => false   (authenticated, but not authorized)
+
+
+// ── 2. Passwords — NEVER store plaintext, hash with a slow salted KDF ─────────
+// If your DB leaks, plaintext passwords are an instant catastrophe. Even a fast
+// hash (md5/sha256) is broken: GPUs guess billions/sec. Use a SLOW, SALTED
+// password KDF: bcrypt, argon2, or scrypt. Two ideas do the work:
+//   • SALT  — random per-user bytes mixed in, so identical passwords hash
+//             differently and precomputed "rainbow tables" are useless.
+//   • SLOW  — deliberately expensive (cost factor) so brute-force is painful.
+// Below: a real scrypt hash + verify with node:crypto. Store `salt:hash`.
+function hashPassword(password) {
+  const salt = randomBytes(16);
+  const hash = scryptSync(password, salt, 32);          // 32-byte derived key
+  return `${salt.toString('hex')}:${hash.toString('hex')}`;
+}
+function verifyPassword(password, stored) {
+  const [saltHex, hashHex] = stored.split(':');
+  const expected = Buffer.from(hashHex, 'hex');
+  const actual = scryptSync(password, Buffer.from(saltHex, 'hex'), 32);
+  return timingSafeEqual(actual, expected);             // constant-time compare
+}
+const record = hashPassword('correct horse battery staple');
+console.log('stored looks like  salt:hash =>', record.slice(0, 12) + '…'); // => stored looks like  salt:hash => <16 hex chars>…
+console.log(verifyPassword('correct horse battery staple', record)); // => true
+console.log(verifyPassword('wrong password', record));               // => false
+
+
+// ── 3. Constant-time comparison — don't leak secrets via timing ──────────────
+// `a === b` on strings/buffers can return EARLY at the first mismatched byte.
+// An attacker measuring response time can recover a secret byte-by-byte. For
+// secrets (tokens, MACs, hashes) compare in CONSTANT time — same work no matter
+// where the first difference is. node:crypto gives you timingSafeEqual:
+function safeEqual(a, b) {
+  const ba = Buffer.from(a), bb = Buffer.from(b);
+  if (ba.length !== bb.length) return false;            // length isn't secret
+  return timingSafeEqual(ba, bb);
+}
+console.log(safeEqual('token-abc', 'token-abc')); // => true
+console.log(safeEqual('token-abc', 'token-xyz')); // => false
+
+
+// ── 4. Sessions vs Tokens — two ways to "stay logged in" ─────────────────────
+// After login the server must remember you across requests. Two models:
+//   • SESSIONS (stateful): server stores session data; the cookie holds only an
+//     OPAQUE id. Easy to revoke (delete the row) — but needs a session store.
+//   • TOKENS (stateless, JWT): a SELF-CONTAINED signed token carries the claims.
+//     No server lookup — but you can't easily revoke before it expires.
+// Trade-off in one line: sessions are easy to revoke / harder to scale; tokens
+// scale across services / are harder to revoke. A blunt decision helper:
+function chooseAuth({ multipleServices, needInstantRevoke, mobileOrApi }) {
+  if (needInstantRevoke) return 'session';             // logout must be immediate
+  if (multipleServices || mobileOrApi) return 'token'; // stateless across services
+  return 'session';                                    // default: simplest
+}
+console.log(chooseAuth({ needInstantRevoke: true }));                  // => session
+console.log(chooseAuth({ multipleServices: true }));                   // => token
+console.log(chooseAuth({ mobileOrApi: true }));                        // => token
+console.log(chooseAuth({}));                                          // => session
+
+
+// ── 5. JWT anatomy — header.payload.signature (base64url) ────────────────────
+// A JWT is THREE base64url parts joined by dots:  xxxxx.yyyyy.zzzzz
+//   • header    — { alg, typ }   which signing algorithm
+//   • payload   — the CLAIMS (sub, exp, role…). NOT encrypted — anyone can read.
+//   • signature — proves it wasn't tampered with, computed with a SECRET KEY.
+// "Signed, not encrypted" → NEVER put secrets/passwords in a JWT payload.
+const sampleJwt =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' +          // header
+  '.eyJzdWIiOiJ1c2VyXzQyIiwicm9sZSI6ImFkbWluIiwiZXhwIjoxNzAwMDAwMDAwfQ' + // payload
+  '.c2lnbmF0dXJl';                                  // signature (fake here)
+const parts = sampleJwt.split('.');
+console.log('parts:', parts.length); // => parts: 3
+const decode = (p) => JSON.parse(Buffer.from(p, 'base64url').toString());
+console.log('header :', decode(parts[0]));  // => header : { alg: 'HS256', typ: 'JWT' }
+console.log('payload:', decode(parts[1]));  // => payload: { sub: 'user_42', role: 'admin', exp: 1700000000 }
+// ⚠️ Decoding ≠ trusting. On the SERVER you MUST VERIFY the signature with your
+// secret/public key (e.g. jsonwebtoken's verify, or jose) AND check `exp`.
+// Anyone can craft a payload; only signature verification makes it trustworthy.
+
+
+// ── 6. Cookie security flags — where the credential actually lives ───────────
+// However you authenticate, the browser credential belongs in a hardened cookie:
+//   Set-Cookie: sid=…; HttpOnly; Secure; SameSite=Lax; Path=/
+//   • HttpOnly  — JS can't read it (document.cookie) → an XSS bug can't steal it.
+//   • Secure    — sent only over HTTPS → not exposed on plaintext connections.
+//   • SameSite  — Lax/Strict stops the cookie riding along on cross-site requests
+//                 → a strong CSRF defense (lesson 39 §2).
+// ❌ The classic mistake: storing a JWT in localStorage. localStorage is readable
+//    by ANY script on the page, so one XSS = stolen token. Prefer an HttpOnly
+//    cookie; if you must use a token in JS, keep it short-lived (see §8).
+
+
+// ── 7. OAuth 2.0 / OIDC — "log in with Google", don't roll your own ──────────
+// OAuth 2.0 = DELEGATED AUTHORIZATION (let app A act on a resource for the user).
+// OpenID Connect (OIDC) adds an IDENTITY layer on top (an id_token = who you are).
+// The AUTHORIZATION-CODE flow, in plain steps:
+const oauthFlow = [
+  '1. App redirects user to the provider (Google) with client_id + scopes',
+  '2. User authenticates & CONSENTS on the provider (your app never sees the pw)',
+  '3. Provider redirects back with a one-time ?code=…',
+  '4. App exchanges code (+ client_secret) server-side for access/id tokens',
+  '5. App uses the access token to call APIs / reads the id_token for identity',
+];
+oauthFlow.forEach((s) => console.log(s));
+// => 1. App redirects user to the provider (Google) with client_id + scopes
+// => 2. User authenticates & CONSENTS on the provider (your app never sees the pw)
+// => 3. Provider redirects back with a one-time ?code=…
+// => 4. App exchanges code (+ client_secret) server-side for access/id tokens
+// => 5. App uses the access token to call APIs / reads the id_token for identity
+// Use PKCE for public clients (SPAs/mobile) and a `state` param against CSRF.
+// Don't implement the protocol yourself — use a library/provider (Auth0, Clerk,
+// next-auth, Passport, Keycloak). Auth is a minefield; lean on vetted tooling.
+
+
+// ── 8. Refresh tokens & rotation — short access, long refresh ────────────────
+// Best practice splits credentials by lifetime:
+//   • ACCESS TOKEN  — short-lived (minutes). Used on every API call. If leaked,
+//     it expires fast, limiting the blast radius.
+//   • REFRESH TOKEN — longer-lived, kept in an HttpOnly cookie. Trades itself
+//     for a NEW access token when the old one expires (no re-login).
+// ROTATION: each refresh issues a new refresh token and invalidates the old one;
+// if an already-used (stolen) one is replayed, you detect theft and revoke the
+// whole family. LOGOUT = delete the session / revoke the refresh token server-side
+// (you can't "unsign" a still-valid access JWT — hence keep it short).
+let serverEpoch = 1; // bump this to invalidate all access tokens at once
+function issueAccessToken(userId) { return { userId, epoch: serverEpoch, ttl: '15m' }; }
+function isStillValid(tok) { return tok.epoch === serverEpoch; }
+const access = issueAccessToken('user_42');
+console.log('valid before logout:', isStillValid(access)); // => valid before logout: true
+serverEpoch++; // "log out everywhere" / rotate the signing epoch
+console.log('valid after  logout:', isStillValid(access)); // => valid after  logout: false
+
+
+// ── 9. Passkeys / WebAuthn — the passwordless 2026 direction ─────────────────
+// Passkeys (built on the WebAuthn standard) replace passwords with PUBLIC-KEY
+// crypto. At signup the device generates a key PAIR; the server stores only the
+// PUBLIC key. To log in, the device SIGNS a server challenge with the private
+// key (unlocked by Face ID / fingerprint / PIN). The private key never leaves
+// the device and is bound to the site's origin, so passkeys are:
+//   • PHISHING-RESISTANT — a fake site can't get a signature for the real origin.
+//   • Nothing reusable to STEAL — the server holds only a public key.
+//   • Syncable across your devices via the platform keychain.
+// Browser API: navigator.credentials.create()/get() with publicKey options.
+// This is where modern auth is heading; offer passkeys alongside OAuth/passwords.
+
+
+// ── 10. Common mistakes checklist ────────────────────────────────────────────
+// ❌ Plaintext or fast-hash (md5/sha1) passwords        ✅ scrypt/bcrypt/argon2 + salt
+// ❌ JWT in localStorage                                 ✅ HttpOnly + Secure cookie
+// ❌ No `exp` / never-expiring tokens                    ✅ short access + refresh
+// ❌ Weak/shared signing secret                          ✅ long random per-env secret
+// ❌ Trusting a decoded JWT without verifying signature  ✅ verify on the server
+// ❌ Rolling your own auth protocol/crypto               ✅ vetted libs & providers
+
+
+/* PRACTICE -------------------------------------------------------------------
+ *   1. Write decodeJwtPayload(token) that returns the parsed payload object
+ *      from a JWT string (split on '.', base64url-decode the middle part).
+ *   2. Write isExpired(payload, nowSeconds) using the JWT `exp` claim (seconds).
+ *      Return true when the token is past its expiry.
+ *   3. Extend chooseAuth() so a 'thirdPartyApi' need also returns 'token'.
+ *   4. Using scryptSync + timingSafeEqual, write needsRehash(stored) that
+ *      returns true when a stored hash's derived-key length is below 32 bytes
+ *      (a signal to upgrade the user's hash on next login).
+ * ------------------------------------------------------------------------- */
+```
+
+---
+
 # Projects
 
 # JavaScript Projects — Build to Learn
 
-Reading teaches you *what*. Building teaches you *how*. These seven projects make
-you apply the lessons in real, working apps that run in the browser.
+Reading teaches you *what*. Building teaches you *how*. These eight projects make
+you apply the lessons in real, working apps — the first seven run in the browser,
+and the eighth is a back-end REST API you run with Node.
 
 ## How each project works
 
@@ -6868,6 +7073,11 @@ Every project folder has:
 | 5 | [Virtual List](5-virtual-list/) | 41 performance, 13 array methods, 23–24 DOM/events, 29 throttle | virtualization — render only what's visible |
 | 6 | [Form Validation](6-form-validation/) | 23 DOM, 24 events, 26 regex, 21 errors, 07 conditionals | validate input before you trust it |
 | 7 | [Notes App](7-notes-app/) | 14 objects, 20 async, 25 fetch, 21 errors, 23–24 DOM/events | mutate server state with optimistic UI + rollback |
+| 8 | [REST API](8-rest-api/) **(backend)** | 45 Node, 25 HTTP, 21 errors, 39 security, 38 testing | build the server: routing, validation, status codes |
+
+> **Project 8 is back-end** — no browser. Run it with `node projects/8-rest-api/solution.js`
+> and test it with `node --test projects/8-rest-api/test.mjs`. Fill in `server.js` (the
+> starter) instead of `app.js`.
 
 ## The right way to use these
 
@@ -6877,7 +7087,7 @@ Every project folder has:
 4. **Then extend it** — every README has "Make it your own" ideas. That's where
    real learning happens.
 
-Build all seven and you'll have gone from "I read about JavaScript" to
+Build all eight and you'll have gone from "I read about JavaScript" to
 "I build things with JavaScript." 🚀
 
 ---
@@ -8282,5 +8492,307 @@ form.addEventListener('submit', (event) => {
 });
 
 load();
+```
+
+---
+
+## Project 8 — REST API (backend)
+
+The first **back-end** project. Everything else you built runs in the browser;
+this runs on a server. You'll build a real CRUD REST API with **no frameworks
+and no npm installs** — just Node's built-in `http` module — so you can see
+exactly what Express and friends do for you under the hood.
+
+## What it does
+- Serves a JSON REST API for a `tasks` resource on `http://localhost:3000`
+- `GET /tasks` · `GET /tasks/:id` · `POST /tasks` · `PATCH /tasks/:id` · `DELETE /tasks/:id`
+- A tiny **router** that maps `METHOD + /path/:param` to a handler
+- Parses JSON request bodies (with a size guard), **validates** input
+- Returns correct **status codes** (200/201/204/400/404) and JSON errors
+- **Centralized error handling**: a thrown error becomes a clean 500 — the
+  server never crashes on a bad request or a bug in a handler
+
+## Lessons you'll apply
+- **45 Node.js** — the `http` module, `req`/`res` streams, `process.env`
+- **25 Fetch & HTTP** — the same methods/status codes/REST, now from the server side
+- **21 Error handling** — custom error class + one place that catches everything
+- **39 Security** — validate all input, cap the body size, don't leak error details
+- **38 Testing** — black-box tests that hit the real server with `fetch`
+
+## How to run
+```bash
+# start the server
+node projects/8-rest-api/solution.js          # → listening on http://localhost:3000
+
+# in another terminal, talk to it:
+curl http://localhost:3000/tasks
+curl -X POST http://localhost:3000/tasks -H 'Content-Type: application/json' -d '{"title":"Ship it"}'
+curl -X PATCH http://localhost:3000/tasks/<id> -H 'Content-Type: application/json' -d '{"done":true}'
+curl -X DELETE http://localhost:3000/tasks/<id> -i      # → 204 No Content
+
+# run the tests (no server needed — they start their own on a random port)
+node --test projects/8-rest-api/test.mjs
+```
+Open `server.js` (the starter) to build it yourself; `solution.js` is the finished version.
+
+## Build it step by step
+1. **Plumbing (given)** — the store (a `Map`), `sendJSON`/`sendNoContent`,
+   the `HttpError` class, `readJSONBody`, and the router are already wired.
+2. **validateTask()** — return a clean `{ title?, done? }` or throw a 400:
+   title required on create, non-empty string if present, `done` must be boolean.
+3. **listTasks / getTask** — read from the store; 404 when an id isn't found.
+4. **createTask** — validate, assign `crypto.randomUUID()`, store, reply **201**.
+5. **updateTask** — PATCH = *partial* update: validate with `partial: true`,
+   merge onto the existing record, reply **200**.
+6. **deleteTask** — remove it, reply **204** (no body).
+7. **handler()** — find a route (404 if none), run it, and wrap the whole thing
+   in `try/catch`: an `HttpError` maps to its status, anything else is a logged 500.
+
+## Make it your own
+- **Persist** the store to a JSON file (lesson 45 `fs`) or SQLite, so restarts
+  don't wipe the data.
+- Add **pagination** (`GET /tasks?limit=&offset=`) and filtering with `URLSearchParams`.
+- Add **auth** — a bearer token or session (lesson 53) gating writes.
+- Add **rate limiting / a request log** (lesson 47), and CORS headers (lesson 39).
+- Point the **Notes app (project 7)** at this API instead of JSONPlaceholder.
+
+## Concepts this cements
+- **A request is just data**: method + path + body in, status + JSON out. A web
+  framework is mostly a nicer router and middleware around exactly this loop.
+- **Validate at the boundary**: never trust the client; reject bad input with a
+  4xx *before* it reaches your data.
+- **Fail safely**: one error handler converts every failure into a clean
+  response, so a single bad request can't take the whole server down.
+
+### solution.js
+
+```js
+/* =============================================================================
+ * REST API — SOLUTION
+ * =============================================================================
+ * Complete, working version. Compare with your server.js after trying.
+ *
+ * Lessons used: 45 Node · 25 Fetch/HTTP · 21 Error handling · 39 Security · 38 Testing
+ *
+ * A backend with NO frameworks and NO npm installs — just Node's built-in
+ * `node:http`. It serves a full CRUD REST API over an in-memory "tasks"
+ * resource, with a tiny router, JSON body parsing, validation, proper status
+ * codes, and centralized error handling so a thrown error becomes a clean 500
+ * instead of crashing the process.
+ *
+ * Run it directly:   node projects/8-rest-api/solution.js
+ * Test it:           node --test projects/8-rest-api/test.mjs
+ *
+ * Endpoints:
+ *   GET    /tasks         → 200  list all tasks
+ *   GET    /tasks/:id     → 200  one task   (404 if missing)
+ *   POST   /tasks         → 201  create     (400 if invalid)
+ *   PATCH  /tasks/:id     → 200  update     (400 invalid · 404 missing)
+ *   DELETE /tasks/:id     → 204  delete     (404 if missing)
+ * ========================================================================== */
+
+const http = require('node:http');
+const crypto = require('node:crypto');
+
+// ── In-memory data store ─────────────────────────────────────────────────────
+// A Map keyed by id. This lives in memory only: restart the server and it's
+// empty again. (See "Make it your own" in the README for persisting to disk.)
+const tasks = new Map();
+
+// Seed one task so GET /tasks isn't empty on a fresh start.
+(function seed() {
+  const id = crypto.randomUUID();
+  tasks.set(id, { id, title: 'Learn the http module', done: false, createdAt: new Date().toISOString() });
+})();
+
+const MAX_BODY_BYTES = 1024 * 100; // 100 KB — guard against huge/abusive bodies (lesson 39)
+
+// ── Small helpers ────────────────────────────────────────────────────────────
+// Send any JS value as a JSON response with the right headers + status code.
+function sendJSON(res, status, payload) {
+  const body = JSON.stringify(payload);
+  res.writeHead(status, {
+    'Content-Type': 'application/json',
+    'Content-Length': Buffer.byteLength(body),
+  });
+  res.end(body);
+}
+
+// 204 No Content has an empty body by definition (used by DELETE).
+function sendNoContent(res) {
+  res.writeHead(204);
+  res.end();
+}
+
+// An error we throw on purpose to map to a specific HTTP status. Anything else
+// that throws is treated as an unexpected 500 by the centralized handler.
+class HttpError extends Error {
+  constructor(status, message) {
+    super(message);
+    this.status = status;
+  }
+}
+
+// Read the whole request body, reject if it's empty-or-not, parse JSON, and
+// enforce a size cap so a client can't stream us out of memory.
+function readJSONBody(req) {
+  return new Promise((resolve, reject) => {
+    let size = 0;
+    const chunks = [];
+    req.on('data', (chunk) => {
+      size += chunk.length;
+      if (size > MAX_BODY_BYTES) {
+        reject(new HttpError(413, 'Request body too large'));
+        req.destroy();
+        return;
+      }
+      chunks.push(chunk);
+    });
+    req.on('end', () => {
+      const raw = Buffer.concat(chunks).toString('utf8').trim();
+      if (raw === '') return resolve({}); // empty body → empty object
+      try {
+        resolve(JSON.parse(raw));
+      } catch {
+        reject(new HttpError(400, 'Invalid JSON in request body'));
+      }
+    });
+    req.on('error', reject);
+  });
+}
+
+// ── Validation ───────────────────────────────────────────────────────────────
+// Returns a clean { title, done } or throws a 400 HttpError. `partial` allows
+// missing fields (for PATCH); a full create requires `title`.
+function validateTask(input, { partial = false } = {}) {
+  if (input === null || typeof input !== 'object' || Array.isArray(input)) {
+    throw new HttpError(400, 'Body must be a JSON object');
+  }
+  const out = {};
+
+  const hasTitle = 'title' in input;
+  if (!partial && !hasTitle) throw new HttpError(400, 'title is required');
+  if (hasTitle) {
+    if (typeof input.title !== 'string' || input.title.trim() === '') {
+      throw new HttpError(400, 'title must be a non-empty string');
+    }
+    out.title = input.title.trim();
+  }
+
+  if ('done' in input) {
+    if (typeof input.done !== 'boolean') throw new HttpError(400, 'done must be a boolean');
+    out.done = input.done;
+  }
+
+  return out;
+}
+
+// ── Resource handlers (one async function per endpoint) ──────────────────────
+async function listTasks(req, res) {
+  sendJSON(res, 200, [...tasks.values()]);
+}
+
+async function getTask(req, res, params) {
+  const task = tasks.get(params.id);
+  if (!task) throw new HttpError(404, 'Task not found');
+  sendJSON(res, 200, task);
+}
+
+async function createTask(req, res) {
+  const body = await readJSONBody(req);
+  const data = validateTask(body); // throws 400 if invalid
+  const task = {
+    id: crypto.randomUUID(),
+    title: data.title,
+    done: data.done ?? false,
+    createdAt: new Date().toISOString(),
+  };
+  tasks.set(task.id, task);
+  sendJSON(res, 201, task); // 201 Created + the new record (with its id)
+}
+
+async function updateTask(req, res, params) {
+  const existing = tasks.get(params.id);
+  if (!existing) throw new HttpError(404, 'Task not found');
+  const body = await readJSONBody(req);
+  const data = validateTask(body, { partial: true }); // PATCH = partial update
+  const updated = { ...existing, ...data };
+  tasks.set(params.id, updated);
+  sendJSON(res, 200, updated);
+}
+
+async function deleteTask(req, res, params) {
+  if (!tasks.has(params.id)) throw new HttpError(404, 'Task not found');
+  tasks.delete(params.id);
+  sendNoContent(res); // 204 No Content
+}
+
+// ── A tiny router ────────────────────────────────────────────────────────────
+// Each route is a method + a path PATTERN. A `:name` segment becomes a captured
+// param. We compile each pattern to a RegExp once, then match incoming URLs.
+function compile(pattern) {
+  const names = [];
+  const source = pattern.replace(/:([^/]+)/g, (_, name) => {
+    names.push(name);
+    return '([^/]+)';
+  });
+  return { regex: new RegExp(`^${source}$`), names };
+}
+
+const routes = [
+  { method: 'GET', ...compile('/tasks'), handler: listTasks },
+  { method: 'POST', ...compile('/tasks'), handler: createTask },
+  { method: 'GET', ...compile('/tasks/:id'), handler: getTask },
+  { method: 'PATCH', ...compile('/tasks/:id'), handler: updateTask },
+  { method: 'DELETE', ...compile('/tasks/:id'), handler: deleteTask },
+];
+
+function matchRoute(method, pathname) {
+  for (const route of routes) {
+    if (route.method !== method) continue;
+    const m = route.regex.exec(pathname);
+    if (!m) continue;
+    const params = {};
+    route.names.forEach((name, i) => (params[name] = decodeURIComponent(m[i + 1])));
+    return { handler: route.handler, params };
+  }
+  return null;
+}
+
+// ── The request handler (with centralized error handling) ────────────────────
+// This is the single function passed to http.createServer. It finds a route,
+// runs its handler, and turns ANY failure into a clean JSON response — so the
+// server never crashes on a bad request or a bug in a handler (lesson 21).
+async function handler(req, res) {
+  try {
+    // Parse the path only; the URL needs a base because req.url is path-relative.
+    const { pathname } = new URL(req.url, 'http://localhost');
+    const match = matchRoute(req.method, pathname);
+    if (!match) throw new HttpError(404, `No route for ${req.method} ${pathname}`);
+    await match.handler(req, res, match.params);
+  } catch (err) {
+    if (res.headersSent) return; // a handler already started replying — don't double-send
+    const status = err instanceof HttpError ? err.status : 500;
+    if (status === 500) console.error('Unexpected error:', err); // log bugs, but don't leak them
+    const message = status === 500 ? 'Internal Server Error' : err.message;
+    sendJSON(res, status, { error: message });
+  }
+}
+
+// Factory so tests (and other callers) can spin up a fresh server easily.
+function createServer() {
+  return http.createServer(handler);
+}
+
+module.exports = { handler, createServer, tasks };
+
+// ── Only listen when run directly (not when imported by the test file) ───────
+if (require.main === module) {
+  const PORT = process.env.PORT ?? 3000;
+  createServer().listen(PORT, () => {
+    console.log(`REST API listening on http://localhost:${PORT}`);
+    console.log('Try:  curl http://localhost:' + PORT + '/tasks');
+  });
+}
 ```
 

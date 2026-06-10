@@ -24,12 +24,21 @@ for f in lessons/[0-9]*.js; do
 done
 [ $status -eq 0 ] && echo "  ✓ all $(ls lessons/[0-9]*.js | wc -l | tr -d ' ') lessons exit 0"
 
-echo "▶ Running the test lesson…"
-node --test lessons/38-testing.js >/dev/null 2>&1 && echo "  ✓ tests pass" || { echo "  ✗ tests failed"; status=1; }
+echo "▶ Verifying every lesson's \`// =>\` output comments…"
+node tools/check-outputs.mjs || status=1
+
+echo "▶ Running the test suites…"
+TEST_OK=1
+for t in "lessons/38-testing.js" "projects/8-rest-api/test.mjs" practice/*.test.mjs; do
+  [ -e "$t" ] || continue
+  node --test "$t" >/dev/null 2>&1 || { echo "  ✗ tests failed: $t"; TEST_OK=0; status=1; }
+done
+[ $TEST_OK -eq 1 ] && echo "  ✓ all tests pass"
 
 echo "▶ Syntax-checking project & solution JS…"
 parse_ok=1
-for f in projects/*/app.js projects/*/solution.js lessons/solutions/*.js; do
+for f in projects/*/app.js projects/*/server.js projects/*/solution.js lessons/solutions/*.js practice/*.mjs; do
+  [ -e "$f" ] || continue
   node --check "$f" 2>/dev/null || { echo "  ✗ parse error: $f"; parse_ok=0; status=1; }
 done
 [ $parse_ok -eq 1 ] && echo "  ✓ all project & solution files parse"

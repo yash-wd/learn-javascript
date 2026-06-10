@@ -172,9 +172,9 @@ const ITEMS = [
       'Lesson 39 covers auth tokens at a high level. A focused walkthrough of the auth ' +
       'landscape (cookie sessions vs JWT, OAuth/OIDC flow, and passkeys/WebAuthn) would ' +
       'fill a real 2026 gap — most apps get this wrong.',
-    related: ['39-security', '33-browser-storage'],
+    related: ['39-security', '33-browser-storage', '53-modern-auth'],
     priority: 'med',
-    status: 'todo',
+    status: 'done', // shipped as lesson 53 (Modern Authentication) + its solution
     added: '2026-06-10',
   },
   {
@@ -187,7 +187,47 @@ const ITEMS = [
       'let learners apply lessons 21/38/39/45 end-to-end on the server side.',
     related: ['45-nodejs', '38-testing', '39-security', '21-error-handling'],
     priority: 'med',
-    status: 'todo',
+    status: 'done', // shipped as project 8 (projects/8-rest-api) with passing tests
+    added: '2026-06-10',
+  },
+
+  // ── Quality infrastructure shipped 2026-06-10 ───────────────────────────────
+  {
+    id: 'output-harness',
+    kind: 'enhancement',
+    title: 'Self-verifying lesson output harness',
+    detail:
+      'tools/check-outputs.mjs runs every non-browser lesson and asserts its `// =>` ' +
+      'comments match real output (541 checked). Wired into verify.sh + CI + `npm run check`.',
+    related: ['tools/check-outputs.mjs', 'scripts/verify.sh'],
+    priority: 'high',
+    status: 'done',
+    added: '2026-06-10',
+  },
+  {
+    id: 'practice-system',
+    kind: 'enhancement',
+    title: 'Auto-graded practice exercises + capstone',
+    detail:
+      'practice/ has fill-in stubs + reference solutions + node:test suites (one set per ' +
+      'level) plus a 5-question capstone. PRACTICE=mine grades the learner; default grades ' +
+      'the solution so CI stays green.',
+    related: ['practice/'],
+    priority: 'med',
+    status: 'done',
+    added: '2026-06-10',
+  },
+  {
+    id: 'browser-lesson-sandbox',
+    kind: 'enhancement',
+    title: 'Runnable demo stage for browser lessons 23/24/46',
+    detail:
+      'playground.html now runs the browser lessons in an isolated iframe with a real ' +
+      'scaffold DOM (#box, #myButton, etc.) and a visible console mirror, instead of ' +
+      'loading them against a page with none of the elements they query.',
+    related: ['playground.html'],
+    priority: 'med',
+    status: 'done',
     added: '2026-06-10',
   },
 ];

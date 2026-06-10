@@ -43,7 +43,7 @@ console.log(nums);          // => [ 1, 'x', 'y', 4, 5 ]
 const letters = ['a', 'b', 'c', 'd'];
 console.log(letters.slice(1, 3)); // => [ 'b', 'c' ]  (end not included)
 console.log(letters.slice(-2));   // => [ 'c', 'd' ]
-console.log(letters);             // => unchanged: [ 'a','b','c','d' ]
+console.log(letters);             // => [ 'a', 'b', 'c', 'd' ]  (unchanged — slice copies)
 
 
 // ── 5. Searching ─────────────────────────────────────────────────────────────
