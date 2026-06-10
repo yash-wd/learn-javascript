@@ -16,8 +16,8 @@ one question at a time, tracking the score, and reacting to user choices.
 - **24 DOM / 25 Events** — rendering and handling clicks
 
 ## How to run
-Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see
-the finished version.
+Open `index.html`. It loads `app.js` (starter). **To see the finished app, open
+`solution.html`.**
 
 ## The data model (given to you in the starter)
 ```js

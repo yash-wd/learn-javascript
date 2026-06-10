@@ -77,9 +77,13 @@ appends a `# Projects` section to all three outputs.
 - [ ] **Regenerate the bundle.**
 
 ### 🛠️ Add or remove a project
-- [ ] Create/delete `projects/N-name/` with all 5 files: `index.html`,
-      `style.css`, `app.js` (starter w/ `// TODO:`), `solution.js` (complete),
-      `README.md`. Match an existing project's structure & dark theme.
+- [ ] Create/delete `projects/N-name/` with all 6 files: `index.html` (loads the
+      `app.js` starter), `style.css`, `app.js` (starter w/ `// TODO:`),
+      `solution.js` (complete), `solution.html` (same markup as `index.html` but
+      loads `solution.js` — the one-click "see it finished" page), and `README.md`.
+      Match an existing project's structure & dark theme. Keep `solution.html`'s
+      markup in sync with `index.html`. (Backend project 8 has no `index.html`/
+      `solution.html` — it runs with `node`.)
 - [ ] Bump the **project count ("7")** everywhere:
       **README.md** (projects table + "N real projects" prose + repo-layout note),
       **projects/README.md** (table + "these N projects" / "build all N" prose),

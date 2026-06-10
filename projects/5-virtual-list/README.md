@@ -24,9 +24,8 @@ table/feed/chat app (and libraries like TanStack Virtual, react-window) work.
 - **30 Advanced Async** — throttling the scroll handler with `requestAnimationFrame`
 
 ## How to run
-Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see
-the finished version:
-`<script src="app.js">` → `<script src="solution.js">`
+Open `index.html`. It loads `app.js` (starter). **To see the finished app, open
+`solution.html`** (it loads `solution.js`).
 
 ## How it works (the 3 moving parts)
 ```

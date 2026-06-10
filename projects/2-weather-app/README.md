@@ -26,7 +26,7 @@ It uses **Open-Meteo** — completely free, **no API key**, no sign-up. Two call
 
 ## How to run
 Open `index.html` in your browser (you need an internet connection).
-It loads `app.js` (starter). Switch to `solution.js` to see it finished.
+It loads `app.js` (starter). **To see the finished app, open `solution.html`.**
 
 > ⚠️ Some browsers restrict `fetch` from a `file://` page. If a request is
 > blocked, run a tiny local server from this folder instead:

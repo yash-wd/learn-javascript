@@ -7586,10 +7586,11 @@ and the eighth is a back-end REST API you run with Node.
 Every project folder has:
 
 - **README.md** — the goal, the spec, and step-by-step build instructions
-- **index.html** — the page structure (already done for you)
+- **index.html** — the page structure + the **starter** (`app.js`); this is where you work
 - **style.css** — basic styling (already done)
 - **app.js** — the **starter**: scaffolding with `// TODO:` comments for YOU to fill in
 - **solution.js** — the **complete** working version to check yourself against
+- **solution.html** — open this to see the finished app running (it loads `solution.js`)
 
 ### To run a project
 
@@ -7598,8 +7599,7 @@ Every project folder has:
 3. Edit `app.js`, save, and refresh the page to see your changes.
 
 > `index.html` loads **app.js** (your version) by default.
-> To see the finished app working, change the script tag in `index.html`:
-> `<script src="app.js">` → `<script src="solution.js">`
+> To see the finished app working, just open **`solution.html`** — no editing needed.
 
 ## The projects (do them in order)
 
@@ -7653,7 +7653,7 @@ tasks so they survive a page refresh.
 
 ## How to run
 Open `index.html` in your browser. It loads `app.js` (the starter).
-To see the finished version, change `index.html`'s script tag to `solution.js`.
+**To see the finished app, just open `solution.html`** — it loads `solution.js`.
 
 ## Build it step by step
 The starter (`app.js`) has these `// TODO:`s. Do them in order:
@@ -7837,7 +7837,7 @@ It uses **Open-Meteo** — completely free, **no API key**, no sign-up. Two call
 
 ## How to run
 Open `index.html` in your browser (you need an internet connection).
-It loads `app.js` (starter). Switch to `solution.js` to see it finished.
+It loads `app.js` (starter). **To see the finished app, open `solution.html`.**
 
 > ⚠️ Some browsers restrict `fetch` from a `file://` page. If a request is
 > blocked, run a tiny local server from this folder instead:
@@ -8009,8 +8009,8 @@ one question at a time, tracking the score, and reacting to user choices.
 - **24 DOM / 25 Events** — rendering and handling clicks
 
 ## How to run
-Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see
-the finished version.
+Open `index.html`. It loads `app.js` (starter). **To see the finished app, open
+`solution.html`.**
 
 ## The data model (given to you in the starter)
 ```js
@@ -8219,9 +8219,8 @@ The computer-science capstone. No internet needed — this is about turning two
 - **24 DOM / 25 Events** — dropdowns, buttons, rendering
 
 ## How to run
-Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see
-the finished version:
-`<script src="app.js">` → `<script src="solution.js">`
+Open `index.html`. It loads `app.js` (starter). **To see the finished app, open
+`solution.html`** (it loads `solution.js`).
 
 ## The data model (given to you in the starter)
 ```js
@@ -8448,9 +8447,8 @@ table/feed/chat app (and libraries like TanStack Virtual, react-window) work.
 - **30 Advanced Async** — throttling the scroll handler with `requestAnimationFrame`
 
 ## How to run
-Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see
-the finished version:
-`<script src="app.js">` → `<script src="solution.js">`
+Open `index.html`. It loads `app.js` (starter). **To see the finished app, open
+`solution.html`** (it loads `solution.js`).
 
 ## How it works (the 3 moving parts)
 ```
@@ -8622,9 +8620,8 @@ everything is valid.
 - **07 Conditionals** — the validation rules themselves (`if` / ternary / early return)
 
 ## How to run
-Open `index.html` in your browser. It loads `app.js` (the starter). Switch to the
-finished version by changing the last line:
-`<script src="app.js">` → `<script src="solution.js">`
+Open `index.html` in your browser. It loads `app.js` (the starter). **To see the
+finished app, open `solution.html`** (it loads `solution.js`).
 
 ## Build it step by step
 1. **Write the rules.** Each `validators[field]` takes the value and returns an
@@ -8824,7 +8821,7 @@ requests (`POST`/`PUT`/`DELETE`) and replies realistically:
 
 ## How to run
 Open `index.html` in your browser (you need an internet connection).
-It loads `app.js` (starter). Switch to `solution.js` to see it finished.
+It loads `app.js` (starter). **To see the finished app, open `solution.html`.**
 
 > ⚠️ Some browsers restrict `fetch` from a `file://` page. If a request is
 > blocked, run a tiny local server from this folder instead:

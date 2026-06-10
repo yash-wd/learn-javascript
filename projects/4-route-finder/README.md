@@ -19,9 +19,8 @@ The computer-science capstone. No internet needed — this is about turning two
 - **24 DOM / 25 Events** — dropdowns, buttons, rendering
 
 ## How to run
-Open `index.html`. It loads `app.js` (starter). Switch to `solution.js` to see
-the finished version:
-`<script src="app.js">` → `<script src="solution.js">`
+Open `index.html`. It loads `app.js` (starter). **To see the finished app, open
+`solution.html`** (it loads `solution.js`).
 
 ## The data model (given to you in the starter)
 ```js

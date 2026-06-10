@@ -21,9 +21,8 @@ everything is valid.
 - **07 Conditionals** — the validation rules themselves (`if` / ternary / early return)
 
 ## How to run
-Open `index.html` in your browser. It loads `app.js` (the starter). Switch to the
-finished version by changing the last line:
-`<script src="app.js">` → `<script src="solution.js">`
+Open `index.html` in your browser. It loads `app.js` (the starter). **To see the
+finished app, open `solution.html`** (it loads `solution.js`).
 
 ## Build it step by step
 1. **Write the rules.** Each `validators[field]` takes the value and returns an

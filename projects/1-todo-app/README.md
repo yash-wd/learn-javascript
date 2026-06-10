@@ -20,7 +20,7 @@ tasks so they survive a page refresh.
 
 ## How to run
 Open `index.html` in your browser. It loads `app.js` (the starter).
-To see the finished version, change `index.html`'s script tag to `solution.js`.
+**To see the finished app, just open `solution.html`** — it loads `solution.js`.
 
 ## Build it step by step
 The starter (`app.js`) has these `// TODO:`s. Do them in order:

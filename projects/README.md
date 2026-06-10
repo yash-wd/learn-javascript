@@ -9,10 +9,11 @@ and the eighth is a back-end REST API you run with Node.
 Every project folder has:
 
 - **README.md** — the goal, the spec, and step-by-step build instructions
-- **index.html** — the page structure (already done for you)
+- **index.html** — the page structure + the **starter** (`app.js`); this is where you work
 - **style.css** — basic styling (already done)
 - **app.js** — the **starter**: scaffolding with `// TODO:` comments for YOU to fill in
 - **solution.js** — the **complete** working version to check yourself against
+- **solution.html** — open this to see the finished app running (it loads `solution.js`)
 
 ### To run a project
 
@@ -21,8 +22,7 @@ Every project folder has:
 3. Edit `app.js`, save, and refresh the page to see your changes.
 
 > `index.html` loads **app.js** (your version) by default.
-> To see the finished app working, change the script tag in `index.html`:
-> `<script src="app.js">` → `<script src="solution.js">`
+> To see the finished app working, just open **`solution.html`** — no editing needed.
 
 ## The projects (do them in order)
 
