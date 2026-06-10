@@ -3,7 +3,7 @@
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * Lessons used: 25 Fetch · 20 Async/Await · 21 Errors · 32 Dates · 23 DOM
+ * Lessons used: 26 Fetch · 20 Async/Await · 22 Errors · 33 Dates · 24 DOM
  * ========================================================================== */
 
 const form = document.querySelector('#search-form');
@@ -79,7 +79,7 @@ function showWeather(place, weather) {
   conditionEl.textContent = text;
   windEl.textContent = `💨 Wind: ${weather.wind_speed_10m} km/h`;
 
-  // Format today's date nicely (lesson 32)
+  // Format today's date nicely (lesson 33)
   dateEl.textContent = new Intl.DateTimeFormat('en-US', {
     weekday: 'long',
     month: 'long',

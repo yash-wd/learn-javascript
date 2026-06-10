@@ -8,24 +8,23 @@
          (GitHub Pages serves index.html; the rich page lives in curriculum.html.) -->
     <meta http-equiv="refresh" content="0; url=curriculum.html" />
     <link rel="canonical" href="curriculum.html" />
+    <!-- One shared palette drives every page; rebrand in assets/theme.css. -->
+    <link rel="stylesheet" href="assets/theme.css" />
     <style>
       body {
-        font-family: ui-sans-serif, system-ui, sans-serif;
-        background: #0b1020;
-        color: #e7ecf6;
         display: grid;
         place-items: center;
         height: 100vh;
-        margin: 0;
         text-align: center;
       }
-      a { color: #8b5cf6; }
+      a { color: var(--brand-strong); }
     </style>
   </head>
   <body>
     <p>
       Opening the JavaScript curriculum…<br />
-      If it doesn't load, <a href="curriculum.html">click here</a>.
+      If it doesn't load, <a href="curriculum.html">click here</a>.<br />
+      Or jump straight to the <a href="playground.html">JavaScript Playground</a>.
     </p>
   </body>
 </html>

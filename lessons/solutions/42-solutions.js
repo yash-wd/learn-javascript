@@ -1,85 +1,70 @@
 /* =============================================================================
- * SOLUTIONS · 42 · POLYFILLS — implement the built-ins yourself
+ * SOLUTIONS · 42 · PERFORMANCE — make it fast (and know what "fast" means)
  * =============================================================================
  * Run:  node lessons/solutions/42-solutions.js
  *
- * Worked answers to the PRACTICE block in lessons/42-polyfills.js.
+ * Worked answers to the PRACTICE block in lessons/42-performance.js.
  * Try each problem YOURSELF first — then compare.
  * ========================================================================== */
 
-// ── 1. Implement myForEach(arr, fn) (like map but returns nothing). ──────────
-function myForEach(arr, fn) {
-  for (let i = 0; i < arr.length; i++) fn(arr[i], i, arr); // fn gets (item, index, array)
-  // returns undefined — forEach is called for side effects only
+// ── 1. Memoize a slow fibonacci(n) and compare call counts with/without it. ──
+let naiveCalls = 0;
+function fibNaive(n) {
+  naiveCalls++;
+  return n < 2 ? n : fibNaive(n - 1) + fibNaive(n - 2); // recomputes the same n over and over
 }
-const out = [];
-myForEach(['a', 'b', 'c'], (item, i) => out.push(`${i}:${item}`));
-console.log('1.', out); // => 1. [ '0:a', '1:b', '2:c' ]
+fibNaive(20);
 
-// ── 2. Implement myFlat(arr, depth) using recursion (lesson 09). ─────────────
-function myFlat(arr, depth = 1) {
-  return arr.reduce((acc, item) => {
-    if (Array.isArray(item) && depth > 0) {
-      acc.push(...myFlat(item, depth - 1)); // recurse one level shallower
-    } else {
-      acc.push(item);
-    }
-    return acc;
-  }, []);
+let memoCalls = 0;
+const memo = new Map();
+function fibMemo(n) {
+  if (memo.has(n)) return memo.get(n); // cache hit → no recompute
+  memoCalls++;
+  const value = n < 2 ? n : fibMemo(n - 1) + fibMemo(n - 2);
+  memo.set(n, value);
+  return value;
 }
-console.log('2.', myFlat([1, [2, [3, [4]]]], 1)); // => 2. [ 1, 2, [ 3, [ 4 ] ] ]
-console.log('2.', myFlat([1, [2, [3, [4]]]], Infinity)); // => 2. [ 1, 2, 3, 4 ]
+fibMemo(20);
+console.log('1.', `naive: ${naiveCalls} calls · memoized: ${memoCalls} calls`);
+// => 1. naive: 21891 calls · memoized: 21 calls
 
-// ── 3. Add a .catch(fn) method to MyPromise (hint: then(undefined, fn)). ─────
-// A minimal Promise: enough to show that .catch is just .then with no success
-// handler — it forwards rejections to onRejected.
-class MyPromise {
-  #state = 'pending';
-  #value;
-  #handlers = [];
-  constructor(executor) {
-    const resolve = (v) => this.#settle('fulfilled', v);
-    const reject = (e) => this.#settle('rejected', e);
-    try {
-      executor(resolve, reject);
-    } catch (err) {
-      reject(err);
-    }
-  }
-  #settle(state, value) {
-    if (this.#state !== 'pending') return;
-    this.#state = state;
-    this.#value = value;
-    this.#handlers.forEach((h) => this.#dispatch(h));
-    this.#handlers = [];
-  }
-  #dispatch(handler) {
-    queueMicrotask(() => {
-      const { onFulfilled, onRejected, resolve, reject } = handler;
-      try {
-        if (this.#state === 'fulfilled') {
-          resolve(onFulfilled ? onFulfilled(this.#value) : this.#value);
-        } else if (onRejected) {
-          resolve(onRejected(this.#value)); // handled → the chain recovers
-        } else {
-          reject(this.#value); // no handler → keep rejecting down the chain
-        }
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
-  then(onFulfilled, onRejected) {
-    return new MyPromise((resolve, reject) => {
-      const handler = { onFulfilled, onRejected, resolve, reject };
-      if (this.#state === 'pending') this.#handlers.push(handler);
-      else this.#dispatch(handler);
-    });
-  }
-  catch(onRejected) {
-    return this.then(undefined, onRejected); // ← the whole exercise
-  }
+// ── 2. Rewrite an O(n²) "find duplicates" using a Set to get O(n). ───────────
+// O(n²) was: for each item, scan the rest with indexOf/includes.
+// O(n): one pass, remember what we've seen in a Set (O(1) lookups).
+function findDuplicates(arr) {
+  const seen = new Set();
+  const dups = new Set();
+  for (const x of arr) (seen.has(x) ? dups : seen).add(x);
+  return [...dups];
 }
-new MyPromise((_resolve, reject) => reject(new Error('boom')))
-  .catch((err) => console.log('3.', 'caught via .catch:', err.message));
-// => 3. caught via .catch: boom
+console.log('2.', findDuplicates([1, 2, 3, 2, 4, 1, 5])); // => 2. [ 2, 1 ]
+
+// ── 3. Name which Web Vital each fixes: slow hero image, janky button, jumpy layout. ──
+console.log('3.', { heroImage: 'LCP', jankyButton: 'INP', jumpyLayout: 'CLS' });
+// LCP = Largest Contentful Paint (load speed of the biggest element).
+// INP = Interaction to Next Paint (responsiveness to clicks/taps).
+// CLS = Cumulative Layout Shift (visual stability — things not jumping around).
+
+// ── 4. Wrap two code blocks in performance.mark/measure and log which is slower. ──
+performance.mark('loop-start');
+let s = 0;
+for (let i = 0; i < 1_000_000; i++) s += i;
+performance.mark('loop-end');
+performance.measure('loop', 'loop-start', 'loop-end');
+
+performance.mark('arr-start');
+Array.from({ length: 1_000_000 }, (_, i) => i).reduce((a, b) => a + b, 0);
+performance.mark('arr-end');
+performance.measure('array', 'arr-start', 'arr-end');
+
+const loopMs = performance.getEntriesByName('loop')[0].duration;
+const arrMs = performance.getEntriesByName('array')[0].duration;
+console.log('4.', `loop ${loopMs.toFixed(1)}ms vs array ${arrMs.toFixed(1)}ms — slower:`,
+  loopMs > arrMs ? 'loop' : 'array'); // exact numbers vary; the plain loop is usually faster
+
+// ── 5. In words: why does virtualization keep a 100k-row list fast? (DOM size.) ──
+console.log('5.', 'It only renders the ~20 rows actually visible, not all 100k.');
+// The browser's cost scales with the number of DOM nodes it must lay out, paint,
+// and keep in memory. Virtualization renders only the visible window (plus a
+// small buffer) and recycles nodes as you scroll — so the DOM stays tiny and
+// constant-sized no matter how many rows the data has.

@@ -1,41 +1,42 @@
 /* =============================================================================
- * SOLUTIONS · 52 · INTERNATIONALIZATION (the full Intl API)
+ * SOLUTIONS · 52 · BIGINT & LANGUAGE CORNERS
  * =============================================================================
  * Run:  node lessons/solutions/52-solutions.js
  *
- * Worked answers to the PRACTICE block in lessons/52-internationalization.js.
+ * Worked answers to the PRACTICE block in lessons/52-bigint-and-language-corners.js.
  * Try each problem YOURSELF first — then compare.
  * ========================================================================== */
 
-// ── 1. Sort ['café','car','cab'] with an Intl.Collator and compare to a plain sort. ──
-const words = ['café', 'car', 'cab'];
-const collator = new Intl.Collator('en'); // locale-aware: treats é like e
-console.log('1.', 'collator:', [...words].sort(collator.compare));
-console.log('1.', 'plain:   ', [...words].sort());
-// Plain sort compares raw UTF-16 code units, so accented letters can land in
-// surprising places; Collator follows the language's real alphabetical rules.
+// ── 1. Compute 100! (factorial) with BigInt — impossible to do exactly with Number. ──
+let factorial = 1n; // the `n` suffix makes a BigInt
+for (let i = 2n; i <= 100n; i++) factorial *= i;
+console.log('1.', `100! has ${factorial.toString().length} digits`); // => 1. 100! has 158 digits
+console.log('1.', factorial.toString().slice(0, 30) + '…'); // first 30 digits, all exact
+// A regular Number can only hold ~15 significant digits, so 100! as a Number
+// would be a rounded, inexact value (and far past Number.MAX_SAFE_INTEGER).
 
-// ── 2. Write likes(n) → "1 like" / "N likes" using Intl.PluralRules. ─────────
-const plural = new Intl.PluralRules('en');
-function likes(n) {
-  return `${n} ${plural.select(n) === 'one' ? 'like' : 'likes'}`;
+// ── 2. Use Object.entries + map + Object.fromEntries to UPPERCASE every value. ──
+const upper = Object.fromEntries(
+  Object.entries({ a: 'x', b: 'y' }).map(([key, value]) => [key, value.toUpperCase()])
+);
+console.log('2.', upper); // => 2. { a: 'X', b: 'Y' }
+
+// ── 3. Use flatMap to turn [{tags:['js','ts']},{tags:['css']}] into one tag list. ──
+// flatMap = map then flatten one level — perfect for "array of arrays" fields.
+const allTags = [{ tags: ['js', 'ts'] }, { tags: ['css'] }].flatMap((o) => o.tags);
+console.log('3.', allTags); // => 3. [ 'js', 'ts', 'css' ]
+
+// ── 4. Use a labeled loop to find the first pair (i,j) in two arrays that sums to 7. ──
+// A label lets `break` jump out of BOTH loops at once.
+const A = [1, 2, 3];
+const B = [9, 5, 4];
+let pair = null;
+search: for (let i = 0; i < A.length; i++) {
+  for (let j = 0; j < B.length; j++) {
+    if (A[i] + B[j] === 7) {
+      pair = { i, j, sum: `${A[i]}+${B[j]}` };
+      break search; // exits both loops immediately
+    }
+  }
 }
-console.log('2.', likes(1), '·', likes(5)); // => 2. 1 like · 5 likes
-
-// ── 3. Format "in 5 minutes" and "2 weeks ago" with Intl.RelativeTimeFormat. ──
-const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
-console.log('3.', rtf.format(5, 'minute'));  // => 3. in 5 minutes
-console.log('3.', rtf.format(-2, 'week'));    // => 3. 2 weeks ago
-
-// ── 4. Join ['HTML','CSS','JS'] as "HTML, CSS, and JS" with Intl.ListFormat. ──
-const list = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });
-console.log('4.', list.format(['HTML', 'CSS', 'JS'])); // => 4. HTML, CSS, and JS
-
-// ── 5. Use Intl.Segmenter to correctly count the characters in '👍🏽🎉'. ──────
-// '👍🏽' is one user-perceived character built from TWO code points (thumb +
-// skin-tone modifier). .length counts UTF-16 units, so it over-counts.
-const emoji = '👍🏽🎉';
-const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
-const graphemes = [...segmenter.segment(emoji)].length;
-console.log('5.', `${graphemes} graphemes vs naive .length ${emoji.length}`);
-// => 5. 2 graphemes vs naive .length 6
+console.log('4.', pair); // => 4. { i: 1, j: 1, sum: '2+5' }

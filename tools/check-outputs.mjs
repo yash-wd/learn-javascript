@@ -22,9 +22,9 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const L = join(ROOT, 'lessons');
 
 // Lessons we can't output-check by running them in Node:
-//  • browser-only (print only a guard notice under Node): 23, 24, 46
-//  • needs the network (output varies / fails offline): 25
-const SKIP = new Set(['23', '24', '25', '46']);
+//  • browser-only (print only a guard notice under Node): 24 DOM, 25 Events, 47 Browser APIs
+//  • needs the network (output varies / fails offline): 26 Fetch
+const SKIP = new Set(['24', '25', '26', '47']);
 
 // Normalize for comparison: lowercase and drop everything that's pure
 // formatting — whitespace, quotes, commas, slashes, and decoration glyphs —

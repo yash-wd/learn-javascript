@@ -1,68 +1,41 @@
 /* =============================================================================
- * 53 · MODERN AUTHENTICATION — practice solutions
+ * SOLUTIONS · 53 · INTERNATIONALIZATION (the full Intl API)
  * =============================================================================
- * Worked answers to the PRACTICE block in lessons/53-modern-auth.js.
  * Run:  node lessons/solutions/53-solutions.js
- * Try each yourself first, then compare.
+ *
+ * Worked answers to the PRACTICE block in lessons/53-internationalization.js.
+ * Try each problem YOURSELF first — then compare.
  * ========================================================================== */
 
-const { scryptSync, randomBytes, timingSafeEqual } = require('node:crypto');
+// ── 1. Sort ['café','car','cab'] with an Intl.Collator and compare to a plain sort. ──
+const words = ['café', 'car', 'cab'];
+const collator = new Intl.Collator('en'); // locale-aware: treats é like e
+console.log('1.', 'collator:', [...words].sort(collator.compare));
+console.log('1.', 'plain:   ', [...words].sort());
+// Plain sort compares raw UTF-16 code units, so accented letters can land in
+// surprising places; Collator follows the language's real alphabetical rules.
 
-// A sample token (same shape as the lesson's): header.payload.signature
-const sampleJwt =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9' +
-  '.eyJzdWIiOiJ1c2VyXzQyIiwicm9sZSI6ImFkbWluIiwiZXhwIjoxNzAwMDAwMDAwfQ' +
-  '.c2lnbmF0dXJl';
-
-
-// ── 1. decodeJwtPayload(token): read (NOT verify) the payload ────────────────
-function decodeJwtPayload(token) {
-  const payload = token.split('.')[1];                 // the middle part
-  return JSON.parse(Buffer.from(payload, 'base64url').toString());
+// ── 2. Write likes(n) → "1 like" / "N likes" using Intl.PluralRules. ─────────
+const plural = new Intl.PluralRules('en');
+function likes(n) {
+  return `${n} ${plural.select(n) === 'one' ? 'like' : 'likes'}`;
 }
-console.log(decodeJwtPayload(sampleJwt));
-// => { sub: 'user_42', role: 'admin', exp: 1700000000 }
-// Reminder: decoding is not trust — verify the signature server-side.
+console.log('2.', likes(1), '·', likes(5)); // => 2. 1 like · 5 likes
 
+// ── 3. Format "in 5 minutes" and "2 weeks ago" with Intl.RelativeTimeFormat. ──
+const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
+console.log('3.', rtf.format(5, 'minute'));  // => 3. in 5 minutes
+console.log('3.', rtf.format(-2, 'week'));    // => 3. 2 weeks ago
 
-// ── 2. isExpired(payload, nowSeconds): compare against the `exp` claim ───────
-// JWT `exp` is in SECONDS since the epoch (Date.now() is milliseconds — divide).
-function isExpired(payload, nowSeconds) {
-  return typeof payload.exp === 'number' && nowSeconds >= payload.exp;
-}
-const claims = decodeJwtPayload(sampleJwt); // exp = 1700000000
-console.log(isExpired(claims, 1699999999)); // => false  (one second before)
-console.log(isExpired(claims, 1700000001)); // => true   (one second after)
+// ── 4. Join ['HTML','CSS','JS'] as "HTML, CSS, and JS" with Intl.ListFormat. ──
+const list = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });
+console.log('4.', list.format(['HTML', 'CSS', 'JS'])); // => 4. HTML, CSS, and JS
 
-
-// ── 3. chooseAuth: a third-party API need also picks a token ─────────────────
-function chooseAuth({ multipleServices, needInstantRevoke, mobileOrApi, thirdPartyApi }) {
-  if (needInstantRevoke) return 'session';
-  if (multipleServices || mobileOrApi || thirdPartyApi) return 'token';
-  return 'session';
-}
-console.log(chooseAuth({ thirdPartyApi: true }));    // => token
-console.log(chooseAuth({ needInstantRevoke: true })); // => session
-console.log(chooseAuth({}));                          // => session
-
-
-// ── 4. needsRehash(stored): flag hashes weaker than our current 32-byte key ──
-// `stored` is "saltHex:hashHex". The derived-key length in bytes is the hash's
-// hex length / 2. If it's below our current strength, upgrade on next login.
-const KEYLEN = 32;
-function hashWith(password, keylen) {
-  const salt = randomBytes(16);
-  return `${salt.toString('hex')}:${scryptSync(password, salt, keylen).toString('hex')}`;
-}
-function needsRehash(stored) {
-  const hashHex = stored.split(':')[1] ?? '';
-  return hashHex.length / 2 < KEYLEN;
-}
-console.log(needsRehash(hashWith('pw', 16))); // => true   (old 16-byte hash → upgrade)
-console.log(needsRehash(hashWith('pw', 32))); // => false  (already current strength)
-
-// Bonus — verify still works at the current strength, in constant time:
-const stored = hashWith('s3cret', KEYLEN);
-const [saltHex, hashHex] = stored.split(':');
-const again = scryptSync('s3cret', Buffer.from(saltHex, 'hex'), KEYLEN);
-console.log(timingSafeEqual(again, Buffer.from(hashHex, 'hex'))); // => true
+// ── 5. Use Intl.Segmenter to correctly count the characters in '👍🏽🎉'. ──────
+// '👍🏽' is one user-perceived character built from TWO code points (thumb +
+// skin-tone modifier). .length counts UTF-16 units, so it over-counts.
+const emoji = '👍🏽🎉';
+const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
+const graphemes = [...segmenter.segment(emoji)].length;
+console.log('5.', `${graphemes} graphemes vs naive .length ${emoji.length}`);
+// => 5. 2 graphemes vs naive .length 6

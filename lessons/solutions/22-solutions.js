@@ -1,50 +1,61 @@
 /* =============================================================================
- * SOLUTIONS · 22 · MODULES — import / export
+ * SOLUTIONS · 22 · ERROR HANDLING
  * =============================================================================
  * Run:  node lessons/solutions/22-solutions.js
  *
- * Worked answers to the PRACTICE block in lessons/22-modules.js.
- * Most of this lesson's practice is EDITING the files in lessons/modules-demo/.
- * Below: the exact edits to make (in comments) plus a live demo of requiring
- * the CommonJS module and dynamically importing the ES module.
+ * Worked answers to the PRACTICE block in lessons/22-error-handling.js.
+ * Try each problem YOURSELF first — then compare.
  * ========================================================================== */
 
-// ── 1. Add a `subtract` named export to modules-demo/math.mjs and import it. ──
-//    In math.mjs add:        export function subtract(a, b) { return a - b; }
-//    In app.mjs import it:   import multiply, { PI, add, circleArea, subtract } from './math.mjs';
-//    Then:                   console.log(subtract(10, 4)); // => 6
+// ── 1. Write parseAge(str) that throws a RangeError if the age is negative. ──
+function parseAge(str) {
+  const age = Number(str);
+  if (Number.isNaN(age)) throw new TypeError(`"${str}" is not a number`);
+  if (age < 0) throw new RangeError(`age cannot be negative: ${age}`);
+  return age;
+}
+console.log('1.', parseAge('25')); // => 1. 25
+try {
+  parseAge('-3');
+} catch (err) {
+  console.log('1.', err.constructor.name + ':', err.message);
+  // => 1. RangeError: age cannot be negative: -3
+}
 
-// ── 2. Change which function is the `default` export and update app.mjs. ─────
-//    In math.mjs, make `add` the default instead of `multiply`:
-//        export default function add(a, b) { return a + b; }   // (drop the named `add`)
-//    In app.mjs the default import name is yours to choose:
-//        import add, { PI, circleArea } from './math.mjs';      // `add` = the default
+// ── 2. Create a NotFoundError class and throw it from a lookup function. ─────
+class NotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'NotFoundError'; // so err.name and stack traces read clearly
+  }
+}
+function findUser(id) {
+  const users = { 1: 'Ada', 2: 'Linus' };
+  if (!(id in users)) throw new NotFoundError(`user ${id} not found`);
+  return users[id];
+}
+try {
+  findUser(99);
+} catch (err) {
+  console.log('2.', err.name + ':', err.message); // => 2. NotFoundError: user 99 not found
+  console.log('2.', err instanceof Error);         // => 2. true  (it IS a real Error)
+}
 
-// ── 3. Add a `multiply` export to math.cjs and use it from app.cjs. ──────────
-//    In math.cjs:    function multiply(a, b) { return a * b; }
-//                    module.exports = { PI, add, multiply };
-//    In app.cjs:     const { multiply } = require('./math.cjs');
-//                    console.log(multiply(4, 5)); // => 20
-//    Demo of requiring the existing CommonJS module right now:
-const mathCjs = require('../modules-demo/math.cjs');
-console.log('3.', 'require(math.cjs):', mathCjs.add(2, 3)); // => 3. require(math.cjs): 5
+// ── 3. Wrap a JSON.parse in try/catch and return a default object on failure. ──
+function safeParse(json, fallback = {}) {
+  try {
+    return JSON.parse(json);
+  } catch {
+    return fallback; // bad JSON → hand back the default instead of crashing
+  }
+}
+console.log('3.', safeParse('{"ok":true}')); // => 3. { ok: true }
+console.log('3.', safeParse('not json!'));   // => 3. {}
 
-// ── 4. In app.mjs, load math.mjs with a dynamic `await import('./math.mjs')` ──
-//    instead of a top-of-file import — log the returned namespace object.
-// Dynamic import() returns a Promise of the module namespace and works even
-// from this CommonJS file. (Top-level await isn't allowed here, so we wrap it.)
-(async () => {
-  const math = await import('../modules-demo/math.mjs');
-  console.log('4.', 'namespace keys:', Object.keys(math).sort());
-  // => 4. namespace keys: [ 'PI', 'add', 'circleArea', 'default' ]
-  console.log('4.', 'default(4,5):', math.default(4, 5)); // => 4. default(4,5): 20
-
-  // ── 5. Add a top-level `await` to math.mjs and import `ready` in app.mjs. ──
-  //    In math.mjs:   export const ready = await Promise.resolve(true);
-  //    In app.mjs:    import { ready } from './math.mjs';
-  //                   console.log(ready); // => true
-  // Because math.mjs `await`s at the top level, the engine finishes that work
-  // BEFORE app.mjs's code runs — so `ready` is already `true` on first use.
-  // (This is "top-level await": the importing module waits for the import.)
-  console.log('5.', 'see comments — top-level await resolves before import completes');
-})();
+// ── 4. Add a process.on('unhandledRejection', ...) and trigger it with a ─────
+//    Promise.reject that has no .catch — confirm your handler logs it.
+process.on('unhandledRejection', (reason) => {
+  console.log('4.', 'caught unhandled rejection:', reason.message);
+  // => 4. caught unhandled rejection: nobody is handling me
+});
+Promise.reject(new Error('nobody is handling me')); // no .catch → fires the handler

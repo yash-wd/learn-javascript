@@ -1,0 +1,126 @@
+/* =============================================================================
+ * theme.css — the ONE place to rebrand this whole project.
+ * =============================================================================
+ * Every page (curriculum.html, lesson.html, playground.html, index.html) links
+ * this file and styles itself only with the CSS custom properties (--tokens)
+ * defined here. To match your company's brand, edit the BRAND PALETTE block
+ * below — change those few values and the entire site re-colours itself. No
+ * page-level hex codes, no build step, works offline.
+ *
+ * Tips for rebranding:
+ *   • --brand / --brand-strong drive every gradient, button and accent.
+ *   • Keep --ink* readable against --bg / --surface (aim for WCAG AA contrast).
+ *   • You can also hard-set a brand at runtime with <html data-theme="brand">.
+ * ========================================================================== */
+
+:root {
+  color-scheme: dark light;
+
+  /* ======================================================================
+   *  BRAND PALETTE  —  EDIT THIS BLOCK TO REBRAND EVERYTHING
+   * ====================================================================== */
+  --brand:        #6366f1;   /* primary brand colour (buttons, links, dots) */
+  --brand-strong: #8b5cf6;   /* gradient partner + hover/active brand */
+  --accent:       #22d3ee;   /* secondary highlight (eyebrows, kickers)    */
+  --success:      #34d399;   /* "correct"/output/done                       */
+  --warning:      #fbbf24;   /* tags, callouts                              */
+  --danger:       #f87171;   /* errors                                      */
+
+  /* ---- Shell / neutral surfaces (dark theme). Tweak to match brand chrome. */
+  --bg:        #0b1020;      /* page background          */
+  --bg-soft:   #11182e;      /* subtle raised background */
+  --surface:   #151d36;      /* cards                    */
+  --surface-2: #1a2342;      /* nested / hover cards     */
+  --line:      #26304f;      /* borders & dividers       */
+  --ink:       #e7ecf6;      /* primary text             */
+  --ink-soft:  #aab4cf;      /* secondary text           */
+  --ink-dim:   #7c89ab;      /* muted text               */
+  --code-bg:   #0a0f1f;      /* code surfaces            */
+
+  /* ---- Syntax highlighting (lesson viewer). Brand-tinted, readable on code-bg. */
+  --syn-comment: #6b7596;
+  --syn-keyword: #c4b5fd;
+  --syn-string:  #86efac;
+  --syn-number:  #fca5a5;
+  --syn-func:    #93c5fd;
+  --syn-punct:   #aab4cf;
+  --syn-output:  var(--success);  /* the `// =>` expected-output comments */
+
+  /* ---- Shape, depth, layout ---- */
+  --radius:    16px;
+  --radius-sm: 10px;
+  --radius-lg: 22px;
+  --shadow:    0 10px 30px -12px rgba(0, 0, 0, 0.6);
+  --shadow-sm: 0 4px 14px -8px rgba(0, 0, 0, 0.55);
+  --maxw:      1080px;
+
+  /* ---- Typography ---- */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+
+  /* ======================================================================
+   *  Back-compat aliases — older markup referenced these names. Keep them so
+   *  a rebrand only needs the BRAND PALETTE above.
+   * ====================================================================== */
+  --brand-2: var(--brand-strong);
+  --cyan:    var(--accent);
+  --emerald: var(--success);
+  --amber:   var(--warning);
+  --card:    var(--surface);
+  --card-2:  var(--surface-2);
+  --ink-muted: var(--ink-dim);
+  --muted:   var(--ink-dim);
+}
+
+/* Light mode: same brand hues, light shell. Code surfaces stay dark for contrast. */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg:        #f6f7fb;
+    --bg-soft:   #eef1f8;
+    --surface:   #ffffff;
+    --surface-2: #f4f6fc;
+    --line:      #e2e7f2;
+    --ink:       #161c2d;
+    --ink-soft:  #3c4763;
+    --ink-dim:   #6b7596;
+    --code-bg:   #0f1424;          /* keep code blocks dark + legible */
+    --shadow:    0 10px 30px -16px rgba(40, 50, 90, 0.35);
+    --shadow-sm: 0 4px 14px -10px rgba(40, 50, 90, 0.30);
+  }
+}
+
+/* ===========================================================================
+ *  Tiny shared primitives so pages don't each redefine the basics.
+ * ======================================================================== */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+code, kbd, pre, .mono { font-family: var(--font-mono); }
+
+/* A reusable button used across pages */
+.btn {
+  display: inline-flex; align-items: center; gap: 9px; text-decoration: none;
+  font-weight: 600; font-family: inherit; font-size: 0.95rem; cursor: pointer;
+  padding: 11px 18px; border-radius: 12px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink);
+  transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+.btn:hover { transform: translateY(-1px); border-color: var(--brand); }
+.btn:focus-visible { outline: 2px solid var(--brand-strong); outline-offset: 2px; }
+.btn.primary {
+  background: linear-gradient(120deg, var(--brand), var(--brand-strong));
+  border-color: transparent; color: #fff; box-shadow: var(--shadow-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}

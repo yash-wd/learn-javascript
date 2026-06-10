@@ -11,7 +11,7 @@
  *   • Read it top to bottom — every concept has a comment + a `// =>` output.
  *   • Then change the values, re-run, and see what happens.
  *
- * The 53 lessons climb through five levels (run them in order):
+ * The 56 lessons climb through five levels (run them in order):
  *   Level 1 · Foundation       01–08   variables → loops
  *   Level 2 · Core Concepts    09–16   functions, arrays, objects, sets/maps
  *   Level 3 · Intermediate     17–25   OOP, async, DOM, events, fetch

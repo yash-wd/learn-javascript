@@ -1,29 +1,44 @@
 /* =============================================================================
- * SOLUTIONS · 26 · REGULAR EXPRESSIONS (Regex)
+ * SOLUTIONS · 26 · FETCH & APIs — talking to the internet
  * =============================================================================
- * Run:  node lessons/solutions/26-solutions.js
+ * Run:  node lessons/solutions/26-solutions.js   (needs internet; Node 18+ has fetch)
  *
- * Worked answers to the PRACTICE block in lessons/26-regular-expressions.js.
+ * Worked answers to the PRACTICE block in lessons/26-fetch-apis.js.
  * Try each problem YOURSELF first — then compare.
+ * Everything is wrapped so that with no network it prints a notice instead of
+ * crashing.
  * ========================================================================== */
 
-// ── 1. Write a regex that matches a 10-digit phone number. ───────────────────
-const phone = /^\d{10}$/; // ^ and $ anchor it to the WHOLE string
-console.log('1.', phone.test('5551234567'), phone.test('123')); // => 1. true false
+const BASE = 'https://jsonplaceholder.typicode.com';
 
-// ── 2. Extract all hashtags from "love #js and #coding" using matchAll. ──────
-const tags = [...'love #js and #coding'.matchAll(/#(\w+)/g)].map((m) => m[1]);
-console.log('2.', tags); // => 2. [ 'js', 'coding' ]   (group 1 = text after #)
+async function main() {
+  // ── 1. Fetch /users and log every name. ────────────────────────────────────
+  const users = await (await fetch(`${BASE}/users`)).json();
+  console.log('1.', users.map((u) => u.name).join(', '));
+  // => 1. Leanne Graham, Ervin Howell, … (10 names)
 
-// ── 3. Replace every vowel in "hello world" with "*". ────────────────────────
-console.log('3.', 'hello world'.replace(/[aeiou]/g, '*')); // => 3. h*ll* w*rld
+  // ── 2. Fetch a single todo and log whether it's completed. ──────────────────
+  const todo = await (await fetch(`${BASE}/todos/1`)).json();
+  console.log('2.', `"${todo.title}" completed?`, todo.completed);
+  // => 2. "delectus aut autem" completed? false
 
-// ── 4. Use a lookbehind to grab the number after "id=" in "?id=42&x=1". ──────
-// (?<=id=) matches a position PRECEDED by "id=" without including it in the result.
-console.log('4.', '?id=42&x=1'.match(/(?<=id=)\d+/)[0]); // => 4. 42
+  // ── 3. Log a friendly message when response.ok is false. ────────────────────
+  const missing = await fetch(`${BASE}/posts/99999999`);
+  if (!missing.ok) {
+    console.log('3.', `Couldn't load that post (HTTP ${missing.status}).`);
+    // => 3. Couldn't load that post (HTTP 404).
+  }
 
-// ── 5. Use a negative lookahead to match "cat" only when NOT followed by "alog". ──
-// cat(?!alog) → "cat" but not the "cat" inside "catalog".
-const text = 'a cat, a catalog, a category';
-const cats = [...text.matchAll(/cat(?!alog)/g)];
-console.log('5.', cats.length, 'matches'); // => 5. 2 matches  (cat + category, not catalog)
+  // ── 4. Log response.status and the content-type header for a GET. ───────────
+  const res = await fetch(`${BASE}/posts/1`);
+  console.log('4.', res.status, res.headers.get('content-type'));
+  // => 4. 200 application/json; charset=utf-8
+
+  // ── 5. Send a DELETE to /posts/1 and log the status code you get back. ──────
+  const del = await fetch(`${BASE}/posts/1`, { method: 'DELETE' });
+  console.log('5.', 'DELETE status:', del.status); // => 5. DELETE status: 200
+}
+
+main().catch((err) => {
+  console.log('⚠️  Network request failed (are you offline?):', err.message);
+});

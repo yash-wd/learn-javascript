@@ -9,7 +9,7 @@
 # ⚡ Learn JavaScript
 
 **A complete step-by-step course — from zero to expert.**
-<br>53 short lessons · 8 real projects · 100% free · no sign-up
+<br>56 short lessons · 8 real projects · 100% free · no sign-up
 
 <br>
 
@@ -24,7 +24,7 @@
 ---
 
 A beginner-friendly course that starts from **zero** and goes all the way to
-**expert** and **interview** level. **53 short lessons** plus **8 real projects**.
+**expert** and **interview** level. **56 short lessons** plus **8 real projects**.
 Every lesson is a single file you **read**, then **run**, then move on. That's the
 whole method.
 
@@ -39,7 +39,7 @@ whole method.
 2. **Open the first lesson** — read [`lessons/01-variables.js`](lessons/01-variables.js)
    top to bottom. Every line is explained, and `// =>` shows what it prints.
 3. **Run it, then repeat** — in a terminal, run the lesson and compare the output.
-   Then go to the next one. Keep going in order, all the way to lesson 53.
+   Then go to the next one. Keep going in order, all the way to lesson 56.
 
 ```bash
 node lessons/01-variables.js     # your first lesson
@@ -54,7 +54,7 @@ on once it makes sense.
 `bundle/`, and `tools/` — those are just packaging for the website and the
 offline PDF.
 
-💻 **Browser lessons:** a few lessons (23, 24, 46) change web pages, so they run
+💻 **Browser lessons:** a few lessons (24, 25, 47) change web pages, so they run
 in a browser instead of the terminal. Open `playground.html`, point its
 `<script src>` at that lesson, then open the page and press **F12** → Console.
 
@@ -97,7 +97,7 @@ its **practice exercises**, and a few other lessons that **also teach** the topi
 ```
 
 The `run:` line uses each lesson's own instructions — so for the browser-based
-lessons (23, 24, 46) it tells you to open `index.html` and use DevTools instead
+lessons (24, 25, 47) it tells you to open `index.html` and use DevTools instead
 of running `node`.
 
 **How it ranks (a scoring checklist, not "first match wins").** Every lesson has
@@ -145,8 +145,8 @@ mentions it in passing.
 ├── playground.html     → host page for the browser-only lessons
 ├── findtopic.sh        → find which lesson teaches a topic + its practice
 │
-├── lessons/            → ⭐ the 53 lessons — this is the course
-│   ├── modules-demo/   → small runnable example for lesson 22
+├── lessons/            → ⭐ the 56 lessons — this is the course
+│   ├── modules-demo/   → small runnable example for lesson 23
 │   └── solutions/      → one worked-answer file per lesson
 ├── projects/           → ⭐ 8 projects to build (starter + solution + README)
 ├── practice/           → fill-in exercises with auto-grading tests (optional)
@@ -160,7 +160,7 @@ mentions it in passing.
 
 ## Roadmap
 
-The 53 lessons climb through **five levels**, beginner to expert. Do them
+The 56 lessons climb through **five levels**, beginner to expert. Do them
 **in order** — each level builds on the one before.
 
 ### Level 1 — Foundation
@@ -203,11 +203,12 @@ The 53 lessons climb through **five levels**, beginner to expert. Do them
 | 18 | [Prototypes](lessons/18-prototypes.js) | the prototype chain |
 | 19 | [Callbacks & Promises](lessons/19-callbacks-promises.js) | the event loop, `Promise` |
 | 20 | [Async / Await](lessons/20-async-await.js) | `async`, `await`, parallel work |
-| 21 | [Error Handling](lessons/21-error-handling.js) | `try/catch`, custom errors, global handlers |
-| 22 | [Modules](lessons/22-modules.js) | `import` / `export`, dynamic `import()`, top-level `await` (+ [modules-demo/](lessons/modules-demo/)) |
-| 23 | [DOM](lessons/23-dom.js) **(browser)** | selecting & changing the page |
-| 24 | [Events](lessons/24-events.js) **(browser)** | listeners, delegation, bubbling |
-| 25 | [Fetch & APIs](lessons/25-fetch-apis.js) | HTTP methods/status/headers/REST, `fetch`, JSON, async data, retry/backoff |
+| 21 | [How JavaScript Runs](lessons/21-how-javascript-runs.js) | execution context, call stack, event loop, micro/macrotasks, async/await internals |
+| 22 | [Error Handling](lessons/22-error-handling.js) | `try/catch`, custom errors, global handlers |
+| 23 | [Modules](lessons/23-modules.js) | `import` / `export`, dynamic `import()`, top-level `await` (+ [modules-demo/](lessons/modules-demo/)) |
+| 24 | [DOM](lessons/24-dom.js) **(browser)** | selecting & changing the page |
+| 25 | [Events](lessons/25-events.js) **(browser)** | listeners, delegation, bubbling |
+| 26 | [Fetch & APIs](lessons/26-fetch-apis.js) | HTTP methods/status/headers/REST, `fetch`, JSON, async data, retry/backoff |
 
 ### Level 4 — Advanced
 
@@ -215,18 +216,18 @@ The 53 lessons climb through **five levels**, beginner to expert. Do them
 
 | # | Lesson | What you learn |
 | --- | --- | --- |
-| 26 | [Regular Expressions](lessons/26-regular-expressions.js) | patterns, groups, lookahead/lookbehind, flags, `match`/`replace` |
-| 27 | [Generators & Iterators](lessons/27-generators-iterators.js) | `function*`, `yield`, lazy sequences |
-| 28 | [Symbols, Proxy & Reflect](lessons/28-symbols-proxy-reflect.js) | metaprogramming, interception |
-| 29 | [Advanced Async](lessons/29-advanced-async.js) | microtasks, `for await`, abort, debounce/throttle, retry/backoff, concurrency |
-| 30 | [Functional Programming](lessons/30-functional-programming.js) | purity, currying, compose/pipe |
-| 31 | [Tricky Concepts](lessons/31-tricky-concepts.js) | the classic interview gotchas |
-| 32 | [Dates & Time](lessons/32-dates-time.js) | `Date`, date formatting, durations |
-| 33 | [Browser Storage](lessons/33-browser-storage.js) | localStorage, sessionStorage, cookies |
-| 34 | [BOM & Timers](lessons/34-bom-timers.js) | `setTimeout`/`setInterval`, `window`, `location`, `history` |
-| 35 | [Debugging & Console](lessons/35-debugging-console.js) | console methods, `debugger`, reading errors |
-| 36 | [WeakMap & Memory](lessons/36-weakmap-memory.js) | garbage collection, WeakMap/WeakSet, strict mode, tagged templates |
-| 37 | [Modern JavaScript (to 2026)](lessons/37-modern-js.js) | logical assignment, `Object.groupBy`, `toSorted`/`with`, iterator helpers, new Set methods, `Promise.withResolvers`/`try`, `using`, import attributes, decorators, `Float16Array`, Temporal preview |
+| 27 | [Regular Expressions](lessons/27-regular-expressions.js) | patterns, groups, lookahead/lookbehind, flags, `match`/`replace` |
+| 28 | [Generators & Iterators](lessons/28-generators-iterators.js) | `function*`, `yield`, lazy sequences |
+| 29 | [Symbols, Proxy & Reflect](lessons/29-symbols-proxy-reflect.js) | metaprogramming, interception |
+| 30 | [Advanced Async](lessons/30-advanced-async.js) | microtasks, `for await`, abort, debounce/throttle, retry/backoff, concurrency |
+| 31 | [Functional Programming](lessons/31-functional-programming.js) | purity, currying, compose/pipe |
+| 32 | [Tricky Concepts](lessons/32-tricky-concepts.js) | the classic interview gotchas |
+| 33 | [Dates & Time](lessons/33-dates-time.js) | `Date`, date formatting, durations |
+| 34 | [Browser Storage](lessons/34-browser-storage.js) | localStorage, sessionStorage, cookies |
+| 35 | [BOM & Timers](lessons/35-bom-timers.js) | `setTimeout`/`setInterval`, `window`, `location`, `history` |
+| 36 | [Debugging & Console](lessons/36-debugging-console.js) | console methods, `debugger`, reading errors |
+| 37 | [WeakMap & Memory](lessons/37-weakmap-memory.js) | garbage collection, WeakMap/WeakSet, strict mode, tagged templates |
+| 38 | [Modern JavaScript (to 2026)](lessons/38-modern-js.js) | logical assignment, `Object.groupBy`, `toSorted`/`with`, iterator helpers, new Set methods, `Promise.withResolvers`/`try`, `using`, import attributes, decorators, `Float16Array`, Temporal preview |
 
 ### Level 5 — Expert
 
@@ -235,22 +236,24 @@ includes both the engineering around the language and the computer-science core.
 
 | # | Lesson | What you learn |
 | --- | --- | --- |
-| 38 | [Testing](lessons/38-testing.js) | built-in test runner + `assert`, unit/async tests, mocking, the testing pyramid, coverage, the TDD loop |
-| 39 | [Security Essentials](lessons/39-security.js) | XSS, CSRF, CORS, CSP, input validation, auth tokens, prototype pollution, SQL injection |
-| 40 | [Design Patterns](lessons/40-design-patterns.js) | Module, Singleton, Factory, Observer/PubSub, Strategy, Decorator, Facade, Adapter, Command, DI, MVC/MVVM |
-| 41 | [Performance](lessons/41-performance.js) | Big-O, memoization, reflow/repaint, lazy loading, web-vitals, profiling, list virtualization |
-| 42 | [Polyfills](lessons/42-polyfills.js) | re-implement `map`/`filter`/`reduce`/`bind`/`debounce`/`Promise` (interview gold) |
-| 43 | [TypeScript On-Ramp](lessons/43-typescript.js) | types, interfaces, generics, narrowing, JSDoc types |
-| 44 | [Tooling & Build Systems](lessons/44-tooling.js) | package managers, monorepos/workspaces, semver, bundlers, transpilers, linters/formatters, git, CI/CD |
-| 45 | [Node.js](lessons/45-nodejs.js) | `process`/env, `fs`, `path`, event emitters, streams, a real HTTP server |
-| 46 | [Advanced Browser APIs](lessons/46-browser-apis.js) **(browser)** | Web Workers, Service Workers/PWA, IndexedDB, Observers, Web Components, rAF |
-| 47 | [Real-Time & Production](lessons/47-realtime-and-production.js) | WebSockets/SSE, logging, observability/tracing, config/secrets, rate limits/queues/backpressure, accessibility, i18n |
-| 48 | [Data Structures](lessons/48-data-structures.js) | Stack, Queue, Linked List, Hash Map, Binary Search Tree, Graph — built from scratch |
-| 49 | [Algorithms](lessons/49-algorithms.js) | linear/binary search, bubble/merge/quick sort, two-pointer, sliding window, dynamic programming, BFS/DFS |
-| 50 | [Binary Data](lessons/50-binary-data.js) | `ArrayBuffer`, typed arrays, `DataView`, `Blob`/`File`, `FormData`, `TextEncoder`, streaming, `Atomics` |
-| 51 | [BigInt & Language Corners](lessons/51-bigint-and-language-corners.js) | `BigInt`, `Object.fromEntries`, `flatMap`, labeled statements, `eval`/`Function` (and why to avoid them) |
-| 52 | [Internationalization](lessons/52-internationalization.js) | the full `Intl` API: `Collator`, `PluralRules`, `RelativeTimeFormat`, `ListFormat`, `Segmenter` |
-| 53 | [Modern Authentication](lessons/53-modern-auth.js) | authN vs authZ, password hashing (scrypt/salt), sessions vs JWT, cookie flags, OAuth/OIDC, passkeys, refresh tokens |
+| 39 | [Testing](lessons/39-testing.js) | built-in test runner + `assert`, unit/async tests, mocking, the testing pyramid, coverage, the TDD loop |
+| 40 | [Security Essentials](lessons/40-security.js) | XSS, CSRF, CORS, CSP, input validation, auth tokens, prototype pollution, SQL injection |
+| 41 | [Design Patterns](lessons/41-design-patterns.js) | Module, Singleton, Factory, Observer/PubSub, Strategy, Decorator, Facade, Adapter, Command, DI, MVC/MVVM |
+| 42 | [Performance](lessons/42-performance.js) | Big-O, memoization, reflow/repaint, lazy loading, web-vitals, profiling, list virtualization |
+| 43 | [Polyfills](lessons/43-polyfills.js) | re-implement `map`/`filter`/`reduce`/`bind`/`debounce`/`Promise` (interview gold) |
+| 44 | [TypeScript On-Ramp](lessons/44-typescript.js) | types, interfaces, generics, narrowing, JSDoc types |
+| 45 | [Tooling & Build Systems](lessons/45-tooling.js) | package managers, monorepos/workspaces, semver, bundlers, transpilers, linters/formatters, git, CI/CD |
+| 46 | [Node.js](lessons/46-nodejs.js) | `process`/env, `fs`, `path`, event emitters, streams, a real HTTP server |
+| 47 | [Advanced Browser APIs](lessons/47-browser-apis.js) **(browser)** | Web Workers, Service Workers/PWA, IndexedDB, Observers, Web Components, rAF |
+| 48 | [Real-Time & Production](lessons/48-realtime-and-production.js) | WebSockets/SSE, logging, observability/tracing, config/secrets, rate limits/queues/backpressure, accessibility, i18n |
+| 49 | [Data Structures](lessons/49-data-structures.js) | Stack, Queue, Linked List, Hash Map, Binary Search Tree, Graph — built from scratch |
+| 50 | [Algorithms](lessons/50-algorithms.js) | linear/binary search, bubble/merge/quick sort, two-pointer, sliding window, dynamic programming, BFS/DFS |
+| 51 | [Binary Data](lessons/51-binary-data.js) | `ArrayBuffer`, typed arrays, `DataView`, `Blob`/`File`, `FormData`, `TextEncoder`, streaming, `Atomics` |
+| 52 | [BigInt & Language Corners](lessons/52-bigint-and-language-corners.js) | `BigInt`, `Object.fromEntries`, `flatMap`, labeled statements, `eval`/`Function` (and why to avoid them) |
+| 53 | [Internationalization](lessons/53-internationalization.js) | the full `Intl` API: `Collator`, `PluralRules`, `RelativeTimeFormat`, `ListFormat`, `Segmenter` |
+| 54 | [Modern Authentication](lessons/54-modern-auth.js) | authN vs authZ, password hashing (scrypt/salt), sessions vs JWT, cookie flags, OAuth/OIDC, passkeys, refresh tokens |
+| 55 | [Accessibility](lessons/55-accessibility.js) | semantic HTML, accessible names, ARIA, keyboard & focus, WCAG contrast, live regions, accessible forms/modals, an a11y linter |
+| 56 | [Clean Code](lessons/56-clean-code.js) | naming, small functions, SOLID/SRP, DRY, guard clauses, cohesion vs coupling, code smells, technical debt |
 
 > 💡 **Practice, then compare.** [lessons/solutions/](lessons/solutions/) has a
 > matching `NN-solutions.js` file for every lesson — each with clear, runnable
@@ -276,14 +279,14 @@ back-end REST API you run with Node.
 
 | # | Project | Builds on | What you practice |
 | --- | --- | --- | --- |
-| 1 | [To-Do App](projects/1-todo-app/) | 13, 14, 23, 24, 33 | DOM + events + localStorage persistence |
-| 2 | [Weather App](projects/2-weather-app/) | 20, 21, 25, 32 | real API calls, async UI, error states |
-| 3 | [Quiz App](projects/3-quiz-app/) | 09, 13, 23, 24 | managing app state |
-| 4 | [Route Finder](projects/4-route-finder/) | 48, 49, 16, 23, 24 | a graph + BFS shortest path in a real UI |
-| 5 | [Virtual List](projects/5-virtual-list/) | 41, 13, 23, 24, 29 | virtualization: scroll 50k rows with ~17 in the DOM |
-| 6 | [Form Validation](projects/6-form-validation/) | 23, 24, 26, 21, 07 | live per-field validation, accessible errors, submit gating |
-| 7 | [Notes App](projects/7-notes-app/) | 14, 20, 25, 21, 23, 24 | full CRUD against a REST API + optimistic UI with rollback |
-| 8 | [REST API](projects/8-rest-api/) **(backend)** | 45, 25, 21, 39, 38 | build the server: routing, validation, status codes, tests |
+| 1 | [To-Do App](projects/1-todo-app/) | 13, 14, 24, 25, 34 | DOM + events + localStorage persistence |
+| 2 | [Weather App](projects/2-weather-app/) | 20, 22, 26, 33 | real API calls, async UI, error states |
+| 3 | [Quiz App](projects/3-quiz-app/) | 09, 13, 24, 25 | managing app state |
+| 4 | [Route Finder](projects/4-route-finder/) | 49, 50, 16, 24, 25 | a graph + BFS shortest path in a real UI |
+| 5 | [Virtual List](projects/5-virtual-list/) | 42, 13, 24, 25, 30 | virtualization: scroll 50k rows with ~17 in the DOM |
+| 6 | [Form Validation](projects/6-form-validation/) | 24, 25, 27, 22, 07 | live per-field validation, accessible errors, submit gating |
+| 7 | [Notes App](projects/7-notes-app/) | 14, 20, 26, 22, 24, 25 | full CRUD against a REST API + optimistic UI with rollback |
+| 8 | [REST API](projects/8-rest-api/) **(backend)** | 46, 26, 22, 40, 39 | build the server: routing, validation, status codes, tests |
 
 > Reading shows you *what*; building shows you *how*. Don't skip these.
 >

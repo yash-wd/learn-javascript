@@ -1,53 +1,40 @@
 /* =============================================================================
- * SOLUTIONS · 33 · BROWSER STORAGE   ⚠️ MOSTLY BROWSER
+ * SOLUTIONS · 33 · DATES & TIME
  * =============================================================================
  * Run:  node lessons/solutions/33-solutions.js
  *
- * Worked answers to the PRACTICE block in lessons/33-browser-storage.js.
+ * Worked answers to the PRACTICE block in lessons/33-dates-time.js.
  * Try each problem YOURSELF first — then compare.
- * In the browser `storage` IS localStorage; in Node we use the same in-memory
- * mock the lesson uses, so the logic is identical.
+ * (Fixed sample dates are used so the output is reproducible; swap in
+ *  `new Date()` for the real "today".)
  * ========================================================================== */
 
-const storage =
-  typeof localStorage !== 'undefined'
-    ? localStorage
-    : (() => {
-        const map = new Map();
-        return {
-          setItem: (k, v) => map.set(k, String(v)),
-          getItem: (k) => (map.has(k) ? map.get(k) : null),
-          removeItem: (k) => map.delete(k),
-        };
-      })();
+// ── 1. Log today's date as "Weekday, Month Day, Year" using Intl. ────────────
+const today = new Date('2026-06-09T12:00:00');
+const formatted = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(today);
+console.log('1.', formatted); // => 1. Tuesday, June 9, 2026
 
-// Helpers: storage only holds STRINGS, so JSON in and out.
-const save = (key, value) => storage.setItem(key, JSON.stringify(value));
-const load = (key, fallback = null) => {
-  const raw = storage.getItem(key);
-  return raw === null ? fallback : JSON.parse(raw);
-};
-
-// ── 1. Save a to-do array to storage, reload it, and add one item. ───────────
-save('todos', ['buy milk', 'walk dog']);
-const todos = load('todos', []); // "reload" — read it back from storage
-todos.push('write code');
-save('todos', todos);
-console.log('1.', load('todos')); // => 1. [ 'buy milk', 'walk dog', 'write code' ]
-
-// ── 2. Build loadTheme()/saveTheme() that default to 'light' when unset. ─────
-const saveTheme = (theme) => save('theme', theme);
-const loadTheme = () => load('theme', 'light'); // fallback when the key is missing
-console.log('2.', loadTheme()); // => 2. light   (nothing saved yet)
-saveTheme('dark');
-console.log('2.', loadTheme()); // => 2. dark
-
-// ── 3. In the browser, make a counter that survives page refreshes. ──────────
-// Each "page load" reads the saved count, bumps it, and saves it back. In the
-// browser this survives refreshes because localStorage persists across loads.
-function visit() {
-  const count = load('visits', 0) + 1;
-  save('visits', count);
-  return count;
+// ── 2. Compute how many days until a target date. ────────────────────────────
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
+function daysUntil(target, from = new Date()) {
+  // Compare at UTC midnight so partial days don't skew the count.
+  const a = Date.UTC(from.getFullYear(), from.getMonth(), from.getDate());
+  const b = Date.UTC(target.getFullYear(), target.getMonth(), target.getDate());
+  return Math.round((b - a) / MS_PER_DAY);
 }
-console.log('3.', visit(), visit(), visit()); // => 3. 1 2 3  (each call = one "refresh")
+console.log('2.', daysUntil(new Date('2026-12-25'), today), 'days until Christmas');
+// => 2. 199 days until Christmas
+
+// ── 3. Build a function addDays(date, n) that returns a new date n days later. ──
+function addDays(date, n) {
+  const copy = new Date(date);     // copy first — don't mutate the input
+  copy.setDate(copy.getDate() + n);
+  return copy;
+}
+console.log('3.', addDays(today, 30).toISOString().slice(0, 10));
+// => 3. 2026-07-09

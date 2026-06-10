@@ -4,7 +4,7 @@
  * Fill in the TODOs. The README has the full step-by-step.
  * Solution is in solution.js — try first!
  *
- * Lessons used: 25 Fetch · 20 Async/Await · 21 Errors · 32 Dates · 23 DOM
+ * Lessons used: 26 Fetch · 20 Async/Await · 22 Errors · 33 Dates · 24 DOM
  * ========================================================================== */
 
 // ── Elements ─────────────────────────────────────────────────────────────────
@@ -66,7 +66,7 @@ function showWeather(place, weather) {
   //   - const [text, emoji] = describe(weather.weather_code)
   //   - set placeEl, tempEl (weather.temperature_2m + '°C'), emojiEl,
   //     conditionEl, windEl (weather.wind_speed_10m + ' km/h')
-  //   - set dateEl to today's date with Intl.DateTimeFormat (lesson 32)
+  //   - set dateEl to today's date with Intl.DateTimeFormat (lesson 33)
   //   - reveal the card: result.classList.remove('hidden')
 }
 

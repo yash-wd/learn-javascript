@@ -1,7 +1,7 @@
 # Project 5 — Virtual List
 
 The performance capstone. No internet needed — this is about one high-impact
-technique from lesson 41: **virtualization (windowing)**. You'll scroll a list
+technique from lesson 42: **virtualization (windowing)**. You'll scroll a list
 of **50,000 rows** while keeping only ~17 of them in the DOM.
 
 ## What it does
@@ -50,7 +50,7 @@ the finished version:
    - clear the sizer, create rows `start…end`, each at `top: i*ROW_H`
    - update the stats line with how many rows are really in the DOM
 4. **Scroll listener** → `render()`. Bonus: wrap it in `requestAnimationFrame`
-   so it runs at most once per frame (a throttle — lesson 29).
+   so it runs at most once per frame (a throttle — lesson 30).
 5. **Jump button** → set `viewport.scrollTop` to a random `i * ROW_H`, render.
 
 ## Why `OVERSCAN`?

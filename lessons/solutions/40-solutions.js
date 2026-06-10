@@ -1,132 +1,43 @@
 /* =============================================================================
- * SOLUTIONS · 40 · DESIGN PATTERNS — reusable solutions with shared names
+ * SOLUTIONS · 40 · SECURITY ESSENTIALS — don't get hacked
  * =============================================================================
  * Run:  node lessons/solutions/40-solutions.js
  *
- * Worked answers to the PRACTICE block in lessons/40-design-patterns.js.
+ * Worked answers to the PRACTICE block in lessons/40-security.js.
  * Try each problem YOURSELF first — then compare.
  * ========================================================================== */
 
-// ── 1. Build a Logger module with private log history and a public add()/last(). ──
-// Module pattern: a closure keeps `history` private; only add/last/size escape.
-const Logger = (() => {
-  const history = [];
-  return {
-    add(msg) {
-      history.push(msg);
-      return msg;
-    },
-    last() {
-      return history.at(-1);
-    },
-    get size() {
-      return history.length;
-    },
-  };
-})();
-Logger.add('app started');
-Logger.add('user logged in');
-console.log('1.', Logger.last(), '·', Logger.size); // => 1. user logged in · 2
-
-// ── 2. Add a 'logout' event to the EventBus and subscribe two listeners. ─────
-function createEventBus() {
-  const handlers = {};
-  return {
-    on(event, fn) {
-      (handlers[event] ??= []).push(fn);
-    },
-    emit(event, ...args) {
-      (handlers[event] ?? []).forEach((fn) => fn(...args));
-    },
-  };
+// ── 1. Write a safeRender(el, text) helper that uses textContent. ────────────
+// textContent inserts text as DATA — the browser never parses it as HTML, so
+// script/img/onerror payloads render as harmless literal characters (no XSS).
+// (innerHTML would PARSE the string and could execute injected markup.)
+function safeRender(el, text) {
+  el.textContent = text;
 }
-const bus = createEventBus();
-bus.on('logout', (user) => console.log('2.', `${user}: session cleared`));
-bus.on('logout', (user) => console.log('2.', `${user}: redirected to /login`));
-bus.emit('logout', 'ada'); // both listeners fire
+const fakeEl = { textContent: '' }; // stand-in for a real DOM node in Node
+safeRender(fakeEl, '<img src=x onerror="steal()">');
+console.log('1.', fakeEl.textContent);
+// => 1. <img src=x onerror="steal()">   (shown as text, NOT executed)
 
-// ── 3. Add a 'discount' strategy set (none/student/senior) chosen at runtime. ──
-const discounts = {
-  none: (price) => price,
-  student: (price) => price * 0.9,
-  senior: (price) => price * 0.8,
-};
-function priceFor(price, kind) {
-  return (discounts[kind] ?? discounts.none)(price); // pick the strategy by name
+// ── 2. Add password-strength validation (min length, has number) to validateSignup. ──
+function validateSignup({ email, password }) {
+  const errors = [];
+  // Same rigorous check the lesson teaches — not a loose `.includes('@')`.
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) errors.push('email looks invalid');
+  if (password.length < 8) errors.push('password must be at least 8 characters');
+  if (!/\d/.test(password)) errors.push('password must contain a number');
+  return { ok: errors.length === 0, errors };
 }
-console.log('3.', priceFor(100, 'student'), priceFor(100, 'senior'), priceFor(100, 'vip'));
-// => 3. 90 80 100   (unknown 'vip' falls back to 'none')
+console.log('2.', validateSignup({ email: 'a@b.com', password: 'weak' }));
+// => 2. { ok: false, errors: [ 'password must be at least 8 characters', 'password must contain a number' ] }
+console.log('2.', validateSignup({ email: 'a@b.com', password: 'strongpass1' }));
+// => 2. { ok: true, errors: [] }
 
-// ── 4. Write a withTiming(fn) DECORATOR that logs how long fn took (lesson 41). ──
-function withTiming(fn) {
-  return (...args) => {
-    const start = Date.now();
-    const result = fn(...args);
-    console.log('4.', `${fn.name || 'fn'} took ${Date.now() - start}ms`);
-    return result;
-  };
-}
-const sumTo = withTiming(function sumTo(n) {
-  let s = 0;
-  for (let i = 0; i < n; i++) s += i;
-  return s;
-});
-console.log('4.', 'result:', sumTo(1_000_000)); // => 4. result: 499999500000
-
-// ── 5. Add a 'delete line' command to the History demo and test undo on it. ──
-// Command pattern: each command knows how to execute AND undo itself.
-function createEditor() {
-  const lines = [];
-  const history = [];
-  return {
-    run(command) {
-      command.execute(lines);
-      history.push(command);
-    },
-    undo() {
-      history.pop()?.undo(lines);
-    },
-    get lines() {
-      return [...lines];
-    },
-  };
-}
-const addLine = (text) => ({
-  execute: (lines) => lines.push(text),
-  undo: (lines) => lines.pop(),
-});
-const deleteLine = (index) => {
-  let removed;
-  return {
-    execute: (lines) => {
-      [removed] = lines.splice(index, 1); // remember what we removed
-    },
-    undo: (lines) => lines.splice(index, 0, removed), // put it back
-  };
-};
-const editor = createEditor();
-editor.run(addLine('first'));
-editor.run(addLine('second'));
-editor.run(deleteLine(0)); // removes 'first'
-console.log('5.', editor.lines); // => 5. [ 'second' ]
-editor.undo(); // undo the delete
-console.log('5.', editor.lines); // => 5. [ 'first', 'second' ]
-
-// ── 6. Refactor createOrderService to inject a THIRD dependency (an emailer). ──
-// Dependency injection: pass collaborators in, so they're swappable & testable.
-function createOrderService({ repo, payment, emailer }) {
-  return {
-    placeOrder(order) {
-      payment.charge(order.total);
-      repo.save(order);
-      emailer.send(order.email, `Order ${order.id} confirmed`); // the new dependency
-      return `order ${order.id} placed`;
-    },
-  };
-}
-const service = createOrderService({
-  repo: { save: (o) => console.log('6.', 'saved order', o.id) },
-  payment: { charge: (amount) => console.log('6.', 'charged $' + amount) },
-  emailer: { send: (to, msg) => console.log('6.', `emailed ${to}: "${msg}"`) },
-});
-console.log('6.', service.placeOrder({ id: 'A1', total: 50, email: 'a@b.com' }));
+// ── 3. Explain in a comment why CORS errors can't be fixed from the browser. ──
+// CORS is enforced by the BROWSER on behalf of the user, based on headers the
+// SERVER sends (Access-Control-Allow-Origin, etc.). The browser blocks reading
+// a cross-origin response unless the server opts in. Client code can't grant
+// itself that permission — only the server (or a proxy you control) can send
+// the right headers. So "fixing CORS in JS" is impossible by design; it's a
+// server-side configuration concern.
+console.log('3.', 'CORS is granted by server headers — the browser only enforces them.');

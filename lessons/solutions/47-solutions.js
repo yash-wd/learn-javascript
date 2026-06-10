@@ -1,43 +1,50 @@
 /* =============================================================================
- * SOLUTIONS · 47 · REAL-TIME NETWORKING & PRODUCTION OPS
+ * SOLUTIONS · 47 · ADVANCED BROWSER APIs  (browser)
  * =============================================================================
  * Run:  node lessons/solutions/47-solutions.js
- *       LOG_LEVEL=debug node lessons/solutions/47-solutions.js   (try it!)
  *
- * Worked answers to the PRACTICE block in lessons/47-realtime-and-production.js.
+ * Worked answers to the PRACTICE block in lessons/47-browser-apis.js.
  * Try each problem YOURSELF first — then compare.
+ *
+ * ⚠️  BROWSER ONLY — these need a real page. In Node the guard prints a notice;
+ *     the worked code lives in the else-branch.
  * ========================================================================== */
 
-// ── 3. Read LOG_LEVEL from env and make the log() threshold respect it. ──────
-// (Done first so parts 1–2 can use it.) Each level has a numeric weight; we
-// only print messages at or above the configured threshold.
-const LEVELS = { debug: 10, info: 20, warn: 30, error: 40 };
-const configured = process.env.LOG_LEVEL ?? 'info';
-const threshold = LEVELS[configured] ?? LEVELS.info;
-function log(level, message) {
-  if (LEVELS[level] >= threshold) console.log(`[${level}] ${message}`);
-}
+if (typeof window === 'undefined') {
+  console.log('⚠️  This is a BROWSER lesson. Open it via index.html — see lesson 24.');
+} else {
+  // ── 1. Use IntersectionObserver to log when a bottom element scrolls into view. ──
+  // Markup: <div id="sentinel">…</div> near the bottom of the page.
+  const sentinel = document.querySelector('#sentinel');
+  const observer = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        console.log('sentinel is visible — load more!');
+        // e.g. fetch the next page of results here (infinite scroll)
+      }
+    }
+  });
+  observer.observe(sentinel);
 
-// ── 1. Add a 'warn' log call and confirm it prints but 'debug' does not. ─────
-log('debug', 'connection pool size = 8'); // suppressed at default LOG_LEVEL=info
-log('warn', 'request latency is high');   // printed (warn ≥ info)
-console.log('1.', `(debug hidden, warn shown — threshold is '${configured}')`);
+  // ── 2. Define a <hello-world> Web Component that renders your name. ────────
+  customElements.define(
+    'hello-world',
+    class extends HTMLElement {
+      connectedCallback() {
+        // `name` attribute → <hello-world name="Ada"></hello-world>
+        this.textContent = `Hello, ${this.getAttribute('name') ?? 'world'}!`;
+      }
+    }
+  );
 
-// ── 2. Extend chooseTransport for a 'one-off request' → 'fetch'. ─────────────
-function chooseTransport(need) {
-  switch (need) {
-    case 'two-way realtime':
-      return 'WebSocket'; // full-duplex: chat, multiplayer, live cursors
-    case 'server push':
-      return 'SSE'; // one-way stream from server: notifications, live feeds
-    case 'one-off request':
-      return 'fetch'; // ← the new case: a single request/response
-    default:
-      return 'polling'; // fallback: ask repeatedly on a timer
+  // ── 3. Animate a box across the screen with requestAnimationFrame. ─────────
+  // Markup: <div id="box" style="position:absolute"></div>
+  const box = document.querySelector('#box');
+  let x = 0;
+  function step() {
+    x += 2;
+    box.style.transform = `translateX(${x}px)`;
+    if (x < 300) requestAnimationFrame(step); // ~60fps, synced to the display
   }
+  requestAnimationFrame(step);
 }
-console.log('2.', chooseTransport('one-off request')); // => 2. fetch
-console.log('2.', chooseTransport('two-way realtime')); // => 2. WebSocket
-
-// ── 3. (cont.) ────────────────────────────────────────────────────────────
-console.log('3.', `set LOG_LEVEL=debug to lower the threshold and reveal debug logs`);

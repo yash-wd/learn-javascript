@@ -2,7 +2,7 @@
 
 The computer-science capstone. No internet needed — this is about turning two
 **CS-core lessons into a real, visual app**: model a transit network as a
-**graph** (lesson 48) and find the fewest-stops route with **BFS** (lesson 49).
+**graph** (lesson 49) and find the fewest-stops route with **BFS** (lesson 50).
 
 ## What it does
 - Pick a **From** and **To** station from two dropdowns
@@ -31,7 +31,7 @@ const EDGES = [
   // ...each pair is a TWO-WAY connection
 ];
 ```
-The `Graph` class (from lesson 48) is also provided — you focus on wiring it up
+The `Graph` class (from lesson 49) is also provided — you focus on wiring it up
 and writing the search.
 
 ## Build it step by step
@@ -53,17 +53,17 @@ and writing the search.
 ## Why BFS (and not DFS)?
 BFS explores the graph **level by level** — all 1-hop neighbours, then all
 2-hop, and so on. So the moment it touches the destination, it has used the
-fewest possible edges. DFS (lesson 49) dives deep and would find *a* path, but
+fewest possible edges. DFS (lesson 50) dives deep and would find *a* path, but
 not necessarily the **shortest** one. That's the whole reason BFS is the
 go-to for shortest paths in unweighted graphs.
 
 ## Make it your own
 - **Weighted edges** (distance/time per link) → upgrade BFS to **Dijkstra's**
-  algorithm with a priority queue (uses the heap idea from lesson 48).
+  algorithm with a priority queue (uses the heap idea from lesson 49).
 - Let users **add/remove stations or connections** at runtime and re-route.
 - **Highlight the route** on the network map (bold the stations in the path).
 - Show **all stations reachable within N hops** of a station (BFS with a depth).
-- Persist the user's last From/To to **localStorage** (lesson 33).
+- Persist the user's last From/To to **localStorage** (lesson 34).
 - Render the network as an actual **SVG graph** instead of a list.
 
 ## Concepts this cements

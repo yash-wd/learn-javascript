@@ -1,35 +1,33 @@
 /* =============================================================================
- * SOLUTIONS · 35 · DEBUGGING & THE CONSOLE
+ * SOLUTIONS · 35 · BOM & TIMERS (the Browser Object Model)
  * =============================================================================
  * Run:  node lessons/solutions/35-solutions.js
  *
- * Worked answers to the PRACTICE block in lessons/35-debugging-console.js.
+ * Worked answers to the PRACTICE block in lessons/35-bom-timers.js.
  * Try each problem YOURSELF first — then compare.
+ * (The clock uses a fast interval here so the demo finishes quickly; in real
+ *  life you'd pass 1000ms for one tick per second.)
  * ========================================================================== */
 
-// ── 1. Use console.table to print an array of 3 product objects. ─────────────
-const products = [
-  { name: 'Keyboard', price: 80, inStock: true },
-  { name: 'Mouse', price: 25, inStock: false },
-  { name: 'Monitor', price: 300, inStock: true },
-];
-console.log('1. products:');
-console.table(products); // renders a neat grid of rows × columns
+// ── 2. Parse "?theme=dark&lang=en" with URLSearchParams and read both values. ──
+const params = new URLSearchParams('?theme=dark&lang=en');
+console.log('2.', params.get('theme'), '·', params.get('lang')); // => 2. dark · en
 
-// ── 2. Trigger a "Cannot read properties of undefined" on purpose, then fix it ──
-//    with optional chaining.
-const data = {}; // no `user` key
-try {
-  console.log(data.user.name); // boom: data.user is undefined
-} catch (err) {
-  console.log('2.', err.message); // => 2. Cannot read properties of undefined (reading 'name')
+// ── 3. (Browser) Log location.pathname and navigator.language in the console. ──
+if (typeof location !== 'undefined') {
+  console.log('3.', location.pathname, navigator.language);
+} else {
+  console.log('3.', '(browser only) e.g. "/index.html" and "en-US"');
 }
-// Fix: ?. short-circuits to undefined instead of throwing.
-console.log('2.', 'safe:', data.user?.name ?? '(no user)'); // => 2. safe: (no user)
 
-// ── 3. Wrap a slow loop in console.time/timeEnd and read the duration. ───────
-console.time('sum-loop');
-let sum = 0;
-for (let i = 0; i < 1_000_000; i++) sum += i;
-console.timeEnd('sum-loop'); // => 3. sum-loop: 1.2ms  (timing varies)
-console.log('3.', 'sum =', sum); // => 3. sum = 499999500000
+// ── 1. Build a clock that logs the time every second, then stops after 5. ────
+// setInterval repeats; clearInterval stops it. We count ticks and stop at 5.
+let ticks = 0;
+const clock = setInterval(() => {
+  ticks++;
+  console.log('1.', `tick ${ticks} @`, new Date().toLocaleTimeString());
+  if (ticks >= 5) {
+    clearInterval(clock); // ⚠️ ALWAYS clear an interval or it runs forever
+    console.log('1.', 'clock stopped after 5 ticks');
+  }
+}, 100); // ← 1000 for once-per-second in real use

@@ -48,10 +48,10 @@ It loads `app.js` (starter). Switch to `solution.js` to see it finished.
 
 ## Make it your own
 - Add a 7-day forecast (the API supports `daily=temperature_2m_max,...`).
-- Detect the user's location with `navigator.geolocation` (lesson 34) and load
+- Detect the user's location with `navigator.geolocation` (lesson 35) and load
   local weather on startup.
 - Add a °C / °F toggle.
-- Cache the last searched city in `localStorage` (lesson 33) and reload it.
+- Cache the last searched city in `localStorage` (lesson 34) and reload it.
 
 ## Concepts this cements
 - **Chaining async calls**: the second request needs the first's result —

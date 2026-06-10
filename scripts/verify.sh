@@ -28,12 +28,10 @@ echo "▶ Verifying every lesson's \`// =>\` output comments…"
 node tools/check-outputs.mjs || status=1
 
 echo "▶ Running the test suites…"
-TEST_OK=1
-for t in "lessons/38-testing.js" "projects/8-rest-api/test.mjs" practice/*.test.mjs; do
-  [ -e "$t" ] || continue
-  node --test "$t" >/dev/null 2>&1 || { echo "  ✗ tests failed: $t"; TEST_OK=0; status=1; }
-done
-[ $TEST_OK -eq 1 ] && echo "  ✓ all tests pass"
+# Single source of truth for the test list: package.json's "test" script.
+# (Run it directly with `npm test` to see per-suite detail.)
+npm test --silent >/dev/null 2>&1 && echo "  ✓ all tests pass" \
+  || { echo "  ✗ tests failed (run: npm test)"; status=1; }
 
 echo "▶ Syntax-checking project & solution JS…"
 parse_ok=1

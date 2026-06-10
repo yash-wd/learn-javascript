@@ -1,16 +1,17 @@
 {
   "name": "learn-javascript",
   "version": "1.0.0",
-  "description": "A complete step-by-step JavaScript course — 53 lessons + 8 projects, read it then run it.",
+  "description": "A complete step-by-step JavaScript course — 56 lessons + 8 projects, read it then run it.",
   "license": "MIT",
   "private": true,
-  "_comment": "No \"type\" field on purpose: .js stays CommonJS by default (lesson 22 relies on this), while Node still auto-detects the few lessons that use ESM import syntax (37, 38, 45). Setting type to commonjs OR module would break one group or the other.",
+  "_comment": "No \"type\" field on purpose: .js stays CommonJS by default (lesson 23 relies on this), while Node still auto-detects the few lessons that use ESM import syntax (38, 39, 46). Setting type to commonjs OR module would break one group or the other.",
   "scripts": {
     "lesson": "node",
-    "test": "node --test lessons/38-testing.js projects/8-rest-api/test.mjs practice/*.test.mjs",
+    "test": "node --test lessons/39-testing.js projects/8-rest-api/test.mjs practice/*.test.mjs",
     "check": "node tools/check-outputs.mjs",
     "verify": "bash scripts/verify.sh",
-    "bundle": "node tools/build-bundle.mjs"
+    "bundle": "node tools/build-bundle.mjs",
+    "search-index": "node tools/build-search-index.mjs"
   },
   "keywords": ["javascript", "course", "tutorial", "learning", "beginner"],
   "engines": {

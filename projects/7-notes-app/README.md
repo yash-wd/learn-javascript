@@ -57,8 +57,8 @@ It loads `app.js` (starter). Switch to `solution.js` to see it finished.
 
 ## Make it your own
 - Add a "retry" button on the error message instead of an auto-rollback.
-- Debounce a search box that filters notes by text (lesson 29).
-- Persist a local copy in `localStorage` (lesson 33) so notes survive reloads.
+- Debounce a search box that filters notes by text (lesson 30).
+- Persist a local copy in `localStorage` (lesson 34) so notes survive reloads.
 - Inline-edit on double-click instead of using `prompt`.
 
 ## Concepts this cements

@@ -1,36 +1,42 @@
 /* =============================================================================
- * SOLUTIONS · 28 · SYMBOLS, PROXY & REFLECT (metaprogramming)
+ * SOLUTIONS · 28 · GENERATORS & ITERATORS
  * =============================================================================
  * Run:  node lessons/solutions/28-solutions.js
  *
- * Worked answers to the PRACTICE block in lessons/28-symbols-proxy-reflect.js.
+ * Worked answers to the PRACTICE block in lessons/28-generators-iterators.js.
  * Try each problem YOURSELF first — then compare.
  * ========================================================================== */
 
-// ── 1. Create two Symbols with the same description and prove they differ. ───
-const a = Symbol('id');
-const b = Symbol('id'); // same description, but a brand-new unique value
-console.log('1.', a === b, '·', a.description); // => 1. false · id
-// Every Symbol() call is unique — the description is just a label for debugging.
-
-// ── 2. Build a Proxy that makes an object read-only (set throws). ────────────
-function readOnly(target) {
-  return new Proxy(target, {
-    set(_obj, prop) {
-      throw new TypeError(`Cannot assign "${String(prop)}" — object is read-only`);
-    },
-  });
+// ── 1. Write a generator fibonacci() and take the first 10 numbers. ──────────
+function* fibonacci() {
+  let [a, b] = [0, 1];
+  while (true) {        // safe: a generator only runs when you pull from it
+    yield a;
+    [a, b] = [b, a + b];
+  }
 }
-const frozen = readOnly({ name: 'Ada' });
-console.log('2.', frozen.name); // => 2. Ada  (reads still work)
-try {
-  frozen.name = 'Linus';
-} catch (err) {
-  console.log('2.', err.message); // => 2. Cannot assign "name" — object is read-only
+function take(iterable, n) {
+  const out = [];
+  for (const value of iterable) {
+    out.push(value);
+    if (out.length === n) break; // stop pulling once we have enough
+  }
+  return out;
 }
+console.log('1.', take(fibonacci(), 10)); // => 1. [ 0, 1, 1, 2, 3, 5, 8, 13, 21, 34 ]
 
-// ── 3. Use Reflect.ownKeys to list every key (including symbols) of an object. ──
-const tag = Symbol('tag');
-const obj = { a: 1, b: 2, [tag]: 'secret' };
-console.log('3.', Reflect.ownKeys(obj)); // => 3. [ 'a', 'b', Symbol(tag) ]
-// Object.keys() would MISS the symbol key — Reflect.ownKeys sees everything.
+// ── 2. Make an object { from, to } iterable so [...it] counts from→to. ───────
+const range = {
+  from: 3,
+  to: 7,
+  *[Symbol.iterator]() {            // the well-known iterator hook, as a generator
+    for (let i = this.from; i <= this.to; i++) yield i;
+  },
+};
+console.log('2.', [...range]); // => 2. [ 3, 4, 5, 6, 7 ]
+
+// ── 3. Write a generator that yields only the even numbers of an array. ──────
+function* evens(arr) {
+  for (const n of arr) if (n % 2 === 0) yield n;
+}
+console.log('3.', [...evens([1, 2, 3, 4, 5, 6, 7, 8])]); // => 3. [ 2, 4, 6, 8 ]

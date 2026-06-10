@@ -1,12 +1,12 @@
 # JavaScript — Learn Everything
 
-> Complete course bundle · 53 lessons · 8 projects · generated 2026-06-10
+> Complete course bundle · 56 lessons · 8 projects · generated 2026-06-10
 > Every lesson's full, runnable source in one document. Source of truth: the
 > individual files in `lessons/` and `projects/` — regenerate after edits.
 
 ## Roadmap
 
-The 53 lessons climb through **five levels**, beginner to expert. Do them
+The 56 lessons climb through **five levels**, beginner to expert. Do them
 **in order** — each level builds on the one before.
 
 ### Level 1 — Foundation
@@ -49,11 +49,12 @@ The 53 lessons climb through **five levels**, beginner to expert. Do them
 | 18 | [Prototypes](lessons/18-prototypes.js) | the prototype chain |
 | 19 | [Callbacks & Promises](lessons/19-callbacks-promises.js) | the event loop, `Promise` |
 | 20 | [Async / Await](lessons/20-async-await.js) | `async`, `await`, parallel work |
-| 21 | [Error Handling](lessons/21-error-handling.js) | `try/catch`, custom errors, global handlers |
-| 22 | [Modules](lessons/22-modules.js) | `import` / `export`, dynamic `import()`, top-level `await` (+ [modules-demo/](lessons/modules-demo/)) |
-| 23 | [DOM](lessons/23-dom.js) **(browser)** | selecting & changing the page |
-| 24 | [Events](lessons/24-events.js) **(browser)** | listeners, delegation, bubbling |
-| 25 | [Fetch & APIs](lessons/25-fetch-apis.js) | HTTP methods/status/headers/REST, `fetch`, JSON, async data, retry/backoff |
+| 21 | [How JavaScript Runs](lessons/21-how-javascript-runs.js) | execution context, call stack, event loop, micro/macrotasks, async/await internals |
+| 22 | [Error Handling](lessons/22-error-handling.js) | `try/catch`, custom errors, global handlers |
+| 23 | [Modules](lessons/23-modules.js) | `import` / `export`, dynamic `import()`, top-level `await` (+ [modules-demo/](lessons/modules-demo/)) |
+| 24 | [DOM](lessons/24-dom.js) **(browser)** | selecting & changing the page |
+| 25 | [Events](lessons/25-events.js) **(browser)** | listeners, delegation, bubbling |
+| 26 | [Fetch & APIs](lessons/26-fetch-apis.js) | HTTP methods/status/headers/REST, `fetch`, JSON, async data, retry/backoff |
 
 ### Level 4 — Advanced
 
@@ -61,18 +62,18 @@ The 53 lessons climb through **five levels**, beginner to expert. Do them
 
 | # | Lesson | What you learn |
 | --- | --- | --- |
-| 26 | [Regular Expressions](lessons/26-regular-expressions.js) | patterns, groups, lookahead/lookbehind, flags, `match`/`replace` |
-| 27 | [Generators & Iterators](lessons/27-generators-iterators.js) | `function*`, `yield`, lazy sequences |
-| 28 | [Symbols, Proxy & Reflect](lessons/28-symbols-proxy-reflect.js) | metaprogramming, interception |
-| 29 | [Advanced Async](lessons/29-advanced-async.js) | microtasks, `for await`, abort, debounce/throttle, retry/backoff, concurrency |
-| 30 | [Functional Programming](lessons/30-functional-programming.js) | purity, currying, compose/pipe |
-| 31 | [Tricky Concepts](lessons/31-tricky-concepts.js) | the classic interview gotchas |
-| 32 | [Dates & Time](lessons/32-dates-time.js) | `Date`, date formatting, durations |
-| 33 | [Browser Storage](lessons/33-browser-storage.js) | localStorage, sessionStorage, cookies |
-| 34 | [BOM & Timers](lessons/34-bom-timers.js) | `setTimeout`/`setInterval`, `window`, `location`, `history` |
-| 35 | [Debugging & Console](lessons/35-debugging-console.js) | console methods, `debugger`, reading errors |
-| 36 | [WeakMap & Memory](lessons/36-weakmap-memory.js) | garbage collection, WeakMap/WeakSet, strict mode, tagged templates |
-| 37 | [Modern JavaScript (to 2026)](lessons/37-modern-js.js) | logical assignment, `Object.groupBy`, `toSorted`/`with`, iterator helpers, new Set methods, `Promise.withResolvers`/`try`, `using`, import attributes, decorators, `Float16Array`, Temporal preview |
+| 27 | [Regular Expressions](lessons/27-regular-expressions.js) | patterns, groups, lookahead/lookbehind, flags, `match`/`replace` |
+| 28 | [Generators & Iterators](lessons/28-generators-iterators.js) | `function*`, `yield`, lazy sequences |
+| 29 | [Symbols, Proxy & Reflect](lessons/29-symbols-proxy-reflect.js) | metaprogramming, interception |
+| 30 | [Advanced Async](lessons/30-advanced-async.js) | microtasks, `for await`, abort, debounce/throttle, retry/backoff, concurrency |
+| 31 | [Functional Programming](lessons/31-functional-programming.js) | purity, currying, compose/pipe |
+| 32 | [Tricky Concepts](lessons/32-tricky-concepts.js) | the classic interview gotchas |
+| 33 | [Dates & Time](lessons/33-dates-time.js) | `Date`, date formatting, durations |
+| 34 | [Browser Storage](lessons/34-browser-storage.js) | localStorage, sessionStorage, cookies |
+| 35 | [BOM & Timers](lessons/35-bom-timers.js) | `setTimeout`/`setInterval`, `window`, `location`, `history` |
+| 36 | [Debugging & Console](lessons/36-debugging-console.js) | console methods, `debugger`, reading errors |
+| 37 | [WeakMap & Memory](lessons/37-weakmap-memory.js) | garbage collection, WeakMap/WeakSet, strict mode, tagged templates |
+| 38 | [Modern JavaScript (to 2026)](lessons/38-modern-js.js) | logical assignment, `Object.groupBy`, `toSorted`/`with`, iterator helpers, new Set methods, `Promise.withResolvers`/`try`, `using`, import attributes, decorators, `Float16Array`, Temporal preview |
 
 ### Level 5 — Expert
 
@@ -81,22 +82,24 @@ includes both the engineering around the language and the computer-science core.
 
 | # | Lesson | What you learn |
 | --- | --- | --- |
-| 38 | [Testing](lessons/38-testing.js) | built-in test runner + `assert`, unit/async tests, mocking, the testing pyramid, coverage, the TDD loop |
-| 39 | [Security Essentials](lessons/39-security.js) | XSS, CSRF, CORS, CSP, input validation, auth tokens, prototype pollution, SQL injection |
-| 40 | [Design Patterns](lessons/40-design-patterns.js) | Module, Singleton, Factory, Observer/PubSub, Strategy, Decorator, Facade, Adapter, Command, DI, MVC/MVVM |
-| 41 | [Performance](lessons/41-performance.js) | Big-O, memoization, reflow/repaint, lazy loading, web-vitals, profiling, list virtualization |
-| 42 | [Polyfills](lessons/42-polyfills.js) | re-implement `map`/`filter`/`reduce`/`bind`/`debounce`/`Promise` (interview gold) |
-| 43 | [TypeScript On-Ramp](lessons/43-typescript.js) | types, interfaces, generics, narrowing, JSDoc types |
-| 44 | [Tooling & Build Systems](lessons/44-tooling.js) | package managers, monorepos/workspaces, semver, bundlers, transpilers, linters/formatters, git, CI/CD |
-| 45 | [Node.js](lessons/45-nodejs.js) | `process`/env, `fs`, `path`, event emitters, streams, a real HTTP server |
-| 46 | [Advanced Browser APIs](lessons/46-browser-apis.js) **(browser)** | Web Workers, Service Workers/PWA, IndexedDB, Observers, Web Components, rAF |
-| 47 | [Real-Time & Production](lessons/47-realtime-and-production.js) | WebSockets/SSE, logging, observability/tracing, config/secrets, rate limits/queues/backpressure, accessibility, i18n |
-| 48 | [Data Structures](lessons/48-data-structures.js) | Stack, Queue, Linked List, Hash Map, Binary Search Tree, Graph — built from scratch |
-| 49 | [Algorithms](lessons/49-algorithms.js) | linear/binary search, bubble/merge/quick sort, two-pointer, sliding window, dynamic programming, BFS/DFS |
-| 50 | [Binary Data](lessons/50-binary-data.js) | `ArrayBuffer`, typed arrays, `DataView`, `Blob`/`File`, `FormData`, `TextEncoder`, streaming, `Atomics` |
-| 51 | [BigInt & Language Corners](lessons/51-bigint-and-language-corners.js) | `BigInt`, `Object.fromEntries`, `flatMap`, labeled statements, `eval`/`Function` (and why to avoid them) |
-| 52 | [Internationalization](lessons/52-internationalization.js) | the full `Intl` API: `Collator`, `PluralRules`, `RelativeTimeFormat`, `ListFormat`, `Segmenter` |
-| 53 | [Modern Authentication](lessons/53-modern-auth.js) | authN vs authZ, password hashing (scrypt/salt), sessions vs JWT, cookie flags, OAuth/OIDC, passkeys, refresh tokens |
+| 39 | [Testing](lessons/39-testing.js) | built-in test runner + `assert`, unit/async tests, mocking, the testing pyramid, coverage, the TDD loop |
+| 40 | [Security Essentials](lessons/40-security.js) | XSS, CSRF, CORS, CSP, input validation, auth tokens, prototype pollution, SQL injection |
+| 41 | [Design Patterns](lessons/41-design-patterns.js) | Module, Singleton, Factory, Observer/PubSub, Strategy, Decorator, Facade, Adapter, Command, DI, MVC/MVVM |
+| 42 | [Performance](lessons/42-performance.js) | Big-O, memoization, reflow/repaint, lazy loading, web-vitals, profiling, list virtualization |
+| 43 | [Polyfills](lessons/43-polyfills.js) | re-implement `map`/`filter`/`reduce`/`bind`/`debounce`/`Promise` (interview gold) |
+| 44 | [TypeScript On-Ramp](lessons/44-typescript.js) | types, interfaces, generics, narrowing, JSDoc types |
+| 45 | [Tooling & Build Systems](lessons/45-tooling.js) | package managers, monorepos/workspaces, semver, bundlers, transpilers, linters/formatters, git, CI/CD |
+| 46 | [Node.js](lessons/46-nodejs.js) | `process`/env, `fs`, `path`, event emitters, streams, a real HTTP server |
+| 47 | [Advanced Browser APIs](lessons/47-browser-apis.js) **(browser)** | Web Workers, Service Workers/PWA, IndexedDB, Observers, Web Components, rAF |
+| 48 | [Real-Time & Production](lessons/48-realtime-and-production.js) | WebSockets/SSE, logging, observability/tracing, config/secrets, rate limits/queues/backpressure, accessibility, i18n |
+| 49 | [Data Structures](lessons/49-data-structures.js) | Stack, Queue, Linked List, Hash Map, Binary Search Tree, Graph — built from scratch |
+| 50 | [Algorithms](lessons/50-algorithms.js) | linear/binary search, bubble/merge/quick sort, two-pointer, sliding window, dynamic programming, BFS/DFS |
+| 51 | [Binary Data](lessons/51-binary-data.js) | `ArrayBuffer`, typed arrays, `DataView`, `Blob`/`File`, `FormData`, `TextEncoder`, streaming, `Atomics` |
+| 52 | [BigInt & Language Corners](lessons/52-bigint-and-language-corners.js) | `BigInt`, `Object.fromEntries`, `flatMap`, labeled statements, `eval`/`Function` (and why to avoid them) |
+| 53 | [Internationalization](lessons/53-internationalization.js) | the full `Intl` API: `Collator`, `PluralRules`, `RelativeTimeFormat`, `ListFormat`, `Segmenter` |
+| 54 | [Modern Authentication](lessons/54-modern-auth.js) | authN vs authZ, password hashing (scrypt/salt), sessions vs JWT, cookie flags, OAuth/OIDC, passkeys, refresh tokens |
+| 55 | [Accessibility](lessons/55-accessibility.js) | semantic HTML, accessible names, ARIA, keyboard & focus, WCAG contrast, live regions, accessible forms/modals, an a11y linter |
+| 56 | [Clean Code](lessons/56-clean-code.js) | naming, small functions, SOLID/SRP, DRY, guard clauses, cohesion vs coupling, code smells, technical debt |
 
 > 💡 **Practice, then compare.** [lessons/solutions/](lessons/solutions/) has a
 > matching `NN-solutions.js` file for every lesson — each with clear, runnable
@@ -1121,8 +1124,10 @@ const team = {
   members: ['Ana', 'Bob'],
   listBroken() {
     // ❌ A normal function gets its OWN `this`. Called by forEach with no
-    //    context, `this` is NOT the team object (it's undefined in strict mode,
-    //    or the global object otherwise) — so `this.name` is lost.
+    //    context, `this` is NOT the team object — either way `this.name` is
+    //    lost. (In strict mode / ES modules `this` is `undefined`; in sloppy
+    //    mode it's the global object, which has no `name`.) We use `this?.name`
+    //    below so it reads `undefined` instead of throwing.
     const out = [];
     this.members.forEach(function (m) {
       out.push(`${m} is on ${this?.name}`); // this?.name → undefined, not "Rockets"
@@ -1327,6 +1332,10 @@ console.log(total); // => 21
 // reduce is powerful — e.g. find the max, or count occurrences:
 const max = numbers.reduce((biggest, n) => (n > biggest ? n : biggest));
 console.log(max); // => 6
+// ⚠️ This reduce has NO starting value (it uses the first item as the seed).
+//    Fine for a non-empty array — but `[].reduce((a, b) => a + b)` THROWS
+//    "Reduce of empty array with no initial value". Pass a seed (like the `, 0`
+//    in the sum above) whenever the array might be empty.
 
 const letters = ['a', 'b', 'a', 'c', 'b', 'a'];
 const counts = letters.reduce((tally, letter) => {
@@ -2266,13 +2275,165 @@ async function processInOrder(items) {
 
 ---
 
-## 21 · ERROR HANDLING
+## 21 · HOW JAVASCRIPT RUNS — execution context, the call stack & the event loop
 
 ```js
 /* =============================================================================
- * 21 · ERROR HANDLING
+ * 21 · HOW JAVASCRIPT RUNS — execution context, the call stack & the event loop
  * =============================================================================
- * Run:  node lessons/21-error-handling.js
+ * Run:  node lessons/21-how-javascript-runs.js
+ *
+ * WHAT YOU'LL LEARN
+ *   • What an EXECUTION CONTEXT is (global + one per function call)
+ *   • Its two phases — CREATION (memory) then EXECUTION — and how HOISTING
+ *     falls right out of that
+ *   • The CALL STACK: how JS keeps track of "where am I?"
+ *   • Why JS is single-threaded, and what the EVENT LOOP actually does
+ *   • MICROTASKS (promises) vs MACROTASKS (timers) — and who runs first
+ *   • How async/await is "just" promises + the event loop underneath
+ *
+ * You've already USED promises (lesson 19) and async/await (lesson 20). This
+ * lesson reveals the machine underneath — the model that explains every
+ * "why did it log in THAT order?" surprise. It's the single most-probed topic
+ * in senior JavaScript interviews.
+ * ========================================================================== */
+
+'use strict';
+
+// ── 1. EXECUTION CONTEXT & HOISTING ──────────────────────────────────────────
+// When JS runs a file (or enters a function) it builds an "execution context"
+// in TWO phases:
+//   (a) CREATION phase  — it scans the code and reserves memory: `var`s start as
+//       `undefined`, function DECLARATIONS are stored whole, `let`/`const` are
+//       reserved but left UNINITIALISED (the "temporal dead zone", lesson 01).
+//   (b) EXECUTION phase  — it runs the lines top to bottom, assigning values.
+// "Hoisting" isn't magic — it's just what you SEE because of the creation phase.
+
+console.log(typeof reserved); // => undefined   (var seen in creation, set later)
+var reserved = 42;
+console.log(reserved); // => 42
+
+// Function declarations are stored whole in the creation phase, so you can call
+// them BEFORE their line in the source:
+console.log(square(5)); // => 25
+function square(n) {
+  return n * n;
+}
+
+// ── 2. THE CALL STACK ────────────────────────────────────────────────────────
+// JS does ONE thing at a time. The call stack is the to-do pile: calling a
+// function PUSHES a context on top; returning POPS it off. The function on top
+// is the one currently running.
+function greet(name) {
+  return 'hi ' + name;
+}
+function welcome(name) {
+  return greet(name) + '!'; // welcome pushes greet on top of itself
+}
+console.log(welcome('Ada')); // => hi Ada!
+//   stack grows:  [global] → [welcome] → [greet]   then unwinds greet → welcome
+// If the stack never pops (infinite recursion) you get "Maximum call stack size
+// exceeded" — a stack overflow. (Try it yourself in the exercises below.)
+
+// ── 3. THE EVENT LOOP: microtasks vs macrotasks ──────────────────────────────
+// One thread can't BLOCK on slow things (timers, network, disk). So slow work is
+// handed to the host (Node / the browser); when it's ready, its CALLBACK is put
+// on a queue. The EVENT LOOP runs that callback only once the call stack is
+// empty. There are TWO queues, and the order between them is the classic gotcha:
+//
+//        ┌─────────────┐   stack empty?   ┌────────────────────────────┐
+//        │  call stack │ ───────────────▶ │ 1. drain ALL microtasks    │
+//        └─────────────┘                  │    (promise .then, await,   │
+//              ▲                           │     queueMicrotask)         │
+//              │ run next                  │ 2. then ONE macrotask       │
+//              └───────────────────────────│    (setTimeout, setInterval,│
+//                                          │     I/O) — then back to 1   │
+//                                          └────────────────────────────┘
+//   Rule of thumb: ALL microtasks run before the NEXT macrotask.
+
+console.log('sync 1'); // => sync 1
+setTimeout(() => console.log('macrotask setTimeout'), 0);
+Promise.resolve().then(() => console.log('microtask promise then'));
+queueMicrotask(() => console.log('microtask queueMicrotask'));
+console.log('sync 2'); // => sync 2
+// Both sync lines run first (they're on the stack). THEN the loop drains the
+// microtask queue (FIFO), THEN the one macrotask. Real printed order:
+// => microtask promise then
+// => microtask queueMicrotask
+// => macrotask setTimeout
+
+// ── 4. async/await IS promises + the event loop ──────────────────────────────
+// `async` makes a function return a promise. `await` SPLITS the function: the
+// part before it runs now (synchronously); everything after it is resumed LATER
+// as a microtask, once the awaited value settles. So `await` never "blocks the
+// thread" — it yields control back to the event loop.
+async function task() {
+  console.log('task sync part'); // runs immediately, on the calling stack
+  await Promise.resolve();
+  console.log('task resumed after await'); // scheduled as a MICROTASK
+}
+// We run this phase from inside a timer so its output prints cleanly AFTER the
+// section-3 tasks have drained (a timer is a macrotask, so it waits its turn):
+setTimeout(() => {
+  console.log('before calling task'); // => before calling task
+  task();
+  console.log('after calling task'); // => after calling task
+  // Order here: 'before calling task', then 'task sync part' (the sync half of
+  // task runs on this stack), then 'after calling task', and finally — once the
+  // stack is empty — the microtask resumes: 'task resumed after await'.
+  // => task sync part
+  // => task resumed after await
+}, 10);
+
+/* -----------------------------------------------------------------------------
+ * INTERVIEW CORNER
+ *   Q: "What logs first — a setTimeout(fn, 0) or a Promise.resolve().then(fn)?"
+ *   A: The promise. Timers are MACROtasks; promise callbacks are MICROtasks, and
+ *      every microtask runs before the next macrotask.
+ *
+ *   Q: "Does `await` block the thread?"
+ *   A: No. It suspends only the async function and returns control to the event
+ *      loop; the rest resumes as a microtask when the awaited promise settles.
+ *
+ *   Q: "Why does `console.log(x); var x = 1;` print `undefined`, not crash?"
+ *   A: Creation phase reserved `x` as `undefined`; the assignment happens later.
+ *      (With `let`, the same code throws — the temporal dead zone.)
+ *
+ * COMMON MISTAKES
+ *   • Thinking timers are precise. setTimeout(fn, 0) means "after >= 0 ms AND the
+ *     stack is clear AND microtasks have drained" — often much later than 0 ms.
+ *   • A long synchronous loop "freezes" everything: it never lets the stack empty,
+ *     so no callbacks, no rendering. Break big work up (see lesson 30 · advanced
+ *     async) or move it off-thread (Workers, lesson 47).
+ *   • Assuming `await` parallelises. `await a(); await b();` is SEQUENTIAL; use
+ *     `Promise.all([a(), b()])` to overlap them (lesson 20).
+ * ---------------------------------------------------------------------------- */
+
+/* PRACTICE -------------------------------------------------------------------
+ *   1. Predict the output order, then run to check:
+ *        console.log('A');
+ *        setTimeout(() => console.log('B'), 0);
+ *        Promise.resolve().then(() => console.log('C'));
+ *        console.log('D');
+ *   2. Write `boom()` that calls itself with no base case, wrap the call in
+ *      try/catch, and log the error's `.name` (you should see RangeError).
+ *   3. Explain in a comment why `console.log(typeof y); let y = 1;` THROWS while
+ *      the same code with `var` prints `undefined`.
+ *   4. Using only Promise.resolve().then(...) and setTimeout(...), make four
+ *      logs print in the exact order: 1, 2, 3, 4 — where 1 & 2 are sync,
+ *      3 is a microtask, and 4 is a macrotask.
+ * ------------------------------------------------------------------------- */
+```
+
+---
+
+## 22 · ERROR HANDLING
+
+```js
+/* =============================================================================
+ * 22 · ERROR HANDLING
+ * =============================================================================
+ * Run:  node lessons/22-error-handling.js
  *
  * WHAT YOU'LL LEARN
  *   • try / catch / finally
@@ -2375,7 +2536,7 @@ Promise.reject(new Error('boom')).catch((e) => console.log('promise caught:', e.
 // ── 6. Global "last resort" handlers ─────────────────────────────────────────
 // try/catch handles errors you EXPECT. But something always slips through — an
 // unexpected throw, a promise with no .catch(). A global handler is your safety
-// net: log it (to a monitoring service — lesson 47) so you find out in prod.
+// net: log it (to a monitoring service — lesson 48) so you find out in prod.
 //
 // IN THE BROWSER:
 //   window.addEventListener('error', (e) => {
@@ -2421,13 +2582,13 @@ Promise.reject(new Error('nobody caught me'));
 
 ---
 
-## 22 · MODULES — import / export
+## 23 · MODULES — import / export
 
 ```js
 /* =============================================================================
- * 22 · MODULES — import / export
+ * 23 · MODULES — import / export
  * =============================================================================
- * Run:  node lessons/22-modules.js   (the runnable demo at the bottom)
+ * Run:  node lessons/23-modules.js   (the runnable demo at the bottom)
  *
  * WHAT YOU'LL LEARN
  *   • Why we split code into modules (files)
@@ -2444,7 +2605,7 @@ Promise.reject(new Error('nobody caught me'));
  *
  * Open those four files (math.mjs/app.mjs and math.cjs/app.cjs) alongside this
  * lesson. The self-contained demo at the bottom of THIS file just lets it run
- * on its own with `node lessons/22-modules.js`.
+ * on its own with `node lessons/23-modules.js`.
  * ========================================================================== */
 
 /* ── 1. WHY modules? ─────────────────────────────────────────────────────────
@@ -2511,8 +2672,8 @@ Promise.reject(new Error('nobody caught me'));
  *     renderChart(data);
  *   });
  *
- * WHY IT MATTERS — CODE SPLITTING (lesson 41):
- *   Bundlers (lesson 44) split each dynamic import into its own file, so the
+ * WHY IT MATTERS — CODE SPLITTING (lesson 42):
+ *   Bundlers (lesson 45) split each dynamic import into its own file, so the
  *   initial page ships LESS JavaScript and the heavy bits load on demand.
  *
  * Other uses:
@@ -2592,18 +2753,18 @@ console.log('multiply:', mathModule.multiply(4, 5)); // => 20
 
 ---
 
-## 23 · THE DOM — Document Object Model ⚠️ BROWSER ONLY
+## 24 · THE DOM — Document Object Model ⚠️ BROWSER ONLY
 
 ```js
 /* =============================================================================
- * 23 · THE DOM — Document Object Model   ⚠️ BROWSER ONLY
+ * 24 · THE DOM — Document Object Model   ⚠️ BROWSER ONLY
  * =============================================================================
  * The DOM is how JS reads and changes the web page. It DOES NOT exist in Node
  * (there's no page), so running this with `node` just prints a reminder.
  *
  * HOW TO RUN THIS LESSON:
  *   1. Open index.html in the JS-learn folder.
- *   2. Change its script tag to:  <script src="lessons/23-dom.js"></script>
+ *   2. Change its script tag to:  <script src="lessons/24-dom.js"></script>
  *   3. Open the browser, then open DevTools (F12) → Console tab.
  *
  * WHAT YOU'LL LEARN
@@ -2678,16 +2839,16 @@ if (typeof document === 'undefined') {
 
 ---
 
-## 24 · EVENTS ⚠️ BROWSER ONLY
+## 25 · EVENTS ⚠️ BROWSER ONLY
 
 ```js
 /* =============================================================================
- * 24 · EVENTS   ⚠️ BROWSER ONLY
+ * 25 · EVENTS   ⚠️ BROWSER ONLY
  * =============================================================================
  * Events are how your page REACTS to the user: clicks, typing, submitting forms,
  * scrolling, etc. Like the DOM lesson, this runs in a browser, not Node.
  *
- * HOW TO RUN: see lesson 23's header (open via index.html, check the console).
+ * HOW TO RUN: see lesson 24's header (open via index.html, check the console).
  *
  * WHAT YOU'LL LEARN
  *   • addEventListener
@@ -2697,7 +2858,7 @@ if (typeof document === 'undefined') {
  * ========================================================================== */
 
 if (typeof document === 'undefined') {
-  console.log('⚠️  This is a BROWSER lesson. Open it via index.html — see lesson 23.');
+  console.log('⚠️  This is a BROWSER lesson. Open it via index.html — see lesson 24.');
 } else {
   // ── 1. addEventListener — the standard way to respond to events ────────────
   const button = document.querySelector('#myButton');
@@ -2772,13 +2933,13 @@ if (typeof document === 'undefined') {
 
 ---
 
-## 25 · FETCH & APIs — talking to the internet
+## 26 · FETCH & APIs — talking to the internet
 
 ```js
 /* =============================================================================
- * 25 · FETCH & APIs — talking to the internet
+ * 26 · FETCH & APIs — talking to the internet
  * =============================================================================
- * Run:  node lessons/25-fetch-apis.js   (needs internet; Node 18+ has fetch)
+ * Run:  node lessons/26-fetch-apis.js   (needs internet; Node 18+ has fetch)
  *
  * WHAT YOU'LL LEARN
  *   • HTTP fundamentals: methods, status codes, headers, REST
@@ -2811,7 +2972,7 @@ if (typeof document === 'undefined') {
  * COMMON HEADERS:
  *   Content-Type: application/json   → what the body IS
  *   Accept: application/json         → what you WANT back
- *   Authorization: Bearer <token>    → who you are (lesson 39)
+ *   Authorization: Bearer <token>    → who you are (lesson 40)
  *
  * REST = a convention for designing URLs around "resources" (nouns) + methods:
  *   GET    /users        list users        POST   /users        create a user
@@ -2844,7 +3005,7 @@ console.log(params.toString()); // => q=iced+coffee&page=2&sort=new
 const searchUrl = `https://api.example.com/search?${params}`;
 console.log(searchUrl); // => https://api.example.com/search?q=iced+coffee&page=2&sort=new
 // You'd then:  await fetch(searchUrl)
-// (URLSearchParams also PARSES query strings — see lesson 34.)
+// (URLSearchParams also PARSES query strings — see lesson 35.)
 
 
 // ── 2. A GET request with async/await ────────────────────────────────────────
@@ -2881,7 +3042,7 @@ async function getManyPosts(ids) {
 }
 
 
-// ── 4b. Timeouts: give fetch a deadline with AbortSignal (see lesson 29) ─────
+// ── 4b. Timeouts: give fetch a deadline with AbortSignal (see lesson 30) ─────
 // fetch has NO built-in timeout — a dead server could leave you hanging forever.
 // AbortSignal.timeout(ms) auto-aborts the request after `ms`, rejecting with a
 // TimeoutError you can catch. (Older code uses an AbortController + setTimeout.)
@@ -2897,7 +3058,7 @@ async function getPostWithTimeout(id, ms) {
 // Not every failure is permanent. A 5xx (server), 429 (rate limited), or a
 // network blip is often TRANSIENT — worth trying again. A 4xx like 400/401/404
 // is YOUR bug: retrying just hammers the server and still fails. So: retry only
-// the transient ones, waiting a little longer each time (backoff — lesson 29).
+// the transient ones, waiting a little longer each time (backoff — lesson 30).
 const isRetryable = (status) => status === 429 || status >= 500;
 
 async function fetchRetry(url, { attempts = 3, ...options } = {}) {
@@ -2969,13 +3130,13 @@ async function fetchRetry(url, { attempts = 3, ...options } = {}) {
 
 ---
 
-## 26 · REGULAR EXPRESSIONS (Regex)
+## 27 · REGULAR EXPRESSIONS (Regex)
 
 ```js
 /* =============================================================================
- * 26 · REGULAR EXPRESSIONS (Regex)
+ * 27 · REGULAR EXPRESSIONS (Regex)
  * =============================================================================
- * Run:  node lessons/26-regular-expressions.js
+ * Run:  node lessons/27-regular-expressions.js
  *
  * WHAT YOU'LL LEARN
  *   • Creating patterns and the common flags
@@ -3135,13 +3296,13 @@ console.log(isEmail('not-an-email'));    // => false
 
 ---
 
-## 27 · GENERATORS & ITERATORS
+## 28 · GENERATORS & ITERATORS
 
 ```js
 /* =============================================================================
- * 27 · GENERATORS & ITERATORS
+ * 28 · GENERATORS & ITERATORS
  * =============================================================================
- * Run:  node lessons/27-generators-iterators.js
+ * Run:  node lessons/28-generators-iterators.js
  *
  * WHAT YOU'LL LEARN
  *   • The iterator protocol (what makes something "for...of"-able)
@@ -3247,13 +3408,13 @@ console.log();
 
 ---
 
-## 28 · SYMBOLS, PROXY & REFLECT (metaprogramming)
+## 29 · SYMBOLS, PROXY & REFLECT (metaprogramming)
 
 ```js
 /* =============================================================================
- * 28 · SYMBOLS, PROXY & REFLECT (metaprogramming)
+ * 29 · SYMBOLS, PROXY & REFLECT (metaprogramming)
  * =============================================================================
- * Run:  node lessons/28-symbols-proxy-reflect.js
+ * Run:  node lessons/29-symbols-proxy-reflect.js
  *
  * WHAT YOU'LL LEARN
  *   • Symbol — unique, hidden-ish keys
@@ -3277,7 +3438,7 @@ console.log(user[ID]);            // => 12345
 console.log(Object.keys(user));  // => [ 'name' ]  (symbol keys are skipped here)
 console.log(user.name);          // normal keys still work as usual
 
-// Well-known symbols let you hook into language behavior (lesson 27 used
+// Well-known symbols let you hook into language behavior (lesson 28 used
 // Symbol.iterator). Another example — customize toString tagging:
 const widget = { [Symbol.toStringTag]: 'Widget' };
 console.log(Object.prototype.toString.call(widget)); // => [object Widget]
@@ -3371,13 +3532,13 @@ console.log(clean.score); // => accessed score / 9
 
 ---
 
-## 29 · ADVANCED ASYNC
+## 30 · ADVANCED ASYNC
 
 ```js
 /* =============================================================================
- * 29 · ADVANCED ASYNC
+ * 30 · ADVANCED ASYNC
  * =============================================================================
- * Run:  node lessons/29-advanced-async.js
+ * Run:  node lessons/30-advanced-async.js
  *
  * WHAT YOU'LL LEARN
  *   • Microtasks vs macrotasks (the real event-loop order)
@@ -3545,13 +3706,13 @@ async function mapLimit(items, limit, task) {
 
 ---
 
-## 30 · FUNCTIONAL PROGRAMMING
+## 31 · FUNCTIONAL PROGRAMMING
 
 ```js
 /* =============================================================================
- * 30 · FUNCTIONAL PROGRAMMING
+ * 31 · FUNCTIONAL PROGRAMMING
  * =============================================================================
- * Run:  node lessons/30-functional-programming.js
+ * Run:  node lessons/31-functional-programming.js
  *
  * WHAT YOU'LL LEARN
  *   • Pure functions & immutability
@@ -3672,13 +3833,13 @@ console.log(grandTotal); // => 31
 
 ---
 
-## 31 · TRICKY CONCEPTS & INTERVIEW GOTCHAS
+## 32 · TRICKY CONCEPTS & INTERVIEW GOTCHAS
 
 ```js
 /* =============================================================================
- * 31 · TRICKY CONCEPTS & INTERVIEW GOTCHAS
+ * 32 · TRICKY CONCEPTS & INTERVIEW GOTCHAS
  * =============================================================================
- * Run:  node lessons/31-tricky-concepts.js
+ * Run:  node lessons/32-tricky-concepts.js
  *
  * WHAT YOU'LL LEARN
  *   • The classic puzzles that trip up everyone (and show up in interviews)
@@ -3811,13 +3972,13 @@ console.log(shared); // => [ 'x', 'y' ]  (mutated across calls — often a bug)
 
 ---
 
-## 32 · DATES & TIME
+## 33 · DATES & TIME
 
 ```js
 /* =============================================================================
- * 32 · DATES & TIME
+ * 33 · DATES & TIME
  * =============================================================================
- * Run:  node lessons/32-dates-time.js
+ * Run:  node lessons/33-dates-time.js
  *
  * WHAT YOU'LL LEARN
  *   • Creating Date objects
@@ -3928,13 +4089,13 @@ console.log(timeAgo(past, reference)); // => 3 days ago
 
 ---
 
-## 33 · BROWSER STORAGE ⚠️ MOSTLY BROWSER
+## 34 · BROWSER STORAGE ⚠️ MOSTLY BROWSER
 
 ```js
 /* =============================================================================
- * 33 · BROWSER STORAGE   ⚠️ MOSTLY BROWSER
+ * 34 · BROWSER STORAGE   ⚠️ MOSTLY BROWSER
  * =============================================================================
- * Run:  node lessons/33-browser-storage.js  (runs a Node-safe simulation)
+ * Run:  node lessons/34-browser-storage.js  (runs a Node-safe simulation)
  *       OR load via index.html to use REAL localStorage in the browser.
  *
  * WHAT YOU'LL LEARN
@@ -4044,20 +4205,20 @@ console.log(storage.getItem('count')); // => null
 
 ---
 
-## 34 · BOM & TIMERS (the Browser Object Model)
+## 35 · BOM & TIMERS (the Browser Object Model)
 
 ```js
 /* =============================================================================
- * 34 · BOM & TIMERS (the Browser Object Model)
+ * 35 · BOM & TIMERS (the Browser Object Model)
  * =============================================================================
- * Run:  node lessons/34-bom-timers.js   (timers run; BOM parts are shown safely)
+ * Run:  node lessons/35-bom-timers.js   (timers run; BOM parts are shown safely)
  *
  * WHAT YOU'LL LEARN
  *   • setTimeout / setInterval and how to cancel them
  *   • The BOM: window, location, history, navigator, screen
  *   • A practical countdown timer pattern
  *
- * The DOM (lessons 23–24) is the PAGE. The BOM is the BROWSER around it —
+ * The DOM (lessons 24–25) is the PAGE. The BOM is the BROWSER around it —
  * the window, the URL, history, the device. Timers work everywhere.
  * ========================================================================== */
 
@@ -4101,7 +4262,7 @@ countdown(3, (n) => console.log(`T-minus ${n}`), () => console.log('🚀 liftoff
 // Not actually 0ms — it runs after the current synchronous code & microtasks.
 console.log('sync 1');
 setTimeout(() => console.log('deferred (macrotask)'), 0);
-console.log('sync 2'); // logs before "deferred" — see lesson 29's event loop
+console.log('sync 2'); // logs before "deferred" — see lesson 30's event loop
 
 
 /* ── 5. The BOM objects (browser only — shown as comments) ───────────────────
@@ -4157,13 +4318,13 @@ console.log(typeof globalThis); // => object
 
 ---
 
-## 35 · DEBUGGING & THE CONSOLE
+## 36 · DEBUGGING & THE CONSOLE
 
 ```js
 /* =============================================================================
- * 35 · DEBUGGING & THE CONSOLE
+ * 36 · DEBUGGING & THE CONSOLE
  * =============================================================================
- * Run:  node lessons/35-debugging-console.js
+ * Run:  node lessons/36-debugging-console.js
  *
  * WHAT YOU'LL LEARN
  *   • The console methods beyond console.log
@@ -4270,13 +4431,13 @@ console.log(buggyAverage([2, 4, 6])); // => 4
 
 ---
 
-## 36 · WEAKMAP, MEMORY & FINAL LANGUAGE DETAILS
+## 37 · WEAKMAP, MEMORY & FINAL LANGUAGE DETAILS
 
 ```js
 /* =============================================================================
- * 36 · WEAKMAP, MEMORY & FINAL LANGUAGE DETAILS
+ * 37 · WEAKMAP, MEMORY & FINAL LANGUAGE DETAILS
  * =============================================================================
- * Run:  node lessons/36-weakmap-memory.js
+ * Run:  node lessons/37-weakmap-memory.js
  *
  * WHAT YOU'LL LEARN
  *   • How JS memory & garbage collection work (the short version)
@@ -4353,7 +4514,7 @@ registry.register(cached, 'cache-entry-1'); // associate a label with the object
 
 // ── 4. Strict mode ───────────────────────────────────────────────────────────
 // 'use strict' opts into a safer JS: it turns silent mistakes into errors.
-// ES modules (lesson 22) and class bodies are ALWAYS strict automatically.
+// ES modules (lesson 23) and class bodies are ALWAYS strict automatically.
 function sloppyVsStrict() {
   'use strict';
   // mistyped = 5;  // ❌ in strict mode: ReferenceError (without it: silently
@@ -4400,7 +4561,7 @@ console.log(String.raw`C:\new\test`); // => C:\new\test  (\n NOT a newline)
  *      • Part 12  (48–50)  — computer-science core (data structures,
  *                            algorithms) and binary data
  *    A great next step right now: build a small app (to-do, weather, quiz)
- *    using lessons 23–25 + 33. Building is what makes it all stick. */
+ *    using lessons 24–26 + 33. Building is what makes it all stick. */
 
 /* PRACTICE -------------------------------------------------------------------
  *   1. Use a WeakMap to cache a computed result keyed by an object argument.
@@ -4413,13 +4574,13 @@ console.log(String.raw`C:\new\test`); // => C:\new\test  (\n NOT a newline)
 
 ---
 
-## 37 · MODERN JAVASCRIPT (ES2021 → ES2026)
+## 38 · MODERN JAVASCRIPT (ES2021 → ES2026)
 
 ```js
 /* =============================================================================
- * 37 · MODERN JAVASCRIPT (ES2021 → ES2026)
+ * 38 · MODERN JAVASCRIPT (ES2021 → ES2026)
  * =============================================================================
- * Run:  node lessons/37-modern-js.js   (needs Node 22+ ; you have v24 ✅)
+ * Run:  node lessons/38-modern-js.js   (needs Node 22+ ; you have v24 ✅)
  *
  * (Heads-up: Node prints a harmless "MODULE_TYPELESS_PACKAGE_JSON" warning —
  *  this file is an ES module and package.json has no "type" on purpose. Ignore it.)
@@ -4597,11 +4758,11 @@ console.log('===== ES2026 & THE CUTTING EDGE =====');
 //     };
 //   }
 //   class Api { @logged getUser(id) { /* ... */ } } // @logged wraps the method
-// ↪ a standardized version of the "decorator" pattern from lesson 40.
+// ↪ a standardized version of the "decorator" pattern from lesson 41.
 
 // ── Float16Array & Math.f16round — half-precision numbers (ES2025/26) ─────────
 // 16-bit floats: half the memory, enough precision for ML weights, graphics,
-// and GPU data. A typed array (lesson 50) for compact decimal data.
+// and GPU data. A typed array (lesson 51) for compact decimal data.
 if (typeof Float16Array !== 'undefined') {
   const half = new Float16Array([1.5, 2.25]);
   console.log('Float16Array:', half[0]); // => 1.5
@@ -4623,9 +4784,9 @@ console.log('===== ON THE HORIZON =====');
  *   today.month            // 6  (1-based — finally sane!)
  *   today.until(next).days // 7
  *
- * Until it ships, use lesson 32's Date + Intl, or a library (date-fns, Day.js).
+ * Until it ships, use lesson 33's Date + Intl, or a library (date-fns, Day.js).
  */
-console.log('Temporal: coming soon — see comments. For now use lesson 32.');
+console.log('Temporal: coming soon — see comments. For now use lesson 33.');
 
 
 /* WHAT CHANGED FOR YOUR EVERYDAY CODE ----------------------------------------
@@ -4648,13 +4809,13 @@ console.log('Temporal: coming soon — see comments. For now use lesson 32.');
 
 ---
 
-## 38 · TESTING — proving your code works
+## 39 · TESTING — proving your code works
 
 ```js
 /* =============================================================================
- * 38 · TESTING — proving your code works
+ * 39 · TESTING — proving your code works
  * =============================================================================
- * Run:  node --test lessons/38-testing.js   (or just: node lessons/38-testing.js)
+ * Run:  node --test lessons/39-testing.js   (or just: node lessons/39-testing.js)
  *
  * (Heads-up: Node prints a harmless "MODULE_TYPELESS_PACKAGE_JSON" warning —
  *  this file is an ES module and package.json has no "type" on purpose. Ignore it.)
@@ -4793,7 +4954,7 @@ describe('hooks (before/after)', () => {
  * Coverage shows which lines/branches your tests actually exercise. Node has it
  * built in — no install:
  *
- *   node --test --experimental-test-coverage lessons/38-testing.js
+ *   node --test --experimental-test-coverage lessons/39-testing.js
  *
  * It prints a table of % lines/branches/functions covered, and which lines were
  * MISSED. (Jest/Vitest: `--coverage`.) ⚠️ 100% coverage ≠ bug-free — it means
@@ -4825,13 +4986,13 @@ describe('hooks (before/after)', () => {
 
 ---
 
-## 39 · SECURITY ESSENTIALS — don't get hacked
+## 40 · SECURITY ESSENTIALS — don't get hacked
 
 ```js
 /* =============================================================================
- * 39 · SECURITY ESSENTIALS — don't get hacked
+ * 40 · SECURITY ESSENTIALS — don't get hacked
  * =============================================================================
- * Run:  node lessons/39-security.js
+ * Run:  node lessons/40-security.js
  *
  * WHAT YOU'LL LEARN
  *   • XSS and how to render user input safely
@@ -4937,7 +5098,7 @@ console.log(unsafeQuery);
 // ── 8. Dependency & supply-chain safety ──────────────────────────────────────
 // • Run `npm audit` and keep dependencies patched.
 // • Pin versions (lockfile) and review what you install — packages run code.
-// • Don't commit secrets; use environment variables (see lesson 44/45).
+// • Don't commit secrets; use environment variables (see lesson 45/45).
 
 
 /* PRACTICE -------------------------------------------------------------------
@@ -4949,13 +5110,13 @@ console.log(unsafeQuery);
 
 ---
 
-## 40 · DESIGN PATTERNS — reusable solutions with shared names
+## 41 · DESIGN PATTERNS — reusable solutions with shared names
 
 ```js
 /* =============================================================================
- * 40 · DESIGN PATTERNS — reusable solutions with shared names
+ * 41 · DESIGN PATTERNS — reusable solutions with shared names
  * =============================================================================
- * Run:  node lessons/40-design-patterns.js
+ * Run:  node lessons/41-design-patterns.js
  *
  * WHAT YOU'LL LEARN
  *   The classic patterns every team uses — knowing their NAMES lets you
@@ -4982,7 +5143,7 @@ const Counter = (() => {
 Counter.increment();
 Counter.increment();
 console.log(Counter.value); // => 2
-// (Modern ES modules — lesson 22 — are the file-level version of this.)
+// (Modern ES modules — lesson 23 — are the file-level version of this.)
 
 
 // ── 2. SINGLETON — exactly ONE shared instance ───────────────────────────────
@@ -5094,7 +5255,7 @@ console.log('adapter:', userAdapter(oldApiUser)); // => { name: 'ana', age: 30 }
 
 
 // ── 9. COMMAND — wrap an action as an object (enables undo/redo, queues) ──────
-// Each command knows how to do() and undo() itself. A history stack (lesson 48)
+// Each command knows how to do() and undo() itself. A history stack (lesson 49)
 // then gives you undo for free — this is how editors implement Ctrl+Z.
 class History {
   #done = [];
@@ -5113,7 +5274,7 @@ console.log('after undo:', doc.text); // => Hello
 
 // ── 10. DEPENDENCY INJECTION — pass collaborators IN, don't hard-code them ────
 // Instead of a function reaching for a global, give it what it needs as an
-// argument. Result: easy to swap a real logger for a fake one in tests (lesson 38).
+// argument. Result: easy to swap a real logger for a fake one in tests (lesson 39).
 function createOrderService(logger, payments) {  // dependencies injected here
   return {
     checkout(amount) {
@@ -5155,7 +5316,7 @@ createOrderService(fakeLogger, fakePayments).checkout(50); // => DI log: charged
  *   1. Build a Logger module with private log history and a public add()/last().
  *   2. Add a 'logout' event to the EventBus and subscribe two listeners.
  *   3. Add a 'discount' strategy set (none/student/senior) chosen at runtime.
- *   4. Write a withTiming(fn) DECORATOR that logs how long fn took (lesson 41).
+ *   4. Write a withTiming(fn) DECORATOR that logs how long fn took (lesson 42).
  *   5. Add a 'delete line' command to the History demo and test undo on it.
  *   6. Refactor createOrderService to inject a THIRD dependency (an emailer).
  * ------------------------------------------------------------------------- */
@@ -5163,18 +5324,18 @@ createOrderService(fakeLogger, fakePayments).checkout(50); // => DI log: charged
 
 ---
 
-## 41 · PERFORMANCE — make it fast (and know what "fast" means)
+## 42 · PERFORMANCE — make it fast (and know what "fast" means)
 
 ```js
 /* =============================================================================
- * 41 · PERFORMANCE — make it fast (and know what "fast" means)
+ * 42 · PERFORMANCE — make it fast (and know what "fast" means)
  * =============================================================================
- * Run:  node lessons/41-performance.js
+ * Run:  node lessons/42-performance.js
  *
  * WHAT YOU'LL LEARN
  *   • Big-O intuition — why algorithm choice beats micro-tweaks
  *   • Memoization & caching
- *   • Debounce/throttle recap (lesson 29)
+ *   • Debounce/throttle recap (lesson 30)
  *   • Browser rendering: reflow/repaint, lazy loading, code splitting
  *   • Core Web Vitals — how performance is actually measured in 2026
  *   • Measuring & profiling: performance marks, PerformanceObserver
@@ -5218,7 +5379,7 @@ fastSquare(9);
 console.log(fastSquare(9), 'computed', calls, 'time(s)'); // => 81 computed 1 time(s)
 
 
-// ── 3. Debounce & throttle (limit how OFTEN code runs) — see lesson 29 ───────
+// ── 3. Debounce & throttle (limit how OFTEN code runs) — see lesson 30 ───────
 // debounce: wait until activity STOPS (search-as-you-type, resize).
 // throttle: run at most once per interval (scroll, mousemove).
 // Both prevent doing heavy work on every single event.
@@ -5228,7 +5389,7 @@ console.log(fastSquare(9), 'computed', calls, 'time(s)'); // => 81 computed 1 ti
 // • REFLOW (layout): the browser recomputes geometry — expensive. Triggered by
 //   changing size/position or reading layout props (offsetHeight) mid-mutation.
 // • REPAINT: redrawing pixels (e.g. color change) — cheaper than reflow.
-// Tips: batch DOM writes; build nodes off-DOM then insert once (lesson 23);
+// Tips: batch DOM writes; build nodes off-DOM then insert once (lesson 24);
 //       animate `transform`/`opacity` (GPU) instead of top/left/width.
 
 
@@ -5254,7 +5415,7 @@ let sum = 0;
 for (let i = 0; i < 1_000_000; i++) sum += i;
 const ms = performance.now() - t0;
 console.log(`loop took ${ms.toFixed(1)}ms`); // varies by machine
-// (console.time/timeEnd from lesson 35 do the same thing more conveniently.)
+// (console.time/timeEnd from lesson 36 do the same thing more conveniently.)
 
 
 // ── 8. Profiling with marks & measures (the Performance API) ─────────────────
@@ -5270,7 +5431,7 @@ console.log(`measured "${measure.name}": ${measure.duration.toFixed(1)}ms`);
 
 // A PerformanceObserver reacts to entries as they're recorded — this is how the
 // `web-vitals` library and monitoring tools collect LCP/INP/CLS in real users'
-// browsers (then report them, lesson 47):
+// browsers (then report them, lesson 48):
 const obs = new PerformanceObserver((list) => {
   for (const entry of list.getEntries()) {
     console.log(`observed ${entry.entryType} "${entry.name}": ${entry.duration.toFixed(1)}ms`);
@@ -5280,7 +5441,7 @@ obs.observe({ entryTypes: ['measure'] });
 performance.measure('observed-span', 'work-start', 'work-end');
 // In the browser you'd also observe: 'largest-contentful-paint', 'event'
 // (for INP), 'layout-shift' (for CLS), 'longtask', 'resource', 'navigation'.
-setTimeout(() => obs.disconnect(), 50); // stop observing (avoid leaks, lesson 36)
+setTimeout(() => obs.disconnect(), 50); // stop observing (avoid leaks, lesson 37)
 
 
 /* ── 9. List virtualization (windowing) — render only what's visible ──────────
@@ -5310,13 +5471,13 @@ setTimeout(() => obs.disconnect(), 50); // stop observing (avoid leaks, lesson 3
 
 ---
 
-## 42 · POLYFILLS — implement the built-ins yourself
+## 43 · POLYFILLS — implement the built-ins yourself
 
 ```js
 /* =============================================================================
- * 42 · POLYFILLS — implement the built-ins yourself
+ * 43 · POLYFILLS — implement the built-ins yourself
  * =============================================================================
- * Run:  node lessons/42-polyfills.js
+ * Run:  node lessons/43-polyfills.js
  *
  * WHAT YOU'LL LEARN
  *   Re-building the methods you use every day. This is the single best way to
@@ -5380,7 +5541,7 @@ const sayHello = myBind(greet, person, 'Hello');
 console.log(sayHello());                          // => Hello, Ana
 
 
-// ── 5. debounce — delay until calls stop (lesson 29, built from scratch) ─────
+// ── 5. debounce — delay until calls stop (lesson 30, built from scratch) ─────
 function debounce(fn, delay) {
   let timer;
   return (...args) => {
@@ -5436,13 +5597,13 @@ new MyPromise((resolve) => setTimeout(() => resolve(21), 10))
 
 ---
 
-## 43 · TYPESCRIPT ON-RAMP — JavaScript with types
+## 44 · TYPESCRIPT ON-RAMP — JavaScript with types
 
 ```js
 /* =============================================================================
- * 43 · TYPESCRIPT ON-RAMP — JavaScript with types
+ * 44 · TYPESCRIPT ON-RAMP — JavaScript with types
  * =============================================================================
- * Run:  node lessons/43-typescript.js   (the runnable parts are plain JS)
+ * Run:  node lessons/44-typescript.js   (the runnable parts are plain JS)
  *
  * WHAT YOU'LL LEARN
  *   What TypeScript adds on top of the JS you already know, why teams use it,
@@ -5538,13 +5699,13 @@ console.log('double:', double(21)); // => 42
 
 ---
 
-## 44 · TOOLING & BUILD SYSTEMS — the modern JS workflow
+## 45 · TOOLING & BUILD SYSTEMS — the modern JS workflow
 
 ```js
 /* =============================================================================
- * 44 · TOOLING & BUILD SYSTEMS — the modern JS workflow
+ * 45 · TOOLING & BUILD SYSTEMS — the modern JS workflow
  * =============================================================================
- * Run:  node lessons/44-tooling.js   (a guided tour; prints the key concepts)
+ * Run:  node lessons/45-tooling.js   (a guided tour; prints the key concepts)
  *
  * WHAT YOU'LL LEARN
  *   The tools that turn your source code into a shippable app, and what each
@@ -5561,7 +5722,7 @@ console.log('=== The modern JavaScript toolchain ===\n');
 const packageJson = {
   name: 'my-app',
   version: '1.0.0',
-  type: 'module',                       // use ES modules (lesson 22)
+  type: 'module',                       // use ES modules (lesson 23)
   scripts: {
     dev: 'vite',                        // run with: npm run dev
     build: 'vite build',
@@ -5645,13 +5806,13 @@ console.log('CI on push: install → lint → test → build → deploy');
 
 ---
 
-## 45 · NODE.JS — JavaScript on the server
+## 46 · NODE.JS — JavaScript on the server
 
 ```js
 /* =============================================================================
- * 45 · NODE.JS — JavaScript on the server
+ * 46 · NODE.JS — JavaScript on the server
  * =============================================================================
- * Run:  node lessons/45-nodejs.js
+ * Run:  node lessons/46-nodejs.js
  *
  * (Heads-up: Node prints a harmless "MODULE_TYPELESS_PACKAGE_JSON" warning —
  *  this file is an ES module and package.json has no "type" on purpose. Ignore it.)
@@ -5678,8 +5839,8 @@ console.log('cwd          :', process.cwd().split('/').pop()); // current folder
 // CLI args:  node script.js foo bar  → process.argv = [node, script, 'foo', 'bar']
 console.log('args         :', process.argv.slice(2));     // => [] (none here)
 // Environment variables — where secrets/config live (NEVER hard-code secrets):
-//   run:  API_KEY=abc node lessons/45-nodejs.js
-console.log('API_KEY      :', process.env.API_KEY ?? '(not set — see lesson 39)');
+//   run:  API_KEY=abc node lessons/46-nodejs.js
+console.log('API_KEY      :', process.env.API_KEY ?? '(not set — see lesson 40)');
 
 
 // ── 2. path — build file paths the cross-platform way ────────────────────────
@@ -5698,7 +5859,7 @@ await fs.unlink(tmpFile);                              // delete (cleanup)
 console.log('temp file cleaned up ✅');
 
 
-// ── 4. EventEmitter — Node's built-in observer (lesson 40 pattern) ───────────
+// ── 4. EventEmitter — Node's built-in observer (lesson 41 pattern) ───────────
 class Order extends EventEmitter {}
 const order = new Order();
 order.on('paid', (amount) => console.log(`order paid: $${amount}`)); // listener
@@ -5743,11 +5904,11 @@ server.close(); // stop listening so the program can exit
 
 ---
 
-## 46 · ADVANCED BROWSER APIs (browser)
+## 47 · ADVANCED BROWSER APIs (browser)
 
 ```js
 /* =============================================================================
- * 46 · ADVANCED BROWSER APIs  (browser)
+ * 47 · ADVANCED BROWSER APIs  (browser)
  * =============================================================================
  * HOW TO RUN: these are BROWSER features. Open index.html and try them in the
  * console/devtools — they don't exist in Node. This file runs harmlessly in
@@ -5761,7 +5922,7 @@ server.close(); // stop listening so the program can exit
 
 // Guard so the file is harmless in Node:
 if (typeof window === 'undefined') {
-  console.log('⚠️  Lesson 46 is BROWSER-only. Open index.html and read the code in devtools.');
+  console.log('⚠️  Lesson 47 is BROWSER-only. Open index.html and read the code in devtools.');
 }
 
 /* ── 1. Web Workers — run heavy JS off the main thread ───────────────────────
@@ -5789,7 +5950,7 @@ if (typeof window === 'undefined') {
  */
 
 /* ── 3. IndexedDB — a real database in the browser ───────────────────────────
- * localStorage (lesson 33) holds small strings synchronously. IndexedDB stores
+ * localStorage (lesson 34) holds small strings synchronously. IndexedDB stores
  * large, structured, queryable data (objects, blobs) asynchronously.
  *
  *   const req = indexedDB.open('myDB', 1);
@@ -5844,13 +6005,13 @@ if (typeof window === 'undefined') {
 
 ---
 
-## 47 · REAL-TIME NETWORKING & PRODUCTION OPS
+## 48 · REAL-TIME NETWORKING & PRODUCTION OPS
 
 ```js
 /* =============================================================================
- * 47 · REAL-TIME NETWORKING & PRODUCTION OPS
+ * 48 · REAL-TIME NETWORKING & PRODUCTION OPS
  * =============================================================================
- * Run:  node lessons/47-realtime-and-production.js
+ * Run:  node lessons/48-realtime-and-production.js
  *
  * WHAT YOU'LL LEARN
  *   • Pushing data in real time: WebSockets vs Server-Sent Events vs polling
@@ -5918,9 +6079,9 @@ log('debug', 'noisy detail'); // suppressed (below threshold)
 
 
 // ── 4. Configuration & secrets ───────────────────────────────────────────────
-// • Config comes from ENVIRONMENT VARIABLES, not hard-coded values (lesson 45).
+// • Config comes from ENVIRONMENT VARIABLES, not hard-coded values (lesson 46).
 // • Secrets (API keys, DB passwords) live in a secret manager / .env that is
-//   GIT-IGNORED — never committed (lesson 39).
+//   GIT-IGNORED — never committed (lesson 40).
 const config = {
   apiUrl: process.env.API_URL ?? 'http://localhost:3000',
   logLevel: process.env.LOG_LEVEL ?? 'info',
@@ -5932,11 +6093,11 @@ console.log('config:', config);
 // • Feature flags toggle features without redeploying (gradual rollout, kill-switch).
 const flags = { newCheckout: false };
 console.log(flags.newCheckout ? 'new checkout' : 'old checkout'); // => old checkout
-// • Resilience: retries with backoff (lesson 29), timeouts, circuit breakers,
+// • Resilience: retries with backoff (lesson 30), timeouts, circuit breakers,
 //   and fallback UI so one failed call doesn't crash the whole app.
 // • Don't overwhelm downstreams. When you have more work than a service (or your
 //   rate limit) can take, bound the flow:
-//     - CONCURRENCY LIMIT: run at most N at once (lesson 29 `mapLimit`).
+//     - CONCURRENCY LIMIT: run at most N at once (lesson 30 `mapLimit`).
 //     - RATE LIMIT: cap requests-per-second to respect a 429 budget.
 //     - QUEUE + BACKPRESSURE: buffer work and let consumers pull at their pace
 //       (p-queue/BullMQ in JS; streams signal "slow down" via `.pause()`/drain).
@@ -5971,13 +6132,13 @@ console.log('localized price:', price.format(1234.5)); // => 1.234,50 €
 
 ---
 
-## 48 · DATA STRUCTURES — the containers behind every program
+## 49 · DATA STRUCTURES — the containers behind every program
 
 ```js
 /* =============================================================================
- * 48 · DATA STRUCTURES — the containers behind every program
+ * 49 · DATA STRUCTURES — the containers behind every program
  * =============================================================================
- * Run:  node lessons/48-data-structures.js
+ * Run:  node lessons/49-data-structures.js
  *
  * WHAT YOU'LL LEARN
  *   The classic computer-science data structures, built in plain JS:
@@ -5991,7 +6152,7 @@ console.log('localized price:', price.format(1234.5)); // => 1.234,50 €
  *   Arrays and objects (lessons 12–16) cover 90% of daily work. But knowing
  *   these structures — when each is fast, and WHY — is the difference between
  *   O(n) and O(1) code, and it's the backbone of every coding interview.
- *   Pair this with lesson 49 (algorithms) and lesson 41 (Big-O).
+ *   Pair this with lesson 50 (algorithms) and lesson 42 (Big-O).
  * ========================================================================== */
 
 // ── 1. STACK (LIFO — Last In, First Out) ─────────────────────────────────────
@@ -6085,6 +6246,11 @@ console.log('linked list:', list.toArray()); // => [ 'a', 'b', 'c' ]
 // lookup. Collisions (two keys → same bucket) are handled by "chaining": each
 // bucket holds a list of [key, value] pairs. (In real code, just use `Map`.)
 class HashMap {
+  // NOTE: this toy keeps a FIXED 8 buckets. A real hash map tracks its "load
+  // factor" (entries ÷ buckets) and RESIZES — allocating a bigger bucket array
+  // and re-hashing everything — once it passes ~0.75, so lookups stay O(1) on
+  // average instead of degrading to O(n) as one bucket's chain grows. (Use the
+  // built-in `Map`, which does all this for you.)
   #buckets = Array.from({ length: 8 }, () => []);
   #hash(key) {                           // turn a string into a bucket index
     let h = 0;
@@ -6113,7 +6279,7 @@ console.log('hashmap get Zz :', ages.get('Zz'));  // => undefined
 // A tree where every node has up to two children, and for each node:
 //   left subtree < node < right subtree.
 // That ordering makes search/insert O(log n) on a balanced tree — like binary
-// search (lesson 49) but in a structure you can keep adding to.
+// search (lesson 50) but in a structure you can keep adding to.
 class BST {
   #root = null;
   insert(value) {
@@ -6153,7 +6319,7 @@ console.log('BST has 7    :', tree.has(7));     // => false
 // ── 6. GRAPH (adjacency list) ────────────────────────────────────────────────
 // A set of nodes ("vertices") connected by edges. The adjacency-list form maps
 // each node → an array of its neighbours. Models networks: friends, roads,
-// dependencies, the web. (Traversal — BFS/DFS — is in lesson 49.)
+// dependencies, the web. (Traversal — BFS/DFS — is in lesson 50.)
 class Graph {
   #adj = new Map();
   addNode(node) {
@@ -6180,9 +6346,9 @@ console.log("graph Ana's friends:", social.neighbours('Ana')); // => [ 'Bob', 'C
  *   Linked list ... O(1) front insert/remove; teaching pointers
  *   Hash map ...... O(1) key→value lookup (you'll usually just use Map)
  *   BST ........... kept-sorted data with O(log n) search/insert (balanced)
- *   Graph ......... relationships/networks; pair with BFS/DFS (lesson 49)
+ *   Graph ......... relationships/networks; pair with BFS/DFS (lesson 50)
  *
- * Big-O recap (lesson 41): array index = O(1), array search = O(n),
+ * Big-O recap (lesson 42): array index = O(1), array search = O(n),
  *   Set/Map lookup = O(1), balanced BST search = O(log n).
  * --------------------------------------------------------------------------- */
 
@@ -6196,13 +6362,13 @@ console.log("graph Ana's friends:", social.neighbours('Ana')); // => [ 'Bob', 'C
 
 ---
 
-## 49 · ALGORITHMS — the problem-solving toolkit
+## 50 · ALGORITHMS — the problem-solving toolkit
 
 ```js
 /* =============================================================================
- * 49 · ALGORITHMS — the problem-solving toolkit
+ * 50 · ALGORITHMS — the problem-solving toolkit
  * =============================================================================
- * Run:  node lessons/49-algorithms.js
+ * Run:  node lessons/50-algorithms.js
  *
  * WHAT YOU'LL LEARN
  *   The algorithm patterns that show up in real code AND every interview:
@@ -6210,9 +6376,9 @@ console.log("graph Ana's friends:", social.neighbours('Ana')); // => [ 'Bob', 'C
  *   • Sorting: bubble (to learn) vs merge & quick (to use)
  *   • Two-pointer & sliding-window techniques
  *   • Recursion & dynamic programming (memoization)
- *   • Graph traversal: BFS and DFS (uses lesson 48's structures)
+ *   • Graph traversal: BFS and DFS (uses lesson 49's structures)
  *
- * Read each one with its Big-O (lesson 41) in mind: the GOAL is rarely "make it
+ * Read each one with its Big-O (lesson 42) in mind: the GOAL is rarely "make it
  * work" — it's "make it work without blowing up as the input grows."
  * ========================================================================== */
 
@@ -6276,11 +6442,18 @@ function merge(left, right) {
   return out.concat(left.slice(i), right.slice(j)); // drain whatever's left
 }
 console.log('merge :', mergeSort([5, 2, 9, 1, 5, 6])); // => [1, 2, 5, 5, 6, 9]
-// (In practice: arr.toSorted() — lesson 37. These show HOW sorting works.)
+// (In practice: arr.toSorted() — lesson 38. These show HOW sorting works.)
 
 
 // ── 5. QUICK SORT — O(n log n) average — pick a pivot, partition ─────────────
 // Choose a "pivot", put smaller items left and larger right, recurse on each.
+// ⚠️ Two simplifications for readability:
+//   • Pivot = first element. On ALREADY-SORTED input that gives lopsided
+//     partitions → O(n²). Real implementations pick a random/median-of-three
+//     pivot to avoid that worst case.
+//   • This builds new arrays with filter + spread, so it uses O(n) extra
+//     memory. A production quicksort partitions IN PLACE (swapping within the
+//     same array) for O(log n) stack space and no copies.
 function quickSort(arr) {
   if (arr.length <= 1) return arr;
   const [pivot, ...rest] = arr;
@@ -6337,7 +6510,7 @@ console.log('fib(40):', fib(40)); // => 102334155  (instant, thanks to memoizati
 
 
 // ── 9. GRAPH TRAVERSAL — BFS & DFS ───────────────────────────────────────────
-// Visit every node reachable from a start. BFS uses a QUEUE (lesson 48) and
+// Visit every node reachable from a start. BFS uses a QUEUE (lesson 49) and
 // explores level by level (→ shortest path in unweighted graphs). DFS uses a
 // STACK / recursion and dives deep first.
 const graph = {
@@ -6398,13 +6571,13 @@ console.log('DFS from A:', dfs(graph, 'A')); // => [ 'A', 'B', 'D', 'E', 'F', 'C
 
 ---
 
-## 50 · BINARY DATA — bytes, buffers, and files
+## 51 · BINARY DATA — bytes, buffers, and files
 
 ```js
 /* =============================================================================
- * 50 · BINARY DATA — bytes, buffers, and files
+ * 51 · BINARY DATA — bytes, buffers, and files
  * =============================================================================
- * Run:  node lessons/50-binary-data.js
+ * Run:  node lessons/51-binary-data.js
  *       (the Blob/File/FormData parts are BROWSER APIs — shown as comments;
  *        the ArrayBuffer/TypedArray parts run in Node too.)
  *
@@ -6419,7 +6592,7 @@ console.log('DFS from A:', dfs(graph, 'A')); // => [ 'A', 'B', 'D', 'E', 'F', 'C
  *   • SharedArrayBuffer + Atomics — memory shared across threads
  *
  * WHY THIS MATTERS
- *   File uploads/downloads, images, audio, WebSockets (lesson 47), streaming
+ *   File uploads/downloads, images, audio, WebSockets (lesson 48), streaming
  *   fetch responses, WebGL, and WebAssembly all move BYTES. Strings can't
  *   represent that efficiently — typed arrays can.
  * ========================================================================== */
@@ -6497,7 +6670,7 @@ console.log('decoded back:', decoder.decode(encoded)); // => Hi 👋
 
 // ── 6. FormData (BROWSER) — send files + fields to a server ───────────────────
 /* FormData builds a multipart request body — the standard way to upload files
- * alongside text fields. fetch (lesson 25) sets the right headers automatically.
+ * alongside text fields. fetch (lesson 26) sets the right headers automatically.
  *
  *   const form = new FormData();
  *   form.append('username', 'ana');
@@ -6524,13 +6697,13 @@ console.log('decoded back:', decoder.decode(encoded)); // => Hi 👋
  *     received += value.length;
  *     console.log('received', received, 'bytes');
  *   }
- *  (In Node, see streams in lesson 45 — same idea, different API.)
+ *  (In Node, see streams in lesson 46 — same idea, different API.)
  */
 
 
 // ── 8. SharedArrayBuffer + Atomics — memory shared between threads ────────────
 // A normal ArrayBuffer is copied (transferred) when sent to a Web Worker
-// (lesson 46) / Node worker_thread (lesson 45). A SharedArrayBuffer is the SAME
+// (lesson 47) / Node worker_thread (lesson 46). A SharedArrayBuffer is the SAME
 // memory seen by BOTH threads at once — true shared state, no copying.
 // (Browsers require special COOP/COEP headers to enable it, for security.)
 const shared = new SharedArrayBuffer(8); // 8 bytes, shareable across threads
@@ -6548,7 +6721,7 @@ console.log('Atomics value:', Atomics.load(sharedView, 0)); // => 105
 //   // main:    Atomics.store(sharedView, 0, 0); Atomics.notify(sharedView, 0);
 // ⚠️ This is advanced/rare. You only need it for high-performance parallel work
 // (image/audio processing, simulations, WASM threads). For normal worker
-// communication, plain postMessage (lesson 46) is simpler and safer.
+// communication, plain postMessage (lesson 47) is simpler and safer.
 
 
 /* MENTAL MODEL ---------------------------------------------------------------
@@ -6572,13 +6745,13 @@ console.log('Atomics value:', Atomics.load(sharedView, 0)); // => 105
 
 ---
 
-## 51 · BIGINT & LANGUAGE CORNERS
+## 52 · BIGINT & LANGUAGE CORNERS
 
 ```js
 /* =============================================================================
- * 51 · BIGINT & LANGUAGE CORNERS
+ * 52 · BIGINT & LANGUAGE CORNERS
  * =============================================================================
- * Run:  node lessons/51-bigint-and-language-corners.js
+ * Run:  node lessons/52-bigint-and-language-corners.js
  *
  * WHAT YOU'LL LEARN
  *   The last few language features that round out "I know ALL of JavaScript":
@@ -6637,7 +6810,7 @@ const doubled = Object.fromEntries(
 );
 console.log(doubled);                        // => { apple: 2, pear: 4 }
 
-// Also converts a Map (lesson 16) or URLSearchParams (lesson 25) into an object:
+// Also converts a Map (lesson 16) or URLSearchParams (lesson 26) into an object:
 console.log(Object.fromEntries(new Map([['a', 1]]))); // => { a: 1 }
 
 
@@ -6705,18 +6878,18 @@ console.log(addFn(4, 5));                    // => 9
 
 ---
 
-## 52 · INTERNATIONALIZATION (the full Intl API)
+## 53 · INTERNATIONALIZATION (the full Intl API)
 
 ```js
 /* =============================================================================
- * 52 · INTERNATIONALIZATION (the full Intl API)
+ * 53 · INTERNATIONALIZATION (the full Intl API)
  * =============================================================================
- * Run:  node lessons/52-internationalization.js
+ * Run:  node lessons/53-internationalization.js
  *
  * WHAT YOU'LL LEARN
  *   The built-in `Intl` API formats data the way each LANGUAGE/REGION expects —
  *   no libraries needed. You met NumberFormat (lesson 06) & DateTimeFormat
- *   (lesson 32); here are the rest:
+ *   (lesson 33); here are the rest:
  *   • Intl.Collator — locale-aware sorting & comparison
  *   • Intl.PluralRules — pick the right plural form
  *   • Intl.RelativeTimeFormat — "3 days ago", "in 2 hours"
@@ -6724,7 +6897,7 @@ console.log(addFn(4, 5));                    // => 9
  *   • Intl.Segmenter — split text into words/sentences (any language)
  *
  * BIG IDEA: never hand-build dates, numbers, plurals, or "x ago" strings — the
- * platform already knows the rules for ~hundreds of locales. (See lesson 47 for
+ * platform already knows the rules for ~hundreds of locales. (See lesson 48 for
  * i18n in the bigger picture: translations, RTL, etc.)
  * ========================================================================== */
 
@@ -6810,7 +6983,7 @@ console.log('grapheme count:', graphemes.length); // => 3  ('.length' would say 
 
 /* WHEN TO REACH FOR EACH ------------------------------------------------------
  *   NumberFormat ...... currency, percent, units, digit grouping (lesson 06)
- *   DateTimeFormat .... locale dates & times (lesson 32)
+ *   DateTimeFormat .... locale dates & times (lesson 33)
  *   Collator .......... sorting/searching strings correctly (accents, numeric)
  *   PluralRules ....... "1 item" vs "5 items", ordinals (1st/2nd/3rd)
  *   RelativeTimeFormat  "3 days ago", "in 2 hours"
@@ -6831,13 +7004,13 @@ console.log('grapheme count:', graphemes.length); // => 3  ('.length' would say 
 
 ---
 
-## 53 · MODERN AUTHENTICATION
+## 54 · MODERN AUTHENTICATION
 
 ```js
 /* =============================================================================
- * 53 · MODERN AUTHENTICATION
+ * 54 · MODERN AUTHENTICATION
  * =============================================================================
- * Run:  node lessons/53-modern-auth.js
+ * Run:  node lessons/54-modern-auth.js
  *
  * WHAT YOU'LL LEARN
  *   • AuthN vs AuthZ — who you are vs what you're allowed to do
@@ -6846,7 +7019,7 @@ console.log('grapheme count:', graphemes.length); // => 3  ('.length' would say 
  *   • JWT anatomy, cookie security flags, OAuth/OIDC, passkeys, refresh tokens
  *
  * Auth is the front door of every app — get it wrong and nothing else matters.
- * Lesson 39 grazed tokens & cookies; this goes deeper. Rule #1: don't roll your
+ * Lesson 40 grazed tokens & cookies; this goes deeper. Rule #1: don't roll your
  * own crypto or your own auth protocol — use vetted libraries and providers.
  * ========================================================================== */
 
@@ -6887,7 +7060,7 @@ function verifyPassword(password, stored) {
   return timingSafeEqual(actual, expected);             // constant-time compare
 }
 const record = hashPassword('correct horse battery staple');
-console.log('stored looks like  salt:hash =>', record.slice(0, 12) + '…'); // => stored looks like  salt:hash => <16 hex chars>…
+console.log('stored looks like  salt:hash =>', record.slice(0, 12) + '…'); // => stored looks like  salt:hash => <first 12 chars of salt:hash>…
 console.log(verifyPassword('correct horse battery staple', record)); // => true
 console.log(verifyPassword('wrong password', record));               // => false
 
@@ -6951,7 +7124,7 @@ console.log('payload:', decode(parts[1]));  // => payload: { sub: 'user_42', rol
 //   • HttpOnly  — JS can't read it (document.cookie) → an XSS bug can't steal it.
 //   • Secure    — sent only over HTTPS → not exposed on plaintext connections.
 //   • SameSite  — Lax/Strict stops the cookie riding along on cross-site requests
-//                 → a strong CSRF defense (lesson 39 §2).
+//                 → a strong CSRF defense (lesson 40 §2).
 // ❌ The classic mistake: storing a JWT in localStorage. localStorage is readable
 //    by ANY script on the page, so one XSS = stolen token. Prefer an HttpOnly
 //    cookie; if you must use a token in JS, keep it short-lived (see §8).
@@ -7034,6 +7207,371 @@ console.log('valid after  logout:', isStillValid(access)); // => valid after  lo
 
 ---
 
+## 55 · ACCESSIBILITY (a11y) — build for everyone, not just the mouse user
+
+```js
+/* =============================================================================
+ * 55 · ACCESSIBILITY (a11y) — build for everyone, not just the mouse user
+ * =============================================================================
+ * Run:  node lessons/55-accessibility.js
+ *
+ * WHAT YOU'LL LEARN
+ *   • Why SEMANTIC HTML is the foundation of accessibility (and free wins)
+ *   • How a control's ACCESSIBLE NAME is computed (label > aria-label > text)
+ *   • The cardinal rules of ARIA — and why "no ARIA beats bad ARIA"
+ *   • Keyboard navigation & FOCUS MANAGEMENT (tabindex 0 / -1, never positive)
+ *   • Color CONTRAST — the WCAG ratio, computed from scratch (AA = 4.5:1)
+ *   • Live regions, reduced motion, accessible forms & modals
+ *   • A runnable "a11y linter" that flags the most common bugs
+ *
+ * a11y isn't a feature you bolt on — it's a baseline. ~1 in 6 people have a
+ * disability; keyboard, screen-reader and low-vision users all hit your UI.
+ * It's also a legal requirement (ADA / EN 301 549) and a frequent interview
+ * topic. The DOM/Events lessons (24, 25) showed you HOW to change the page;
+ * this one shows you how to do it so EVERYONE can use it.
+ *
+ * The DOM itself lives in the browser, so here we make the *principles*
+ * runnable: helpers that compute accessible names, contrast ratios, and audit a
+ * small virtual element tree — the exact logic real a11y tools use.
+ * ========================================================================== */
+
+'use strict';
+
+// ── 1. SEMANTIC HTML — the cheapest accessibility you'll ever get ────────────
+// A real <button> is focusable, fires on Enter AND Space, announces as "button"
+// to screen readers, and works with Windows High Contrast — all for free. A
+// <div onclick> gives you NONE of that, and you'd have to re-add it by hand.
+const semanticChoice = (intent) =>
+  ({
+    'click action': '<button>',
+    navigation: '<a href>',
+    'page section': '<section>/<nav>/<main>/<aside>',
+    'text input': '<input>/<textarea> with a <label>',
+    'list of items': '<ul>/<ol> + <li>',
+  }[intent] || '<div> (last resort — re-implement semantics yourself)');
+
+console.log(semanticChoice('click action')); // => <button>
+console.log(semanticChoice('navigation')); // => <a href>
+console.log(semanticChoice('mystery')); // => <div> (last resort — re-implement semantics yourself)
+
+// ── 2. THE ACCESSIBLE NAME — what a screen reader actually announces ─────────
+// Every interactive element needs an "accessible name". The browser computes it
+// in priority order. Simplified, but this is the real precedence:
+//   aria-labelledby  >  aria-label  >  associated <label>  >  text content  >  title
+function accessibleName(el) {
+  if (el.ariaLabelledbyText) return el.ariaLabelledbyText; // text of referenced node(s)
+  if (el.ariaLabel) return el.ariaLabel;
+  if (el.labelText) return el.labelText; // <label for> or wrapping <label>
+  if (el.text) return el.text; // visible text content
+  if (el.title) return el.title;
+  return ''; // ⚠️ no name → screen reader says just "button", useless
+}
+console.log(accessibleName({ text: 'Save' })); // => Save
+console.log(accessibleName({ ariaLabel: 'Close dialog', text: '×' })); // => Close dialog
+console.log(accessibleName({ title: 'only a title' })); // => only a title
+console.log(accessibleName({}) === ''); // => true   (a nameless control — a bug)
+
+// ── 3. ARIA — the four rules, and "no ARIA is better than bad ARIA" ──────────
+//   1) Prefer a native element with the semantics you need (Rule 1 of ARIA).
+//   2) Don't change native semantics (don't put role="button" on a <button>).
+//   3) All interactive ARIA controls must be keyboard operable.
+//   4) Don't use role="presentation"/aria-hidden on a focusable element.
+// When you DO build a custom widget, it needs role + state + keyboard handling.
+function toggleButtonAttrs(pressed) {
+  return { role: 'button', tabindex: 0, 'aria-pressed': String(pressed) };
+}
+console.log(toggleButtonAttrs(true)); // => { role: 'button', tabindex: 0, 'aria-pressed': 'true' }
+// A screen reader now announces "<name>, toggle button, pressed". Flip
+// aria-pressed on every click — state in the DOM, not just in a CSS class.
+
+// ── 4. KEYBOARD NAVIGATION & FOCUS MANAGEMENT ────────────────────────────────
+// Everything you can do with a mouse must work with a keyboard (Tab to move,
+// Enter/Space to activate, Esc to dismiss). tabindex rules:
+//   tabindex="0"   → in natural tab order (use for custom widgets)
+//   tabindex="-1"  → focusable by script only (e.g. move focus to a dialog)
+//   tabindex="2+"  → ❌ ANTI-PATTERN: hijacks order, impossible to maintain
+const validTabindex = (t) => t === 0 || t === -1;
+console.log(validTabindex(0)); // => true
+console.log(validTabindex(3)); // => false
+// Focus management: when you open a modal, move focus INTO it; when it closes,
+// return focus to the element that opened it. Never let focus fall to <body>.
+
+// ── 5. COLOR CONTRAST — the WCAG ratio, from scratch ─────────────────────────
+// Low contrast is the #1 automated-audit failure. WCAG AA needs 4.5:1 for normal
+// text (3:1 for large text / UI). The ratio is (L1+0.05)/(L2+0.05) where L is
+// relative luminance. Here's the real formula — runnable, no library:
+function relativeLuminance(hex) {
+  const n = parseInt(hex.replace('#', ''), 16);
+  const ch = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => {
+    const s = v / 255;
+    return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * ch[0] + 0.7152 * ch[1] + 0.0722 * ch[2];
+}
+function contrastRatio(fg, bg) {
+  const a = relativeLuminance(fg);
+  const b = relativeLuminance(bg);
+  const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+  return Math.round(ratio * 100) / 100;
+}
+const meetsAA = (fg, bg) => contrastRatio(fg, bg) >= 4.5;
+console.log(contrastRatio('#000000', '#ffffff')); // => 21
+console.log(contrastRatio('#ffffff', '#ffffff')); // => 1
+console.log(meetsAA('#000000', '#ffffff')); // => true
+console.log(meetsAA('#aaaaaa', '#ffffff')); // => false   (too light — fails AA)
+
+// ── 6. LIVE REGIONS, FORMS, MODALS & MOTION (the patterns) ───────────────────
+//   • LIVE REGIONS: aria-live="polite" announces dynamic updates (a toast, a
+//     "3 results found") without moving focus. Use "assertive" only for errors.
+//   • FORMS: every field needs a <label> (not just a placeholder — placeholders
+//     vanish on input and are low-contrast). Tie errors to the field with
+//     aria-describedby and mark invalid fields aria-invalid="true".
+//   • MODALS: role="dialog" aria-modal="true", focus trapped inside, Esc closes,
+//     focus returns to the opener. (Or just use the native <dialog> element.)
+//   • MOTION: respect prefers-reduced-motion — gate animations behind it.
+function fieldAttrs({ id, invalid }) {
+  const a = { id, 'aria-invalid': String(!!invalid) };
+  if (invalid) a['aria-describedby'] = id + '-error'; // points at the error text
+  return a;
+}
+console.log(fieldAttrs({ id: 'email', invalid: true }));
+// => { id: 'email', 'aria-invalid': 'true', 'aria-describedby': 'email-error' }
+
+// ── 7. A TINY a11y LINTER — the bugs you'll actually ship ────────────────────
+// Audit a virtual element tree for the most common, highest-impact mistakes.
+function auditA11y(nodes) {
+  const issues = [];
+  for (const n of nodes) {
+    if (n.tag === 'img' && n.alt == null) issues.push(`<img> missing alt (src=${n.src})`);
+    if (n.tag === 'button' && !accessibleName(n)) issues.push('<button> has no accessible name');
+    if (n.tag === 'input' && !n.labelText && !n.ariaLabel) issues.push(`<input> "${n.name}" has no label`);
+    if (typeof n.tabindex === 'number' && n.tabindex > 0) issues.push(`positive tabindex (${n.tabindex}) breaks tab order`);
+    if (n.onClickDiv) issues.push('clickable <div> — use a <button> instead');
+  }
+  return issues;
+}
+const page = [
+  { tag: 'img', src: 'logo.png', alt: 'Acme logo' }, // ok
+  { tag: 'img', src: 'hero.jpg' }, // ❌ no alt
+  { tag: 'button', ariaLabel: 'Menu' }, // ok
+  { tag: 'button' }, // ❌ no name
+  { tag: 'input', name: 'email', labelText: 'Email' }, // ok
+  { tag: 'input', name: 'search' }, // ❌ no label
+  { tag: 'a', text: 'Home', tabindex: 5 }, // ❌ positive tabindex
+  { tag: 'div', onClickDiv: true }, // ❌ clickable div
+];
+console.log(auditA11y(page).length); // => 5
+auditA11y(page).forEach((i) => console.log('•', i));
+// => • <img> missing alt (src=hero.jpg)
+// => • <button> has no accessible name
+// => • <input> "search" has no label
+// => • positive tabindex (5) breaks tab order
+// => • clickable <div> — use a <button> instead
+
+/* -----------------------------------------------------------------------------
+ * WCAG IN ONE BREATH — the POUR principles
+ *   Perceivable   (alt text, captions, contrast)
+ *   Operable      (keyboard, no time traps, no seizure-inducing flashes)
+ *   Understandable(clear labels, predictable behavior, helpful errors)
+ *   Robust        (valid semantic HTML that assistive tech can parse)
+ * Target WCAG 2.2 level AA — the common legal baseline.
+ *
+ * INTERVIEW CORNER
+ *   Q: "div with a click handler vs a button?"
+ *   A: <button> is focusable, keyboard-operable (Enter/Space), and announced as
+ *      a button. A <div> needs tabindex=0, role=button, AND key handlers to match
+ *      — so just use <button>.
+ *   Q: "Is a placeholder a label?"  A: No. It disappears on input, is low
+ *      contrast, and isn't reliably announced. Always use a real <label>.
+ *   Q: "How do you make a modal accessible?"  A: role=dialog aria-modal=true,
+ *      trap focus inside, Esc to close, return focus to the opener (or <dialog>).
+ *
+ * COMMON MISTAKES
+ *   • Removing focus outlines (`outline: none`) with no visible replacement.
+ *   • aria-label on a non-interactive/!named element, or duplicating visible text.
+ *   • Using color ALONE to convey meaning (add an icon/text too).
+ *   • Positive tabindex; aria-hidden on a focusable element.
+ * ---------------------------------------------------------------------------- */
+
+/* PRACTICE -------------------------------------------------------------------
+ *   1. Extend accessibleName so an empty/whitespace-only text falls through to
+ *      the next source instead of being returned as a name.
+ *   2. Write largeTextMeetsAA(fg, bg) using the 3:1 threshold (large text needs
+ *      less contrast than the 4.5:1 for body text).
+ *   3. Add a rule to auditA11y that flags an <a> with no href (a link that isn't
+ *      a link — should be a <button>).
+ *   4. Write trapFocus(focusables, current, shiftKey) that returns the next
+ *      element to focus, wrapping at the ends (the core of a modal focus trap).
+ * ------------------------------------------------------------------------- */
+```
+
+---
+
+## 56 · CLEAN CODE & PROFESSIONAL JAVASCRIPT — write code humans can maintain
+
+```js
+/* =============================================================================
+ * 56 · CLEAN CODE & PROFESSIONAL JAVASCRIPT — write code humans can maintain
+ * =============================================================================
+ * Run:  node lessons/56-clean-code.js
+ *
+ * WHAT YOU'LL LEARN
+ *   • NAMING — the highest-leverage skill in programming
+ *   • Function design: small, one job, few arguments, no surprises
+ *   • The Single Responsibility Principle (and the rest of SOLID, briefly)
+ *   • DRY — removing duplication without over-abstracting
+ *   • Guard clauses: kill nesting and the "arrow of doom"
+ *   • COHESION (keep related things together) vs COUPLING (minimise the wires)
+ *   • The common CODE SMELLS, each with a before → after refactor
+ *   • What TECHNICAL DEBT is and how to manage it
+ *
+ * You can already MAKE JavaScript work. This lesson is about the gap between
+ * "it works" and "a team can change it safely six months from now" — the single
+ * biggest difference between a junior and a professional. Every refactor below
+ * RUNS and proves the behavior is unchanged: clean code is a rewrite that keeps
+ * the same outputs but is far easier to read.
+ * ========================================================================== */
+
+'use strict';
+
+// ── 1. NAMING — code is read ~10× more than it's written ─────────────────────
+// Reveal intent. A good name removes the need for a comment.
+// ❌ const d = 86400000; const x = u.filter((e) => e.a);
+// ✅:
+const MS_PER_DAY = 86_400_000; // a named constant, not a "magic number"
+const activeUsers = (users) => users.filter((user) => user.isActive);
+console.log(activeUsers([{ isActive: true }, { isActive: false }]).length); // => 1
+// Rules of thumb: searchable (no magic numbers), pronounceable, no encodings
+// (no `strName`), booleans read as yes/no (`isActive`, `hasAccess`), and
+// functions are verbs (`getUser`, `parseDate`), values are nouns.
+
+// ── 2. FUNCTIONS: small, ONE job, FEW arguments, no hidden side effects ──────
+// A function should do one thing at one level of abstraction. 0–2 args is ideal;
+// past 3, pass an options OBJECT (also makes calls self-documenting).
+// ❌ createUser('Ada', 30, true, false, 'admin')  ← what do the booleans mean?
+function createUser({ name, age, isAdmin = false }) {
+  return { name, age, role: isAdmin ? 'admin' : 'member' };
+}
+console.log(createUser({ name: 'Ada', age: 30, isAdmin: true }));
+// => { name: 'Ada', age: 30, role: 'admin' }
+
+// COMMAND/QUERY SEPARATION: a function either DOES something (command) or
+// ANSWERS something (query) — not both. And prefer PURE functions (output
+// depends only on input, no side effects) — they're trivial to test and reuse.
+const add = (a, b) => a + b; // pure: same input → same output, touches nothing
+console.log(add(2, 3)); // => 5
+
+// ── 3. SINGLE RESPONSIBILITY — one reason to change ──────────────────────────
+// ❌ one function that validates, saves, AND emails is three reasons to change.
+// ✅ split it; each piece is testable and reusable on its own.
+const isValidOrder = (o) => o.items.length > 0 && o.total > 0;
+const orderSummary = (o) => `${o.items.length} item(s), $${o.total}`;
+function placeOrder(order, { save, notify }) {
+  if (!isValidOrder(order)) throw new Error('invalid order');
+  save(order); // persistence: someone else's job
+  notify(orderSummary(order)); // messaging: someone else's job
+  return 'placed';
+}
+const log = [];
+console.log(placeOrder({ items: ['x'], total: 9 }, { save: () => log.push('saved'), notify: (m) => log.push(m) })); // => placed
+console.log(log); // => [ 'saved', '1 item(s), $9' ]
+// (That's the "D" in SOLID too — Dependency Inversion: placeOrder depends on
+//  injected `save`/`notify`, not on a concrete database or email library.)
+
+// ── 4. DRY — don't repeat yourself (but don't over-abstract either) ──────────
+// ❌ three near-identical blocks computing a discounted price.
+// ✅ one function, called three times:
+const withDiscount = (price, pct) => price - price * (pct / 100);
+console.log([100, 200, 50].map((p) => withDiscount(p, 10))); // => [ 90, 180, 45 ]
+// Caution: DRY is about removing duplicated KNOWLEDGE, not coincidentally
+// similar code. Two things that merely look alike but change for different
+// reasons should stay separate — premature abstraction is its own smell.
+
+// ── 5. GUARD CLAUSES — return early, kill the nesting ────────────────────────
+// ❌ deeply nested "arrow of doom":
+//      function pay(u){ if(u){ if(u.active){ if(u.balance>0){ ... } } } }
+// ✅ handle the exits first, then write the happy path flat:
+function charge(user, amount) {
+  if (!user) return 'no user';
+  if (!user.active) return 'inactive';
+  if (user.balance < amount) return 'insufficient funds';
+  return `charged $${amount}`; // the happy path, un-nested
+}
+console.log(charge(null, 10)); // => no user
+console.log(charge({ active: false }, 10)); // => inactive
+console.log(charge({ active: true, balance: 100 }, 10)); // => charged $10
+
+// ── 6. COHESION vs COUPLING ──────────────────────────────────────────────────
+// HIGH COHESION: a module's parts belong together (a `money` module does money
+// things). LOW COUPLING: modules know as little about each other as possible —
+// talk through small, stable interfaces, not each other's internals. Aim for
+// high cohesion + low coupling: you can change one part without breaking others.
+const money = {
+  format: (cents) => `$${(cents / 100).toFixed(2)}`,
+  add: (a, b) => a + b,
+};
+console.log(money.format(1099)); // => $10.99
+
+// ── 7. CODE SMELLS — symptoms worth a second look ────────────────────────────
+// • Long function / God object   → split by responsibility (§3)
+// • Magic numbers/strings         → name them (§1)
+// • Boolean/flag parameters       → split the function, or use an options object
+// • Deep nesting                  → guard clauses (§5)
+// • Duplicated logic              → extract a function (§4)
+// • Long parameter lists          → pass an object
+// • Comments explaining BAD code  → fix the code; keep comments for WHY, not WHAT
+// • Mutating shared state         → prefer pure functions / return new values
+// Refactor proof — same behavior, clearer code:
+const sumMessy = (a) => { let t = 0; for (let i = 0; i < a.length; i++) { t = t + a[i]; } return t; };
+const sum = (nums) => nums.reduce((total, n) => total + n, 0);
+console.log(sumMessy([1, 2, 3]) === sum([1, 2, 3])); // => true
+
+// ── 8. TECHNICAL DEBT — borrow deliberately, pay it back ─────────────────────
+// Debt = a shortcut taken to ship now, repaid later with interest (slower future
+// changes, more bugs). Some debt is smart (ship, learn, refactor). The danger is
+// UNTRACKED debt. Make it visible and intentional:
+function todoDebt(note, owner) {
+  return `// TODO(${owner}): ${note}`; // a searchable, owned marker — not silence
+}
+console.log(todoDebt('replace O(n²) lookup with a Map before launch', 'ada'));
+// => // TODO(ada): replace O(n²) lookup with a Map before launch
+// Rules: leave the campsite cleaner than you found it; refactor in small safe
+// steps WITH tests (lesson 38) so behavior never changes by accident.
+
+/* -----------------------------------------------------------------------------
+ * INTERVIEW CORNER
+ *   Q: "What makes code 'clean'?"
+ *   A: It reveals intent: good names, small single-purpose functions, shallow
+ *      nesting, no duplication, and tests. You can read it top-to-bottom and
+ *      change one thing without fear.
+ *   Q: "When should you NOT DRY something up?"
+ *   A: When the two pieces only look alike but change for different reasons —
+ *      coupling them creates a worse problem than the duplication.
+ *   Q: "SOLID in one line each?"
+ *   A: Single-responsibility, Open/closed, Liskov substitution, Interface
+ *      segregation, Dependency inversion — all about isolating reasons to change.
+ *
+ * COMMON MISTAKES
+ *   • Clever one-liners over clear code. Optimise for the next reader, not ego.
+ *   • Comments that restate the code (`i++ // increment i`) instead of WHY.
+ *   • Premature abstraction / over-engineering for imagined future needs (YAGNI).
+ *   • Big-bang rewrites instead of small, test-backed refactors.
+ * ---------------------------------------------------------------------------- */
+
+/* PRACTICE -------------------------------------------------------------------
+ *   1. Rename for intent: `function f(a, b) { return a * 0.01 * b; }` is a
+ *      percentage-of helper — rewrite it with names that need no comment.
+ *   2. Refactor with guard clauses: a function that nests `if (user) { if
+ *      (user.email) { if (user.verified) { return send(); } } }` — flatten it.
+ *   3. Turn a 4-positional-argument function `makeButton(label, primary,
+ *      disabled, large)` into one that takes an options object with defaults.
+ *   4. Spot the smell: `function save(u){ db.write(u); analytics.track(u);
+ *      sendEmail(u); }` — name the principle it violates and split it.
+ * ------------------------------------------------------------------------- */
+```
+
+---
+
 # Projects
 
 # JavaScript Projects — Build to Learn
@@ -7066,14 +7604,14 @@ Every project folder has:
 
 | # | Project | Lessons it uses | New skill |
 | --- | --- | --- | --- |
-| 1 | [To-Do App](1-todo-app/) | 13–14 arrays/objects, 23 DOM, 24 events, 33 storage | DOM + events + persistence |
-| 2 | [Weather App](2-weather-app/) | 20–21 async, 25 fetch, 32 dates | real API calls + async UI |
-| 3 | [Quiz App](3-quiz-app/) | 09 functions, 13 array methods, 23–24 DOM/events | managing app "state" |
-| 4 | [Route Finder](4-route-finder/) | 48 graph, 49 BFS, 16 Map/Set, 23–24 DOM/events | data structures + algorithms in a real UI |
-| 5 | [Virtual List](5-virtual-list/) | 41 performance, 13 array methods, 23–24 DOM/events, 29 throttle | virtualization — render only what's visible |
-| 6 | [Form Validation](6-form-validation/) | 23 DOM, 24 events, 26 regex, 21 errors, 07 conditionals | validate input before you trust it |
-| 7 | [Notes App](7-notes-app/) | 14 objects, 20 async, 25 fetch, 21 errors, 23–24 DOM/events | mutate server state with optimistic UI + rollback |
-| 8 | [REST API](8-rest-api/) **(backend)** | 45 Node, 25 HTTP, 21 errors, 39 security, 38 testing | build the server: routing, validation, status codes |
+| 1 | [To-Do App](1-todo-app/) | 13–14 arrays/objects, 24 DOM, 25 events, 34 storage | DOM + events + persistence |
+| 2 | [Weather App](2-weather-app/) | 20–22 async, 26 fetch, 33 dates | real API calls + async UI |
+| 3 | [Quiz App](3-quiz-app/) | 09 functions, 13 array methods, 24–25 DOM/events | managing app "state" |
+| 4 | [Route Finder](4-route-finder/) | 49 graph, 50 BFS, 16 Map/Set, 24–25 DOM/events | data structures + algorithms in a real UI |
+| 5 | [Virtual List](5-virtual-list/) | 42 performance, 13 array methods, 24–25 DOM/events, 30 throttle | virtualization — render only what's visible |
+| 6 | [Form Validation](6-form-validation/) | 24 DOM, 25 events, 27 regex, 22 errors, 07 conditionals | validate input before you trust it |
+| 7 | [Notes App](7-notes-app/) | 14 objects, 20 async, 26 fetch, 22 errors, 24–25 DOM/events | mutate server state with optimistic UI + rollback |
+| 8 | [REST API](8-rest-api/) **(backend)** | 46 Node, 26 HTTP, 22 errors, 40 security, 39 testing | build the server: routing, validation, status codes |
 
 > **Project 8 is back-end** — no browser. Run it with `node projects/8-rest-api/solution.js`
 > and test it with `node --test projects/8-rest-api/test.mjs`. Fill in `server.js` (the
@@ -7136,7 +7674,7 @@ The starter (`app.js`) has these `// TODO:`s. Do them in order:
 ## Make it your own (extensions)
 - Add an "Edit" button to rename a task (double-click to edit inline).
 - Add a "Clear completed" button.
-- Show the date each task was created (use **lesson 32**'s Intl formatting).
+- Show the date each task was created (use **lesson 33**'s Intl formatting).
 - Add drag-to-reorder, or a priority flag with colors.
 
 ## Concepts this cements
@@ -7153,7 +7691,7 @@ The starter (`app.js`) has these `// TODO:`s. Do them in order:
  * A complete, working version. Compare it with your app.js AFTER you've tried.
  * Read the comments — they explain the "why", not just the "what".
  *
- * Lessons used: 23 DOM · 24 Events · 13 Array methods · 14 Objects · 33 Storage
+ * Lessons used: 24 DOM · 25 Events · 13 Array methods · 14 Objects · 34 Storage
  * ========================================================================== */
 
 const form = document.querySelector('#todo-form');
@@ -7164,7 +7702,7 @@ const countEl = document.querySelector('#count');
 
 const STORAGE_KEY = 'todos';
 
-// ── State: load saved todos, or start empty (lesson 33) ──────────────────────
+// ── State: load saved todos, or start empty (lesson 34) ──────────────────────
 // We wrap JSON.parse in try/catch so corrupted storage can't crash the app.
 function load() {
   try {
@@ -7222,7 +7760,7 @@ function addTodo(text) {
   render();
 }
 
-// ── Form submit (lesson 24) ──────────────────────────────────────────────────
+// ── Form submit (lesson 25) ──────────────────────────────────────────────────
 form.addEventListener('submit', (event) => {
   event.preventDefault();             // stop the page from reloading
   const text = input.value.trim();
@@ -7320,10 +7858,10 @@ It loads `app.js` (starter). Switch to `solution.js` to see it finished.
 
 ## Make it your own
 - Add a 7-day forecast (the API supports `daily=temperature_2m_max,...`).
-- Detect the user's location with `navigator.geolocation` (lesson 34) and load
+- Detect the user's location with `navigator.geolocation` (lesson 35) and load
   local weather on startup.
 - Add a °C / °F toggle.
-- Cache the last searched city in `localStorage` (lesson 33) and reload it.
+- Cache the last searched city in `localStorage` (lesson 34) and reload it.
 
 ## Concepts this cements
 - **Chaining async calls**: the second request needs the first's result —
@@ -7339,7 +7877,7 @@ It loads `app.js` (starter). Switch to `solution.js` to see it finished.
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * Lessons used: 25 Fetch · 20 Async/Await · 21 Errors · 32 Dates · 23 DOM
+ * Lessons used: 26 Fetch · 20 Async/Await · 22 Errors · 33 Dates · 24 DOM
  * ========================================================================== */
 
 const form = document.querySelector('#search-form');
@@ -7415,7 +7953,7 @@ function showWeather(place, weather) {
   conditionEl.textContent = text;
   windEl.textContent = `💨 Wind: ${weather.wind_speed_10m} km/h`;
 
-  // Format today's date nicely (lesson 32)
+  // Format today's date nicely (lesson 33)
   dateEl.textContent = new Intl.DateTimeFormat('en-US', {
     weekday: 'long',
     month: 'long',
@@ -7503,9 +8041,9 @@ const QUESTIONS = [
    resets state and starts over.
 
 ## Make it your own
-- Add a **timer** per question (lesson 34 `setInterval`); auto-advance at 0.
-- Save the **high score** to `localStorage` (lesson 33).
-- Add categories/difficulty, or load questions from a quiz API (lesson 25).
+- Add a **timer** per question (lesson 35 `setInterval`); auto-advance at 0.
+- Save the **high score** to `localStorage` (lesson 34).
+- Add categories/difficulty, or load questions from a quiz API (lesson 26).
 
 ## Concepts this cements
 - **State machine thinking**: the app is always in one clear state (showing a
@@ -7521,7 +8059,7 @@ const QUESTIONS = [
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * Lessons used: 09 Functions · 13 array methods · 15 destructuring · 23 DOM · 24 Events
+ * Lessons used: 09 Functions · 13 array methods · 15 destructuring · 24 DOM · 25 Events
  * ========================================================================== */
 
 const QUESTIONS = [
@@ -7663,7 +8201,7 @@ renderQuestion();
 
 The computer-science capstone. No internet needed — this is about turning two
 **CS-core lessons into a real, visual app**: model a transit network as a
-**graph** (lesson 48) and find the fewest-stops route with **BFS** (lesson 49).
+**graph** (lesson 49) and find the fewest-stops route with **BFS** (lesson 50).
 
 ## What it does
 - Pick a **From** and **To** station from two dropdowns
@@ -7692,7 +8230,7 @@ const EDGES = [
   // ...each pair is a TWO-WAY connection
 ];
 ```
-The `Graph` class (from lesson 48) is also provided — you focus on wiring it up
+The `Graph` class (from lesson 49) is also provided — you focus on wiring it up
 and writing the search.
 
 ## Build it step by step
@@ -7714,17 +8252,17 @@ and writing the search.
 ## Why BFS (and not DFS)?
 BFS explores the graph **level by level** — all 1-hop neighbours, then all
 2-hop, and so on. So the moment it touches the destination, it has used the
-fewest possible edges. DFS (lesson 49) dives deep and would find *a* path, but
+fewest possible edges. DFS (lesson 50) dives deep and would find *a* path, but
 not necessarily the **shortest** one. That's the whole reason BFS is the
 go-to for shortest paths in unweighted graphs.
 
 ## Make it your own
 - **Weighted edges** (distance/time per link) → upgrade BFS to **Dijkstra's**
-  algorithm with a priority queue (uses the heap idea from lesson 48).
+  algorithm with a priority queue (uses the heap idea from lesson 49).
 - Let users **add/remove stations or connections** at runtime and re-route.
 - **Highlight the route** on the network map (bold the stations in the path).
 - Show **all stations reachable within N hops** of a station (BFS with a depth).
-- Persist the user's last From/To to **localStorage** (lesson 33).
+- Persist the user's last From/To to **localStorage** (lesson 34).
 - Render the network as an actual **SVG graph** instead of a list.
 
 ## Concepts this cements
@@ -7742,7 +8280,7 @@ go-to for shortest paths in unweighted graphs.
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * Lessons used: 48 Graph · 49 BFS shortest path · 16 Map/Set · 23 DOM · 24 Events
+ * Lessons used: 49 Graph · 50 BFS shortest path · 16 Map/Set · 24 DOM · 25 Events
  * ========================================================================== */
 
 // ── The network (data model): each pair is a two-way connection ──────────────
@@ -7759,7 +8297,7 @@ const EDGES = [
   ['South', 'Stadium'],
 ];
 
-// ── Graph (from lesson 48) ───────────────────────────────────────────────────
+// ── Graph (from lesson 49) ───────────────────────────────────────────────────
 class Graph {
   #adj = new Map();
   addNode(node) {
@@ -7799,7 +8337,7 @@ function populateSelects() {
   goalSel.selectedIndex = network.nodes.length - 1;
 }
 
-// ── 3. BFS shortest path (the algorithm — lesson 49) ─────────────────────────
+// ── 3. BFS shortest path (the algorithm — lesson 50) ─────────────────────────
 // BFS explores level by level, so the first time it reaches the goal it has
 // used the fewest hops. cameFrom lets us rebuild the actual path afterwards.
 function bfsShortestPath(graph, start, goal) {
@@ -7841,7 +8379,7 @@ function renderRoute(path, start, goal) {
 
   const hops = path.length - 1;
   // Safe to use innerHTML here: station names come from our own hardcoded GRAPH,
-  // not user input. For user-supplied text, build nodes with textContent (lesson 39).
+  // not user input. For user-supplied text, build nodes with textContent (lesson 40).
   resultEl.innerHTML = `
     <div class="route">
       ${stops}
@@ -7886,7 +8424,7 @@ findRoute(); // show the default route immediately
 ## Project 5 — Virtual List
 
 The performance capstone. No internet needed — this is about one high-impact
-technique from lesson 41: **virtualization (windowing)**. You'll scroll a list
+technique from lesson 42: **virtualization (windowing)**. You'll scroll a list
 of **50,000 rows** while keeping only ~17 of them in the DOM.
 
 ## What it does
@@ -7935,7 +8473,7 @@ the finished version:
    - clear the sizer, create rows `start…end`, each at `top: i*ROW_H`
    - update the stats line with how many rows are really in the DOM
 4. **Scroll listener** → `render()`. Bonus: wrap it in `requestAnimationFrame`
-   so it runs at most once per frame (a throttle — lesson 29).
+   so it runs at most once per frame (a throttle — lesson 30).
 5. **Jump button** → set `viewport.scrollTop` to a random `i * ROW_H`, render.
 
 ## Why `OVERSCAN`?
@@ -7968,10 +8506,10 @@ below (the "overscan") hides that — a tiny cost for seamless scrolling.
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * THE IDEA (lesson 41): render ONLY the visible rows, repositioned on scroll.
+ * THE IDEA (lesson 42): render ONLY the visible rows, repositioned on scroll.
  * 50,000 logical rows, but only ~17 <div>s in the DOM at any moment.
  *
- * Lessons used: 41 performance/virtualization · 13 array methods · 23 DOM · 24 Events · 29 throttle (rAF)
+ * Lessons used: 42 performance/virtualization · 13 array methods · 24 DOM · 25 Events · 30 throttle (rAF)
  * ========================================================================== */
 
 const TOTAL = 50_000;
@@ -8020,7 +8558,7 @@ function render() {
     row.className = 'row';
     row.style.top = `${i * ROW_H}px`; // place it at its REAL position
     // Safe to use innerHTML here: the row data is generated by us, not user input.
-    // For user-supplied text, build nodes with textContent instead (lesson 39).
+    // For user-supplied text, build nodes with textContent instead (lesson 40).
     row.innerHTML = `
       <span class="avatar" style="background:${item.color}">${item.name[0]}</span>
       <span class="index">#${i}</span>
@@ -8039,9 +8577,9 @@ function render() {
 // ── 4. Re-render on scroll — throttled to one render per animation frame ──────
 let ticking = false;
 viewport.addEventListener('scroll', () => {
-  if (ticking) return;           // already scheduled → skip (lesson 29 throttle idea)
+  if (ticking) return;           // already scheduled → skip (lesson 30 throttle idea)
   ticking = true;
-  requestAnimationFrame(() => {  // run at most once per frame (lesson 46 rAF)
+  requestAnimationFrame(() => {  // run at most once per frame (lesson 47 rAF)
     render();
     ticking = false;
   });
@@ -8114,12 +8652,12 @@ field. This is exactly how real form libraries (Formik, React Hook Form) behave.
   `password` and `text`).
 - **Async check** — pretend to check "is this email taken?" with a delayed
   Promise (lesson 19/20), showing a spinner while it runs.
-- **Debounce** the email check so it doesn't fire on every keystroke (lesson 29).
+- **Debounce** the email check so it doesn't fire on every keystroke (lesson 30).
 - Add a **"passwords must match" live indicator** that updates as you type either box.
 
 ## Concepts this cements
 - **Never trust input** — validate on the client for UX, but remember a real app
-  must *also* validate on the server (a user can bypass your JS entirely — lesson 39).
+  must *also* validate on the server (a user can bypass your JS entirely — lesson 40).
 - **Derive UI from state** — the button's enabled/disabled state is computed from
   the fields, never set by hand in five different places. One source of truth.
 - **Keep the rule and its message together** — returning the error from the
@@ -8133,7 +8671,7 @@ field. This is exactly how real form libraries (Formik, React Hook Form) behave.
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * Lessons used: 23 DOM · 24 Events · 26 Regular Expressions · 21 Error Handling · 07 Conditionals
+ * Lessons used: 24 DOM · 25 Events · 27 Regular Expressions · 22 Error Handling · 07 Conditionals
  * ========================================================================== */
 
 // ── Elements ─────────────────────────────────────────────────────────────────
@@ -8303,8 +8841,8 @@ It loads `app.js` (starter). Switch to `solution.js` to see it finished.
 
 ## Make it your own
 - Add a "retry" button on the error message instead of an auto-rollback.
-- Debounce a search box that filters notes by text (lesson 29).
-- Persist a local copy in `localStorage` (lesson 33) so notes survive reloads.
+- Debounce a search box that filters notes by text (lesson 30).
+- Persist a local copy in `localStorage` (lesson 34) so notes survive reloads.
 - Inline-edit on double-click instead of using `prompt`.
 
 ## Concepts this cements
@@ -8323,7 +8861,7 @@ It loads `app.js` (starter). Switch to `solution.js` to see it finished.
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * Lessons used: 14 Objects · 20 Async/Await · 25 Fetch · 21 Errors · 23 DOM · 24 Events
+ * Lessons used: 14 Objects · 20 Async/Await · 26 Fetch · 22 Errors · 24 DOM · 25 Events
  *
  * The headline skill is OPTIMISTIC UI: update the screen instantly, fire the
  * request in the background, and ROLL BACK if it fails. The app stays snappy
@@ -8355,7 +8893,7 @@ function flashError(message) {
   }, 2500);
 }
 
-// ── Render one note safely (textContent, never innerHTML — see lesson 39) ────
+// ── Render one note safely (textContent, never innerHTML — see lesson 40) ────
 function noteEl(note) {
   const li = document.createElement('li');
   li.className = note.pending ? 'note pending' : 'note';
@@ -8549,11 +9087,11 @@ Open `server.js` (the starter) to build it yourself; `solution.js` is the finish
    in `try/catch`: an `HttpError` maps to its status, anything else is a logged 500.
 
 ## Make it your own
-- **Persist** the store to a JSON file (lesson 45 `fs`) or SQLite, so restarts
+- **Persist** the store to a JSON file (lesson 46 `fs`) or SQLite, so restarts
   don't wipe the data.
 - Add **pagination** (`GET /tasks?limit=&offset=`) and filtering with `URLSearchParams`.
-- Add **auth** — a bearer token or session (lesson 53) gating writes.
-- Add **rate limiting / a request log** (lesson 47), and CORS headers (lesson 39).
+- Add **auth** — a bearer token or session (lesson 54) gating writes.
+- Add **rate limiting / a request log** (lesson 48), and CORS headers (lesson 40).
 - Point the **Notes app (project 7)** at this API instead of JSONPlaceholder.
 
 ## Concepts this cements
@@ -8572,7 +9110,7 @@ Open `server.js` (the starter) to build it yourself; `solution.js` is the finish
  * =============================================================================
  * Complete, working version. Compare with your server.js after trying.
  *
- * Lessons used: 45 Node · 25 Fetch/HTTP · 21 Error handling · 39 Security · 38 Testing
+ * Lessons used: 46 Node · 26 Fetch/HTTP · 22 Error handling · 40 Security · 39 Testing
  *
  * A backend with NO frameworks and NO npm installs — just Node's built-in
  * `node:http`. It serves a full CRUD REST API over an in-memory "tasks"
@@ -8605,7 +9143,7 @@ const tasks = new Map();
   tasks.set(id, { id, title: 'Learn the http module', done: false, createdAt: new Date().toISOString() });
 })();
 
-const MAX_BODY_BYTES = 1024 * 100; // 100 KB — guard against huge/abusive bodies (lesson 39)
+const MAX_BODY_BYTES = 1024 * 100; // 100 KB — guard against huge/abusive bodies (lesson 40)
 
 // ── Small helpers ────────────────────────────────────────────────────────────
 // Send any JS value as a JSON response with the right headers + status code.
@@ -8762,7 +9300,7 @@ function matchRoute(method, pathname) {
 // ── The request handler (with centralized error handling) ────────────────────
 // This is the single function passed to http.createServer. It finds a route,
 // runs its handler, and turns ANY failure into a clean JSON response — so the
-// server never crashes on a bad request or a bug in a handler (lesson 21).
+// server never crashes on a bad request or a bug in a handler (lesson 22).
 async function handler(req, res) {
   try {
     // Parse the path only; the URL needs a base because req.url is path-relative.

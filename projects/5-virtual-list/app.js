@@ -3,11 +3,11 @@
  * =============================================================================
  * Fill in the TODOs. README has the full walkthrough. Solution in solution.js.
  *
- * THE IDEA (lesson 41): rendering 50,000 <div>s freezes the page. Instead we
+ * THE IDEA (lesson 42): rendering 50,000 <div>s freezes the page. Instead we
  * render ONLY the ~10 rows currently visible, and reposition them as you scroll.
  * The list FEELS infinite; the DOM stays tiny.
  *
- * Lessons used: 41 performance/virtualization · 13 array methods · 23 DOM · 24 Events · 29 throttle (rAF)
+ * Lessons used: 42 performance/virtualization · 13 array methods · 24 DOM · 25 Events · 30 throttle (rAF)
  * ========================================================================== */
 
 const TOTAL = 50_000; // how many rows the list "contains"

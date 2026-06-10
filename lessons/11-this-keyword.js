@@ -28,8 +28,10 @@ const team = {
   members: ['Ana', 'Bob'],
   listBroken() {
     // ❌ A normal function gets its OWN `this`. Called by forEach with no
-    //    context, `this` is NOT the team object (it's undefined in strict mode,
-    //    or the global object otherwise) — so `this.name` is lost.
+    //    context, `this` is NOT the team object — either way `this.name` is
+    //    lost. (In strict mode / ES modules `this` is `undefined`; in sloppy
+    //    mode it's the global object, which has no `name`.) We use `this?.name`
+    //    below so it reads `undefined` instead of throwing.
     const out = [];
     this.members.forEach(function (m) {
       out.push(`${m} is on ${this?.name}`); // this?.name → undefined, not "Rockets"

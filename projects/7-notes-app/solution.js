@@ -3,7 +3,7 @@
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * Lessons used: 14 Objects · 20 Async/Await · 25 Fetch · 21 Errors · 23 DOM · 24 Events
+ * Lessons used: 14 Objects · 20 Async/Await · 26 Fetch · 22 Errors · 24 DOM · 25 Events
  *
  * The headline skill is OPTIMISTIC UI: update the screen instantly, fire the
  * request in the background, and ROLL BACK if it fails. The app stays snappy
@@ -35,7 +35,7 @@ function flashError(message) {
   }, 2500);
 }
 
-// ── Render one note safely (textContent, never innerHTML — see lesson 39) ────
+// ── Render one note safely (textContent, never innerHTML — see lesson 40) ────
 function noteEl(note) {
   const li = document.createElement('li');
   li.className = note.pending ? 'note pending' : 'note';

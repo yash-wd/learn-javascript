@@ -10,7 +10,7 @@
  *   Run:   node projects/8-rest-api/server.js
  *   Test:  node --test projects/8-rest-api/test.mjs   (green when you're done)
  *
- * Lessons used: 45 Node · 25 Fetch/HTTP · 21 Error handling · 39 Security · 38 Testing
+ * Lessons used: 46 Node · 26 Fetch/HTTP · 22 Error handling · 40 Security · 39 Testing
  * ========================================================================== */
 
 const http = require('node:http');
@@ -23,7 +23,7 @@ const tasks = new Map();
   tasks.set(id, { id, title: 'Learn the http module', done: false, createdAt: new Date().toISOString() });
 })();
 
-const MAX_BODY_BYTES = 1024 * 100; // 100 KB guard (lesson 39)
+const MAX_BODY_BYTES = 1024 * 100; // 100 KB guard (lesson 40)
 
 // ── Helpers (given) ──────────────────────────────────────────────────────────
 function sendJSON(res, status, payload) {

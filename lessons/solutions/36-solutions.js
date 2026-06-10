@@ -1,55 +1,35 @@
 /* =============================================================================
- * SOLUTIONS · 36 · WEAKMAP, MEMORY & FINAL LANGUAGE DETAILS
+ * SOLUTIONS · 36 · DEBUGGING & THE CONSOLE
  * =============================================================================
  * Run:  node lessons/solutions/36-solutions.js
  *
- * Worked answers to the PRACTICE block in lessons/36-weakmap-memory.js.
+ * Worked answers to the PRACTICE block in lessons/36-debugging-console.js.
  * Try each problem YOURSELF first — then compare.
  * ========================================================================== */
 
-// ── 1. Use a WeakMap to cache a computed result keyed by an object argument. ──
-// A WeakMap keyed by the object means the cache entry is GC'd with the object —
-// no memory leak. Keys MUST be objects.
-const cache = new WeakMap();
-function heavyCompute(obj) {
-  if (cache.has(obj)) return cache.get(obj); // cache hit
-  const result = obj.values.reduce((a, b) => a + b, 0); // pretend this is expensive
-  cache.set(obj, result);
-  return result;
-}
-const input = { values: [1, 2, 3, 4] };
-console.log('1.', heavyCompute(input), '·', heavyCompute(input)); // => 1. 10 · 10 (2nd is cached)
+// ── 1. Use console.table to print an array of 3 product objects. ─────────────
+const products = [
+  { name: 'Keyboard', price: 80, inStock: true },
+  { name: 'Mouse', price: 25, inStock: false },
+  { name: 'Monitor', price: 300, inStock: true },
+];
+console.log('1. products:');
+console.table(products); // renders a neat grid of rows × columns
 
-// ── 2. Add 'use strict' to a function and trigger an accidental-global error. ──
-function strictlyTyped() {
-  'use strict';
-  oops = 5; // no declaration → ReferenceError in strict mode (silent global otherwise)
-}
+// ── 2. Trigger a "Cannot read properties of undefined" on purpose, then fix it ──
+//    with optional chaining.
+const data = {}; // no `user` key
 try {
-  strictlyTyped();
+  console.log(data.user.name); // boom: data.user is undefined
 } catch (err) {
-  console.log('2.', err.constructor.name + ':', err.message);
-  // => 2. ReferenceError: oops is not defined
+  console.log('2.', err.message); // => 2. Cannot read properties of undefined (reading 'name')
 }
+// Fix: ?. short-circuits to undefined instead of throwing.
+console.log('2.', 'safe:', data.user?.name ?? '(no user)'); // => 2. safe: (no user)
 
-// ── 3. Write a tag function that uppercases every interpolated value. ────────
-function upper(strings, ...values) {
-  return strings.reduce(
-    (out, str, i) => out + str + (i < values.length ? String(values[i]).toUpperCase() : ''),
-    ''
-  );
-}
-const who = 'ada';
-const role = 'engineer';
-console.log('3.', upper`Hi ${who}, the ${role}!`); // => 3. Hi ADA, the ENGINEER!
-
-// ── 4. Wrap an object in a WeakRef, log .deref()?.x, then set the original to ──
-//    null and explain why .deref() MIGHT (eventually) return undefined.
-let target = { x: 42 };
-const ref = new WeakRef(target);
-console.log('4.', ref.deref()?.x); // => 4. 42
-target = null; // drop our strong reference
-// The object is now only weakly held. The garbage collector MAY reclaim it at
-// any later time — once it does, ref.deref() returns undefined. Right after
-// nulling, GC usually hasn't run yet, so deref() may still return the object.
-console.log('4.', 'deref()?.x now:', ref.deref()?.x); // => 4. deref()?.x now: 42 (until GC runs)
+// ── 3. Wrap a slow loop in console.time/timeEnd and read the duration. ───────
+console.time('sum-loop');
+let sum = 0;
+for (let i = 0; i < 1_000_000; i++) sum += i;
+console.timeEnd('sum-loop'); // => 3. sum-loop: 1.2ms  (timing varies)
+console.log('3.', 'sum =', sum); // => 3. sum = 499999500000

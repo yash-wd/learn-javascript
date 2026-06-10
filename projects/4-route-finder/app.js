@@ -3,7 +3,7 @@
  * =============================================================================
  * Fill in the TODOs. README has the full walkthrough. Solution in solution.js.
  *
- * Lessons used: 48 Graph · 49 BFS shortest path · 16 Map/Set · 23 DOM · 24 Events
+ * Lessons used: 49 Graph · 50 BFS shortest path · 16 Map/Set · 24 DOM · 25 Events
  * ========================================================================== */
 
 // ── The network (data model): each pair is a two-way connection ──────────────
@@ -20,7 +20,7 @@ const EDGES = [
   ['South', 'Stadium'],
 ];
 
-// ── Graph (from lesson 48 — given to you) ────────────────────────────────────
+// ── Graph (from lesson 49 — given to you) ────────────────────────────────────
 class Graph {
   #adj = new Map();
   addNode(node) {
@@ -55,12 +55,12 @@ const network = new Graph();
 function populateSelects() {
   // TODO 2:
   //   - for each station in network.nodes, add an <option> to BOTH selects.
-  //     (hint: new Option(text, value), or create <option> elements — lesson 23)
+  //     (hint: new Option(text, value), or create <option> elements — lesson 24)
   //   - default the "To" dropdown to a DIFFERENT station than "From"
   //     e.g. goalSel.selectedIndex = network.nodes.length - 1;
 }
 
-// ── 3. BFS shortest path (the algorithm — lesson 49) ─────────────────────────
+// ── 3. BFS shortest path (the algorithm — lesson 50) ─────────────────────────
 function bfsShortestPath(graph, start, goal) {
   // TODO 3: return an array of stations from start → goal (fewest hops), or null.
   //   - if start === goal → return [start]

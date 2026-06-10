@@ -3,7 +3,7 @@
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * Lessons used: 23 DOM · 24 Events · 26 Regular Expressions · 21 Error Handling · 07 Conditionals
+ * Lessons used: 24 DOM · 25 Events · 27 Regular Expressions · 22 Error Handling · 07 Conditionals
  * ========================================================================== */
 
 // ── Elements ─────────────────────────────────────────────────────────────────

@@ -1,44 +1,39 @@
 /* =============================================================================
- * SOLUTIONS · 25 · FETCH & APIs — talking to the internet
+ * SOLUTIONS · 25 · EVENTS   ⚠️ BROWSER ONLY
  * =============================================================================
- * Run:  node lessons/solutions/25-solutions.js   (needs internet; Node 18+ has fetch)
+ * Run:  node lessons/solutions/25-solutions.js
  *
- * Worked answers to the PRACTICE block in lessons/25-fetch-apis.js.
+ * Worked answers to the PRACTICE block in lessons/25-events.js.
  * Try each problem YOURSELF first — then compare.
- * Everything is wrapped so that with no network it prints a notice instead of
- * crashing.
+ *
+ * ⚠️  BROWSER ONLY — these need a real page. In Node the guard just prints a
+ *     reminder. The markup each one assumes is noted in a comment.
  * ========================================================================== */
 
-const BASE = 'https://jsonplaceholder.typicode.com';
+if (typeof document === 'undefined') {
+  console.log('⚠️  This is a BROWSER lesson. Open it via index.html — see lesson 24.');
+} else {
+  // ── 1. Add a button that increments a counter shown in a <span>. ───────────
+  // Markup: <button id="inc">+1</button> <span id="count">0</span>
+  let count = 0;
+  document.querySelector('#inc').addEventListener('click', () => {
+    count += 1;
+    document.querySelector('#count').textContent = String(count);
+  });
 
-async function main() {
-  // ── 1. Fetch /users and log every name. ────────────────────────────────────
-  const users = await (await fetch(`${BASE}/users`)).json();
-  console.log('1.', users.map((u) => u.name).join(', '));
-  // => 1. Leanne Graham, Ervin Howell, … (10 names)
+  // ── 2. Add an input that live-updates an <h2> as you type. ─────────────────
+  // Markup: <input id="name"> <h2 id="echo"></h2>
+  document.querySelector('#name').addEventListener('input', (event) => {
+    document.querySelector('#echo').textContent = event.target.value;
+  });
 
-  // ── 2. Fetch a single todo and log whether it's completed. ──────────────────
-  const todo = await (await fetch(`${BASE}/todos/1`)).json();
-  console.log('2.', `"${todo.title}" completed?`, todo.completed);
-  // => 2. "delectus aut autem" completed? false
-
-  // ── 3. Log a friendly message when response.ok is false. ────────────────────
-  const missing = await fetch(`${BASE}/posts/99999999`);
-  if (!missing.ok) {
-    console.log('3.', `Couldn't load that post (HTTP ${missing.status}).`);
-    // => 3. Couldn't load that post (HTTP 404).
-  }
-
-  // ── 4. Log response.status and the content-type header for a GET. ───────────
-  const res = await fetch(`${BASE}/posts/1`);
-  console.log('4.', res.status, res.headers.get('content-type'));
-  // => 4. 200 application/json; charset=utf-8
-
-  // ── 5. Send a DELETE to /posts/1 and log the status code you get back. ──────
-  const del = await fetch(`${BASE}/posts/1`, { method: 'DELETE' });
-  console.log('5.', 'DELETE status:', del.status); // => 5. DELETE status: 200
+  // ── 3. Use delegation: one listener on a <ul> that strikes through any <li> ──
+  //    you click.
+  // Markup: <ul id="todos"><li>…</li><li>…</li></ul>
+  // ONE listener on the parent handles clicks on any current OR future <li>.
+  document.querySelector('#todos').addEventListener('click', (event) => {
+    if (event.target.tagName === 'LI') {
+      event.target.style.textDecoration = 'line-through';
+    }
+  });
 }
-
-main().catch((err) => {
-  console.log('⚠️  Network request failed (are you offline?):', err.message);
-});

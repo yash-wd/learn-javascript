@@ -4,7 +4,7 @@
  * A complete, working version. Compare it with your app.js AFTER you've tried.
  * Read the comments — they explain the "why", not just the "what".
  *
- * Lessons used: 23 DOM · 24 Events · 13 Array methods · 14 Objects · 33 Storage
+ * Lessons used: 24 DOM · 25 Events · 13 Array methods · 14 Objects · 34 Storage
  * ========================================================================== */
 
 const form = document.querySelector('#todo-form');
@@ -15,7 +15,7 @@ const countEl = document.querySelector('#count');
 
 const STORAGE_KEY = 'todos';
 
-// ── State: load saved todos, or start empty (lesson 33) ──────────────────────
+// ── State: load saved todos, or start empty (lesson 34) ──────────────────────
 // We wrap JSON.parse in try/catch so corrupted storage can't crash the app.
 function load() {
   try {
@@ -73,7 +73,7 @@ function addTodo(text) {
   render();
 }
 
-// ── Form submit (lesson 24) ──────────────────────────────────────────────────
+// ── Form submit (lesson 25) ──────────────────────────────────────────────────
 form.addEventListener('submit', (event) => {
   event.preventDefault();             // stop the page from reloading
   const text = input.value.trim();

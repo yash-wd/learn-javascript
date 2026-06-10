@@ -39,6 +39,10 @@ console.log(total); // => 21
 // reduce is powerful — e.g. find the max, or count occurrences:
 const max = numbers.reduce((biggest, n) => (n > biggest ? n : biggest));
 console.log(max); // => 6
+// ⚠️ This reduce has NO starting value (it uses the first item as the seed).
+//    Fine for a non-empty array — but `[].reduce((a, b) => a + b)` THROWS
+//    "Reduce of empty array with no initial value". Pass a seed (like the `, 0`
+//    in the sum above) whenever the array might be empty.
 
 const letters = ['a', 'b', 'a', 'c', 'b', 'a'];
 const counts = letters.reduce((tally, letter) => {

@@ -3,7 +3,7 @@
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * Lessons used: 48 Graph · 49 BFS shortest path · 16 Map/Set · 23 DOM · 24 Events
+ * Lessons used: 49 Graph · 50 BFS shortest path · 16 Map/Set · 24 DOM · 25 Events
  * ========================================================================== */
 
 // ── The network (data model): each pair is a two-way connection ──────────────
@@ -20,7 +20,7 @@ const EDGES = [
   ['South', 'Stadium'],
 ];
 
-// ── Graph (from lesson 48) ───────────────────────────────────────────────────
+// ── Graph (from lesson 49) ───────────────────────────────────────────────────
 class Graph {
   #adj = new Map();
   addNode(node) {
@@ -60,7 +60,7 @@ function populateSelects() {
   goalSel.selectedIndex = network.nodes.length - 1;
 }
 
-// ── 3. BFS shortest path (the algorithm — lesson 49) ─────────────────────────
+// ── 3. BFS shortest path (the algorithm — lesson 50) ─────────────────────────
 // BFS explores level by level, so the first time it reaches the goal it has
 // used the fewest hops. cameFrom lets us rebuild the actual path afterwards.
 function bfsShortestPath(graph, start, goal) {
@@ -102,7 +102,7 @@ function renderRoute(path, start, goal) {
 
   const hops = path.length - 1;
   // Safe to use innerHTML here: station names come from our own hardcoded GRAPH,
-  // not user input. For user-supplied text, build nodes with textContent (lesson 39).
+  // not user input. For user-supplied text, build nodes with textContent (lesson 40).
   resultEl.innerHTML = `
     <div class="route">
       ${stops}

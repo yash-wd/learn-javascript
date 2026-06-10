@@ -3,7 +3,7 @@
 The lessons let you *read and run*. This folder lets you **prove you learned it**.
 Each set is a few small functions with a stub to fill in and a test suite that
 checks your work the moment you run it — the same `node:test` runner you meet in
-lesson 38.
+lesson 39.
 
 ## How it works
 Every exercise set is three files:

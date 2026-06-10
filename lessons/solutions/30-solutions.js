@@ -1,31 +1,66 @@
 /* =============================================================================
- * SOLUTIONS · 30 · FUNCTIONAL PROGRAMMING
+ * SOLUTIONS · 30 · ADVANCED ASYNC
  * =============================================================================
  * Run:  node lessons/solutions/30-solutions.js
  *
- * Worked answers to the PRACTICE block in lessons/30-functional-programming.js.
+ * Worked answers to the PRACTICE block in lessons/30-advanced-async.js.
  * Try each problem YOURSELF first — then compare.
+ * (Parts run in sequence so the output stays readable.)
  * ========================================================================== */
 
-// ── 1. Rewrite a loop that mutates an array as a pure map/filter chain. ──────
-// Imperative (mutates a result array):
-//   const out = []; for (const n of nums) if (n % 2 === 0) out.push(n * 10);
-// Functional (no mutation — inputs untouched, a new array comes out):
-const nums = [1, 2, 3, 4, 5, 6];
-const result = nums.filter((n) => n % 2 === 0).map((n) => n * 10);
-console.log('1.', result, '· original untouched:', nums);
-// => 1. [ 20, 40, 60 ] · original untouched: [ 1, 2, 3, 4, 5, 6 ]
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// ── 2. Curry a function divide(a)(b) and make a halve = divide-by-2 helper. ──
-const divide = (a) => (b) => a / b; // divide(10)(2) === 5
-const halve = (n) => divide(n)(2);  // reuse divide to build a one-arg helper
-console.log('2.', divide(10)(2), '·', halve(50)); // => 2. 5 · 25
+async function main() {
+  // ── 1. Predict the log order of sync, setTimeout(0), and Promise.then. ──────
+  // Sync runs first. Then MICROtasks (Promise.then) drain. Only THEN does the
+  // event loop reach MACROtasks (setTimeout). So the order is A → B → C.
+  console.log('1.', 'A — sync');
+  setTimeout(() => console.log('1.', 'C — setTimeout(0) macrotask'), 0);
+  Promise.resolve().then(() => console.log('1.', 'B — promise.then microtask'));
+  await delay(10); // let part 1's async logs flush before moving on
 
-// ── 3. Use pipe to: trim → lowercase → replace spaces with "-" on a string. ──
-const pipe = (...fns) => (input) => fns.reduce((value, fn) => fn(value), input);
-const slugify = pipe(
-  (s) => s.trim(),
-  (s) => s.toLowerCase(),
-  (s) => s.replaceAll(' ', '-')
-);
-console.log('3.', slugify('  Hello World Wide Web  ')); // => 3. hello-world-wide-web
+  // ── 2. Write an async generator that yields 1..n with a small delay each. ───
+  async function* countTo(n) {
+    for (let i = 1; i <= n; i++) {
+      await delay(10);
+      yield i;
+    }
+  }
+  for await (const value of countTo(3)) console.log('2.', value); // => 2. 1 / 2. 2 / 2. 3
+
+  // ── 3. Wrap a debounce around a function and call it rapidly — fire once. ───
+  function debounce(fn, ms) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);             // cancel the previous pending call
+      timer = setTimeout(() => fn(...args), ms);
+    };
+  }
+  const ping = debounce((x) => console.log('3.', 'fired once with', x), 20);
+  ping(1);
+  ping(2);
+  ping(3); // only this last call survives the debounce window
+  await delay(40); // => 3. fired once with 3
+
+  // ── 4. Use mapLimit to "fetch" 10 fake URLs 3 at a time; log when each starts. ──
+  async function mapLimit(items, limit, fn) {
+    const results = [];
+    let next = 0;
+    const worker = async () => {
+      while (next < items.length) {
+        const i = next++;
+        results[i] = await fn(items[i], i);
+      }
+    };
+    await Promise.all(Array.from({ length: limit }, worker)); // `limit` runners
+    return results;
+  }
+  const urls = Array.from({ length: 10 }, (_, i) => `url-${i}`);
+  await mapLimit(urls, 3, async (url) => {
+    console.log('4.', 'start', url); // at most 3 "start" lines before any finishes
+    await delay(10);
+    return url;
+  });
+}
+
+main();

@@ -21,7 +21,7 @@
  *   kind      'lesson-gap' | 'project-idea' | 'enhancement' | 'fix' | 'docs'
  *   title     one line — what it is
  *   detail    why it matters / what "done" looks like
- *   related   lessons/projects it touches (e.g. ['25-fetch-apis', 'proj:2'])
+ *   related   lessons/projects it touches (e.g. ['26-fetch-apis', 'proj:2'])
  *   priority  'high' | 'med' | 'low'
  *   status    'todo' | 'done'
  *   added     YYYY-MM-DD  (when it landed on the backlog)
@@ -37,10 +37,10 @@ const ITEMS = [
     title: 'for await...of and async generators',
     detail:
       'Streams, paginated APIs, and async generators all lean on `for await...of`. ' +
-      'Already covered: lesson 29 §2 has a runnable async generator + for await...of ' +
-      'example (the 1–26 audit missed it because it only read lessons 1–26). No new ' +
+      'Already covered: lesson 30 §2 has a runnable async generator + for await...of ' +
+      'example (the 1–26 audit missed it because it only read lessons 1–27). No new ' +
       'lesson needed; left here as the record.',
-    related: ['27-generators-iterators', '29-advanced-async'],
+    related: ['28-generators-iterators', '30-advanced-async'],
     priority: 'med',
     status: 'done',
     added: '2026-06-10',
@@ -50,10 +50,10 @@ const ITEMS = [
     kind: 'lesson-gap',
     title: 'Real network-failure recovery in the fetch lesson',
     detail:
-      'Lesson 25 shows the happy path + timeout. Add a short, real-world section on ' +
+      'Lesson 26 shows the happy path + timeout. Add a short, real-world section on ' +
       'retry with exponential backoff and distinguishing retryable (5xx, network) from ' +
-      'fatal (4xx) errors. The backoff helper already exists in lesson 29 — cross-link it.',
-    related: ['25-fetch-apis', '29-advanced-async'],
+      'fatal (4xx) errors. The backoff helper already exists in lesson 30 — cross-link it.',
+    related: ['26-fetch-apis', '30-advanced-async'],
     priority: 'med',
     status: 'done',
     added: '2026-06-10',
@@ -63,10 +63,10 @@ const ITEMS = [
     kind: 'lesson-gap',
     title: 'Production observability: error aggregation & tracing',
     detail:
-      'Lesson 47 covers structured logging but not error-aggregation SDKs (Sentry-style), ' +
+      'Lesson 48 covers structured logging but not error-aggregation SDKs (Sentry-style), ' +
       'distributed tracing (OpenTelemetry), or APM. Add a conceptual section — no vendor ' +
       'lock-in, just the patterns: capture → enrich → ship → alert.',
-    related: ['47-realtime-and-production'],
+    related: ['48-realtime-and-production'],
     priority: 'low',
     status: 'done',
     added: '2026-06-10',
@@ -76,10 +76,10 @@ const ITEMS = [
     kind: 'lesson-gap',
     title: 'Rate limiting, queues & backpressure',
     detail:
-      'Lesson 29 has mapLimit + backoff; lesson 47 is production ops. Neither covers ' +
+      'Lesson 30 has mapLimit + backoff; lesson 48 is production ops. Neither covers ' +
       'rate-limiting, work queues (p-queue / Bull style), or stream backpressure. Worth a ' +
       'short conceptual add for learners heading into backend work.',
-    related: ['29-advanced-async', '47-realtime-and-production'],
+    related: ['30-advanced-async', '48-realtime-and-production'],
     priority: 'low',
     status: 'done',
     added: '2026-06-10',
@@ -89,9 +89,9 @@ const ITEMS = [
     kind: 'lesson-gap',
     title: 'Monorepos / workspaces in the tooling lesson',
     detail:
-      'Lesson 44 tours npm/semver/bundlers but barely mentions workspaces, monorepos, or ' +
+      'Lesson 45 tours npm/semver/bundlers but barely mentions workspaces, monorepos, or ' +
       'cross-package sharing — common in real 2026 codebases. Add a short section.',
-    related: ['44-tooling'],
+    related: ['45-tooling'],
     priority: 'low',
     status: 'done',
     added: '2026-06-10',
@@ -118,7 +118,7 @@ const ITEMS = [
     detail:
       'solution.js is fixed-height. Add a comment near the math noting that variable ' +
       'heights need a cumulative offset index (what react-window / TanStack Virtual do).',
-    related: ['proj:5-virtual-list', '41-performance'],
+    related: ['proj:5-virtual-list', '42-performance'],
     priority: 'low',
     status: 'done',
     added: '2026-06-10',
@@ -156,10 +156,10 @@ const ITEMS = [
     kind: 'lesson-gap',
     title: 'Promote Temporal to first-class once it ships',
     detail:
-      'Lesson 37 mentions Temporal as a Stage-3 preview and lesson 32 uses Date. When ' +
+      'Lesson 38 mentions Temporal as a Stage-3 preview and lesson 33 uses Date. When ' +
       'Temporal reaches Stage 4 / ships in Node + browsers, give it real coverage in 32 ' +
       '(ZonedDateTime, Duration, PlainDate) and demote the Date quirks to "legacy".',
-    related: ['32-dates-time', '37-modern-js'],
+    related: ['33-dates-time', '38-modern-js'],
     priority: 'low',
     status: 'todo',
     added: '2026-06-10',
@@ -169,12 +169,12 @@ const ITEMS = [
     kind: 'lesson-gap',
     title: 'Modern auth: sessions vs tokens, OAuth, passkeys/WebAuthn',
     detail:
-      'Lesson 39 covers auth tokens at a high level. A focused walkthrough of the auth ' +
+      'Lesson 40 covers auth tokens at a high level. A focused walkthrough of the auth ' +
       'landscape (cookie sessions vs JWT, OAuth/OIDC flow, and passkeys/WebAuthn) would ' +
       'fill a real 2026 gap — most apps get this wrong.',
-    related: ['39-security', '33-browser-storage', '53-modern-auth'],
+    related: ['40-security', '34-browser-storage', '54-modern-auth'],
     priority: 'med',
-    status: 'done', // shipped as lesson 53 (Modern Authentication) + its solution
+    status: 'done', // shipped as lesson 54 (Modern Authentication) + its solution
     added: '2026-06-10',
   },
   {
@@ -182,10 +182,10 @@ const ITEMS = [
     kind: 'project-idea',
     title: '8th project: a real backend REST API (Node)',
     detail:
-      'All 7 projects are front-end. Lesson 45 builds a raw HTTP server but there is no ' +
+      'All 7 projects are front-end. Lesson 46 builds a raw HTTP server but there is no ' +
       'guided project. A small CRUD API (routing, validation, persistence, tests) would ' +
-      'let learners apply lessons 21/38/39/45 end-to-end on the server side.',
-    related: ['45-nodejs', '38-testing', '39-security', '21-error-handling'],
+      'let learners apply lessons 22/38/39/45 end-to-end on the server side.',
+    related: ['46-nodejs', '39-testing', '40-security', '22-error-handling'],
     priority: 'med',
     status: 'done', // shipped as project 8 (projects/8-rest-api) with passing tests
     added: '2026-06-10',
@@ -220,7 +220,7 @@ const ITEMS = [
   {
     id: 'browser-lesson-sandbox',
     kind: 'enhancement',
-    title: 'Runnable demo stage for browser lessons 23/24/46',
+    title: 'Runnable demo stage for browser lessons 24/24/46',
     detail:
       'playground.html now runs the browser lessons in an isolated iframe with a real ' +
       'scaffold DOM (#box, #myButton, etc.) and a visible console mirror, instead of ' +

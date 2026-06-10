@@ -1,50 +1,50 @@
 /* =============================================================================
- * SOLUTIONS · 46 · ADVANCED BROWSER APIs  (browser)
+ * SOLUTIONS · 46 · NODE.JS — JavaScript on the server
  * =============================================================================
- * Run:  node lessons/solutions/46-solutions.js
+ * Run:  node lessons/solutions/46-solutions.js          (try adding a name:)
+ *       node lessons/solutions/46-solutions.js Ada
  *
- * Worked answers to the PRACTICE block in lessons/46-browser-apis.js.
+ * Worked answers to the PRACTICE block in lessons/46-nodejs.js.
  * Try each problem YOURSELF first — then compare.
- *
- * ⚠️  BROWSER ONLY — these need a real page. In Node the guard prints a notice;
- *     the worked code lives in the else-branch.
  * ========================================================================== */
 
-if (typeof window === 'undefined') {
-  console.log('⚠️  This is a BROWSER lesson. Open it via index.html — see lesson 23.');
-} else {
-  // ── 1. Use IntersectionObserver to log when a bottom element scrolls into view. ──
-  // Markup: <div id="sentinel">…</div> near the bottom of the page.
-  const sentinel = document.querySelector('#sentinel');
-  const observer = new IntersectionObserver((entries) => {
-    for (const entry of entries) {
-      if (entry.isIntersecting) {
-        console.log('sentinel is visible — load more!');
-        // e.g. fetch the next page of results here (infinite scroll)
-      }
+const fs = require('node:fs/promises');
+const os = require('node:os');
+const path = require('node:path');
+const http = require('node:http');
+
+// ── 1. Read process.argv and greet a name passed on the command line. ────────
+// argv[0] = node, argv[1] = this file, argv[2+] = your args.
+const name = process.argv[2] ?? 'world';
+console.log('1.', `Hello, ${name}!`); // => 1. Hello, world!  (or your name)
+
+async function main() {
+  // ── 2. Write an object to a JSON file with fs.writeFile, then read it back. ──
+  const file = path.join(os.tmpdir(), 'js-learn-45.json'); // temp dir → no clutter
+  await fs.writeFile(file, JSON.stringify({ user: 'Ada', score: 99 }, null, 2));
+  const back = JSON.parse(await fs.readFile(file, 'utf8'));
+  console.log('2.', back); // => 2. { user: 'Ada', score: 99 }
+  await fs.rm(file); // clean up after ourselves
+
+  // ── 3. Add a '/time' route to the server that returns the current time. ──────
+  const server = http.createServer((req, res) => {
+    if (req.url === '/time') {
+      res.writeHead(200, { 'content-type': 'application/json' });
+      res.end(JSON.stringify({ time: new Date().toISOString() }));
+    } else {
+      res.writeHead(404);
+      res.end('not found');
     }
   });
-  observer.observe(sentinel);
-
-  // ── 2. Define a <hello-world> Web Component that renders your name. ────────
-  customElements.define(
-    'hello-world',
-    class extends HTMLElement {
-      connectedCallback() {
-        // `name` attribute → <hello-world name="Ada"></hello-world>
-        this.textContent = `Hello, ${this.getAttribute('name') ?? 'world'}!`;
-      }
-    }
-  );
-
-  // ── 3. Animate a box across the screen with requestAnimationFrame. ─────────
-  // Markup: <div id="box" style="position:absolute"></div>
-  const box = document.querySelector('#box');
-  let x = 0;
-  function step() {
-    x += 2;
-    box.style.transform = `translateX(${x}px)`;
-    if (x < 300) requestAnimationFrame(step); // ~60fps, synced to the display
-  }
-  requestAnimationFrame(step);
+  // Listen on an OS-assigned free port, hit /time once, then shut down so the
+  // script exits (a real server would just keep listening).
+  await new Promise((resolve) => server.listen(0, resolve));
+  const { port } = server.address();
+  const res = await fetch(`http://localhost:${port}/time`);
+  const body = await res.json();
+  console.log('3.', `/time → ${res.status}, got time:`, typeof body.time === 'string');
+  // => 3. /time → 200, got time: true
+  server.close();
 }
+
+main();

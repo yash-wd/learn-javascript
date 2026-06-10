@@ -3,7 +3,7 @@
  * =============================================================================
  * Complete, working version. Compare with your server.js after trying.
  *
- * Lessons used: 45 Node · 25 Fetch/HTTP · 21 Error handling · 39 Security · 38 Testing
+ * Lessons used: 46 Node · 26 Fetch/HTTP · 22 Error handling · 40 Security · 39 Testing
  *
  * A backend with NO frameworks and NO npm installs — just Node's built-in
  * `node:http`. It serves a full CRUD REST API over an in-memory "tasks"
@@ -36,7 +36,7 @@ const tasks = new Map();
   tasks.set(id, { id, title: 'Learn the http module', done: false, createdAt: new Date().toISOString() });
 })();
 
-const MAX_BODY_BYTES = 1024 * 100; // 100 KB — guard against huge/abusive bodies (lesson 39)
+const MAX_BODY_BYTES = 1024 * 100; // 100 KB — guard against huge/abusive bodies (lesson 40)
 
 // ── Small helpers ────────────────────────────────────────────────────────────
 // Send any JS value as a JSON response with the right headers + status code.
@@ -193,7 +193,7 @@ function matchRoute(method, pathname) {
 // ── The request handler (with centralized error handling) ────────────────────
 // This is the single function passed to http.createServer. It finds a route,
 // runs its handler, and turns ANY failure into a clean JSON response — so the
-// server never crashes on a bad request or a bug in a handler (lesson 21).
+// server never crashes on a bad request or a bug in a handler (lesson 22).
 async function handler(req, res) {
   try {
     // Parse the path only; the URL needs a base because req.url is path-relative.

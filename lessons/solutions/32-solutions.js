@@ -1,40 +1,41 @@
 /* =============================================================================
- * SOLUTIONS · 32 · DATES & TIME
+ * SOLUTIONS · 32 · TRICKY CONCEPTS & INTERVIEW GOTCHAS
  * =============================================================================
  * Run:  node lessons/solutions/32-solutions.js
  *
- * Worked answers to the PRACTICE block in lessons/32-dates-time.js.
+ * Worked answers to the PRACTICE block in lessons/32-tricky-concepts.js.
  * Try each problem YOURSELF first — then compare.
- * (Fixed sample dates are used so the output is reproducible; swap in
- *  `new Date()` for the real "today".)
  * ========================================================================== */
 
-// ── 1. Log today's date as "Weekday, Month Day, Year" using Intl. ────────────
-const today = new Date('2026-06-09T12:00:00');
-const formatted = new Intl.DateTimeFormat('en-US', {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-}).format(today);
-console.log('1.', formatted); // => 1. Tuesday, June 9, 2026
+// ── 1. Fix a "3,3,3" var loop two ways: with let, and with an IIFE closure. ──
+// The bug: `var` has ONE shared binding, so by the time the callbacks run the
+// loop has finished and i is 3 for all of them.
+const withLet = [];
+for (let i = 0; i < 3; i++) withLet.push(() => i); // `let` → a fresh i per iteration
+console.log('1a.', withLet.map((f) => f())); // => 1a. [ 0, 1, 2 ]
 
-// ── 2. Compute how many days until a target date. ────────────────────────────
-const MS_PER_DAY = 1000 * 60 * 60 * 24;
-function daysUntil(target, from = new Date()) {
-  // Compare at UTC midnight so partial days don't skew the count.
-  const a = Date.UTC(from.getFullYear(), from.getMonth(), from.getDate());
-  const b = Date.UTC(target.getFullYear(), target.getMonth(), target.getDate());
-  return Math.round((b - a) / MS_PER_DAY);
+const withIIFE = [];
+for (var j = 0; j < 3; j++) {
+  ((snapshot) => withIIFE.push(() => snapshot))(j); // IIFE captures j's value now
 }
-console.log('2.', daysUntil(new Date('2026-12-25'), today), 'days until Christmas');
-// => 2. 199 days until Christmas
+console.log('1b.', withIIFE.map((f) => f())); // => 1b. [ 0, 1, 2 ]
 
-// ── 3. Build a function addDays(date, n) that returns a new date n days later. ──
-function addDays(date, n) {
-  const copy = new Date(date);     // copy first — don't mutate the input
-  copy.setDate(copy.getDate() + n);
+// ── 2. Explain out loud why [] == ![] is true, token by token. ───────────────
+console.log('2.', [] == ![]); // => 2. true
+// 1) ![]  → [] is an object, objects are truthy, so !truthy === false.
+// 2) Now:  [] == false.
+// 3) == with a boolean coerces the boolean to a number: false → 0.  → [] == 0
+// 4) == with object vs number coerces the object to a primitive: [].toString()
+//    is "" , and Number("") is 0.                                  → 0 == 0
+// 5) 0 == 0 → true.  (Use === to avoid this whole circus.)
+
+// ── 3. Write a function that safely copies before mutating its array argument. ──
+function withItem(arr, item) {
+  const copy = [...arr]; // never mutate the caller's array
+  copy.push(item);
   return copy;
 }
-console.log('3.', addDays(today, 30).toISOString().slice(0, 10));
-// => 3. 2026-07-09
+const original = [1, 2, 3];
+const updated = withItem(original, 4);
+console.log('3.', 'original:', original, 'updated:', updated);
+// => 3. original: [ 1, 2, 3 ] updated: [ 1, 2, 3, 4 ]

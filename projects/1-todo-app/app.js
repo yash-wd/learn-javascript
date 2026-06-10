@@ -4,10 +4,10 @@
  * Fill in the TODOs below. Refer to the README for step-by-step guidance.
  * Stuck? The complete version is in solution.js — but try first!
  *
- * Lessons used: 23 DOM · 24 Events · 13 Array methods · 14 Objects · 33 Storage
+ * Lessons used: 24 DOM · 25 Events · 13 Array methods · 14 Objects · 34 Storage
  * ========================================================================== */
 
-// ── Grab the elements we'll work with (lesson 23) ────────────────────────────
+// ── Grab the elements we'll work with (lesson 24) ────────────────────────────
 const form = document.querySelector('#todo-form');
 const input = document.querySelector('#todo-input');
 const list = document.querySelector('#todo-list');
@@ -22,7 +22,7 @@ const STORAGE_KEY = 'todos';
 let todos = []; // ← replace with the loaded value
 let currentFilter = 'all'; // 'all' | 'active' | 'done'
 
-// ── Save to localStorage (lesson 33) ─────────────────────────────────────────
+// ── Save to localStorage (lesson 34) ─────────────────────────────────────────
 function save() {
   // TODO 7: write `todos` to localStorage as a JSON string.
 }
@@ -47,7 +47,7 @@ function addTodo(text) {
   //   Use a unique id, e.g. Date.now().
 }
 
-// ── Form submit: add the typed task (lesson 24) ──────────────────────────────
+// ── Form submit: add the typed task (lesson 25) ──────────────────────────────
 form.addEventListener('submit', (event) => {
   // TODO 4:
   //   - prevent the page reload
@@ -55,7 +55,7 @@ form.addEventListener('submit', (event) => {
   //   - call addTodo(...) and clear the input
 });
 
-// ── List clicks: delete or toggle (event delegation, lesson 24) ──────────────
+// ── List clicks: delete or toggle (event delegation, lesson 25) ──────────────
 list.addEventListener('click', (event) => {
   // TODO 5:
   //   - find the <li> that was clicked (event.target.closest('li')) and its id

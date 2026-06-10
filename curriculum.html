@@ -6,45 +6,16 @@
     <title>Learn JavaScript — A Complete Step-by-Step Course</title>
     <meta
       name="description"
-      content="A complete, beginner-friendly JavaScript course. 53 short lessons from your first line of code to advanced, expert and interview-level topics, plus 8 real projects. Read, run, repeat."
+      content="A complete, beginner-friendly JavaScript course. 56 short lessons from your first line of code to advanced, expert and interview-level topics, plus 8 real projects. Read, run, repeat."
     />
     <meta name="color-scheme" content="dark light" />
+    <!-- One shared palette drives every page; rebrand in assets/theme.css. -->
+    <link rel="stylesheet" href="assets/theme.css" />
     <style>
       /* ===================================================================
-       * Self-contained landing page. No external fonts, CDNs or build step:
-       * one file, works offline, renders the same now and years from now.
+       * Page-specific styles only. ALL colours/spacing come from the design
+       * tokens in assets/theme.css — never hard-code a hex here. Works offline.
        * =================================================================== */
-      :root {
-        --bg: #0b1020;
-        --bg-soft: #11182e;
-        --card: #151d36;
-        --card-2: #1a2342;
-        --line: #26304f;
-        --ink: #e7ecf6;
-        --ink-soft: #aab4cf;
-        --ink-dim: #7c89ab;
-        --brand: #6366f1;
-        --brand-2: #8b5cf6;
-        --cyan: #22d3ee;
-        --emerald: #34d399;
-        --amber: #fbbf24;
-        --radius: 16px;
-        --maxw: 1080px;
-        --shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.6);
-      }
-      @media (prefers-color-scheme: light) {
-        :root {
-          --bg: #f6f7fb;
-          --bg-soft: #eef1f8;
-          --card: #ffffff;
-          --card-2: #f4f6fc;
-          --line: #e2e7f2;
-          --ink: #161c2d;
-          --ink-soft: #3c4763;
-          --ink-dim: #6b7596;
-          --shadow: 0 10px 30px -16px rgba(40, 50, 90, 0.35);
-        }
-      }
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; }
       body {
@@ -88,8 +59,8 @@
       .hero {
         position: relative; overflow: hidden; border-bottom: 1px solid var(--line);
         background:
-          radial-gradient(60% 120% at 12% -10%, rgba(99, 102, 241, 0.28), transparent 60%),
-          radial-gradient(50% 100% at 100% 0%, rgba(34, 211, 238, 0.16), transparent 55%);
+          radial-gradient(60% 120% at 12% -10%, color-mix(in srgb, var(--brand) 28%, transparent), transparent 60%),
+          radial-gradient(50% 100% at 100% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 55%);
       }
       .hero .wrap { padding-top: 70px; padding-bottom: 58px; }
       .eyebrow {
@@ -153,7 +124,7 @@
       .stepbox h3 { margin: 0 0 6px; font-size: 1.08rem; }
       .stepbox p { margin: 0; color: var(--ink-soft); font-size: 0.95rem; }
       .stepbox code {
-        background: #0a0f1f; border: 1px solid var(--line); border-radius: 7px;
+        background: var(--code-bg); border: 1px solid var(--line); border-radius: 7px;
         padding: 2px 7px; font-size: 0.86rem; color: #d7def0;
       }
 
@@ -231,10 +202,10 @@
 
       /* ---------- Code block ---------- */
       .code {
-        background: #0a0f1f; border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
+        background: var(--code-bg); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px;
         overflow-x: auto; margin-top: 18px; font-size: 0.9rem; line-height: 1.7; color: #d7def0;
       }
-      .code .c { color: #6b7596; }
+      .code .c { color: var(--syn-comment); }
       .code .g { color: var(--emerald); }
 
       /* ---------- FAQ ---------- */
@@ -250,7 +221,7 @@
       details[open] summary::before { content: "－ "; }
       details p { margin: 0 0 16px; color: var(--ink-soft); font-size: 0.95rem; }
       details code {
-        background: #0a0f1f; border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; font-size: 0.85rem;
+        background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; font-size: 0.85rem;
       }
 
       /* ---------- Footer ---------- */
@@ -271,6 +242,7 @@
           <a href="#path">The path</a>
           <a href="#lessons">Lessons</a>
           <a href="#projects">Projects</a>
+          <a href="playground.html">Playground</a>
           <a href="#help">Help</a>
         </nav>
       </div>
@@ -291,10 +263,11 @@
         <div class="cta">
           <a class="btn primary" href="#start">▶ Start here</a>
           <a class="btn" href="#path">See the full path</a>
+          <a class="btn" href="playground.html">🧪 Open Playground</a>
           <a class="btn" href="bundle/JS_Learn_Everything.pdf">📕 Offline PDF</a>
         </div>
         <div class="stats">
-          <div class="stat"><b>53</b><span>short lessons, in order</span></div>
+          <div class="stat"><b>56</b><span>short lessons, in order</span></div>
           <div class="stat"><b>5</b><span>levels: beginner → expert</span></div>
           <div class="stat"><b>8</b><span>real projects you build</span></div>
           <div class="stat"><b>0</b><span>prior coding needed</span></div>
@@ -348,7 +321,7 @@ node lessons/01-variables.js
 <span class="c"># 2. when you finish, go to the next one</span>
 node lessons/02-data-types.js
 
-<span class="c"># …keep going in order, all the way to lesson 52.</span>
+<span class="c"># …keep going in order, all the way to lesson 56.</span>
         </div>
         <p class="sub" style="margin-top: 16px">
           👉 <strong>The golden rule:</strong> read it → run it → change a value and
@@ -391,21 +364,21 @@ node lessons/02-data-types.js
           <div class="stage">
             <div class="rail"><div class="dot">3</div></div>
             <div class="body">
-              <div class="top"><h3>Intermediate</h3><span class="range">Lessons 17–25</span></div>
+              <div class="top"><h3>Intermediate</h3><span class="range">Lessons 17–26</span></div>
               <p>Build real, interactive apps: classes, waiting for things (async), changing web pages, and loading data from the internet.</p>
             </div>
           </div>
           <div class="stage">
             <div class="rail"><div class="dot">4</div></div>
             <div class="body">
-              <div class="top"><h3>Advanced</h3><span class="range">Lessons 26–37</span></div>
+              <div class="top"><h3>Advanced</h3><span class="range">Lessons 27–38</span></div>
               <p>Deeper language power and the modern toolbox — including today's newest JavaScript features.</p>
             </div>
           </div>
           <div class="stage">
             <div class="rail"><div class="dot">5</div></div>
             <div class="body">
-              <div class="top"><h3>Expert</h3><span class="range">Lessons 38–53</span></div>
+              <div class="top"><h3>Expert</h3><span class="range">Lessons 39–56</span></div>
               <p>Think like a professional: testing, security, performance, computer-science core (data structures &amp; algorithms), and more. This is the interview-ready level.</p>
             </div>
           </div>
@@ -413,7 +386,7 @@ node lessons/02-data-types.js
             <div class="rail"><div class="dot">★</div></div>
             <div class="body">
               <div class="top"><h3>Then: build &amp; prepare</h3><span class="range">Projects + tracks</span></div>
-              <p>Apply everything in <a href="#projects" style="color: var(--brand-2)">7 real projects</a>, then follow the <a href="#tracks" style="color: var(--brand-2)">Interview Prep &amp; Best Practices tracks</a> to sharpen up.</p>
+              <p>Apply everything in <a href="#projects" style="color: var(--brand-2)">8 real projects</a>, then follow the <a href="#tracks" style="color: var(--brand-2)">Interview Prep &amp; Best Practices tracks</a> to sharpen up.</p>
             </div>
           </div>
         </div>
@@ -424,7 +397,7 @@ node lessons/02-data-types.js
     <section class="block" id="lessons">
       <div class="wrap">
         <p class="kicker">Every lesson</p>
-        <h2 class="h">All 53 lessons, grouped by level</h2>
+        <h2 class="h">All 56 lessons, grouped by level</h2>
         <p class="sub">
           Click any lesson to open it. Most run in your terminal with
           <code>node lessons/NN-name.js</code>. A few are tagged
@@ -438,14 +411,14 @@ node lessons/02-data-types.js
             <div class="part-head"><span class="num">LEVEL 1</span><h3>Foundation</h3></div>
             <p class="part-why">Start here. The basic building blocks every program is made of.</p>
             <div class="lessons">
-              <a class="lesson" href="lessons/01-variables.js"><div class="row"><span class="n">01</span><span class="name">Variables</span></div><p class="desc">storing values with <code>let</code> &amp; <code>const</code></p></a>
-              <a class="lesson" href="lessons/02-data-types.js"><div class="row"><span class="n">02</span><span class="name">Data Types</span></div><p class="desc">text, numbers, true/false, and more</p></a>
-              <a class="lesson" href="lessons/03-operators.js"><div class="row"><span class="n">03</span><span class="name">Operators</span></div><p class="desc">math, comparison, and logic</p></a>
-              <a class="lesson" href="lessons/04-type-conversion.js"><div class="row"><span class="n">04</span><span class="name">Type Conversion</span></div><p class="desc">turning one type into another</p></a>
-              <a class="lesson" href="lessons/05-strings.js"><div class="row"><span class="n">05</span><span class="name">Strings</span></div><p class="desc">working with text</p></a>
-              <a class="lesson" href="lessons/06-numbers-math.js"><div class="row"><span class="n">06</span><span class="name">Numbers &amp; Math</span></div><p class="desc">calculations and rounding</p></a>
-              <a class="lesson" href="lessons/07-conditionals.js"><div class="row"><span class="n">07</span><span class="name">Conditionals</span></div><p class="desc">making decisions with <code>if/else</code></p></a>
-              <a class="lesson" href="lessons/08-loops.js"><div class="row"><span class="n">08</span><span class="name">Loops</span></div><p class="desc">repeating work automatically</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/01-variables.js" data-src="lessons/01-variables.js"><div class="row"><span class="n">01</span><span class="name">Variables</span></div><p class="desc">storing values with <code>let</code> &amp; <code>const</code></p></a>
+              <a class="lesson" href="lesson.html?l=lessons/02-data-types.js" data-src="lessons/02-data-types.js"><div class="row"><span class="n">02</span><span class="name">Data Types</span></div><p class="desc">text, numbers, true/false, and more</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/03-operators.js" data-src="lessons/03-operators.js"><div class="row"><span class="n">03</span><span class="name">Operators</span></div><p class="desc">math, comparison, and logic</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/04-type-conversion.js" data-src="lessons/04-type-conversion.js"><div class="row"><span class="n">04</span><span class="name">Type Conversion</span></div><p class="desc">turning one type into another</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/05-strings.js" data-src="lessons/05-strings.js"><div class="row"><span class="n">05</span><span class="name">Strings</span></div><p class="desc">working with text</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/06-numbers-math.js" data-src="lessons/06-numbers-math.js"><div class="row"><span class="n">06</span><span class="name">Numbers &amp; Math</span></div><p class="desc">calculations and rounding</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/07-conditionals.js" data-src="lessons/07-conditionals.js"><div class="row"><span class="n">07</span><span class="name">Conditionals</span></div><p class="desc">making decisions with <code>if/else</code></p></a>
+              <a class="lesson" href="lesson.html?l=lessons/08-loops.js" data-src="lessons/08-loops.js"><div class="row"><span class="n">08</span><span class="name">Loops</span></div><p class="desc">repeating work automatically</p></a>
             </div>
           </div>
 
@@ -454,14 +427,14 @@ node lessons/02-data-types.js
             <div class="part-head"><span class="num">LEVEL 2</span><h3>Core Concepts</h3></div>
             <p class="part-why">The everyday tools you'll reach for in almost every program.</p>
             <div class="lessons">
-              <a class="lesson" href="lessons/09-functions.js"><div class="row"><span class="n">09</span><span class="name">Functions</span></div><p class="desc">reusable blocks of code</p></a>
-              <a class="lesson" href="lessons/10-scope-closures.js"><div class="row"><span class="n">10</span><span class="name">Scope &amp; Closures</span></div><p class="desc">where variables live and survive</p></a>
-              <a class="lesson" href="lessons/11-this-keyword.js"><div class="row"><span class="n">11</span><span class="name">The <code>this</code> Keyword</span></div><p class="desc">the famously tricky one, made simple</p></a>
-              <a class="lesson" href="lessons/12-arrays.js"><div class="row"><span class="n">12</span><span class="name">Arrays</span></div><p class="desc">ordered lists of things</p></a>
-              <a class="lesson" href="lessons/13-array-methods.js"><div class="row"><span class="n">13</span><span class="name">Array Methods</span></div><p class="desc"><code>map</code>, <code>filter</code>, <code>reduce</code> &amp; friends</p></a>
-              <a class="lesson" href="lessons/14-objects.js"><div class="row"><span class="n">14</span><span class="name">Objects</span></div><p class="desc">grouping related data + JSON</p></a>
-              <a class="lesson" href="lessons/15-destructuring-spread.js"><div class="row"><span class="n">15</span><span class="name">Destructuring &amp; Spread</span></div><p class="desc">unpacking and copying data</p></a>
-              <a class="lesson" href="lessons/16-sets-maps.js"><div class="row"><span class="n">16</span><span class="name">Sets &amp; Maps</span></div><p class="desc">two more handy collections</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/09-functions.js" data-src="lessons/09-functions.js"><div class="row"><span class="n">09</span><span class="name">Functions</span></div><p class="desc">reusable blocks of code</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/10-scope-closures.js" data-src="lessons/10-scope-closures.js"><div class="row"><span class="n">10</span><span class="name">Scope &amp; Closures</span></div><p class="desc">where variables live and survive</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/11-this-keyword.js" data-src="lessons/11-this-keyword.js"><div class="row"><span class="n">11</span><span class="name">The <code>this</code> Keyword</span></div><p class="desc">the famously tricky one, made simple</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/12-arrays.js" data-src="lessons/12-arrays.js"><div class="row"><span class="n">12</span><span class="name">Arrays</span></div><p class="desc">ordered lists of things</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/13-array-methods.js" data-src="lessons/13-array-methods.js"><div class="row"><span class="n">13</span><span class="name">Array Methods</span></div><p class="desc"><code>map</code>, <code>filter</code>, <code>reduce</code> &amp; friends</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/14-objects.js" data-src="lessons/14-objects.js"><div class="row"><span class="n">14</span><span class="name">Objects</span></div><p class="desc">grouping related data + JSON</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/15-destructuring-spread.js" data-src="lessons/15-destructuring-spread.js"><div class="row"><span class="n">15</span><span class="name">Destructuring &amp; Spread</span></div><p class="desc">unpacking and copying data</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/16-sets-maps.js" data-src="lessons/16-sets-maps.js"><div class="row"><span class="n">16</span><span class="name">Sets &amp; Maps</span></div><p class="desc">two more handy collections</p></a>
             </div>
           </div>
 
@@ -470,15 +443,16 @@ node lessons/02-data-types.js
             <div class="part-head"><span class="num">LEVEL 3</span><h3>Intermediate</h3></div>
             <p class="part-why">Where it gets exciting — build interactive apps that load real data.</p>
             <div class="lessons">
-              <a class="lesson" href="lessons/17-classes-oop.js"><div class="row"><span class="n">17</span><span class="name">Classes &amp; OOP</span></div><p class="desc">blueprints for objects</p></a>
-              <a class="lesson" href="lessons/18-prototypes.js"><div class="row"><span class="n">18</span><span class="name">Prototypes</span></div><p class="desc">how inheritance really works</p></a>
-              <a class="lesson" href="lessons/19-callbacks-promises.js"><div class="row"><span class="n">19</span><span class="name">Callbacks &amp; Promises</span></div><p class="desc">handling things that take time</p></a>
-              <a class="lesson" href="lessons/20-async-await.js"><div class="row"><span class="n">20</span><span class="name">Async / Await</span></div><p class="desc">the clean way to wait for data</p></a>
-              <a class="lesson" href="lessons/21-error-handling.js"><div class="row"><span class="n">21</span><span class="name">Error Handling</span></div><p class="desc">dealing with things that go wrong</p></a>
-              <a class="lesson" href="lessons/22-modules.js"><div class="row"><span class="n">22</span><span class="name">Modules</span></div><p class="desc">splitting code across files</p></a>
-              <a class="lesson" href="lessons/23-dom.js"><div class="row"><span class="n">23</span><span class="name">The DOM</span><span class="tag">browser</span></div><p class="desc">changing what's on a web page</p></a>
-              <a class="lesson" href="lessons/24-events.js"><div class="row"><span class="n">24</span><span class="name">Events</span><span class="tag">browser</span></div><p class="desc">reacting to clicks &amp; typing</p></a>
-              <a class="lesson" href="lessons/25-fetch-apis.js"><div class="row"><span class="n">25</span><span class="name">Fetch &amp; APIs</span></div><p class="desc">loading data from the internet</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/17-classes-oop.js" data-src="lessons/17-classes-oop.js"><div class="row"><span class="n">17</span><span class="name">Classes &amp; OOP</span></div><p class="desc">blueprints for objects</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/18-prototypes.js" data-src="lessons/18-prototypes.js"><div class="row"><span class="n">18</span><span class="name">Prototypes</span></div><p class="desc">how inheritance really works</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/19-callbacks-promises.js" data-src="lessons/19-callbacks-promises.js"><div class="row"><span class="n">19</span><span class="name">Callbacks &amp; Promises</span></div><p class="desc">handling things that take time</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/20-async-await.js" data-src="lessons/20-async-await.js"><div class="row"><span class="n">20</span><span class="name">Async / Await</span></div><p class="desc">the clean way to wait for data</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/21-how-javascript-runs.js" data-src="lessons/21-how-javascript-runs.js"><div class="row"><span class="n">21</span><span class="name">How JavaScript Runs</span></div><p class="desc">execution context, call stack &amp; the event loop</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/22-error-handling.js" data-src="lessons/22-error-handling.js"><div class="row"><span class="n">22</span><span class="name">Error Handling</span></div><p class="desc">dealing with things that go wrong</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/23-modules.js" data-src="lessons/23-modules.js"><div class="row"><span class="n">23</span><span class="name">Modules</span></div><p class="desc">splitting code across files</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/24-dom.js" data-src="lessons/24-dom.js"><div class="row"><span class="n">24</span><span class="name">The DOM</span><span class="tag">browser</span></div><p class="desc">changing what's on a web page</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/25-events.js" data-src="lessons/25-events.js"><div class="row"><span class="n">25</span><span class="name">Events</span><span class="tag">browser</span></div><p class="desc">reacting to clicks &amp; typing</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/26-fetch-apis.js" data-src="lessons/26-fetch-apis.js"><div class="row"><span class="n">26</span><span class="name">Fetch &amp; APIs</span></div><p class="desc">loading data from the internet</p></a>
             </div>
           </div>
 
@@ -487,18 +461,18 @@ node lessons/02-data-types.js
             <div class="part-head"><span class="num">LEVEL 4</span><h3>Advanced</h3></div>
             <p class="part-why">Deeper language power and today's modern features.</p>
             <div class="lessons">
-              <a class="lesson" href="lessons/26-regular-expressions.js"><div class="row"><span class="n">26</span><span class="name">Regular Expressions</span></div><p class="desc">powerful text patterns</p></a>
-              <a class="lesson" href="lessons/27-generators-iterators.js"><div class="row"><span class="n">27</span><span class="name">Generators &amp; Iterators</span></div><p class="desc">producing values lazily</p></a>
-              <a class="lesson" href="lessons/28-symbols-proxy-reflect.js"><div class="row"><span class="n">28</span><span class="name">Symbols, Proxy &amp; Reflect</span></div><p class="desc">metaprogramming</p></a>
-              <a class="lesson" href="lessons/29-advanced-async.js"><div class="row"><span class="n">29</span><span class="name">Advanced Async</span></div><p class="desc">debounce, retry, concurrency</p></a>
-              <a class="lesson" href="lessons/30-functional-programming.js"><div class="row"><span class="n">30</span><span class="name">Functional Programming</span></div><p class="desc">purity, currying, compose</p></a>
-              <a class="lesson" href="lessons/31-tricky-concepts.js"><div class="row"><span class="n">31</span><span class="name">Tricky Concepts</span></div><p class="desc">the classic gotchas</p></a>
-              <a class="lesson" href="lessons/32-dates-time.js"><div class="row"><span class="n">32</span><span class="name">Dates &amp; Time</span></div><p class="desc">working with calendars &amp; clocks</p></a>
-              <a class="lesson" href="lessons/33-browser-storage.js"><div class="row"><span class="n">33</span><span class="name">Browser Storage</span></div><p class="desc">saving data in the browser</p></a>
-              <a class="lesson" href="lessons/34-bom-timers.js"><div class="row"><span class="n">34</span><span class="name">BOM &amp; Timers</span></div><p class="desc">the browser window &amp; timing</p></a>
-              <a class="lesson" href="lessons/35-debugging-console.js"><div class="row"><span class="n">35</span><span class="name">Debugging &amp; Console</span></div><p class="desc">finding and fixing problems</p></a>
-              <a class="lesson" href="lessons/36-weakmap-memory.js"><div class="row"><span class="n">36</span><span class="name">WeakMap &amp; Memory</span></div><p class="desc">how memory is managed</p></a>
-              <a class="lesson" href="lessons/37-modern-js.js"><div class="row"><span class="n">37</span><span class="name">Modern JavaScript</span></div><p class="desc">the newest features (to 2026)</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/27-regular-expressions.js" data-src="lessons/27-regular-expressions.js"><div class="row"><span class="n">27</span><span class="name">Regular Expressions</span></div><p class="desc">powerful text patterns</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/28-generators-iterators.js" data-src="lessons/28-generators-iterators.js"><div class="row"><span class="n">28</span><span class="name">Generators &amp; Iterators</span></div><p class="desc">producing values lazily</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/29-symbols-proxy-reflect.js" data-src="lessons/29-symbols-proxy-reflect.js"><div class="row"><span class="n">29</span><span class="name">Symbols, Proxy &amp; Reflect</span></div><p class="desc">metaprogramming</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/30-advanced-async.js" data-src="lessons/30-advanced-async.js"><div class="row"><span class="n">30</span><span class="name">Advanced Async</span></div><p class="desc">debounce, retry, concurrency</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/31-functional-programming.js" data-src="lessons/31-functional-programming.js"><div class="row"><span class="n">31</span><span class="name">Functional Programming</span></div><p class="desc">purity, currying, compose</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/32-tricky-concepts.js" data-src="lessons/32-tricky-concepts.js"><div class="row"><span class="n">32</span><span class="name">Tricky Concepts</span></div><p class="desc">the classic gotchas</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/33-dates-time.js" data-src="lessons/33-dates-time.js"><div class="row"><span class="n">33</span><span class="name">Dates &amp; Time</span></div><p class="desc">working with calendars &amp; clocks</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/34-browser-storage.js" data-src="lessons/34-browser-storage.js"><div class="row"><span class="n">34</span><span class="name">Browser Storage</span></div><p class="desc">saving data in the browser</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/35-bom-timers.js" data-src="lessons/35-bom-timers.js"><div class="row"><span class="n">35</span><span class="name">BOM &amp; Timers</span></div><p class="desc">the browser window &amp; timing</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/36-debugging-console.js" data-src="lessons/36-debugging-console.js"><div class="row"><span class="n">36</span><span class="name">Debugging &amp; Console</span></div><p class="desc">finding and fixing problems</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/37-weakmap-memory.js" data-src="lessons/37-weakmap-memory.js"><div class="row"><span class="n">37</span><span class="name">WeakMap &amp; Memory</span></div><p class="desc">how memory is managed</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/38-modern-js.js" data-src="lessons/38-modern-js.js"><div class="row"><span class="n">38</span><span class="name">Modern JavaScript</span></div><p class="desc">the newest features (to 2026)</p></a>
             </div>
           </div>
 
@@ -507,22 +481,24 @@ node lessons/02-data-types.js
             <div class="part-head"><span class="num">LEVEL 5</span><h3>Expert</h3></div>
             <p class="part-why">Ship real software and pass interviews — engineering plus computer-science core.</p>
             <div class="lessons">
-              <a class="lesson" href="lessons/38-testing.js"><div class="row"><span class="n">38</span><span class="name">Testing</span></div><p class="desc">proving your code works</p></a>
-              <a class="lesson" href="lessons/39-security.js"><div class="row"><span class="n">39</span><span class="name">Security Essentials</span></div><p class="desc">don't get hacked</p></a>
-              <a class="lesson" href="lessons/40-design-patterns.js"><div class="row"><span class="n">40</span><span class="name">Design Patterns</span></div><p class="desc">proven, reusable solutions</p></a>
-              <a class="lesson" href="lessons/41-performance.js"><div class="row"><span class="n">41</span><span class="name">Performance</span></div><p class="desc">make it fast (and Big-O)</p></a>
-              <a class="lesson" href="lessons/42-polyfills.js"><div class="row"><span class="n">42</span><span class="name">Polyfills</span></div><p class="desc">rebuild the built-ins yourself</p></a>
-              <a class="lesson" href="lessons/43-typescript.js"><div class="row"><span class="n">43</span><span class="name">TypeScript On-Ramp</span></div><p class="desc">JavaScript with types</p></a>
-              <a class="lesson" href="lessons/44-tooling.js"><div class="row"><span class="n">44</span><span class="name">Tooling &amp; Build</span></div><p class="desc">the modern workflow</p></a>
-              <a class="lesson" href="lessons/45-nodejs.js"><div class="row"><span class="n">45</span><span class="name">Node.js</span></div><p class="desc">JavaScript on the server</p></a>
-              <a class="lesson" href="lessons/46-browser-apis.js"><div class="row"><span class="n">46</span><span class="name">Advanced Browser APIs</span><span class="tag">browser</span></div><p class="desc">Workers, PWA, IndexedDB &amp; more</p></a>
-              <a class="lesson" href="lessons/47-realtime-and-production.js"><div class="row"><span class="n">47</span><span class="name">Real-Time &amp; Production</span></div><p class="desc">live data &amp; running for real</p></a>
-              <a class="lesson" href="lessons/48-data-structures.js"><div class="row"><span class="n">48</span><span class="name">Data Structures</span></div><p class="desc">Stacks, Queues, Trees, Graphs</p></a>
-              <a class="lesson" href="lessons/49-algorithms.js"><div class="row"><span class="n">49</span><span class="name">Algorithms</span></div><p class="desc">searching, sorting, problem-solving</p></a>
-              <a class="lesson" href="lessons/50-binary-data.js"><div class="row"><span class="n">50</span><span class="name">Binary Data</span></div><p class="desc">raw bytes, files &amp; uploads</p></a>
-              <a class="lesson" href="lessons/51-bigint-and-language-corners.js"><div class="row"><span class="n">51</span><span class="name">BigInt &amp; Language Corners</span></div><p class="desc">the last little details</p></a>
-              <a class="lesson" href="lessons/52-internationalization.js"><div class="row"><span class="n">52</span><span class="name">Internationalization</span></div><p class="desc">languages, dates &amp; formats worldwide</p></a>
-              <a class="lesson" href="lessons/53-modern-auth.js"><div class="row"><span class="n">53</span><span class="name">Modern Authentication</span></div><p class="desc">passwords, sessions, JWT, OAuth, passkeys</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/39-testing.js" data-src="lessons/39-testing.js"><div class="row"><span class="n">39</span><span class="name">Testing</span></div><p class="desc">proving your code works</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/40-security.js" data-src="lessons/40-security.js"><div class="row"><span class="n">40</span><span class="name">Security Essentials</span></div><p class="desc">don't get hacked</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/41-design-patterns.js" data-src="lessons/41-design-patterns.js"><div class="row"><span class="n">41</span><span class="name">Design Patterns</span></div><p class="desc">proven, reusable solutions</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/42-performance.js" data-src="lessons/42-performance.js"><div class="row"><span class="n">42</span><span class="name">Performance</span></div><p class="desc">make it fast (and Big-O)</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/43-polyfills.js" data-src="lessons/43-polyfills.js"><div class="row"><span class="n">43</span><span class="name">Polyfills</span></div><p class="desc">rebuild the built-ins yourself</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/44-typescript.js" data-src="lessons/44-typescript.js"><div class="row"><span class="n">44</span><span class="name">TypeScript On-Ramp</span></div><p class="desc">JavaScript with types</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/45-tooling.js" data-src="lessons/45-tooling.js"><div class="row"><span class="n">45</span><span class="name">Tooling &amp; Build</span></div><p class="desc">the modern workflow</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/46-nodejs.js" data-src="lessons/46-nodejs.js"><div class="row"><span class="n">46</span><span class="name">Node.js</span></div><p class="desc">JavaScript on the server</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/47-browser-apis.js" data-src="lessons/47-browser-apis.js"><div class="row"><span class="n">47</span><span class="name">Advanced Browser APIs</span><span class="tag">browser</span></div><p class="desc">Workers, PWA, IndexedDB &amp; more</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/48-realtime-and-production.js" data-src="lessons/48-realtime-and-production.js"><div class="row"><span class="n">48</span><span class="name">Real-Time &amp; Production</span></div><p class="desc">live data &amp; running for real</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/49-data-structures.js" data-src="lessons/49-data-structures.js"><div class="row"><span class="n">49</span><span class="name">Data Structures</span></div><p class="desc">Stacks, Queues, Trees, Graphs</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/50-algorithms.js" data-src="lessons/50-algorithms.js"><div class="row"><span class="n">50</span><span class="name">Algorithms</span></div><p class="desc">searching, sorting, problem-solving</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/51-binary-data.js" data-src="lessons/51-binary-data.js"><div class="row"><span class="n">51</span><span class="name">Binary Data</span></div><p class="desc">raw bytes, files &amp; uploads</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/52-bigint-and-language-corners.js" data-src="lessons/52-bigint-and-language-corners.js"><div class="row"><span class="n">52</span><span class="name">BigInt &amp; Language Corners</span></div><p class="desc">the last little details</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/53-internationalization.js" data-src="lessons/53-internationalization.js"><div class="row"><span class="n">53</span><span class="name">Internationalization</span></div><p class="desc">languages, dates &amp; formats worldwide</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/54-modern-auth.js" data-src="lessons/54-modern-auth.js"><div class="row"><span class="n">54</span><span class="name">Modern Authentication</span></div><p class="desc">passwords, sessions, JWT, OAuth, passkeys</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/55-accessibility.js" data-src="lessons/55-accessibility.js"><div class="row"><span class="n">55</span><span class="name">Accessibility</span></div><p class="desc">semantic HTML, ARIA, keyboard &amp; contrast</p></a>
+              <a class="lesson" href="lesson.html?l=lessons/56-clean-code.js" data-src="lessons/56-clean-code.js"><div class="row"><span class="n">56</span><span class="name">Clean Code</span></div><p class="desc">naming, SOLID, refactoring &amp; code smells</p></a>
             </div>
           </div>
         </div>
@@ -541,14 +517,14 @@ node lessons/02-data-types.js
           the project's <code>index.html</code> in your browser.
         </p>
         <div class="cards">
-          <a class="project" href="projects/1-todo-app/"><div class="pnum">PROJECT 01</div><h3>To-Do App</h3><p>Add, complete and delete tasks that survive a refresh.</p><div class="builds">Practises lessons 13, 14, 23, 24, 33</div></a>
-          <a class="project" href="projects/2-weather-app/"><div class="pnum">PROJECT 02</div><h3>Weather App</h3><p>Type a city and fetch live weather from a free public service.</p><div class="builds">Practises lessons 20, 21, 25, 32</div></a>
-          <a class="project" href="projects/3-quiz-app/"><div class="pnum">PROJECT 03</div><h3>Quiz App</h3><p>A multi-question quiz — all about managing state.</p><div class="builds">Practises lessons 09, 13, 23, 24</div></a>
-          <a class="project" href="projects/4-route-finder/"><div class="pnum">PROJECT 04</div><h3>Route Finder</h3><p>Find the shortest path through a map using a graph.</p><div class="builds">Practises lessons 48, 49, 16, 23, 24</div></a>
-          <a class="project" href="projects/5-virtual-list/"><div class="pnum">PROJECT 05</div><h3>Virtual List</h3><p>Smoothly scroll 50,000 rows with only a handful on screen.</p><div class="builds">Practises lessons 41, 13, 23, 24, 29</div></a>
-          <a class="project" href="projects/6-form-validation/"><div class="pnum">PROJECT 06</div><h3>Form Validation</h3><p>A signup form that validates every field live before it lets you submit.</p><div class="builds">Practises lessons 23, 24, 26, 21, 07</div></a>
-          <a class="project" href="projects/7-notes-app/"><div class="pnum">PROJECT 07</div><h3>Notes App</h3><p>Add, edit and delete notes against a REST API — with instant, optimistic updates that roll back on failure.</p><div class="builds">Practises lessons 14, 20, 25, 21, 23, 24</div></a>
-          <a class="project" href="projects/8-rest-api/"><div class="pnum">PROJECT 08</div><h3>REST API <span class="tag">backend</span></h3><p>Build the server, not the page: a CRUD REST API on Node's http module — routing, validation, status codes, tests.</p><div class="builds">Practises lessons 45, 25, 21, 39, 38</div></a>
+          <a class="project" href="projects/1-todo-app/"><div class="pnum">PROJECT 01</div><h3>To-Do App</h3><p>Add, complete and delete tasks that survive a refresh.</p><div class="builds">Practises lessons 13, 14, 24, 25, 34</div></a>
+          <a class="project" href="projects/2-weather-app/"><div class="pnum">PROJECT 02</div><h3>Weather App</h3><p>Type a city and fetch live weather from a free public service.</p><div class="builds">Practises lessons 20, 22, 26, 33</div></a>
+          <a class="project" href="projects/3-quiz-app/"><div class="pnum">PROJECT 03</div><h3>Quiz App</h3><p>A multi-question quiz — all about managing state.</p><div class="builds">Practises lessons 09, 13, 24, 25</div></a>
+          <a class="project" href="projects/4-route-finder/"><div class="pnum">PROJECT 04</div><h3>Route Finder</h3><p>Find the shortest path through a map using a graph.</p><div class="builds">Practises lessons 49, 50, 16, 24, 25</div></a>
+          <a class="project" href="projects/5-virtual-list/"><div class="pnum">PROJECT 05</div><h3>Virtual List</h3><p>Smoothly scroll 50,000 rows with only a handful on screen.</p><div class="builds">Practises lessons 42, 13, 24, 25, 30</div></a>
+          <a class="project" href="projects/6-form-validation/"><div class="pnum">PROJECT 06</div><h3>Form Validation</h3><p>A signup form that validates every field live before it lets you submit.</p><div class="builds">Practises lessons 24, 25, 27, 22, 07</div></a>
+          <a class="project" href="projects/7-notes-app/"><div class="pnum">PROJECT 07</div><h3>Notes App</h3><p>Add, edit and delete notes against a REST API — with instant, optimistic updates that roll back on failure.</p><div class="builds">Practises lessons 14, 20, 26, 22, 24, 25</div></a>
+          <a class="project" href="projects/8-rest-api/"><div class="pnum">PROJECT 08</div><h3>REST API <span class="tag">backend</span></h3><p>Build the server, not the page: a CRUD REST API on Node's http module — routing, validation, status codes, tests.</p><div class="builds">Practises lessons 46, 26, 22, 40, 39</div></a>
         </div>
       </div>
     </section>
@@ -568,11 +544,11 @@ node lessons/02-data-types.js
             <h3>Interview Preparation</h3>
             <p>The topics that come up again and again in coding interviews:</p>
             <ul>
-              <li><a class="inline" href="lessons/10-scope-closures.js">10 · Closures</a> &amp; <a class="inline" href="lessons/11-this-keyword.js">11 · this</a></li>
-              <li><a class="inline" href="lessons/18-prototypes.js">18 · Prototypes</a></li>
-              <li><a class="inline" href="lessons/31-tricky-concepts.js">31 · Tricky Concepts</a></li>
-              <li><a class="inline" href="lessons/42-polyfills.js">42 · Polyfills</a></li>
-              <li><a class="inline" href="lessons/48-data-structures.js">48 · Data Structures</a> &amp; <a class="inline" href="lessons/49-algorithms.js">49 · Algorithms</a></li>
+              <li><a class="inline" href="lesson.html?l=lessons/10-scope-closures.js" data-src="lessons/10-scope-closures.js">10 · Closures</a> &amp; <a class="inline" href="lesson.html?l=lessons/11-this-keyword.js" data-src="lessons/11-this-keyword.js">11 · this</a></li>
+              <li><a class="inline" href="lesson.html?l=lessons/18-prototypes.js" data-src="lessons/18-prototypes.js">18 · Prototypes</a></li>
+              <li><a class="inline" href="lesson.html?l=lessons/32-tricky-concepts.js" data-src="lessons/32-tricky-concepts.js">32 · Tricky Concepts</a></li>
+              <li><a class="inline" href="lesson.html?l=lessons/43-polyfills.js" data-src="lessons/43-polyfills.js">43 · Polyfills</a></li>
+              <li><a class="inline" href="lesson.html?l=lessons/49-data-structures.js" data-src="lessons/49-data-structures.js">49 · Data Structures</a> &amp; <a class="inline" href="lesson.html?l=lessons/50-algorithms.js" data-src="lessons/50-algorithms.js">50 · Algorithms</a></li>
             </ul>
           </div>
           <div class="panel">
@@ -580,11 +556,11 @@ node lessons/02-data-types.js
             <h3>Professional Best Practices</h3>
             <p>What turns working code into code a team can trust and maintain:</p>
             <ul>
-              <li><a class="inline" href="lessons/21-error-handling.js">21 · Error Handling</a></li>
-              <li><a class="inline" href="lessons/38-testing.js">38 · Testing</a></li>
-              <li><a class="inline" href="lessons/39-security.js">39 · Security</a></li>
-              <li><a class="inline" href="lessons/40-design-patterns.js">40 · Design Patterns</a></li>
-              <li><a class="inline" href="lessons/41-performance.js">41 · Performance</a> &amp; <a class="inline" href="lessons/44-tooling.js">44 · Tooling</a></li>
+              <li><a class="inline" href="lesson.html?l=lessons/22-error-handling.js" data-src="lessons/22-error-handling.js">22 · Error Handling</a></li>
+              <li><a class="inline" href="lesson.html?l=lessons/39-testing.js" data-src="lessons/39-testing.js">39 · Testing</a></li>
+              <li><a class="inline" href="lesson.html?l=lessons/40-security.js" data-src="lessons/40-security.js">40 · Security</a></li>
+              <li><a class="inline" href="lesson.html?l=lessons/41-design-patterns.js" data-src="lessons/41-design-patterns.js">41 · Design Patterns</a></li>
+              <li><a class="inline" href="lesson.html?l=lessons/42-performance.js" data-src="lessons/42-performance.js">42 · Performance</a> &amp; <a class="inline" href="lesson.html?l=lessons/45-tooling.js" data-src="lessons/45-tooling.js">45 · Tooling</a></li>
             </ul>
           </div>
         </div>
@@ -601,7 +577,7 @@ node lessons/02-data-types.js
           <details>
             <summary>I see lots of folders. Which ones do I actually use?</summary>
             <p>
-              Only two: <code>lessons/</code> (the 53 lessons you learn from) and
+              Only two: <code>lessons/</code> (the 56 lessons you learn from) and
               <code>projects/</code> (the apps you build later). You can completely
               ignore <code>assets/</code>, <code>bundle/</code> and <code>tools/</code>
               — those are just packaging for this website and the offline PDF.
@@ -628,10 +604,14 @@ node lessons/02-data-types.js
           <details>
             <summary>What about the lessons marked "BROWSER"?</summary>
             <p>
-              A few lessons (23, 24, 46) change web pages, so they run in a browser
-              instead of the terminal. Open <code>playground.html</code>, change the
-              line near the bottom to point at that lesson, then open the page and
-              press <kbd>F12</kbd> to see the output in the Console.
+              A few lessons (24, 25, 47) change web pages, so they run in a browser
+              instead of the terminal. Open the
+              <a href="playground.html" style="color: var(--brand-2)">Playground</a>,
+              pick the lesson from the <strong>"Run a built-in browser lesson"</strong>
+              dropdown, and it runs on a live demo stage — its <code>console.log</code>
+              output is mirrored right under the stage (press <kbd>F12</kbd> for the
+              full DevTools console). You can also paste any non-browser snippet into
+              the editor at the top and press <kbd>Run</kbd>.
             </p>
           </details>
           <details>
@@ -659,7 +639,7 @@ node lessons/02-data-types.js
     <!-- ============================ FOOTER ============================ -->
     <footer>
       <div class="wrap">
-        <span>A complete JavaScript course · 53 lessons · 8 projects</span>
+        <span>A complete JavaScript course · 56 lessons · 8 projects</span>
         <a class="sep" href="#start">Start learning</a>
         <a href="bundle/JS_Learn_Everything.pdf">PDF</a>
         <a href="README.md">README</a>
@@ -673,38 +653,65 @@ node lessons/02-data-types.js
       a.lesson { position: relative; }
       .done-toggle {
         position: absolute; top: 8px; right: 8px; width: 22px; height: 22px;
-        border-radius: 50%; border: 1.5px solid var(--line, #334155);
+        border-radius: 50%; border: 1.5px solid var(--line);
         display: flex; align-items: center; justify-content: center;
         font-size: 13px; line-height: 1; color: transparent; background: transparent;
         cursor: pointer; user-select: none; transition: all .15s; z-index: 2;
       }
-      .done-toggle:hover { border-color: var(--brand-2, #22c55e); color: var(--brand-2, #22c55e); }
+      .done-toggle:hover { border-color: var(--brand-2); color: var(--brand-2); }
       a.lesson.done { opacity: .58; }
-      a.lesson.done .done-toggle { background: var(--brand-2, #22c55e); border-color: var(--brand-2, #22c55e); color: #06281a; }
+      a.lesson.done .done-toggle { background: var(--brand-2); border-color: var(--brand-2); color: #06281a; }
       #lesson-search {
         width: 100%; max-width: 460px; margin: 2px 0 20px; padding: 11px 14px;
-        border-radius: 10px; border: 1px solid var(--line, #334155);
-        background: var(--card, #0f172a); color: inherit; font: inherit;
+        border-radius: 10px; border: 1px solid var(--line);
+        background: var(--card); color: inherit; font: inherit;
       }
       #progress-wrap { margin: 10px 0 16px; max-width: 460px; }
       #progress-bar { height: 8px; border-radius: 999px; background: rgba(148,163,184,.22); overflow: hidden; }
-      #progress-bar > i { display: block; height: 100%; width: 0; background: var(--brand-2, #22c55e); transition: width .25s; }
-      #progress-text { font-size: 13px; color: var(--muted, #94a3b8); margin-top: 7px; display: inline-block; }
-      #progress-text button { background: none; border: none; color: var(--brand-2, #22c55e); cursor: pointer; font: inherit; padding-left: 10px; text-decoration: underline; }
+      #progress-bar > i { display: block; height: 100%; width: 0; background: var(--brand-2); transition: width .25s; }
+      #progress-text { font-size: 13px; color: var(--muted); margin-top: 7px; display: inline-block; }
+      #progress-text button { background: none; border: none; color: var(--brand-2); cursor: pointer; font: inherit; padding-left: 10px; text-decoration: underline; }
       .nav-toggle { display: none; }
       .done-toggle:focus-visible, #lesson-search:focus-visible,
-      .skip-link:focus { outline: 2px solid var(--brand-2, #22c55e); outline-offset: 2px; }
+      .skip-link:focus { outline: 2px solid var(--brand-2); outline-offset: 2px; }
       .skip-link { position: absolute; left: -9999px; top: 0; background: #111827; color: #fff; padding: 10px 14px; z-index: 50; }
       .skip-link:focus { left: 8px; top: 8px; }
       @media (prefers-reduced-motion: reduce) { .done-toggle, #progress-bar > i { transition: none; } }
+      /* per-lesson action row (copy run command / open in playground) */
+      .lesson-actions {
+        display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;
+      }
+      .lesson-actions .act {
+        font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2px;
+        padding: 3px 9px; border-radius: 7px; cursor: pointer; user-select: none;
+        border: 1px solid var(--line); color: var(--ink-soft);
+        background: color-mix(in srgb, var(--card-2) 70%, transparent);
+        transition: border-color .12s, color .12s;
+      }
+      .lesson-actions .act:hover { border-color: var(--brand-2); color: var(--ink); }
+      .lesson-actions .act:focus-visible { outline: 2px solid var(--brand-2); outline-offset: 2px; }
+      a.lesson.best-match {
+        border-color: var(--brand-2);
+        box-shadow: 0 0 0 1px var(--brand-2), var(--shadow);
+      }
+      a.lesson .match-badge {
+        position: absolute; top: 8px; left: 8px; font-size: 0.6rem; font-weight: 800;
+        letter-spacing: 0.4px; text-transform: uppercase; color: #06281a;
+        background: var(--brand-2); border-radius: 6px; padding: 2px 6px; z-index: 2;
+      }
       @media (max-width: 720px) {
         .nav-toggle {
-          display: inline-flex; background: none; border: 1px solid var(--line, #334155);
+          display: inline-flex; background: none; border: 1px solid var(--line);
           color: inherit; border-radius: 8px; padding: 4px 11px; cursor: pointer; font-size: 20px; line-height: 1.2;
         }
         header.nav nav.show { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 12px; }
       }
     </style>
+    <!-- Content search index (title/learn/practice/body per lesson), generated by
+         tools/build-search-index.mjs. Loaded as a plain script so it works from
+         file:// with no server. Lets the filter below match lesson CONTENT, the
+         same way findtopic.sh does on the CLI. -->
+    <script src="assets/search-index.js"></script>
     <script>
       (function () {
         // skip-to-content link for keyboard users
@@ -719,8 +726,26 @@ node lessons/02-data-types.js
         try { done = new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch (e) {}
         function save() { try { localStorage.setItem(KEY, JSON.stringify(Array.from(done))); } catch (e) {} }
 
+        // small helper: an inline "button" that lives inside the <a> card without
+        // navigating it (mirrors how .done-toggle already suppresses the link).
+        function actBtn(label, title, onClick) {
+          var b = document.createElement('span');
+          b.className = 'act'; b.textContent = label; b.title = title;
+          b.setAttribute('role', 'button'); b.setAttribute('tabindex', '0');
+          b.setAttribute('aria-label', title);
+          function fire(e) { e.preventDefault(); e.stopPropagation(); onClick(b); }
+          b.addEventListener('click', fire);
+          b.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') fire(e);
+          });
+          return b;
+        }
+
         cards.forEach(function (card) {
-          var id = card.getAttribute('href');
+          // lesson path (e.g. "lessons/01-variables.js") — the href now points
+          // at the viewer (lesson.html?l=…), so progress/search/playground all
+          // key off data-src instead.
+          var id = card.dataset.src || card.getAttribute('href');
           if (done.has(id)) card.classList.add('done');
           var t = document.createElement('span');
           t.className = 'done-toggle'; t.textContent = '✓';
@@ -732,6 +757,29 @@ node lessons/02-data-types.js
             else { done.add(id); card.classList.add('done'); }
             save(); updateBar();
           });
+
+          // per-lesson actions: copy the run command, and open in the playground
+          var isBrowser = !!card.querySelector('.tag');
+          var actions = document.createElement('div');
+          actions.className = 'lesson-actions';
+
+          if (!isBrowser) {
+            var cmd = 'node ' + id;
+            actions.appendChild(actBtn('⧉ copy run', 'Copy: ' + cmd, function (btn) {
+              var prev = btn.textContent;
+              function ok() { btn.textContent = '✓ copied'; setTimeout(function () { btn.textContent = prev; }, 1400); }
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(cmd).then(ok, function () { window.prompt('Copy this run command:', cmd); });
+              } else { window.prompt('Copy this run command:', cmd); }
+            }));
+            actions.appendChild(actBtn('▶ playground', 'Open this lesson in the Playground editor',
+              function () { window.location.href = 'playground.html?load=' + encodeURIComponent(id); }));
+          } else {
+            // browser lessons (24/24/46) run on the playground's demo stage
+            actions.appendChild(actBtn('▶ playground', 'Run this browser lesson in the Playground',
+              function () { window.location.href = 'playground.html?run=' + encodeURIComponent(id); }));
+          }
+          card.appendChild(actions);
         });
 
         var section = document.getElementById('lessons'), fill, text;
@@ -746,7 +794,7 @@ node lessons/02-data-types.js
         }
         function updateBar() {
           if (!fill) return;
-          var n = cards.filter(function (c) { return done.has(c.getAttribute('href')); }).length;
+          var n = cards.filter(function (c) { return done.has(c.dataset.src || c.getAttribute('href')); }).length;
           var pct = cards.length ? Math.round((n / cards.length) * 100) : 0;
           fill.style.width = pct + '%';
           fill.parentElement.setAttribute('aria-valuenow', String(pct));
@@ -764,23 +812,87 @@ node lessons/02-data-types.js
         }
         updateBar();
 
-        // 2) FILTER — type to narrow the lesson list
+        // 2) FILTER / FIND-TOPIC — search lesson CONTENT, not just card titles.
+        //    Uses the generated window.LESSON_INDEX (title/learn/practice/body)
+        //    and scores each lesson exactly like findtopic.sh on the CLI:
+        //      +5 title · +3 what-you'll-learn · +3 practice · +2 filename · +1 body
+        //    so a content keyword like "redeclaration" surfaces lesson 01 even
+        //    though it never appears in the card's title or description.
         var parts = document.querySelector('#lessons .parts');
         if (parts) {
+          var INDEX = window.LESSON_INDEX || {};
+          var hasIndex = Object.keys(INDEX).length > 0;
+
           var search = document.createElement('input');
           search.id = 'lesson-search'; search.type = 'search';
-          search.placeholder = '🔎 Filter lessons (e.g. "async", "array", "regex")…';
-          search.setAttribute('aria-label', 'Filter lessons by keyword');
+          search.placeholder = hasIndex
+            ? '🔎 Find a topic — searches every lesson (e.g. "redeclaration", "reduce", "debounce")…'
+            : '🔎 Filter lessons (e.g. "async", "array", "regex")…';
+          search.setAttribute('aria-label', 'Find a topic across all lessons');
           parts.parentNode.insertBefore(search, parts);
+
+          // a small live status line: result count, best match, or a "nothing found" hint
+          var status = document.createElement('p');
+          status.id = 'search-status';
+          status.setAttribute('aria-live', 'polite');
+          status.style.cssText = 'color: var(--ink-dim); font-size: .88rem; margin: -10px 0 14px; min-height: 1.2em;';
+          parts.parentNode.insertBefore(status, parts);
+
+          // score one lesson for a query — the browser twin of score_file()
+          function scoreCard(card, q) {
+            var href = card.dataset.src || card.getAttribute('href');
+            var rec = INDEX[href];
+            if (!rec) {
+              // no index entry — fall back to the visible card text
+              return card.textContent.toLowerCase().indexOf(q) !== -1 ? 1 : 0;
+            }
+            var s = 0;
+            if (rec.title.indexOf(q) !== -1) s += 5;
+            if (rec.learn.indexOf(q) !== -1) s += 3;
+            if (rec.practice.indexOf(q) !== -1) s += 3;
+            if (href.toLowerCase().indexOf(q) !== -1) s += 2;
+            if (rec.body.indexOf(q) !== -1) s += 1; // presence only — body can't out-vote a real signal
+            return s;
+          }
+
           search.addEventListener('input', function () {
             var q = search.value.trim().toLowerCase();
+            var shown = 0, best = null, bestScore = 0;
+
             cards.forEach(function (c) {
-              c.style.display = c.textContent.toLowerCase().indexOf(q) !== -1 ? '' : 'none';
+              c.classList.remove('best-match');
+              var badge = c.querySelector('.match-badge');
+              if (badge) badge.remove();
+
+              if (!q) { c.style.display = ''; return; }
+              var sc = scoreCard(c, q);
+              c.style.display = sc > 0 ? '' : 'none';
+              if (sc > 0) {
+                shown++;
+                if (sc > bestScore) { bestScore = sc; best = c; }
+              }
             });
+
             parts.querySelectorAll('.lessons').forEach(function (grp) {
               var any = Array.prototype.some.call(grp.querySelectorAll('a.lesson'), function (c) { return c.style.display !== 'none'; });
               if (grp.parentElement) grp.parentElement.style.display = (any || !q) ? '' : 'none';
             });
+
+            if (!q) { status.textContent = ''; return; }
+            if (shown === 0) {
+              status.textContent = 'No lesson mentions "' + search.value.trim() + '" — try a broader word like "array", "async" or "scope".';
+              return;
+            }
+            // mark + announce the best bet (highest score), like findtopic's headline
+            if (best) {
+              best.classList.add('best-match');
+              var badge = document.createElement('span');
+              badge.className = 'match-badge'; badge.textContent = 'best match';
+              best.appendChild(badge);
+            }
+            var bestName = best ? (best.querySelector('.name') ? best.querySelector('.name').textContent : best.getAttribute('href')) : '';
+            status.textContent = shown + ' of ' + cards.length + ' lessons mention "' + search.value.trim() + '"'
+              + (best ? ' · best match: ' + bestName : '') + '.';
           });
         }
 

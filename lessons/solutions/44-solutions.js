@@ -1,39 +1,39 @@
 /* =============================================================================
- * SOLUTIONS · 44 · TOOLING & BUILD SYSTEMS — the modern JS workflow
+ * SOLUTIONS · 44 · TYPESCRIPT ON-RAMP — JavaScript with types
  * =============================================================================
  * Run:  node lessons/solutions/44-solutions.js
  *
- * Worked answers to the PRACTICE block in lessons/44-tooling.js.
- * These are hands-on terminal tasks — the "answers" are the commands and the
- * concepts behind them, demonstrated here in code where it makes sense.
+ * Worked answers to the PRACTICE block in lessons/44-typescript.js.
+ * Try each problem YOURSELF first — then compare.
+ * (TypeScript syntax lives in comments; the runnable code is plain JS + JSDoc.)
  * ========================================================================== */
 
-// ── 1. Run `npm init -y` in a folder and add a "start": "node index.js" script. ──
-//   $ mkdir my-app && cd my-app
-//   $ npm init -y                 # creates package.json with defaults
-//   then edit package.json:
-const examplePackageJson = {
-  name: 'my-app',
-  version: '1.0.0',
-  scripts: {
-    start: 'node index.js', // now `npm start` runs your app
-  },
-};
-console.log('1.', examplePackageJson.scripts); // => 1. { start: 'node index.js' }
-//   $ npm start                   # runs the "start" script
+// ── 1. Write (in a comment) a `Product` interface. ───────────────────────────
+//   interface Product {
+//     id: number;
+//     name: string;
+//     price: number;
+//     inStock?: boolean;   // the ? makes it OPTIONAL
+//   }
 
-// ── 2. Explain the difference between dependencies and devDependencies. ──────
-console.log('2.', {
-  dependencies: 'needed to RUN the app in production (react, express, …)',
-  devDependencies: 'needed only to BUILD/TEST during development (vite, eslint, jest, …)',
-});
-// Installed differently:
-//   npm install react          → dependencies
-//   npm install -D vite        → devDependencies
-// `npm install --omit=dev` (production installs) skips devDependencies entirely.
+// ── 2. Annotate a `total(items: Product[]): number` signature. ───────────────
+//   function total(items: Product[]): number {
+//     return items.reduce((sum, item) => sum + item.price, 0);
+//   }
+// Plain-JS version we can actually run:
+function total(items) {
+  return items.reduce((sum, item) => sum + item.price, 0);
+}
+console.log('2.', total([{ price: 10 }, { price: 25 }, { price: 5 }])); // => 2. 40
 
-// ── 3. Scaffold a real app: `npm create vite@latest` and run `npm run dev`. ──
-console.log('3.', 'npm create vite@latest my-app  →  cd my-app  →  npm install  →  npm run dev');
-// `npm create vite@latest` downloads and runs the Vite scaffolder, which asks
-// for a framework/template and generates a ready-to-run project. `npm run dev`
-// starts Vite's dev server with hot-module reload at http://localhost:5173.
+// ── 3. Add JSDoc types to a real isEven(n) function in this file. ────────────
+// Editors (and `tsc --checkJs`) read these JSDoc tags to type-check plain JS —
+// you get red squiggles on isEven('hi') without ever writing a .ts file.
+/**
+ * @param {number} n
+ * @returns {boolean}
+ */
+function isEven(n) {
+  return n % 2 === 0;
+}
+console.log('3.', isEven(4), isEven(7)); // => 3. true false

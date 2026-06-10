@@ -1,18 +1,22 @@
 /* =============================================================================
- * REST API — TESTS  (lesson 38)
+ * REST API — TESTS  (lesson 39)
  * =============================================================================
  * Black-box tests: start the real server on an ephemeral port (listen(0)) and
  * drive it with fetch, exactly like a client would. No mocks needed.
  *
  *   Run:  node --test projects/8-rest-api/test.mjs
  *
- * Imports the COMPLETE server from solution.js. To test your own work, change
- * the import to './server.js' once your TODOs are filled in.
+ * Imports the COMPLETE server from solution.js by default (so CI stays green).
+ * To grade YOUR OWN work once the TODOs are filled in, run:
+ *     PRACTICE=mine node --test projects/8-rest-api/test.mjs
+ * …which tests ./server.js instead. (Same toggle the practice/ folder uses.)
  * ========================================================================== */
 
 import { test, before, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { createServer } from './solution.js';
+const { createServer } = await import(
+  process.env.PRACTICE === 'mine' ? './server.js' : './solution.js'
+);
 
 let base; // e.g. http://localhost:54213
 let server;

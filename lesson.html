@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lesson — Learn JavaScript</title>
+    <meta name="description" content="A single JavaScript lesson — read it, run it, then practice." />
+    <!-- One shared palette drives every page; rebrand in assets/theme.css. -->
+    <link rel="stylesheet" href="assets/theme.css" />
+    <style>
+      .wrap { max-width: 920px; margin: 0 auto; padding: 0 22px; }
+
+      /* ---------- top bar ---------- */
+      header.nav {
+        position: sticky; top: 0; z-index: 50;
+        backdrop-filter: blur(10px);
+        background: color-mix(in srgb, var(--bg) 82%, transparent);
+        border-bottom: 1px solid var(--line);
+      }
+      header.nav .wrap { display: flex; align-items: center; gap: 14px; height: 60px; }
+      .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; color: inherit; }
+      .logo {
+        width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center;
+        font-weight: 800; color: #0b1020;
+        background: linear-gradient(135deg, var(--warning), #ffe08a); box-shadow: var(--shadow-sm);
+      }
+      header.nav .spacer { margin-left: auto; }
+      header.nav a.link { color: var(--ink-soft); text-decoration: none; padding: 8px 12px; border-radius: 10px; font-size: 0.92rem; font-weight: 500; }
+      header.nav a.link:hover { color: var(--ink); background: var(--surface); }
+
+      /* ---------- lesson intro panel ---------- */
+      main { padding: 30px 0 70px; }
+      .intro {
+        background: linear-gradient(180deg, var(--surface), color-mix(in srgb, var(--surface) 70%, var(--bg)));
+        border: 1px solid var(--line); border-radius: var(--radius-lg);
+        padding: 26px 26px 22px; box-shadow: var(--shadow);
+        position: relative; overflow: hidden;
+      }
+      .intro::after {
+        content: ""; position: absolute; inset: 0 0 auto auto; width: 240px; height: 240px;
+        background: radial-gradient(closest-side, color-mix(in srgb, var(--brand) 22%, transparent), transparent);
+        transform: translate(40%, -40%); pointer-events: none;
+      }
+      .crumbs { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+      .num {
+        font-weight: 800; font-size: 0.82rem; color: #fff;
+        background: linear-gradient(135deg, var(--brand), var(--brand-strong));
+        border-radius: 9px; padding: 4px 11px; box-shadow: var(--shadow-sm);
+      }
+      .level-chip, .browser-chip {
+        font-size: 0.72rem; font-weight: 800; letter-spacing: 0.4px; text-transform: uppercase;
+        border-radius: 999px; padding: 3px 10px;
+        color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+        background: color-mix(in srgb, var(--accent) 12%, transparent);
+      }
+      .browser-chip { color: var(--warning); border-color: color-mix(in srgb, var(--warning) 38%, transparent); background: color-mix(in srgb, var(--warning) 12%, transparent); }
+      h1.title { font-size: clamp(1.5rem, 4vw, 2.1rem); line-height: 1.14; margin: 4px 0 2px; letter-spacing: -0.01em; font-weight: 800; }
+      .subtitle { color: var(--ink-soft); margin: 0; font-size: 1.02rem; }
+
+      .learn { margin: 18px 0 0; }
+      .learn h2 { font-size: 0.8rem; letter-spacing: 0.5px; text-transform: uppercase; color: var(--brand-strong); margin: 0 0 8px; }
+      .learn ul { margin: 0; padding-left: 0; list-style: none; display: grid; gap: 7px; }
+      .learn li { position: relative; padding-left: 26px; color: var(--ink-soft); }
+      .learn li::before { content: "✦"; position: absolute; left: 4px; color: var(--brand-strong); }
+
+      .run-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 20px; }
+      .run-pill {
+        display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-mono);
+        background: var(--code-bg); border: 1px solid var(--line); border-radius: 11px;
+        padding: 9px 12px; font-size: 0.9rem; color: #d7def0;
+      }
+      .run-pill .label { color: var(--ink-dim); font-family: var(--font-sans); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.4px; }
+      .mini {
+        font-size: 0.78rem; font-weight: 700; cursor: pointer; user-select: none;
+        border: 1px solid var(--line); color: var(--ink-soft); background: var(--surface-2);
+        border-radius: 8px; padding: 4px 9px; transition: border-color .12s, color .12s;
+      }
+      .mini:hover { border-color: var(--brand-strong); color: var(--ink); }
+      .mini:focus-visible { outline: 2px solid var(--brand-strong); outline-offset: 2px; }
+
+      /* ---------- code ---------- */
+      .code-card { margin: 26px 0 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--code-bg); }
+      .code-card .bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--code-bg) 70%, var(--surface)); }
+      .code-card .bar .dot { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+      .code-card .bar .dot.y { background: #febc2e; } .code-card .bar .dot.g { background: #28c840; }
+      .code-card .bar .name { margin-left: 8px; color: var(--ink-dim); font-size: 0.82rem; font-family: var(--font-mono); }
+      .code-card .bar .copy { margin-left: auto; }
+      pre.code { margin: 0; padding: 18px 18px; overflow-x: auto; font-size: 0.88rem; line-height: 1.7; color: #d7def0; tab-size: 2; }
+      pre.code code { font-family: var(--font-mono); }
+      .c-comment { color: var(--syn-comment); font-style: italic; }
+      .c-keyword { color: var(--syn-keyword); }
+      .c-string  { color: var(--syn-string); }
+      .c-number  { color: var(--syn-number); }
+      .c-func    { color: var(--syn-func); }
+      .c-output  { color: var(--syn-output); font-style: normal; font-weight: 600; }
+      .c-divider { color: var(--accent); font-weight: 700; font-style: normal; display: inline-block; margin-top: 6px; }
+
+      /* ---------- practice ---------- */
+      .practice {
+        margin: 26px 0 0; border: 1px solid color-mix(in srgb, var(--warning) 30%, var(--line));
+        border-radius: var(--radius); padding: 20px 22px;
+        background: color-mix(in srgb, var(--warning) 7%, var(--surface));
+      }
+      .practice h2 { margin: 0 0 12px; font-size: 1.05rem; display: flex; align-items: center; gap: 9px; }
+      .practice h2 .pill { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--warning); border: 1px solid color-mix(in srgb, var(--warning) 38%, transparent); border-radius: 999px; padding: 2px 9px; }
+      .practice ol { margin: 0; padding-left: 22px; display: grid; gap: 8px; color: var(--ink-soft); }
+      .practice .sol { margin-top: 16px; font-size: 0.9rem; }
+      .practice .sol a { color: var(--brand-strong); font-weight: 600; text-decoration: none; }
+      .practice .sol a:hover { text-decoration: underline; }
+
+      /* ---------- prev / next ---------- */
+      .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px; }
+      @media (max-width: 560px) { .pager { grid-template-columns: 1fr; } }
+      a.page-link {
+        text-decoration: none; color: inherit; border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 14px 16px; background: var(--surface); transition: transform .12s, border-color .12s;
+      }
+      a.page-link:hover { transform: translateY(-2px); border-color: var(--brand); }
+      a.page-link.next { text-align: right; }
+      a.page-link .dir { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--ink-dim); }
+      a.page-link .ttl { display: block; font-weight: 700; margin-top: 3px; }
+      a.page-link.disabled { opacity: 0.4; pointer-events: none; }
+
+      .toast {
+        position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%) translateY(20px);
+        background: var(--surface-2); color: var(--ink); border: 1px solid var(--line);
+        border-radius: 10px; padding: 10px 16px; font-size: 0.9rem; box-shadow: var(--shadow);
+        opacity: 0; transition: opacity .2s, transform .2s; pointer-events: none; z-index: 80;
+      }
+      .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+      .error-box { background: var(--surface); border: 1px solid var(--danger); border-radius: var(--radius); padding: 22px; }
+      .error-box a { color: var(--brand-strong); }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="wrap">
+        <a class="brand" href="curriculum.html"><span class="logo">JS</span><span>Learn JavaScript</span></a>
+        <span class="spacer"></span>
+        <a class="link" href="curriculum.html#lessons">All lessons</a>
+        <a class="link" href="playground.html">Playground</a>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap"><div id="app"></div></div>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- Lesson source, generated by tools/build-search-index.mjs. Loaded as a
+         plain <script> so the viewer renders offline from file:// (no fetch). -->
+    <script src="assets/lesson-sources.js"></script>
+    <script>
+      (function () {
+        var SOURCES = window.LESSON_SOURCES || {};
+        var ORDER = Object.keys(SOURCES).sort();      // lessons/01..53
+        var BROWSER = { 'lessons/24-dom.js': 1, 'lessons/25-events.js': 1, 'lessons/47-browser-apis.js': 1 };
+
+        // level bands mirror curriculum.html
+        function levelOf(n) {
+          if (n <= 8) return 'Level 1 · Foundation';
+          if (n <= 16) return 'Level 2 · Core Concepts';
+          if (n <= 26) return 'Level 3 · Intermediate';
+          if (n <= 38) return 'Level 4 · Advanced';
+          return 'Level 5 · Expert';
+        }
+
+        var app = document.getElementById('app');
+        var current = new URLSearchParams(location.search).get('l') || ORDER[0];
+        if (!SOURCES[current]) { renderError(current); return; }
+
+        // ---------- helpers ----------
+        function el(tag, attrs, kids) {
+          var n = document.createElement(tag);
+          if (attrs) Object.keys(attrs).forEach(function (k) {
+            if (k === 'class') n.className = attrs[k];
+            else if (k === 'html') n.innerHTML = attrs[k];
+            else if (k === 'text') n.textContent = attrs[k];
+            else n.setAttribute(k, attrs[k]);
+          });
+          (kids || []).forEach(function (c) { if (c) n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+          return n;
+        }
+        function esc(s) { return s.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+        function toast(msg) {
+          var t = document.getElementById('toast');
+          t.textContent = msg; t.classList.add('show');
+          clearTimeout(t._h); t._h = setTimeout(function () { t.classList.remove('show'); }, 1500);
+        }
+        function copy(text) {
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { toast('Copied'); }, function () { window.prompt('Copy:', text); });
+          else window.prompt('Copy:', text);
+        }
+
+        // ---------- parse a lesson into intro / body / practice ----------
+        function parse(src) {
+          var headerM = src.match(/\/\*[\s\S]*?\*\//);
+          var header = headerM ? headerM[0] : '';
+          var rest = headerM ? src.slice(headerM.index + header.length) : src;
+          var pracM = rest.match(/\/\*\s*PRACTICE[\s\S]*?\*\//);
+          var practice = '', body = rest;
+          if (pracM) { practice = pracM[0]; body = rest.slice(0, pracM.index); }
+
+          // title line: "NN · TOPIC — tagline"
+          var titleLine = (header.split('\n').find(function (l) { return l.indexOf('·') !== -1; }) || '').replace(/^[\s*]+/, '').trim();
+          var num = parseInt(titleLine, 10) || (parseInt((current.match(/(\d+)/) || [])[1], 10) || 0);
+          var afterDot = titleLine.split('·').slice(1).join('·').trim();      // "TOPIC — tagline"
+          var parts = afterDot.split(/[—–-]/);
+          var topic = (parts[0] || afterDot).trim();
+          var tagline = parts.slice(1).join('—').trim();
+
+          // WHAT YOU'LL LEARN bullets
+          var learn = [];
+          var lines = header.split('\n');
+          var li = lines.findIndex(function (l) { return /WHAT YOU'LL LEARN/.test(l); });
+          if (li !== -1) {
+            for (var i = li + 1; i < lines.length; i++) {
+              var t = lines[i].replace(/^[\s*]+/, '').trim();
+              if (/^[•\-•]/.test(t)) learn.push(t.replace(/^[•\-•]\s*/, ''));
+            }
+          }
+          // Run: command
+          var runLine = (header.match(/Run:\s*(.+)/) || [])[1];
+          var run = runLine ? runLine.replace(/\s*\*+\/?\s*$/, '').trim() : ('node ' + current);
+
+          // Practice questions (numbered)
+          var qs = [];
+          practice.split('\n').forEach(function (l) {
+            var m = l.replace(/^[\s*]+/, '').match(/^\d+\.\s*(.+)/);
+            if (m) qs.push(m[1].replace(/\s*\*+\/?\s*$/, '').trim());
+          });
+
+          return { num: num, topic: topic, tagline: tagline, learn: learn, run: run, body: body.replace(/^\n+|\n+$/g, ''), questions: qs };
+        }
+
+        // ---------- a small, robust JS syntax highlighter ----------
+        // Tokenizes by position (not naive regex replace) so comments/strings
+        // never get double-processed. Best-effort colouring; it never drops or
+        // reorders source text. Special-cases `// =>` outputs and `// ──` dividers.
+        var KW = {};
+        ('const let var function return if else for while do switch case break continue new class extends super this typeof instanceof in of try catch finally throw async await yield import export from default delete void null undefined true false NaN Infinity static get set').split(' ').forEach(function (k) { KW[k] = 1; });
+
+        function highlight(code) {
+          var out = '', i = 0, n = code.length;
+          function span(cls, s) { return '<span class="' + cls + '">' + esc(s) + '</span>'; }
+          while (i < n) {
+            var c = code[i], c2 = code[i + 1];
+            // line comment
+            if (c === '/' && c2 === '/') {
+              var j = i; while (j < n && code[j] !== '\n') j++;
+              var text = code.slice(i, j), cls = 'c-comment';
+              var inner = text.replace(/^\/\/\s*/, '');
+              if (/^=>/.test(inner)) cls = 'c-output';
+              else if (/^[─—\-]{2,}|^\d+\.\s|^[─—]/.test(inner) && /[─—]/.test(text)) cls = 'c-divider';
+              out += span(cls, text); i = j; continue;
+            }
+            // block comment
+            if (c === '/' && c2 === '*') {
+              var k = i + 2; while (k < n && !(code[k] === '*' && code[k + 1] === '/')) k++;
+              k = Math.min(k + 2, n); out += span('c-comment', code.slice(i, k)); i = k; continue;
+            }
+            // strings ' " — bounded to a single line so a stray quote can't run away
+            if (c === '"' || c === "'") {
+              var q = c, j2 = i + 1;
+              while (j2 < n && code[j2] !== '\n') { if (code[j2] === '\\') { j2 += 2; continue; } if (code[j2] === q) { j2++; break; } j2++; }
+              out += span('c-string', code.slice(i, j2)); i = j2; continue;
+            }
+            // template literals ` ` — may span lines
+            if (c === '`') {
+              var j3 = i + 1; while (j3 < n) { if (code[j3] === '\\') { j3 += 2; continue; } if (code[j3] === '`') { j3++; break; } j3++; }
+              out += span('c-string', code.slice(i, j3)); i = j3; continue;
+            }
+            // numbers
+            if (c >= '0' && c <= '9') {
+              var j4 = i; while (j4 < n && /[0-9a-fA-FxXob._n]/.test(code[j4])) j4++;
+              out += span('c-number', code.slice(i, j4)); i = j4; continue;
+            }
+            // identifiers / keywords
+            if (/[A-Za-z_$]/.test(c)) {
+              var j5 = i; while (j5 < n && /[A-Za-z0-9_$]/.test(code[j5])) j5++;
+              var word = code.slice(i, j5);
+              if (KW[word]) out += span('c-keyword', word);
+              else if (code[j5] === '(') out += span('c-func', word);
+              else out += esc(word);
+              i = j5; continue;
+            }
+            out += esc(c); i++;
+          }
+          return out;
+        }
+
+        // ---------- render ----------
+        function render() {
+          var src = SOURCES[current];
+          var L = parse(src);
+          var isBrowser = !!BROWSER[current];
+          document.title = (L.num ? String(L.num).padStart(2, '0') + ' · ' : '') + L.topic + ' — Learn JavaScript';
+
+          app.innerHTML = '';
+
+          // intro panel
+          var crumbs = el('div', { class: 'crumbs' }, [
+            el('span', { class: 'num', text: String(L.num).padStart(2, '0') }),
+            el('span', { class: 'level-chip', text: levelOf(L.num) }),
+            isBrowser ? el('span', { class: 'browser-chip', text: 'browser lesson' }) : null,
+          ]);
+          var learnBlock = L.learn.length
+            ? el('div', { class: 'learn' }, [
+                el('h2', { text: "What you'll learn" }),
+                el('ul', {}, L.learn.map(function (t) { return el('li', { text: t }); })),
+              ])
+            : null;
+
+          // run row: command + actions
+          var runActions = [
+            el('span', { class: 'run-pill' }, [el('span', { class: 'label', text: isBrowser ? 'run in' : 'run' }), document.createTextNode(isBrowser ? 'browser' : L.run)]),
+          ];
+          if (!isBrowser) runActions.push(el('span', { class: 'mini', role: 'button', tabindex: '0', text: '⧉ copy run' , 'data-copy': L.run }));
+          runActions.push(el('a', { class: 'mini', href: isBrowser ? ('playground.html?run=' + encodeURIComponent(current)) : ('playground.html?load=' + encodeURIComponent(current)), style: 'text-decoration:none', text: '▶ open in playground' }));
+          runActions.push(el('a', { class: 'mini', href: current, style: 'text-decoration:none', text: '{ } view raw .js' }));
+          runActions.push(el('span', { class: 'mini', id: 'done-btn', role: 'button', tabindex: '0' }));
+
+          var intro = el('div', { class: 'intro' }, [
+            crumbs,
+            el('h1', { class: 'title', text: L.topic }),
+            L.tagline ? el('p', { class: 'subtitle', text: L.tagline }) : null,
+            learnBlock,
+            el('div', { class: 'run-row' }, runActions),
+          ]);
+          app.appendChild(intro);
+
+          // code card
+          var codeCard = el('div', { class: 'code-card' }, [
+            el('div', { class: 'bar' }, [
+              el('span', { class: 'dot' }), el('span', { class: 'dot y' }), el('span', { class: 'dot g' }),
+              el('span', { class: 'name', text: current }),
+              el('span', { class: 'mini copy', role: 'button', tabindex: '0', text: '⧉ copy code', 'data-copy': L.body }),
+            ]),
+            el('pre', { class: 'code' }, [el('code', { html: highlight(L.body) })]),
+          ]);
+          app.appendChild(codeCard);
+
+          // practice
+          if (L.questions.length) {
+            // solutions are named by number only: lessons/solutions/NN-solutions.js
+            var solPath = 'lessons/solutions/' + String(L.num).padStart(2, '0') + '-solutions.js';
+            app.appendChild(el('div', { class: 'practice' }, [
+              el('h2', {}, [document.createTextNode('Practice '), el('span', { class: 'pill', text: 'try it' })]),
+              el('ol', {}, L.questions.map(function (q) { return el('li', { text: q }); })),
+              el('p', { class: 'sol' }, [
+                document.createTextNode('Stuck? Compare with the worked answers: '),
+                el('a', { href: solPath, text: solPath }),
+              ]),
+            ]));
+          }
+
+          // pager
+          var idx = ORDER.indexOf(current);
+          var prev = ORDER[idx - 1], next = ORDER[idx + 1];
+          function pageLink(href, dir, cls) {
+            if (!href) return el('span', { class: 'page-link disabled ' + cls });
+            var t = parse(SOURCES[href]);
+            return el('a', { class: 'page-link ' + cls, href: 'lesson.html?l=' + encodeURIComponent(href) }, [
+              el('span', { class: 'dir', text: dir }),
+              el('span', { class: 'ttl', text: String(t.num).padStart(2, '0') + ' · ' + t.topic }),
+            ]);
+          }
+          app.appendChild(el('div', { class: 'pager' }, [
+            pageLink(prev, '← Previous', 'prev'),
+            pageLink(next, 'Next →', 'next'),
+          ]));
+
+          wireProgress();
+          window.scrollTo(0, 0);
+        }
+
+        // ---------- progress (shared with curriculum.html, keyed by lesson path) ----------
+        function wireProgress() {
+          var KEY = 'jslearn-progress', done;
+          try { done = new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch (e) { done = new Set(); }
+          var btn = document.getElementById('done-btn');
+          function paint() { btn.textContent = done.has(current) ? '✓ done' : '○ mark done'; btn.style.color = done.has(current) ? 'var(--success)' : ''; }
+          paint();
+          function toggle() {
+            if (done.has(current)) done.delete(current); else done.add(current);
+            try { localStorage.setItem(KEY, JSON.stringify(Array.from(done))); } catch (e) {}
+            paint(); toast(done.has(current) ? 'Marked done' : 'Marked not done');
+          }
+          btn.addEventListener('click', toggle);
+          btn.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+        }
+
+        // copy buttons (event-delegated)
+        app.addEventListener('click', function (e) {
+          var t = e.target.closest('[data-copy]'); if (t) copy(t.getAttribute('data-copy'));
+        });
+        app.addEventListener('keydown', function (e) {
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          var t = e.target.closest('[data-copy]'); if (t) { e.preventDefault(); copy(t.getAttribute('data-copy')); }
+        });
+
+        function renderError(which) {
+          app.innerHTML = '';
+          app.appendChild(el('div', { class: 'error-box' }, [
+            el('h1', { text: 'Lesson not found' }),
+            el('p', { html: 'Could not find <code>' + esc(which || '') + '</code>. It may not be part of the course, or the sources index needs rebuilding (<code>npm run search-index</code>).' }),
+            el('p', {}, [el('a', { href: 'curriculum.html#lessons', text: '← Back to all lessons' })]),
+          ]));
+        }
+
+        // keyboard: ← / → to page between lessons
+        document.addEventListener('keydown', function (e) {
+          if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+          var idx = ORDER.indexOf(current);
+          if (e.key === 'ArrowLeft' && ORDER[idx - 1]) { current = ORDER[idx - 1]; history.replaceState(null, '', 'lesson.html?l=' + encodeURIComponent(current)); render(); }
+          if (e.key === 'ArrowRight' && ORDER[idx + 1]) { current = ORDER[idx + 1]; history.replaceState(null, '', 'lesson.html?l=' + encodeURIComponent(current)); render(); }
+        });
+
+        render();
+      })();
+    </script>
+  </body>
+</html>

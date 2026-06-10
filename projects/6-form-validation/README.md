@@ -52,12 +52,12 @@ field. This is exactly how real form libraries (Formik, React Hook Form) behave.
   `password` and `text`).
 - **Async check** — pretend to check "is this email taken?" with a delayed
   Promise (lesson 19/20), showing a spinner while it runs.
-- **Debounce** the email check so it doesn't fire on every keystroke (lesson 29).
+- **Debounce** the email check so it doesn't fire on every keystroke (lesson 30).
 - Add a **"passwords must match" live indicator** that updates as you type either box.
 
 ## Concepts this cements
 - **Never trust input** — validate on the client for UX, but remember a real app
-  must *also* validate on the server (a user can bypass your JS entirely — lesson 39).
+  must *also* validate on the server (a user can bypass your JS entirely — lesson 40).
 - **Derive UI from state** — the button's enabled/disabled state is computed from
   the fields, never set by hand in five different places. One source of truth.
 - **Keep the rule and its message together** — returning the error from the

@@ -42,7 +42,7 @@ The starter (`app.js`) has these `// TODO:`s. Do them in order:
 ## Make it your own (extensions)
 - Add an "Edit" button to rename a task (double-click to edit inline).
 - Add a "Clear completed" button.
-- Show the date each task was created (use **lesson 32**'s Intl formatting).
+- Show the date each task was created (use **lesson 33**'s Intl formatting).
 - Add drag-to-reorder, or a priority flag with colors.
 
 ## Concepts this cements

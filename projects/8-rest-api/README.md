@@ -51,11 +51,11 @@ Open `server.js` (the starter) to build it yourself; `solution.js` is the finish
    in `try/catch`: an `HttpError` maps to its status, anything else is a logged 500.
 
 ## Make it your own
-- **Persist** the store to a JSON file (lesson 45 `fs`) or SQLite, so restarts
+- **Persist** the store to a JSON file (lesson 46 `fs`) or SQLite, so restarts
   don't wipe the data.
 - Add **pagination** (`GET /tasks?limit=&offset=`) and filtering with `URLSearchParams`.
-- Add **auth** — a bearer token or session (lesson 53) gating writes.
-- Add **rate limiting / a request log** (lesson 47), and CORS headers (lesson 39).
+- Add **auth** — a bearer token or session (lesson 54) gating writes.
+- Add **rate limiting / a request log** (lesson 48), and CORS headers (lesson 40).
 - Point the **Notes app (project 7)** at this API instead of JSONPlaceholder.
 
 ## Concepts this cements

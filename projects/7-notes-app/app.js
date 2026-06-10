@@ -4,7 +4,7 @@
  * Fill in the TODOs. The README has the full step-by-step.
  * Solution is in solution.js — try first!
  *
- * Lessons used: 14 Objects · 20 Async/Await · 25 Fetch · 21 Errors · 23 DOM · 24 Events
+ * Lessons used: 14 Objects · 20 Async/Await · 26 Fetch · 22 Errors · 24 DOM · 25 Events
  * ========================================================================== */
 
 // jsonplaceholder is a free MOCK API: it ACCEPTS POST/PUT/DELETE and replies

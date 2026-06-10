@@ -3,7 +3,7 @@
  * =============================================================================
  * Fill in the TODOs. README has the full walkthrough. Solution in solution.js.
  *
- * Lessons used: 23 DOM · 24 Events · 26 Regular Expressions · 21 Error Handling · 07 Conditionals
+ * Lessons used: 24 DOM · 25 Events · 27 Regular Expressions · 22 Error Handling · 07 Conditionals
  * ========================================================================== */
 
 // ── Elements ─────────────────────────────────────────────────────────────────
@@ -26,7 +26,7 @@ const touched = new Set();
 // ── The rules ─────────────────────────────────────────────────────────────────
 // Each validator takes the field's value and returns an ERROR STRING, or '' when
 // the value is valid. (Returning the message keeps the rule and its error text
-// in one place — see lesson 21 on error handling.)
+// in one place — see lesson 22 on error handling.)
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const validators = {
@@ -36,7 +36,7 @@ const validators = {
   },
   email(value) {
     // TODO 2: return a message unless the trimmed value matches EMAIL_RE
-    //         (lesson 26 — regular expressions).
+    //         (lesson 27 — regular expressions).
   },
   password(value) {
     // TODO 3: require at least 8 characters AND at least one digit (/\d/).

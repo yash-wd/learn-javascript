@@ -49,9 +49,9 @@ const QUESTIONS = [
    resets state and starts over.
 
 ## Make it your own
-- Add a **timer** per question (lesson 34 `setInterval`); auto-advance at 0.
-- Save the **high score** to `localStorage` (lesson 33).
-- Add categories/difficulty, or load questions from a quiz API (lesson 25).
+- Add a **timer** per question (lesson 35 `setInterval`); auto-advance at 0.
+- Save the **high score** to `localStorage` (lesson 34).
+- Add categories/difficulty, or load questions from a quiz API (lesson 26).
 
 ## Concepts this cements
 - **State machine thinking**: the app is always in one clear state (showing a
