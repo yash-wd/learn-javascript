@@ -4,6 +4,17 @@ All notable changes to this course are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/), and the
 project aims to follow [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] — 2026-06-10
+
+### Added
+- **One-click solution preview for every browser project.** Each project's
+  `index.html` loads the `app.js` starter, so the finished UI was previously only
+  viewable by hand-editing the `<script>` tag. Projects 1–7 now ship a
+  `solution.html` that loads `solution.js` — open it to see the finished app
+  running immediately. Project READMEs, `projects/README.md`, the `index.html`
+  comments, and `CLAUDE.md` were updated to match. (Project 8 is a backend with no
+  UI — it still runs via `node`.)
+
 ## [1.0.0] — 2026-06-10
 
 First public release: a complete, self-paced JavaScript course that takes a
@@ -55,4 +66,5 @@ learner from absolute beginner to professional/interview level.
   (`search-index.js`, `lesson-sources.js`, `lessons-manifest.js`) for drift, not
   just the bundle.
 
+[1.0.1]: https://github.com/yash-wd/learn-javascript/releases/tag/v1.0.1
 [1.0.0]: https://github.com/yash-wd/learn-javascript/releases/tag/v1.0.0
