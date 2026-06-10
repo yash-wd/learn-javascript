@@ -38,6 +38,11 @@ function render() {
   const scrollTop = viewport.scrollTop;
 
   // Which slice of items is on screen right now?
+  // This O(1) math works ONLY because every row is the same height (ROW_H):
+  // start row = scrollTop / ROW_H. Variable heights are the hard mode — you'd
+  // need a cumulative-offset index (a running sum, often a prefix-sum / Fenwick
+  // tree) to map a scroll position to a row, then measure-and-cache real heights.
+  // That's exactly what react-window and TanStack Virtual do under the hood.
   const start = Math.max(0, Math.floor(scrollTop / ROW_H) - OVERSCAN);
   const visibleCount = Math.ceil(viewport.clientHeight / ROW_H) + OVERSCAN * 2;
   const end = Math.min(TOTAL, start + visibleCount);

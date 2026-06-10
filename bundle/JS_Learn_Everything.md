@@ -53,7 +53,7 @@ The 52 lessons climb through **five levels**, beginner to expert. Do them
 | 22 | [Modules](lessons/22-modules.js) | `import` / `export`, dynamic `import()`, top-level `await` (+ [modules-demo/](lessons/modules-demo/)) |
 | 23 | [DOM](lessons/23-dom.js) **(browser)** | selecting & changing the page |
 | 24 | [Events](lessons/24-events.js) **(browser)** | listeners, delegation, bubbling |
-| 25 | [Fetch & APIs](lessons/25-fetch-apis.js) | HTTP methods/status/headers/REST, `fetch`, JSON, async data |
+| 25 | [Fetch & APIs](lessons/25-fetch-apis.js) | HTTP methods/status/headers/REST, `fetch`, JSON, async data, retry/backoff |
 
 ### Level 4 — Advanced
 
@@ -87,10 +87,10 @@ includes both the engineering around the language and the computer-science core.
 | 41 | [Performance](lessons/41-performance.js) | Big-O, memoization, reflow/repaint, lazy loading, web-vitals, profiling, list virtualization |
 | 42 | [Polyfills](lessons/42-polyfills.js) | re-implement `map`/`filter`/`reduce`/`bind`/`debounce`/`Promise` (interview gold) |
 | 43 | [TypeScript On-Ramp](lessons/43-typescript.js) | types, interfaces, generics, narrowing, JSDoc types |
-| 44 | [Tooling & Build Systems](lessons/44-tooling.js) | package managers, semver, bundlers, transpilers, linters/formatters, git, CI/CD |
+| 44 | [Tooling & Build Systems](lessons/44-tooling.js) | package managers, monorepos/workspaces, semver, bundlers, transpilers, linters/formatters, git, CI/CD |
 | 45 | [Node.js](lessons/45-nodejs.js) | `process`/env, `fs`, `path`, event emitters, streams, a real HTTP server |
 | 46 | [Advanced Browser APIs](lessons/46-browser-apis.js) **(browser)** | Web Workers, Service Workers/PWA, IndexedDB, Observers, Web Components, rAF |
-| 47 | [Real-Time & Production](lessons/47-realtime-and-production.js) | WebSockets/SSE, logging, monitoring, config/secrets, accessibility, i18n |
+| 47 | [Real-Time & Production](lessons/47-realtime-and-production.js) | WebSockets/SSE, logging, observability/tracing, config/secrets, rate limits/queues/backpressure, accessibility, i18n |
 | 48 | [Data Structures](lessons/48-data-structures.js) | Stack, Queue, Linked List, Hash Map, Binary Search Tree, Graph — built from scratch |
 | 49 | [Algorithms](lessons/49-algorithms.js) | linear/binary search, bubble/merge/quick sort, two-pointer, sliding window, dynamic programming, BFS/DFS |
 | 50 | [Binary Data](lessons/50-binary-data.js) | `ArrayBuffer`, typed arrays, `DataView`, `Blob`/`File`, `FormData`, `TextEncoder`, streaming, `Atomics` |
@@ -1119,11 +1119,14 @@ const team = {
   name: 'Rockets',
   members: ['Ana', 'Bob'],
   listBroken() {
-    // ❌ A normal function gets its OWN `this` (undefined in strict mode),
-    //    so `this.name` is lost here.
+    // ❌ A normal function gets its OWN `this`. Called by forEach with no
+    //    context, `this` is NOT the team object (it's undefined in strict mode,
+    //    or the global object otherwise) — so `this.name` is lost.
+    const out = [];
     this.members.forEach(function (m) {
-      // console.log(`${m} is on ${this.name}`); // would throw / be undefined
+      out.push(`${m} is on ${this?.name}`); // this?.name → undefined, not "Rockets"
     });
+    return out;
   },
   listFixed() {
     // ✅ Arrow functions DON'T have their own `this` — they reuse the
@@ -1133,7 +1136,9 @@ const team = {
     });
   },
 };
-team.listFixed(); // => Ana is on Rockets / Bob is on Rockets
+// See the bug for real: the name is lost because `this` isn't the team object.
+console.log(team.listBroken()); // => [ 'Ana is on undefined', 'Bob is on undefined' ]
+team.listFixed();               // => Ana is on Rockets / Bob is on Rockets
 
 
 // ── 3. Arrow functions inherit `this` ────────────────────────────────────────
@@ -2779,6 +2784,7 @@ if (typeof document === 'undefined') {
  *   • fetch() — making HTTP requests (GET and POST)
  *   • Working with JSON
  *   • Handling errors and HTTP status codes
+ *   • Retrying transient failures with backoff (retryable vs fatal)
  *   • This ties together Promises + async/await from lessons 19–20
  *
  * `fetch` is built into modern browsers AND Node 18+. It returns a Promise.
@@ -2886,6 +2892,31 @@ async function getPostWithTimeout(id, ms) {
 }
 
 
+// ── 4c. Retrying transient failures with backoff ─────────────────────────────
+// Not every failure is permanent. A 5xx (server), 429 (rate limited), or a
+// network blip is often TRANSIENT — worth trying again. A 4xx like 400/401/404
+// is YOUR bug: retrying just hammers the server and still fails. So: retry only
+// the transient ones, waiting a little longer each time (backoff — lesson 29).
+const isRetryable = (status) => status === 429 || status >= 500;
+
+async function fetchRetry(url, { attempts = 3, ...options } = {}) {
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      const res = await fetch(url, options);
+      if (res.ok) return res;
+      // Fatal status, or we're out of tries → stop and surface the error.
+      if (!isRetryable(res.status) || i === attempts) {
+        throw new Error(`HTTP ${res.status} ${res.statusText}`);
+      }
+    } catch (err) {
+      if (i === attempts) throw err; // network error on the final attempt → give up
+    }
+    await new Promise((r) => setTimeout(r, 2 ** (i - 1) * 100)); // 100ms, 200ms, 400ms…
+  }
+}
+// Usage:  const res = await fetchRetry('https://api.example.com/flaky', { attempts: 4 });
+
+
 // ── 5. Run it (with proper error handling) ───────────────────────────────────
 (async () => {
   try {
@@ -2904,6 +2935,10 @@ async function getPostWithTimeout(id, ms) {
     } catch (err) {
       console.log('timeout demo:', err.name); // => timeout demo: TimeoutError
     }
+
+    // Which failures fetchRetry() would retry vs give up on (no network needed):
+    console.log('retry 503?', isRetryable(503), '| retry 404?', isRetryable(404));
+    // => retry 503? true | retry 404? false
   } catch (err) {
     // Network failure (e.g. offline) OR a thrown HTTP error lands here.
     console.log('Request failed:', err.message);
@@ -2926,6 +2961,8 @@ async function getPostWithTimeout(id, ms) {
  *      (try a URL ending in /posts/99999999).
  *   4. Log response.status and response.headers.get('content-type') for a GET.
  *   5. Send a DELETE to /posts/1 and log the status code you get back.
+ *   6. Use fetchRetry() against a URL that 500s a few times (or a fake fetch)
+ *      and log each attempt — confirm it backs off, then gives up or succeeds.
  * ------------------------------------------------------------------------- */
 ```
 
@@ -5512,7 +5549,8 @@ console.log('double:', double(21)); // => 42
  *   The tools that turn your source code into a shippable app, and what each
  *   one is FOR. You don't memorize commands — you learn the moving parts.
  *
- *   npm/package.json · semver · bundlers · transpilers · linters · git · CI/CD
+ *   npm/package.json · workspaces/monorepos · semver · bundlers · transpilers
+ *   · linters · git · CI/CD
  * ========================================================================== */
 
 console.log('=== The modern JavaScript toolchain ===\n');
@@ -5536,6 +5574,21 @@ console.log('package.json scripts → run with `npm run <name>`:');
 console.log(Object.keys(packageJson.scripts).join(', ')); // => dev, build, test, lint
 // • node_modules/  — installed packages (never commit it; it's huge).
 // • package-lock.json — pins EXACT versions so installs are reproducible.
+
+// ── 1b. Monorepos & workspaces — many packages, one repo ─────────────────────
+// As a project grows you often split it into packages (e.g. ui, api, shared-utils)
+// that depend on each other. A MONOREPO keeps them in one repo with WORKSPACES so
+// a single `npm install` links them locally — edit `shared-utils` and `ui` sees it
+// instantly, no publish step.
+const workspaceRoot = {
+  name: 'my-company',
+  private: true,                        // a workspace root is never published
+  workspaces: ['packages/*'],           // npm/pnpm/yarn all support this field
+};
+console.log('workspaces:', workspaceRoot.workspaces[0]); // => packages/*
+// • Tools: npm/pnpm/yarn workspaces (linking) + Turborepo/Nx (cached task runners
+//   that only rebuild/test the packages that actually changed).
+// • Why: share code without publishing, one lockfile, atomic cross-package changes.
 
 // ── 2. Semantic versioning (semver):  MAJOR.MINOR.PATCH ──────────────────────
 //   ^1.2.3  → allow 1.x.x (minor+patch updates)   ← npm default
@@ -5800,7 +5853,8 @@ if (typeof window === 'undefined') {
  *
  * WHAT YOU'LL LEARN
  *   • Pushing data in real time: WebSockets vs Server-Sent Events vs polling
- *   • Running software in production: logging, monitoring, config, flags
+ *   • Running software in production: logging, observability, config, flags
+ *   • Not overwhelming downstreams: concurrency/rate limits, queues, backpressure
  *   • Accessibility (a11y) & internationalization (i18n) basics
  *
  * "It works on my machine" isn't done. Production code must be observable,
@@ -5845,11 +5899,19 @@ log('info', 'user signed up', { userId: 42 });
 log('debug', 'noisy detail'); // suppressed (below threshold)
 
 
-// ── 3. Monitoring & error tracking ───────────────────────────────────────────
+// ── 3. Monitoring, error tracking & observability ────────────────────────────
 // • Catch and REPORT errors from real users (Sentry, etc.) instead of losing them:
 //     window.addEventListener('error', (e) => report(e));
 //     window.addEventListener('unhandledrejection', (e) => report(e.reason));
 //     process.on('uncaughtException', report); // Node
+// • Observability has three pillars: LOGS (events), METRICS (numbers over time),
+//   TRACES (one request's path across services). The mental model is the same
+//   everywhere: CAPTURE → ENRICH (user, release, request id) → SHIP → ALERT.
+//     - Error aggregation (Sentry/Bugsnag-style): groups duplicate crashes,
+//       attaches stack + release + breadcrumbs, so one alert ≠ one email per user.
+//     - Distributed tracing (OpenTelemetry is the vendor-neutral standard):
+//       follow a single request through API → DB → queue to find the slow hop.
+//     - APM ties latency/error-rate/throughput to releases so you spot regressions.
 // • Track metrics (latency, error rate, throughput) and set alerts.
 //   "If you can't see it, you can't fix it."
 
@@ -5871,6 +5933,13 @@ const flags = { newCheckout: false };
 console.log(flags.newCheckout ? 'new checkout' : 'old checkout'); // => old checkout
 // • Resilience: retries with backoff (lesson 29), timeouts, circuit breakers,
 //   and fallback UI so one failed call doesn't crash the whole app.
+// • Don't overwhelm downstreams. When you have more work than a service (or your
+//   rate limit) can take, bound the flow:
+//     - CONCURRENCY LIMIT: run at most N at once (lesson 29 `mapLimit`).
+//     - RATE LIMIT: cap requests-per-second to respect a 429 budget.
+//     - QUEUE + BACKPRESSURE: buffer work and let consumers pull at their pace
+//       (p-queue/BullMQ in JS; streams signal "slow down" via `.pause()`/drain).
+//   The goal: steady throughput instead of a thundering herd that trips 5xx.
 
 
 // ── 6. Accessibility (a11y) — usable by everyone ─────────────────────────────
@@ -7207,6 +7276,10 @@ const QUESTIONS = [
 ```
 
 ## Build it step by step
+0. **Shuffle (Fisher–Yates)** — build a randomized round so the quiz isn't
+   memorizable: shuffle the questions, and shuffle each question's options while
+   recomputing `answer` to still point at the correct one. Render from this
+   `quiz` array, and reshuffle on "Play again".
 1. **State** — track `current` (which question index) and `score`.
 2. **renderQuestion()** — show the current question text, the progress
    ("Question 2 of 5"), and a button for each option (lesson 13 `.map`/loop).
@@ -7221,7 +7294,6 @@ const QUESTIONS = [
 
 ## Make it your own
 - Add a **timer** per question (lesson 34 `setInterval`); auto-advance at 0.
-- **Shuffle** the questions and the options each play (Fisher–Yates).
 - Save the **high score** to `localStorage` (lesson 33).
 - Add categories/difficulty, or load questions from a quiz API (lesson 25).
 
@@ -7239,7 +7311,7 @@ const QUESTIONS = [
  * =============================================================================
  * Complete, working version. Compare with your app.js after trying.
  *
- * Lessons used: 09 Functions · 13 array methods · 23 DOM · 24 Events
+ * Lessons used: 09 Functions · 13 array methods · 15 destructuring · 23 DOM · 24 Events
  * ========================================================================== */
 
 const QUESTIONS = [
@@ -7270,6 +7342,29 @@ const QUESTIONS = [
   },
 ];
 
+// ── Shuffle so the quiz isn't memorizable (Fisher–Yates, lesson 13/15) ───────
+// Returns a NEW array in random order — we never mutate the source QUESTIONS.
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]]; // swap (destructuring, lesson 15)
+  }
+  return a;
+}
+
+// Build a fresh randomized round: questions shuffled, and each question's options
+// shuffled too — with `answer` recomputed so it still points at the correct option.
+function buildQuiz() {
+  return shuffle(QUESTIONS).map((q) => {
+    const correct = q.options[q.answer];        // remember the right TEXT first
+    const options = shuffle(q.options);          // then scramble the order
+    return { ...q, options, answer: options.indexOf(correct) };
+  });
+}
+
+let quiz = buildQuiz(); // the active, randomized round (rebuilt on Play again)
+
 const quizEl = document.querySelector('#quiz');
 const progressEl = document.querySelector('#progress');
 const questionEl = document.querySelector('#question');
@@ -7285,9 +7380,9 @@ let score = 0;
 
 // ── renderQuestion: draw the current question from state ──────────────────────
 function renderQuestion() {
-  const q = QUESTIONS[current];
+  const q = quiz[current];
 
-  progressEl.textContent = `Question ${current + 1} of ${QUESTIONS.length}`;
+  progressEl.textContent = `Question ${current + 1} of ${quiz.length}`;
   questionEl.textContent = q.question;
 
   // Build a button per option (lesson 13/23)
@@ -7305,7 +7400,7 @@ function renderQuestion() {
 
 // ── selectAnswer: reveal feedback and score ──────────────────────────────────
 function selectAnswer(index) {
-  const q = QUESTIONS[current];
+  const q = quiz[current];
   const buttons = optionsEl.querySelectorAll('button');
 
   // Lock all options so the answer can't be changed
@@ -7324,7 +7419,7 @@ function selectAnswer(index) {
 // ── Next: advance or show results ────────────────────────────────────────────
 nextBtn.addEventListener('click', () => {
   current++;
-  if (current < QUESTIONS.length) {
+  if (current < quiz.length) {
     renderQuestion();
   } else {
     renderResults();
@@ -7335,13 +7430,14 @@ nextBtn.addEventListener('click', () => {
 function renderResults() {
   quizEl.classList.add('hidden');
   resultsEl.classList.remove('hidden');
-  scoreEl.textContent = `You scored ${score} / ${QUESTIONS.length}`;
+  scoreEl.textContent = `You scored ${score} / ${quiz.length}`;
 }
 
 // ── Play again: reset state and restart ──────────────────────────────────────
 restartBtn.addEventListener('click', () => {
   current = 0;
   score = 0;
+  quiz = buildQuiz();                        // reshuffle for a fresh round
   resultsEl.classList.add('hidden');
   quizEl.classList.remove('hidden');
   renderQuestion();
@@ -7697,6 +7793,11 @@ function render() {
   const scrollTop = viewport.scrollTop;
 
   // Which slice of items is on screen right now?
+  // This O(1) math works ONLY because every row is the same height (ROW_H):
+  // start row = scrollTop / ROW_H. Variable heights are the hard mode — you'd
+  // need a cumulative-offset index (a running sum, often a prefix-sum / Fenwick
+  // tree) to map a scroll position to a row, then measure-and-cache real heights.
+  // That's exactly what react-window and TanStack Virtual do under the hood.
   const start = Math.max(0, Math.floor(scrollTop / ROW_H) - OVERSCAN);
   const visibleCount = Math.ceil(viewport.clientHeight / ROW_H) + OVERSCAN * 2;
   const end = Math.min(TOTAL, start + visibleCount);

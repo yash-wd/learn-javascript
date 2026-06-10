@@ -206,7 +206,7 @@ The 52 lessons climb through **five levels**, beginner to expert. Do them
 | 22 | [Modules](lessons/22-modules.js) | `import` / `export`, dynamic `import()`, top-level `await` (+ [modules-demo/](lessons/modules-demo/)) |
 | 23 | [DOM](lessons/23-dom.js) **(browser)** | selecting & changing the page |
 | 24 | [Events](lessons/24-events.js) **(browser)** | listeners, delegation, bubbling |
-| 25 | [Fetch & APIs](lessons/25-fetch-apis.js) | HTTP methods/status/headers/REST, `fetch`, JSON, async data |
+| 25 | [Fetch & APIs](lessons/25-fetch-apis.js) | HTTP methods/status/headers/REST, `fetch`, JSON, async data, retry/backoff |
 
 ### Level 4 — Advanced
 
@@ -240,10 +240,10 @@ includes both the engineering around the language and the computer-science core.
 | 41 | [Performance](lessons/41-performance.js) | Big-O, memoization, reflow/repaint, lazy loading, web-vitals, profiling, list virtualization |
 | 42 | [Polyfills](lessons/42-polyfills.js) | re-implement `map`/`filter`/`reduce`/`bind`/`debounce`/`Promise` (interview gold) |
 | 43 | [TypeScript On-Ramp](lessons/43-typescript.js) | types, interfaces, generics, narrowing, JSDoc types |
-| 44 | [Tooling & Build Systems](lessons/44-tooling.js) | package managers, semver, bundlers, transpilers, linters/formatters, git, CI/CD |
+| 44 | [Tooling & Build Systems](lessons/44-tooling.js) | package managers, monorepos/workspaces, semver, bundlers, transpilers, linters/formatters, git, CI/CD |
 | 45 | [Node.js](lessons/45-nodejs.js) | `process`/env, `fs`, `path`, event emitters, streams, a real HTTP server |
 | 46 | [Advanced Browser APIs](lessons/46-browser-apis.js) **(browser)** | Web Workers, Service Workers/PWA, IndexedDB, Observers, Web Components, rAF |
-| 47 | [Real-Time & Production](lessons/47-realtime-and-production.js) | WebSockets/SSE, logging, monitoring, config/secrets, accessibility, i18n |
+| 47 | [Real-Time & Production](lessons/47-realtime-and-production.js) | WebSockets/SSE, logging, observability/tracing, config/secrets, rate limits/queues/backpressure, accessibility, i18n |
 | 48 | [Data Structures](lessons/48-data-structures.js) | Stack, Queue, Linked List, Hash Map, Binary Search Tree, Graph — built from scratch |
 | 49 | [Algorithms](lessons/49-algorithms.js) | linear/binary search, bubble/merge/quick sort, two-pointer, sliding window, dynamic programming, BFS/DFS |
 | 50 | [Binary Data](lessons/50-binary-data.js) | `ArrayBuffer`, typed arrays, `DataView`, `Blob`/`File`, `FormData`, `TextEncoder`, streaming, `Atomics` |

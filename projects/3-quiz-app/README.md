@@ -32,6 +32,10 @@ const QUESTIONS = [
 ```
 
 ## Build it step by step
+0. **Shuffle (Fisher–Yates)** — build a randomized round so the quiz isn't
+   memorizable: shuffle the questions, and shuffle each question's options while
+   recomputing `answer` to still point at the correct one. Render from this
+   `quiz` array, and reshuffle on "Play again".
 1. **State** — track `current` (which question index) and `score`.
 2. **renderQuestion()** — show the current question text, the progress
    ("Question 2 of 5"), and a button for each option (lesson 13 `.map`/loop).
@@ -46,7 +50,6 @@ const QUESTIONS = [
 
 ## Make it your own
 - Add a **timer** per question (lesson 34 `setInterval`); auto-advance at 0.
-- **Shuffle** the questions and the options each play (Fisher–Yates).
 - Save the **high score** to `localStorage` (lesson 33).
 - Add categories/difficulty, or load questions from a quiz API (lesson 25).
 

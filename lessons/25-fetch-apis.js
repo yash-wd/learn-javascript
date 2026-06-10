@@ -8,6 +8,7 @@
  *   • fetch() — making HTTP requests (GET and POST)
  *   • Working with JSON
  *   • Handling errors and HTTP status codes
+ *   • Retrying transient failures with backoff (retryable vs fatal)
  *   • This ties together Promises + async/await from lessons 19–20
  *
  * `fetch` is built into modern browsers AND Node 18+. It returns a Promise.
@@ -115,6 +116,31 @@ async function getPostWithTimeout(id, ms) {
 }
 
 
+// ── 4c. Retrying transient failures with backoff ─────────────────────────────
+// Not every failure is permanent. A 5xx (server), 429 (rate limited), or a
+// network blip is often TRANSIENT — worth trying again. A 4xx like 400/401/404
+// is YOUR bug: retrying just hammers the server and still fails. So: retry only
+// the transient ones, waiting a little longer each time (backoff — lesson 29).
+const isRetryable = (status) => status === 429 || status >= 500;
+
+async function fetchRetry(url, { attempts = 3, ...options } = {}) {
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      const res = await fetch(url, options);
+      if (res.ok) return res;
+      // Fatal status, or we're out of tries → stop and surface the error.
+      if (!isRetryable(res.status) || i === attempts) {
+        throw new Error(`HTTP ${res.status} ${res.statusText}`);
+      }
+    } catch (err) {
+      if (i === attempts) throw err; // network error on the final attempt → give up
+    }
+    await new Promise((r) => setTimeout(r, 2 ** (i - 1) * 100)); // 100ms, 200ms, 400ms…
+  }
+}
+// Usage:  const res = await fetchRetry('https://api.example.com/flaky', { attempts: 4 });
+
+
 // ── 5. Run it (with proper error handling) ───────────────────────────────────
 (async () => {
   try {
@@ -133,6 +159,10 @@ async function getPostWithTimeout(id, ms) {
     } catch (err) {
       console.log('timeout demo:', err.name); // => timeout demo: TimeoutError
     }
+
+    // Which failures fetchRetry() would retry vs give up on (no network needed):
+    console.log('retry 503?', isRetryable(503), '| retry 404?', isRetryable(404));
+    // => retry 503? true | retry 404? false
   } catch (err) {
     // Network failure (e.g. offline) OR a thrown HTTP error lands here.
     console.log('Request failed:', err.message);
@@ -155,4 +185,6 @@ async function getPostWithTimeout(id, ms) {
  *      (try a URL ending in /posts/99999999).
  *   4. Log response.status and response.headers.get('content-type') for a GET.
  *   5. Send a DELETE to /posts/1 and log the status code you get back.
+ *   6. Use fetchRetry() against a URL that 500s a few times (or a fake fetch)
+ *      and log each attempt — confirm it backs off, then gives up or succeeds.
  * ------------------------------------------------------------------------- */

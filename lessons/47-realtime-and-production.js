@@ -5,7 +5,8 @@
  *
  * WHAT YOU'LL LEARN
  *   • Pushing data in real time: WebSockets vs Server-Sent Events vs polling
- *   • Running software in production: logging, monitoring, config, flags
+ *   • Running software in production: logging, observability, config, flags
+ *   • Not overwhelming downstreams: concurrency/rate limits, queues, backpressure
  *   • Accessibility (a11y) & internationalization (i18n) basics
  *
  * "It works on my machine" isn't done. Production code must be observable,
@@ -50,11 +51,19 @@ log('info', 'user signed up', { userId: 42 });
 log('debug', 'noisy detail'); // suppressed (below threshold)
 
 
-// ── 3. Monitoring & error tracking ───────────────────────────────────────────
+// ── 3. Monitoring, error tracking & observability ────────────────────────────
 // • Catch and REPORT errors from real users (Sentry, etc.) instead of losing them:
 //     window.addEventListener('error', (e) => report(e));
 //     window.addEventListener('unhandledrejection', (e) => report(e.reason));
 //     process.on('uncaughtException', report); // Node
+// • Observability has three pillars: LOGS (events), METRICS (numbers over time),
+//   TRACES (one request's path across services). The mental model is the same
+//   everywhere: CAPTURE → ENRICH (user, release, request id) → SHIP → ALERT.
+//     - Error aggregation (Sentry/Bugsnag-style): groups duplicate crashes,
+//       attaches stack + release + breadcrumbs, so one alert ≠ one email per user.
+//     - Distributed tracing (OpenTelemetry is the vendor-neutral standard):
+//       follow a single request through API → DB → queue to find the slow hop.
+//     - APM ties latency/error-rate/throughput to releases so you spot regressions.
 // • Track metrics (latency, error rate, throughput) and set alerts.
 //   "If you can't see it, you can't fix it."
 
@@ -76,6 +85,13 @@ const flags = { newCheckout: false };
 console.log(flags.newCheckout ? 'new checkout' : 'old checkout'); // => old checkout
 // • Resilience: retries with backoff (lesson 29), timeouts, circuit breakers,
 //   and fallback UI so one failed call doesn't crash the whole app.
+// • Don't overwhelm downstreams. When you have more work than a service (or your
+//   rate limit) can take, bound the flow:
+//     - CONCURRENCY LIMIT: run at most N at once (lesson 29 `mapLimit`).
+//     - RATE LIMIT: cap requests-per-second to respect a 429 budget.
+//     - QUEUE + BACKPRESSURE: buffer work and let consumers pull at their pace
+//       (p-queue/BullMQ in JS; streams signal "slow down" via `.pause()`/drain).
+//   The goal: steady throughput instead of a thundering herd that trips 5xx.
 
 
 // ── 6. Accessibility (a11y) — usable by everyone ─────────────────────────────

@@ -37,11 +37,12 @@ const ITEMS = [
     title: 'for await...of and async generators',
     detail:
       'Streams, paginated APIs, and async generators all lean on `for await...of`. ' +
-      'Lesson 27 covers sync generators and 29 touches async, but there is no dedicated ' +
-      'worked example of consuming an async iterable. Add a focused section (likely in 29).',
+      'Already covered: lesson 29 §2 has a runnable async generator + for await...of ' +
+      'example (the 1–26 audit missed it because it only read lessons 1–26). No new ' +
+      'lesson needed; left here as the record.',
     related: ['27-generators-iterators', '29-advanced-async'],
     priority: 'med',
-    status: 'todo',
+    status: 'done',
     added: '2026-06-10',
   },
   {
@@ -54,7 +55,7 @@ const ITEMS = [
       'fatal (4xx) errors. The backoff helper already exists in lesson 29 — cross-link it.',
     related: ['25-fetch-apis', '29-advanced-async'],
     priority: 'med',
-    status: 'todo',
+    status: 'done',
     added: '2026-06-10',
   },
   {
@@ -67,7 +68,7 @@ const ITEMS = [
       'lock-in, just the patterns: capture → enrich → ship → alert.',
     related: ['47-realtime-and-production'],
     priority: 'low',
-    status: 'todo',
+    status: 'done',
     added: '2026-06-10',
   },
   {
@@ -80,7 +81,7 @@ const ITEMS = [
       'short conceptual add for learners heading into backend work.',
     related: ['29-advanced-async', '47-realtime-and-production'],
     priority: 'low',
-    status: 'todo',
+    status: 'done',
     added: '2026-06-10',
   },
   {
@@ -92,7 +93,7 @@ const ITEMS = [
       'cross-package sharing — common in real 2026 codebases. Add a short section.',
     related: ['44-tooling'],
     priority: 'low',
-    status: 'todo',
+    status: 'done',
     added: '2026-06-10',
   },
 
@@ -107,7 +108,7 @@ const ITEMS = [
       'answer memorization.',
     related: ['proj:3-quiz-app', '13-array-methods'],
     priority: 'low',
-    status: 'todo',
+    status: 'done',
     added: '2026-06-10',
   },
   {
@@ -119,7 +120,7 @@ const ITEMS = [
       'heights need a cumulative offset index (what react-window / TanStack Virtual do).',
     related: ['proj:5-virtual-list', '41-performance'],
     priority: 'low',
-    status: 'todo',
+    status: 'done',
     added: '2026-06-10',
   },
   {
@@ -131,7 +132,7 @@ const ITEMS = [
       'print the wrong result) lands the lesson harder than a commented block.',
     related: ['11-this-keyword'],
     priority: 'low',
-    status: 'todo',
+    status: 'done',
     added: '2026-06-10',
   },
 
@@ -146,6 +147,47 @@ const ITEMS = [
     related: ['tools/build-bundle.mjs'],
     priority: 'med',
     status: 'done',
+    added: '2026-06-10',
+  },
+
+  // ── Genuinely still open — future work (not yet covered anywhere) ─────────────
+  {
+    id: 'temporal-dedicated',
+    kind: 'lesson-gap',
+    title: 'Promote Temporal to first-class once it ships',
+    detail:
+      'Lesson 37 mentions Temporal as a Stage-3 preview and lesson 32 uses Date. When ' +
+      'Temporal reaches Stage 4 / ships in Node + browsers, give it real coverage in 32 ' +
+      '(ZonedDateTime, Duration, PlainDate) and demote the Date quirks to "legacy".',
+    related: ['32-dates-time', '37-modern-js'],
+    priority: 'low',
+    status: 'todo',
+    added: '2026-06-10',
+  },
+  {
+    id: 'auth-passkeys',
+    kind: 'lesson-gap',
+    title: 'Modern auth: sessions vs tokens, OAuth, passkeys/WebAuthn',
+    detail:
+      'Lesson 39 covers auth tokens at a high level. A focused walkthrough of the auth ' +
+      'landscape (cookie sessions vs JWT, OAuth/OIDC flow, and passkeys/WebAuthn) would ' +
+      'fill a real 2026 gap — most apps get this wrong.',
+    related: ['39-security', '33-browser-storage'],
+    priority: 'med',
+    status: 'todo',
+    added: '2026-06-10',
+  },
+  {
+    id: 'backend-api-project',
+    kind: 'project-idea',
+    title: '8th project: a real backend REST API (Node)',
+    detail:
+      'All 7 projects are front-end. Lesson 45 builds a raw HTTP server but there is no ' +
+      'guided project. A small CRUD API (routing, validation, persistence, tests) would ' +
+      'let learners apply lessons 21/38/39/45 end-to-end on the server side.',
+    related: ['45-nodejs', '38-testing', '39-security', '21-error-handling'],
+    priority: 'med',
+    status: 'todo',
     added: '2026-06-10',
   },
 ];

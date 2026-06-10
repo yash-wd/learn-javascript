@@ -7,7 +7,8 @@
  *   The tools that turn your source code into a shippable app, and what each
  *   one is FOR. You don't memorize commands — you learn the moving parts.
  *
- *   npm/package.json · semver · bundlers · transpilers · linters · git · CI/CD
+ *   npm/package.json · workspaces/monorepos · semver · bundlers · transpilers
+ *   · linters · git · CI/CD
  * ========================================================================== */
 
 console.log('=== The modern JavaScript toolchain ===\n');
@@ -31,6 +32,21 @@ console.log('package.json scripts → run with `npm run <name>`:');
 console.log(Object.keys(packageJson.scripts).join(', ')); // => dev, build, test, lint
 // • node_modules/  — installed packages (never commit it; it's huge).
 // • package-lock.json — pins EXACT versions so installs are reproducible.
+
+// ── 1b. Monorepos & workspaces — many packages, one repo ─────────────────────
+// As a project grows you often split it into packages (e.g. ui, api, shared-utils)
+// that depend on each other. A MONOREPO keeps them in one repo with WORKSPACES so
+// a single `npm install` links them locally — edit `shared-utils` and `ui` sees it
+// instantly, no publish step.
+const workspaceRoot = {
+  name: 'my-company',
+  private: true,                        // a workspace root is never published
+  workspaces: ['packages/*'],           // npm/pnpm/yarn all support this field
+};
+console.log('workspaces:', workspaceRoot.workspaces[0]); // => packages/*
+// • Tools: npm/pnpm/yarn workspaces (linking) + Turborepo/Nx (cached task runners
+//   that only rebuild/test the packages that actually changed).
+// • Why: share code without publishing, one lockfile, atomic cross-package changes.
 
 // ── 2. Semantic versioning (semver):  MAJOR.MINOR.PATCH ──────────────────────
 //   ^1.2.3  → allow 1.x.x (minor+patch updates)   ← npm default

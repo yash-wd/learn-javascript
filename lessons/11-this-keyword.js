@@ -27,11 +27,14 @@ const team = {
   name: 'Rockets',
   members: ['Ana', 'Bob'],
   listBroken() {
-    // ❌ A normal function gets its OWN `this` (undefined in strict mode),
-    //    so `this.name` is lost here.
+    // ❌ A normal function gets its OWN `this`. Called by forEach with no
+    //    context, `this` is NOT the team object (it's undefined in strict mode,
+    //    or the global object otherwise) — so `this.name` is lost.
+    const out = [];
     this.members.forEach(function (m) {
-      // console.log(`${m} is on ${this.name}`); // would throw / be undefined
+      out.push(`${m} is on ${this?.name}`); // this?.name → undefined, not "Rockets"
     });
+    return out;
   },
   listFixed() {
     // ✅ Arrow functions DON'T have their own `this` — they reuse the
@@ -41,7 +44,9 @@ const team = {
     });
   },
 };
-team.listFixed(); // => Ana is on Rockets / Bob is on Rockets
+// See the bug for real: the name is lost because `this` isn't the team object.
+console.log(team.listBroken()); // => [ 'Ana is on undefined', 'Bob is on undefined' ]
+team.listFixed();               // => Ana is on Rockets / Bob is on Rockets
 
 
 // ── 3. Arrow functions inherit `this` ────────────────────────────────────────
