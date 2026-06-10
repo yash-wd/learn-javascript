@@ -3,6 +3,9 @@
  * =============================================================================
  * Run:  node lessons/45-nodejs.js
  *
+ * (Heads-up: Node prints a harmless "MODULE_TYPELESS_PACKAGE_JSON" warning —
+ *  this file is an ES module and package.json has no "type" on purpose. Ignore it.)
+ *
  * WHAT YOU'LL LEARN
  *   The Node-specific APIs that the browser doesn't have: process & env,
  *   the file system, paths, events, streams, and a real HTTP server.

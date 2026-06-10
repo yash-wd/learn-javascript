@@ -21,7 +21,7 @@ const L = join(ROOT, 'lessons');
 const P = join(ROOT, 'projects');
 const OUT = join(ROOT, 'bundle');
 mkdirSync(OUT, { recursive: true });
-const today = '2026-06-09'; // Date.now() is intentionally avoided; bump on rebuild
+const today = '2026-06-10'; // Date.now() is intentionally avoided; bump on rebuild
 
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 

@@ -90,6 +90,20 @@ safeMap.set('__proto__', 'harmless here'); // a Map key is just data, not the pr
 console.log(safeMap.get('__proto__')); // => harmless here
 
 
+// ── 7b. SQL injection — never build queries by string-concatenating input ────
+// On the server, gluing user input straight into a query lets an attacker
+// rewrite it. The classic example:
+const evilName = "'; DROP TABLE users; --";
+const unsafeQuery = `SELECT * FROM users WHERE name = '${evilName}'`; // ☠️ hijacked
+console.log(unsafeQuery);
+// => SELECT * FROM users WHERE name = ''; DROP TABLE users; --'
+// FIX: PARAMETERIZED queries. The input is sent as a SEPARATE value the database
+// driver binds and escapes, so it can never change the query's structure:
+//   db.query('SELECT * FROM users WHERE name = ?',  [name]); // mysql2
+//   db.query('SELECT * FROM users WHERE name = $1', [name]); // node-postgres
+// Same rule for NoSQL (operator injection) and any shell command you build.
+
+
 // ── 8. Dependency & supply-chain safety ──────────────────────────────────────
 // • Run `npm audit` and keep dependencies patched.
 // • Pin versions (lockfile) and review what you install — packages run code.

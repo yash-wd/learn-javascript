@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notes App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>📝 Notes</h1>
+
+      <form id="note-form" class="add">
+        <input
+          id="note-input"
+          type="text"
+          placeholder="Write a note and hit Add…"
+          autocomplete="off"
+        />
+        <button type="submit">Add</button>
+      </form>
+
+      <!-- Status line: loading / error messages go here -->
+      <p id="status" class="status"></p>
+
+      <!-- Notes get rendered into this list -->
+      <ul id="note-list" class="notes"></ul>
+    </main>
+
+    <!-- Starter. Switch to solution.js to see the finished app. -->
+    <script src="app.js"></script>
+  </body>
+</html>

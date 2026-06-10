@@ -3,6 +3,9 @@
  * =============================================================================
  * Run:  node lessons/37-modern-js.js   (needs Node 22+ ; you have v24 ✅)
  *
+ * (Heads-up: Node prints a harmless "MODULE_TYPELESS_PACKAGE_JSON" warning —
+ *  this file is an ES module and package.json has no "type" on purpose. Ignore it.)
+ *
  * WHAT YOU'LL LEARN
  *   The newest, genuinely useful additions to JavaScript — grouped by year.
  *   These make a lot of older patterns cleaner. Several REPLACE workarounds

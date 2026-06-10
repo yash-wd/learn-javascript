@@ -3,6 +3,9 @@
  * =============================================================================
  * Run:  node --test lessons/38-testing.js   (or just: node lessons/38-testing.js)
  *
+ * (Heads-up: Node prints a harmless "MODULE_TYPELESS_PACKAGE_JSON" warning —
+ *  this file is an ES module and package.json has no "type" on purpose. Ignore it.)
+ *
  * WHAT YOU'LL LEARN
  *   • Why we write automated tests
  *   • Node's BUILT-IN test runner (node:test) + assert — zero install
@@ -66,6 +69,15 @@ test('fetchUser() resolves with a user', async () => {
   const user = await fetchUser(7);
   assert.equal(user.id, 7);
   assert.equal(user.name, 'Sam');
+});
+
+// assert.rejects is the async cousin of assert.throws — it AWAITS a rejection:
+test('loadUser() rejects on a bad id', async () => {
+  async function loadUser(id) {
+    if (id < 0) throw new Error('invalid id');
+    return { id };
+  }
+  await assert.rejects(() => loadUser(-1), /invalid id/); // passes: it rejected as expected
 });
 
 

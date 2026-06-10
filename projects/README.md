@@ -1,6 +1,6 @@
 # JavaScript Projects — Build to Learn
 
-Reading teaches you *what*. Building teaches you *how*. These six projects make
+Reading teaches you *what*. Building teaches you *how*. These seven projects make
 you apply the lessons in real, working apps that run in the browser.
 
 ## How each project works
@@ -33,6 +33,7 @@ Every project folder has:
 | 4 | [Route Finder](4-route-finder/) | 48 graph, 49 BFS, 16 Map/Set, 23–24 DOM/events | data structures + algorithms in a real UI |
 | 5 | [Virtual List](5-virtual-list/) | 41 performance, 13 array methods, 23–24 DOM/events, 29 throttle | virtualization — render only what's visible |
 | 6 | [Form Validation](6-form-validation/) | 23 DOM, 24 events, 26 regex, 21 errors, 07 conditionals | validate input before you trust it |
+| 7 | [Notes App](7-notes-app/) | 14 objects, 20 async, 25 fetch, 21 errors, 23–24 DOM/events | mutate server state with optimistic UI + rollback |
 
 ## The right way to use these
 
@@ -42,5 +43,5 @@ Every project folder has:
 4. **Then extend it** — every README has "Make it your own" ideas. That's where
    real learning happens.
 
-Build all six and you'll have gone from "I read about JavaScript" to
+Build all seven and you'll have gone from "I read about JavaScript" to
 "I build things with JavaScript." 🚀

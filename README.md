@@ -9,7 +9,7 @@
 # ⚡ Learn JavaScript
 
 **A complete step-by-step course — from zero to expert.**
-<br>52 short lessons · 6 real projects · 100% free · no sign-up
+<br>52 short lessons · 7 real projects · 100% free · no sign-up
 
 <br>
 
@@ -24,7 +24,7 @@
 ---
 
 A beginner-friendly course that starts from **zero** and goes all the way to
-**expert** and **interview** level. **52 short lessons** plus **6 real projects**.
+**expert** and **interview** level. **52 short lessons** plus **7 real projects**.
 Every lesson is a single file you **read**, then **run**, then move on. That's the
 whole method.
 
@@ -148,7 +148,7 @@ mentions it in passing.
 ├── lessons/            → ⭐ the 52 lessons — this is the course
 │   ├── modules-demo/   → small runnable example for lesson 22
 │   └── solutions/      → one answer file per lesson to fill in (48–50 worked)
-├── projects/           → ⭐ 6 projects to build (starter + solution + README)
+├── projects/           → ⭐ 7 projects to build (starter + solution + README)
 │
 ├── assets/             → styles/script for the web pages   (ignore)
 ├── bundle/             → offline PDF + Markdown of the whole course  (ignore)
@@ -235,7 +235,7 @@ includes both the engineering around the language and the computer-science core.
 | # | Lesson | What you learn |
 | --- | --- | --- |
 | 38 | [Testing](lessons/38-testing.js) | built-in test runner + `assert`, unit/async tests, mocking, the testing pyramid, coverage, the TDD loop |
-| 39 | [Security Essentials](lessons/39-security.js) | XSS, CSRF, CORS, CSP, input validation, auth tokens, prototype pollution |
+| 39 | [Security Essentials](lessons/39-security.js) | XSS, CSRF, CORS, CSP, input validation, auth tokens, prototype pollution, SQL injection |
 | 40 | [Design Patterns](lessons/40-design-patterns.js) | Module, Singleton, Factory, Observer/PubSub, Strategy, Decorator, Facade, Adapter, Command, DI, MVC/MVVM |
 | 41 | [Performance](lessons/41-performance.js) | Big-O, memoization, reflow/repaint, lazy loading, web-vitals, profiling, list virtualization |
 | 42 | [Polyfills](lessons/42-polyfills.js) | re-implement `map`/`filter`/`reduce`/`bind`/`debounce`/`Promise` (interview gold) |
@@ -268,7 +268,7 @@ These add no new lessons — they point you at the ones that matter most for a g
 ## 🛠️ Projects — build to learn
 
 Once you've worked through the lessons, **apply** them. The [projects/](projects/)
-folder has six guided builds, each with a starter (with `// TODO:`s), a complete
+folder has seven guided builds, each with a starter (with `// TODO:`s), a complete
 solution, and a README. Open the project's `index.html` in your browser.
 
 | # | Project | Builds on | What you practice |
@@ -279,6 +279,7 @@ solution, and a README. Open the project's `index.html` in your browser.
 | 4 | [Route Finder](projects/4-route-finder/) | 48, 49, 16, 23, 24 | a graph + BFS shortest path in a real UI |
 | 5 | [Virtual List](projects/5-virtual-list/) | 41, 13, 23, 24, 29 | virtualization: scroll 50k rows with ~17 in the DOM |
 | 6 | [Form Validation](projects/6-form-validation/) | 23, 24, 26, 21, 07 | live per-field validation, accessible errors, submit gating |
+| 7 | [Notes App](projects/7-notes-app/) | 14, 20, 25, 21, 23, 24 | full CRUD against a REST API + optimistic UI with rollback |
 
 > Reading shows you *what*; building shows you *how*. Don't skip these.
 

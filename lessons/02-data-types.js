@@ -52,9 +52,10 @@ let y = x;   // y gets a COPY of 10
 y = 99;
 console.log(x, y); // => 10 99   (changing y did not affect x)
 
-// Objects/arrays are copied BY REFERENCE — both names point to the SAME data.
+// Objects/arrays: assigning copies the REFERENCE (the "address"), not the data —
+// so both names end up pointing to the SAME underlying object.
 const original = { score: 1 };
-const alias = original;   // alias points to the same object
+const alias = original;   // alias gets a copy of the reference → same object
 alias.score = 100;
 console.log(original.score); // => 100  (they share one object!)
 

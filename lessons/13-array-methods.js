@@ -70,6 +70,16 @@ console.log(sorted);  // => [ 1, 7, 42, 100 ]
 console.log(scores);  // => [ 42, 7, 100, 1 ]  (original preserved)
 
 
+// ── 7b. Immutable versions (ES2023): toSorted / toReversed / with / findLast ──
+// These make the copy FOR you — no more [...spread] before sort/reverse, and
+// `.sort()`/`.reverse()`/`arr[i] = x` are the mutating ones to avoid.
+console.log(scores.toSorted((a, b) => a - b)); // => [ 1, 7, 42, 100 ]  (brand-new array)
+console.log(scores);                           // => [ 42, 7, 100, 1 ]  (still untouched)
+console.log([1, 2, 3].toReversed());           // => [ 3, 2, 1 ]
+console.log([1, 2, 3].with(1, 99));            // => [ 1, 99, 3 ]   (copy, index 1 replaced)
+console.log([1, 2, 3, 4].findLast((n) => n % 2 === 0)); // => 4  (like find, but from the END)
+
+
 // ── 8. flat / flatMap ────────────────────────────────────────────────────────
 console.log([1, [2, [3]]].flat());      // => [ 1, 2, [3] ]   (one level)
 console.log([1, [2, [3]]].flat(Infinity)); // => [ 1, 2, 3 ]  (all levels)
@@ -96,4 +106,6 @@ console.log(revenue); // => 1100
  *   1. From [1..10], map to squares, then filter to keep only even squares.
  *   2. Use reduce to find the longest word in ['hi','hello','hey','howdy'].
  *   3. From a list of {name, age} people, get the names of everyone 18+.
+ *   4. Use toSorted to sort [5, 3, 8, 1] descending, and prove the original
+ *      array is unchanged.
  * ------------------------------------------------------------------------- */

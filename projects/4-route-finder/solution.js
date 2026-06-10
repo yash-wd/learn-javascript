@@ -101,6 +101,8 @@ function renderRoute(path, start, goal) {
     .join('<span class="arrow">→</span>');
 
   const hops = path.length - 1;
+  // Safe to use innerHTML here: station names come from our own hardcoded GRAPH,
+  // not user input. For user-supplied text, build nodes with textContent (lesson 39).
   resultEl.innerHTML = `
     <div class="route">
       ${stops}

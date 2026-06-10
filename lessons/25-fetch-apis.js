@@ -103,6 +103,18 @@ async function getManyPosts(ids) {
 }
 
 
+// ── 4b. Timeouts: give fetch a deadline with AbortSignal (see lesson 29) ─────
+// fetch has NO built-in timeout — a dead server could leave you hanging forever.
+// AbortSignal.timeout(ms) auto-aborts the request after `ms`, rejecting with a
+// TimeoutError you can catch. (Older code uses an AbortController + setTimeout.)
+async function getPostWithTimeout(id, ms) {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+    signal: AbortSignal.timeout(ms), // cancel the request if it takes longer than ms
+  });
+  return res.json();
+}
+
+
 // ── 5. Run it (with proper error handling) ───────────────────────────────────
 (async () => {
   try {
@@ -114,6 +126,13 @@ async function getManyPosts(ids) {
 
     const many = await getManyPosts([1, 2, 3]);
     console.log('parallel fetched titles:', many.map((p) => p.title.slice(0, 15)));
+
+    // A 1ms deadline is sure to fire, so this demonstrates the timeout path:
+    try {
+      await getPostWithTimeout(1, 1);
+    } catch (err) {
+      console.log('timeout demo:', err.name); // => timeout demo: TimeoutError
+    }
   } catch (err) {
     // Network failure (e.g. offline) OR a thrown HTTP error lands here.
     console.log('Request failed:', err.message);

@@ -1,6 +1,6 @@
 # JavaScript — Learn Everything
 
-> Complete course bundle · 52 lessons · 6 projects · generated 2026-06-09
+> Complete course bundle · 52 lessons · 7 projects · generated 2026-06-10
 > Every lesson's full, runnable source in one document. Source of truth: the
 > individual files in `lessons/` and `projects/` — regenerate after edits.
 
@@ -82,7 +82,7 @@ includes both the engineering around the language and the computer-science core.
 | # | Lesson | What you learn |
 | --- | --- | --- |
 | 38 | [Testing](lessons/38-testing.js) | built-in test runner + `assert`, unit/async tests, mocking, the testing pyramid, coverage, the TDD loop |
-| 39 | [Security Essentials](lessons/39-security.js) | XSS, CSRF, CORS, CSP, input validation, auth tokens, prototype pollution |
+| 39 | [Security Essentials](lessons/39-security.js) | XSS, CSRF, CORS, CSP, input validation, auth tokens, prototype pollution, SQL injection |
 | 40 | [Design Patterns](lessons/40-design-patterns.js) | Module, Singleton, Factory, Observer/PubSub, Strategy, Decorator, Facade, Adapter, Command, DI, MVC/MVVM |
 | 41 | [Performance](lessons/41-performance.js) | Big-O, memoization, reflow/repaint, lazy loading, web-vitals, profiling, list virtualization |
 | 42 | [Polyfills](lessons/42-polyfills.js) | re-implement `map`/`filter`/`reduce`/`bind`/`debounce`/`Promise` (interview gold) |
@@ -299,9 +299,10 @@ let y = x;   // y gets a COPY of 10
 y = 99;
 console.log(x, y); // => 10 99   (changing y did not affect x)
 
-// Objects/arrays are copied BY REFERENCE — both names point to the SAME data.
+// Objects/arrays: assigning copies the REFERENCE (the "address"), not the data —
+// so both names end up pointing to the SAME underlying object.
 const original = { score: 1 };
-const alias = original;   // alias points to the same object
+const alias = original;   // alias gets a copy of the reference → same object
 alias.score = 100;
 console.log(original.score); // => 100  (they share one object!)
 
@@ -1351,6 +1352,16 @@ console.log(sorted);  // => [ 1, 7, 42, 100 ]
 console.log(scores);  // => [ 42, 7, 100, 1 ]  (original preserved)
 
 
+// ── 7b. Immutable versions (ES2023): toSorted / toReversed / with / findLast ──
+// These make the copy FOR you — no more [...spread] before sort/reverse, and
+// `.sort()`/`.reverse()`/`arr[i] = x` are the mutating ones to avoid.
+console.log(scores.toSorted((a, b) => a - b)); // => [ 1, 7, 42, 100 ]  (brand-new array)
+console.log(scores);                           // => [ 42, 7, 100, 1 ]  (still untouched)
+console.log([1, 2, 3].toReversed());           // => [ 3, 2, 1 ]
+console.log([1, 2, 3].with(1, 99));            // => [ 1, 99, 3 ]   (copy, index 1 replaced)
+console.log([1, 2, 3, 4].findLast((n) => n % 2 === 0)); // => 4  (like find, but from the END)
+
+
 // ── 8. flat / flatMap ────────────────────────────────────────────────────────
 console.log([1, [2, [3]]].flat());      // => [ 1, 2, [3] ]   (one level)
 console.log([1, [2, [3]]].flat(Infinity)); // => [ 1, 2, 3 ]  (all levels)
@@ -1377,6 +1388,8 @@ console.log(revenue); // => 1100
  *   1. From [1..10], map to squares, then filter to keep only even squares.
  *   2. Use reduce to find the longest word in ['hi','hello','hey','howdy'].
  *   3. From a list of {name, age} people, get the names of everyone 18+.
+ *   4. Use toSorted to sort [5, 3, 8, 1] descending, and prove the original
+ *      array is unchanged.
  * ------------------------------------------------------------------------- */
 ```
 
@@ -1750,7 +1763,7 @@ for (const id of ids) console.log('id:', id);
 
 
 // ── 2. Map — key/value pairs with ANY key type ───────────────────────────────
-// Unlike objects (whose keys are always strings), Map keys can be numbers,
+// Unlike objects (whose keys are only strings or Symbols), Map keys can be numbers,
 // objects, functions — anything. And it remembers insertion order.
 const scores = new Map();
 scores.set('Ana', 90);
@@ -2861,6 +2874,18 @@ async function getManyPosts(ids) {
 }
 
 
+// ── 4b. Timeouts: give fetch a deadline with AbortSignal (see lesson 29) ─────
+// fetch has NO built-in timeout — a dead server could leave you hanging forever.
+// AbortSignal.timeout(ms) auto-aborts the request after `ms`, rejecting with a
+// TimeoutError you can catch. (Older code uses an AbortController + setTimeout.)
+async function getPostWithTimeout(id, ms) {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+    signal: AbortSignal.timeout(ms), // cancel the request if it takes longer than ms
+  });
+  return res.json();
+}
+
+
 // ── 5. Run it (with proper error handling) ───────────────────────────────────
 (async () => {
   try {
@@ -2872,6 +2897,13 @@ async function getManyPosts(ids) {
 
     const many = await getManyPosts([1, 2, 3]);
     console.log('parallel fetched titles:', many.map((p) => p.title.slice(0, 15)));
+
+    // A 1ms deadline is sure to fire, so this demonstrates the timeout path:
+    try {
+      await getPostWithTimeout(1, 1);
+    } catch (err) {
+      console.log('timeout demo:', err.name); // => timeout demo: TimeoutError
+    }
   } catch (err) {
     // Network failure (e.g. offline) OR a thrown HTTP error lands here.
     console.log('Request failed:', err.message);
@@ -3663,13 +3695,15 @@ console.log(NaN === NaN);       // => false (use Number.isNaN instead)
 console.log('--- this binding ---');
 const obj = {
   name: 'Sam',
-  regular() { return this?.name; },
-  arrow: () => (typeof globalThis.name === 'string' ? globalThis.name : '<no this>'),
+  regular() { return this?.name; }, // `this` is whatever is to the LEFT of the dot
 };
-console.log(obj.regular());        // => Sam  (called as obj.method → this = obj)
+console.log(obj.regular());        // => Sam        (obj.method() → this = obj)
 const detached = obj.regular;
-console.log(detached());           // => undefined (called standalone → this lost)
-console.log(obj.arrow());          // => <no this> (arrow has no own this)
+console.log(detached());           // => undefined  (plain call → no object, no this)
+// Arrow functions have NO own `this`; they capture it from the surrounding scope.
+// That makes them the WRONG choice for a method that needs to reach its object:
+const withArrow = { name: 'Sam', get: () => this?.name };
+console.log(withArrow.get());      // => undefined  (arrow's `this` is NOT withArrow)
 
 
 // ── 6. Array holes & common surprises ────────────────────────────────────────
@@ -3678,7 +3712,8 @@ console.log(typeof NaN);                  // => number  (NaN is a number!)
 console.log([1, 2, 3].map(String));       // => [ '1', '2', '3' ]
 console.log(['1', '7', '11'].sort());     // => [ '1', '11', '7' ]  (string sort!)
 console.log([1, 7, 11].sort((a, b) => a - b)); // => [ 1, 7, 11 ]  (numeric sort)
-console.log(parseInt('08'));              // => 8 (modern; older engines: beware!)
+console.log(parseInt('08'));              // => 8   (but ALWAYS pass a radix:)
+console.log(parseInt('08', 10));          // => 8   (radix 10 — never trust the default)
 
 
 // ── 7. Closures capturing a shared variable ──────────────────────────────────
@@ -4348,6 +4383,9 @@ console.log(String.raw`C:\new\test`); // => C:\new\test  (\n NOT a newline)
  * =============================================================================
  * Run:  node lessons/37-modern-js.js   (needs Node 22+ ; you have v24 ✅)
  *
+ * (Heads-up: Node prints a harmless "MODULE_TYPELESS_PACKAGE_JSON" warning —
+ *  this file is an ES module and package.json has no "type" on purpose. Ignore it.)
+ *
  * WHAT YOU'LL LEARN
  *   The newest, genuinely useful additions to JavaScript — grouped by year.
  *   These make a lot of older patterns cleaner. Several REPLACE workarounds
@@ -4580,6 +4618,9 @@ console.log('Temporal: coming soon — see comments. For now use lesson 32.');
  * =============================================================================
  * Run:  node --test lessons/38-testing.js   (or just: node lessons/38-testing.js)
  *
+ * (Heads-up: Node prints a harmless "MODULE_TYPELESS_PACKAGE_JSON" warning —
+ *  this file is an ES module and package.json has no "type" on purpose. Ignore it.)
+ *
  * WHAT YOU'LL LEARN
  *   • Why we write automated tests
  *   • Node's BUILT-IN test runner (node:test) + assert — zero install
@@ -4643,6 +4684,15 @@ test('fetchUser() resolves with a user', async () => {
   const user = await fetchUser(7);
   assert.equal(user.id, 7);
   assert.equal(user.name, 'Sam');
+});
+
+// assert.rejects is the async cousin of assert.throws — it AWAITS a rejection:
+test('loadUser() rejects on a bad id', async () => {
+  async function loadUser(id) {
+    if (id < 0) throw new Error('invalid id');
+    return { id };
+  }
+  await assert.rejects(() => loadUser(-1), /invalid id/); // passes: it rejected as expected
 });
 
 
@@ -4830,6 +4880,20 @@ console.log(JSON.parse(Buffer.from(payload, 'base64url').toString())); // => { u
 const safeMap = new Map();
 safeMap.set('__proto__', 'harmless here'); // a Map key is just data, not the proto
 console.log(safeMap.get('__proto__')); // => harmless here
+
+
+// ── 7b. SQL injection — never build queries by string-concatenating input ────
+// On the server, gluing user input straight into a query lets an attacker
+// rewrite it. The classic example:
+const evilName = "'; DROP TABLE users; --";
+const unsafeQuery = `SELECT * FROM users WHERE name = '${evilName}'`; // ☠️ hijacked
+console.log(unsafeQuery);
+// => SELECT * FROM users WHERE name = ''; DROP TABLE users; --'
+// FIX: PARAMETERIZED queries. The input is sent as a SEPARATE value the database
+// driver binds and escapes, so it can never change the query's structure:
+//   db.query('SELECT * FROM users WHERE name = ?',  [name]); // mysql2
+//   db.query('SELECT * FROM users WHERE name = $1', [name]); // node-postgres
+// Same rule for NoSQL (operator injection) and any shell command you build.
 
 
 // ── 8. Dependency & supply-chain safety ──────────────────────────────────────
@@ -5534,6 +5598,9 @@ console.log('CI on push: install → lint → test → build → deploy');
  * 45 · NODE.JS — JavaScript on the server
  * =============================================================================
  * Run:  node lessons/45-nodejs.js
+ *
+ * (Heads-up: Node prints a harmless "MODULE_TYPELESS_PACKAGE_JSON" warning —
+ *  this file is an ES module and package.json has no "type" on purpose. Ignore it.)
  *
  * WHAT YOU'LL LEARN
  *   The Node-specific APIs that the browser doesn't have: process & env,
@@ -6698,7 +6765,7 @@ console.log('grapheme count:', graphemes.length); // => 3  ('.length' would say 
 
 # JavaScript Projects — Build to Learn
 
-Reading teaches you *what*. Building teaches you *how*. These six projects make
+Reading teaches you *what*. Building teaches you *how*. These seven projects make
 you apply the lessons in real, working apps that run in the browser.
 
 ## How each project works
@@ -6731,6 +6798,7 @@ Every project folder has:
 | 4 | [Route Finder](4-route-finder/) | 48 graph, 49 BFS, 16 Map/Set, 23–24 DOM/events | data structures + algorithms in a real UI |
 | 5 | [Virtual List](5-virtual-list/) | 41 performance, 13 array methods, 23–24 DOM/events, 29 throttle | virtualization — render only what's visible |
 | 6 | [Form Validation](6-form-validation/) | 23 DOM, 24 events, 26 regex, 21 errors, 07 conditionals | validate input before you trust it |
+| 7 | [Notes App](7-notes-app/) | 14 objects, 20 async, 25 fetch, 21 errors, 23–24 DOM/events | mutate server state with optimistic UI + rollback |
 
 ## The right way to use these
 
@@ -6740,7 +6808,7 @@ Every project folder has:
 4. **Then extend it** — every README has "Make it your own" ideas. That's where
    real learning happens.
 
-Build all six and you'll have gone from "I read about JavaScript" to
+Build all seven and you'll have gone from "I read about JavaScript" to
 "I build things with JavaScript." 🚀
 
 ---
@@ -7466,6 +7534,8 @@ function renderRoute(path, start, goal) {
     .join('<span class="arrow">→</span>');
 
   const hops = path.length - 1;
+  // Safe to use innerHTML here: station names come from our own hardcoded GRAPH,
+  // not user input. For user-supplied text, build nodes with textContent (lesson 39).
   resultEl.innerHTML = `
     <div class="route">
       ${stops}
@@ -7638,6 +7708,8 @@ function render() {
     const row = document.createElement('div');
     row.className = 'row';
     row.style.top = `${i * ROW_H}px`; // place it at its REAL position
+    // Safe to use innerHTML here: the row data is generated by us, not user input.
+    // For user-supplied text, build nodes with textContent instead (lesson 39).
     row.innerHTML = `
       <span class="avatar" style="background:${item.color}">${item.name[0]}</span>
       <span class="index">#${i}</span>
@@ -7857,5 +7929,257 @@ form.addEventListener('submit', (e) => {
 
 // start with the button disabled until the form is valid
 refreshFormState();
+```
+
+---
+
+## Project 7 — Notes App
+
+A full **CRUD** app that talks to a REST API: load notes, add, edit, and delete
+them. The headline skill is **optimistic UI** — the screen updates instantly and
+the app quietly **rolls back** if a request fails.
+
+## What it does
+- Loads existing notes from the API on startup (with a **loading** state)
+- **Add** a note (POST), **edit** a note (PUT), **delete** a note (DELETE)
+- Updates the list **immediately** on every change, before the request finishes
+- Shows a per-note **"saving…"** indicator while a request is in flight
+- **Rolls back** the change and shows a friendly error if the request fails
+
+## Why this API?
+It uses **JSONPlaceholder** — free, **no API key**, and it accepts write
+requests (`POST`/`PUT`/`DELETE`) and replies realistically:
+
+- `GET    https://jsonplaceholder.typicode.com/posts?_limit=5` → starter notes
+- `POST   /posts` → returns the created record (with an `id`)
+- `PUT    /posts/:id` → returns the updated record
+- `DELETE /posts/:id` → confirms the delete
+
+> ⚠️ It's a **mock**: it doesn't truly persist, so a page reload shows the
+> original notes again. That's expected — it's ideal for practising the request
+> flow without standing up a backend.
+
+## Lessons you'll apply
+- **25 Fetch & APIs** — `fetch` with `POST`/`PUT`/`DELETE`, checking `response.ok`
+- **20 Async/Await** — `async` functions and `await` for each request
+- **21 Error handling** — `try/catch` to detect failure and trigger a rollback
+- **14 Objects** — modelling each note as `{ id, serverId, text, pending }`
+- **23 DOM / 24 Events** — rendering the list and wiring add/edit/delete
+
+## How to run
+Open `index.html` in your browser (you need an internet connection).
+It loads `app.js` (starter). Switch to `solution.js` to see it finished.
+
+> ⚠️ Some browsers restrict `fetch` from a `file://` page. If a request is
+> blocked, run a tiny local server from this folder instead:
+> `python3 -m http.server` then open http://localhost:8000
+
+## Build it step by step
+1. **noteEl(note)** — build one `<li>` with the note's text (use `textContent`,
+   never `innerHTML`), a "saving…" badge, and edit/delete buttons. Add the
+   `pending` class and disable the buttons while a request is in flight.
+2. **render()** — replace the list's children with `notes.map(noteEl)`.
+3. **load()** — `GET ?_limit=5`, map each post to a note, render. Show loading
+   and handle errors.
+4. **addNote(text)** — make a `pending` note, put it at the top, render *now*,
+   then `POST`. On success record the server id and clear `pending`; on failure
+   remove the note (roll back) and flash an error.
+5. **editNote(id)** — `prompt` for new text, update optimistically, `PUT`. On
+   failure restore the old text.
+6. **deleteNote(id)** — snapshot the list, remove the note, render, then
+   `DELETE`. On failure restore the snapshot.
+7. **Wire the form** — on submit: `preventDefault`, add the note, clear the input.
+
+## Make it your own
+- Add a "retry" button on the error message instead of an auto-rollback.
+- Debounce a search box that filters notes by text (lesson 29).
+- Persist a local copy in `localStorage` (lesson 33) so notes survive reloads.
+- Inline-edit on double-click instead of using `prompt`.
+
+## Concepts this cements
+- **Optimistic UI**: respond to the user instantly, reconcile with the server
+  after. It's what makes modern apps feel fast — and why rollback matters.
+- **Mutating server state**: `POST`/`PUT`/`DELETE` change data, so failures are
+  higher-stakes than a failed `GET`. Always have a rollback plan.
+- **Local id vs server id**: track items by your OWN id so re-renders and edits
+  stay correct no matter what the server returns.
+
+### solution.js
+
+```js
+/* =============================================================================
+ * NOTES APP — SOLUTION
+ * =============================================================================
+ * Complete, working version. Compare with your app.js after trying.
+ *
+ * Lessons used: 14 Objects · 20 Async/Await · 25 Fetch · 21 Errors · 23 DOM · 24 Events
+ *
+ * The headline skill is OPTIMISTIC UI: update the screen instantly, fire the
+ * request in the background, and ROLL BACK if it fails. The app stays snappy
+ * because the user never waits on the network for feedback.
+ * ========================================================================== */
+
+// jsonplaceholder is a free MOCK API: it accepts POST/PUT/DELETE and replies
+// realistically, but doesn't truly persist — a reload shows the original notes.
+const API = 'https://jsonplaceholder.typicode.com/posts';
+
+const form = document.querySelector('#note-form');
+const input = document.querySelector('#note-input');
+const statusEl = document.querySelector('#status');
+const listEl = document.querySelector('#note-list');
+
+// Each note: { id, serverId, text, pending }. `id` is OUR own stable id (so
+// re-renders and local edits/deletes always target the right note); `serverId`
+// is what the API calls it (used in PUT/DELETE URLs).
+let notes = [];
+
+const uid = () => crypto.randomUUID();
+
+function flashError(message) {
+  statusEl.textContent = `⚠️ ${message}`;
+  statusEl.classList.add('error');
+  setTimeout(() => {
+    statusEl.textContent = '';
+    statusEl.classList.remove('error');
+  }, 2500);
+}
+
+// ── Render one note safely (textContent, never innerHTML — see lesson 39) ────
+function noteEl(note) {
+  const li = document.createElement('li');
+  li.className = note.pending ? 'note pending' : 'note';
+
+  const text = document.createElement('span');
+  text.className = 'text';
+  text.textContent = note.text; // user input → textContent keeps it XSS-safe
+
+  const saving = document.createElement('span');
+  saving.className = 'saving';
+  saving.textContent = 'saving…';
+
+  const edit = document.createElement('button');
+  edit.textContent = '✎';
+  edit.title = 'Edit';
+  edit.disabled = note.pending; // can't edit while a request is in flight
+  edit.addEventListener('click', () => editNote(note.id));
+
+  const del = document.createElement('button');
+  del.textContent = '✕';
+  del.title = 'Delete';
+  del.disabled = note.pending;
+  del.addEventListener('click', () => deleteNote(note.id));
+
+  li.append(text, saving, edit, del);
+  return li;
+}
+
+function render() {
+  listEl.replaceChildren(...notes.map(noteEl));
+}
+
+// ── Initial load (GET) ───────────────────────────────────────────────────────
+async function load() {
+  statusEl.textContent = 'Loading…';
+  try {
+    const res = await fetch(`${API}?_limit=5`);
+    if (!res.ok) throw new Error('Could not load notes');
+    const data = await res.json();
+    notes = data.map((p) => ({ id: uid(), serverId: p.id, text: p.title, pending: false }));
+    statusEl.textContent = '';
+    render();
+  } catch (err) {
+    flashError(err.message);
+  }
+}
+
+// ── Add (POST) — OPTIMISTIC ──────────────────────────────────────────────────
+async function addNote(text) {
+  const note = { id: uid(), serverId: null, text, pending: true };
+  notes = [note, ...notes]; // 1) show it immediately, before the request
+  render();
+
+  try {
+    const res = await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: text }),
+    });
+    if (!res.ok) throw new Error('save failed');
+    const saved = await res.json(); // the mock returns the new record (with an id)
+    // 2) confirm it: record the server id and drop the "pending" flag
+    notes = notes.map((n) =>
+      n.id === note.id ? { ...n, serverId: saved.id, pending: false } : n
+    );
+    render();
+  } catch {
+    // 3) it failed → roll back: remove the note we optimistically added
+    notes = notes.filter((n) => n.id !== note.id);
+    render();
+    flashError('Could not save the note — removed it.');
+  }
+}
+
+// ── Edit (PUT) — OPTIMISTIC ───────────────────────────────────────────────────
+async function editNote(id) {
+  const note = notes.find((n) => n.id === id);
+  if (!note) return;
+
+  const next = prompt('Edit note:', note.text);
+  if (next === null) return; // cancelled
+  const trimmed = next.trim();
+  if (trimmed === '' || trimmed === note.text) return;
+
+  const previous = note.text; // remember for rollback
+  notes = notes.map((n) => (n.id === id ? { ...n, text: trimmed, pending: true } : n));
+  render();
+
+  try {
+    const res = await fetch(`${API}/${note.serverId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: trimmed }),
+    });
+    if (!res.ok) throw new Error('update failed');
+    notes = notes.map((n) => (n.id === id ? { ...n, pending: false } : n));
+    render();
+  } catch {
+    notes = notes.map((n) =>
+      n.id === id ? { ...n, text: previous, pending: false } : n
+    );
+    render();
+    flashError('Could not save the edit — reverted it.');
+  }
+}
+
+// ── Delete (DELETE) — OPTIMISTIC ─────────────────────────────────────────────
+async function deleteNote(id) {
+  const snapshot = notes; // keep a copy so we can restore on failure
+  const note = notes.find((n) => n.id === id);
+  notes = notes.filter((n) => n.id !== id); // remove it from the screen now
+  render();
+
+  // A note that was never saved (serverId still null) has nothing to delete.
+  if (!note || note.serverId == null) return;
+
+  try {
+    const res = await fetch(`${API}/${note.serverId}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('delete failed');
+  } catch {
+    notes = snapshot; // roll back: put the note back
+    render();
+    flashError('Could not delete the note — restored it.');
+  }
+}
+
+// ── Wire up the form ─────────────────────────────────────────────────────────
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const text = input.value.trim();
+  if (!text) return;
+  addNote(text);
+  input.value = '';
+});
+
+load();
 ```
 

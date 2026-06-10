@@ -29,3 +29,10 @@ const people = [
 ];
 const adults = people.filter((p) => p.age >= 18).map((p) => p.name);
 console.log('3.', adults); // => 3. [ 'Linus', 'Grace' ]
+
+// ── 4. Use toSorted to sort [5, 3, 8, 1] descending, original unchanged. ─────
+// toSorted (ES2023) returns a NEW sorted array — no [...spread] copy needed.
+const original = [5, 3, 8, 1];
+const descending = original.toSorted((a, b) => b - a);
+console.log('4.', descending, '· original:', original);
+// => 4. [ 8, 5, 3, 1 ] · original: [ 5, 3, 8, 1 ]

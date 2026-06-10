@@ -56,13 +56,15 @@ console.log(NaN === NaN);       // => false (use Number.isNaN instead)
 console.log('--- this binding ---');
 const obj = {
   name: 'Sam',
-  regular() { return this?.name; },
-  arrow: () => (typeof globalThis.name === 'string' ? globalThis.name : '<no this>'),
+  regular() { return this?.name; }, // `this` is whatever is to the LEFT of the dot
 };
-console.log(obj.regular());        // => Sam  (called as obj.method → this = obj)
+console.log(obj.regular());        // => Sam        (obj.method() → this = obj)
 const detached = obj.regular;
-console.log(detached());           // => undefined (called standalone → this lost)
-console.log(obj.arrow());          // => <no this> (arrow has no own this)
+console.log(detached());           // => undefined  (plain call → no object, no this)
+// Arrow functions have NO own `this`; they capture it from the surrounding scope.
+// That makes them the WRONG choice for a method that needs to reach its object:
+const withArrow = { name: 'Sam', get: () => this?.name };
+console.log(withArrow.get());      // => undefined  (arrow's `this` is NOT withArrow)
 
 
 // ── 6. Array holes & common surprises ────────────────────────────────────────
@@ -71,7 +73,8 @@ console.log(typeof NaN);                  // => number  (NaN is a number!)
 console.log([1, 2, 3].map(String));       // => [ '1', '2', '3' ]
 console.log(['1', '7', '11'].sort());     // => [ '1', '11', '7' ]  (string sort!)
 console.log([1, 7, 11].sort((a, b) => a - b)); // => [ 1, 7, 11 ]  (numeric sort)
-console.log(parseInt('08'));              // => 8 (modern; older engines: beware!)
+console.log(parseInt('08'));              // => 8   (but ALWAYS pass a radix:)
+console.log(parseInt('08', 10));          // => 8   (radix 10 — never trust the default)
 
 
 // ── 7. Closures capturing a shared variable ──────────────────────────────────

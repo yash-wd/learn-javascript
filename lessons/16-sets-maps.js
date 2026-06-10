@@ -31,7 +31,7 @@ for (const id of ids) console.log('id:', id);
 
 
 // ── 2. Map — key/value pairs with ANY key type ───────────────────────────────
-// Unlike objects (whose keys are always strings), Map keys can be numbers,
+// Unlike objects (whose keys are only strings or Symbols), Map keys can be numbers,
 // objects, functions — anything. And it remembers insertion order.
 const scores = new Map();
 scores.set('Ana', 90);
