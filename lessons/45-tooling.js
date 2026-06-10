@@ -57,8 +57,8 @@ console.log('semver: MAJOR(breaking).MINOR(features).PATCH(fixes)');
 // ── 3. Bundlers — many files → optimized output ──────────────────────────────
 // A bundler resolves your imports, bundles them, tree-shakes dead code, and
 // minifies for production. Modern choices:
-//   • Vite   — fast dev server + build (most common in 2026)
-//   • esbuild / Rollup — the engines under many tools
+//   • Vite   — fast dev server + build (most common in 2026; migrating to Rolldown)
+//   • esbuild / Rollup / Rolldown — the engines under many tools
 //   • Webpack — older, powerful, lots of legacy projects
 console.log('bundler job: resolve imports → tree-shake → minify → split');
 

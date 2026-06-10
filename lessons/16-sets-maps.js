@@ -17,7 +17,7 @@ ids.add(2);   // ignored — already present
 ids.add(3);
 console.log(ids);        // => Set(3) { 1, 2, 3 }
 console.log(ids.size);   // => 3
-console.log(ids.has(2)); // => true   (fast lookup, unlike array.includes)
+console.log(ids.has(2)); // => true   (O(1) lookup — beats array.includes for big collections)
 ids.delete(1);
 console.log([...ids]);   // => [ 2, 3 ]  (spread to convert back to an array)
 

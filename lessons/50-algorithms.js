@@ -81,9 +81,9 @@ console.log('merge :', mergeSort([5, 2, 9, 1, 5, 6])); // => [1, 2, 5, 5, 6, 9]
 // ── 5. QUICK SORT — O(n log n) average — pick a pivot, partition ─────────────
 // Choose a "pivot", put smaller items left and larger right, recurse on each.
 // ⚠️ Two simplifications for readability:
-//   • Pivot = first element. On ALREADY-SORTED input that gives lopsided
-//     partitions → O(n²). Real implementations pick a random/median-of-three
-//     pivot to avoid that worst case.
+//   • Pivot = first element. On ALREADY-SORTED input (or many DUPLICATE keys)
+//     that gives lopsided partitions → O(n²). Real implementations pick a
+//     random/median-of-three pivot (and 3-way partition) to avoid that.
 //   • This builds new arrays with filter + spread, so it uses O(n) extra
 //     memory. A production quicksort partitions IN PLACE (swapping within the
 //     same array) for O(log n) stack space and no copies.

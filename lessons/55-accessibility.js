@@ -102,7 +102,7 @@ function contrastRatio(fg, bg) {
   const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
   return Math.round(ratio * 100) / 100;
 }
-const meetsAA = (fg, bg) => contrastRatio(fg, bg) >= 4.5;
+const meetsAA = (fg, bg) => contrastRatio(fg, bg) >= 4.5; // 4.5:1 = AA for NORMAL text; large text / UI need only 3:1
 console.log(contrastRatio('#000000', '#ffffff')); // => 21
 console.log(contrastRatio('#ffffff', '#ffffff')); // => 1
 console.log(meetsAA('#000000', '#ffffff')); // => true

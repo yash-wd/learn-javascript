@@ -20,6 +20,8 @@ console.log(0xff);   // => 255      (hexadecimal)
 // ── 2. Formatting & rounding ─────────────────────────────────────────────────
 const price = 19.99876;
 console.log(price.toFixed(2));   // => "20.00"  (string — toFixed ROUNDS: ...876 rounds up)
+// ⚠️ toFixed rounding is itself subject to the float quirks in §5 below:
+//    (1.005).toFixed(2) is "1.00", not "1.01". For money, work in integer cents.
 console.log(Math.round(2.5));    // => 3   (nearest integer)
 console.log(Math.floor(2.9));    // => 2   (round DOWN)
 console.log(Math.ceil(2.1));     // => 3   (round UP)

@@ -76,7 +76,7 @@ let ticking = false;
 viewport.addEventListener('scroll', () => {
   if (ticking) return;           // already scheduled → skip (lesson 30 throttle idea)
   ticking = true;
-  requestAnimationFrame(() => {  // run at most once per frame (lesson 47 rAF)
+  requestAnimationFrame(() => {  // run at most once per frame (lesson 30 throttle)
     render();
     ticking = false;
   });

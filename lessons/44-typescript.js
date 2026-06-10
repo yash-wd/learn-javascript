@@ -67,7 +67,8 @@ console.log('first:', first([10, 20]), first(['x'])); // => 10 x
  *   Partial<User>      // all fields optional
  *   Readonly<User>     // all fields immutable
  *   Pick<User,'id'>    // just some fields
- *   enum Role { Admin, Editor, Viewer }
+ *   enum Role { Admin, Editor, Viewer }   // ⚠️ many teams now prefer a string
+ *                                         //    union ('admin'|'editor') or `as const`
  *   as const           // freeze a literal's type
  *   unknown vs any     // prefer `unknown` (forces you to check before use)
  */

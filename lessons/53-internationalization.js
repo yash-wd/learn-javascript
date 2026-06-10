@@ -65,6 +65,7 @@ console.log(rtf.format(-2, 'hour'));          // => 2 hours ago
 
 // A tiny helper: turn a past Date into a friendly relative string.
 function timeAgo(date) {
+  // (Demo uses a FIXED "now" for reproducible output; real code uses Date.now().)
   const seconds = Math.round((date - new Date('2026-06-05T12:00:00')) / 1000);
   const units = [['day', 86400], ['hour', 3600], ['minute', 60], ['second', 1]];
   for (const [unit, secs] of units) {

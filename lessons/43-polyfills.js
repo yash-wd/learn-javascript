@@ -36,10 +36,11 @@ console.log(myFilter([1, 2, 3, 4], (n) => n % 2 === 0)); // => [ 2, 4 ]
 
 // ── 3. Array.prototype.reduce ────────────────────────────────────────────────
 function myReduce(arr, reducer, initial) {
-  let acc = initial;
-  let start = 0;
-  if (acc === undefined) { acc = arr[0]; start = 1; } // no seed → use first item
-  for (let i = start; i < arr.length; i++) acc = reducer(acc, arr[i], i, arr);
+  // Faithful to real reduce: tell "no seed" from "seed is undefined" by ARITY,
+  // not by `initial === undefined` — an explicit undefined seed is still a seed.
+  const hasSeed = arguments.length >= 3;
+  let acc = hasSeed ? initial : arr[0];
+  for (let i = hasSeed ? 0 : 1; i < arr.length; i++) acc = reducer(acc, arr[i], i, arr);
   return acc;
 }
 console.log(myReduce([1, 2, 3, 4], (a, b) => a + b, 0)); // => 10

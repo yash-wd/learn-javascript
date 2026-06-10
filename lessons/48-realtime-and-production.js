@@ -25,7 +25,7 @@
 //     ws.onopen    = () => ws.send('hello');
 //     ws.onmessage = (e) => console.log('got:', e.data);
 //   On the server (Node) you'd use the `ws` library or Socket.IO.
-console.log('real-time: poll (simple) < SSE (one-way) < WebSocket (two-way)');
+console.log('real-time: poll (simple) · SSE (one-way push) · WebSocket (two-way) — pick per need, not "bigger is better"');
 
 // Quick decision guide:
 function chooseTransport(need) {

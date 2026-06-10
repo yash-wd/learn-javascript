@@ -27,8 +27,8 @@ console.log(typeof notSet);   // => undefined
 console.log(typeof big);      // => bigint
 console.log(typeof unique);   // => symbol
 
-// ⚠️ FAMOUS BUG: typeof null is "object". It's a 30-year-old mistake, kept for
-// backwards compatibility. Just memorize it.
+// ⚠️ FAMOUS BUG: typeof null is "object". It's a bug from JavaScript's earliest
+// days, kept for backwards compatibility. Just memorize it.
 console.log(typeof nothing);  // => object  (NOT "null"!)
 
 

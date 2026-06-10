@@ -65,7 +65,7 @@ console.log(Object.fromEntries(new Map([['a', 1]]))); // => { a: 1 }
 
 
 // ── 3. Array.prototype.flatMap — map, then flatten one level ──────────────────
-// Equivalent to arr.map(fn).flat(1), but in a single pass. Great when each item
+// Equivalent to arr.map(fn).flat(1), but in one call. Great when each item
 // maps to ZERO, ONE, or MANY results.
 console.log([1, 2, 3].flatMap((n) => [n, n * 10])); // => [1, 10, 2, 20, 3, 30]
 

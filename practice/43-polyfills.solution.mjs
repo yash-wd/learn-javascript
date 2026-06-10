@@ -15,13 +15,11 @@ export function myFilter(arr, fn) {
 }
 
 export function myReduce(arr, fn, init) {
-  let acc = init;
-  let start = 0;
-  if (acc === undefined) {
-    acc = arr[0]; // no seed → first element is the seed
-    start = 1;
-  }
-  for (let i = start; i < arr.length; i++) acc = fn(acc, arr[i], i, arr);
+  // Real reduce keys off ARITY, not `init === undefined`, so an explicit
+  // `undefined` seed still counts as a seed (and the first element isn't skipped).
+  const hasSeed = arguments.length >= 3;
+  let acc = hasSeed ? init : arr[0];
+  for (let i = hasSeed ? 0 : 1; i < arr.length; i++) acc = fn(acc, arr[i], i, arr);
   return acc;
 }
 

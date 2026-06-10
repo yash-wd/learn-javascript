@@ -101,7 +101,7 @@ async function withRetry(task, attempts = 3) {
       return await task();
     } catch (err) {
       if (i === attempts) throw err;        // out of tries → give up
-      await delay(10 * i);                   // wait longer each time (backoff)
+      await delay(10 * i);                   // wait longer each time (backoff; prod adds jitter)
       console.log(`retry ${i} after failure: ${err.message}`);
     }
   }

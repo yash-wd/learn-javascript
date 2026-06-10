@@ -92,6 +92,7 @@ console.log('1234567'.replace(/\B(?=(\d{3})+(?!\d))/g, ',')); // => 1,234,567
 // ── 6c. Modern flags: u (unicode), s (dotAll), y (sticky) ────────────────────
 //   u → full Unicode mode. Required for \p{...} property escapes & astral chars.
 console.log(/\p{Emoji}/u.test('hi 👋'));     // => true  (match by Unicode property)
+// ⚠️ \p{Emoji} also matches 0-9, # and * — for "is this an emoji?" prefer \p{Extended_Pictographic}.
 console.log([...'a😀b'].length);             // => 3  (spread is unicode-aware)
 //   s → "dotAll": let . match newlines too (by default it doesn't).
 console.log(/a.b/s.test('a\nb'));            // => true  (without /s → false)

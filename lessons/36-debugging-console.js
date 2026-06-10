@@ -64,7 +64,8 @@ try {
   console.log('message:', err.message); // => something failed deep down
   // err.stack lists the call path innermost-first: where it threw, then its callers.
   console.log('first stack line:', err.stack.split('\n')[1].trim());
-  // Read stacks from the TOP: the first line is where the error actually happened.
+  // The FIRST line of err.stack is the error message; the NEXT line (the first
+  // `at …` frame — index 1 above) is where it actually threw, then its callers.
 }
 
 

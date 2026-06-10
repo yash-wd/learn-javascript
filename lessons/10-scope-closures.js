@@ -60,7 +60,7 @@ console.log(counter()); // => 1
 console.log(counter()); // => 2
 console.log(counter()); // => 3  (count persists — that's the closure!)
 
-// Each closure gets its OWN private copy:
+// Each closure gets its OWN private count (a fresh variable per call):
 const counterA = makeCounter();
 const counterB = makeCounter();
 console.log(counterA()); // => 1

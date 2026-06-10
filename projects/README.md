@@ -30,7 +30,7 @@ Every project folder has:
 | --- | --- | --- | --- |
 | 1 | [To-Do App](1-todo-app/) | 13–14 arrays/objects, 24 DOM, 25 events, 34 storage | DOM + events + persistence |
 | 2 | [Weather App](2-weather-app/) | 20–22 async, 26 fetch, 33 dates | real API calls + async UI |
-| 3 | [Quiz App](3-quiz-app/) | 09 functions, 13 array methods, 24–25 DOM/events | managing app "state" |
+| 3 | [Quiz App](3-quiz-app/) | 09 functions, 13 array methods, 15 destructuring, 24–25 DOM/events | managing app "state" |
 | 4 | [Route Finder](4-route-finder/) | 49 graph, 50 BFS, 16 Map/Set, 24–25 DOM/events | data structures + algorithms in a real UI |
 | 5 | [Virtual List](5-virtual-list/) | 42 performance, 13 array methods, 24–25 DOM/events, 30 throttle | virtualization — render only what's visible |
 | 6 | [Form Validation](6-form-validation/) | 24 DOM, 25 events, 27 regex, 22 errors, 07 conditionals | validate input before you trust it |

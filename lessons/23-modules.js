@@ -51,7 +51,7 @@
  *
  * Notes:
  *   • import lines are hoisted and run first, before other code.
- *   • Paths are relative ('./') and usually need the .js extension in Node ESM.
+ *   • Paths are relative ('./') and must include the file extension (e.g. .js) in Node ESM.
  */
 
 
@@ -127,8 +127,9 @@ import('node:os').then((os) => {
  *   • A slow top-level await DELAYS every module that imports this one, so keep
  *     it for genuine startup work — not per-request logic.
  */
-// Runnable taste of it: this file is CommonJS, so we show it via a dynamic
-// import of an ESM data: URL (the imported module uses top-level await itself).
+// Runnable taste of it: static `import` and top-level `await` don't work in
+// CommonJS, so we demo top-level await indirectly via a dynamic import() of an
+// ESM data: URL (the module awaits internally — and import() works in CJS *and* ESM).
 import('data:text/javascript,export default await Promise.resolve(42)')
   .then((m) => console.log('top-level await → default export:', m.default)); // => 42
 

@@ -51,6 +51,8 @@ for (const char of 'hi') {
 
 // ── 5. for...in — iterate over KEYS of an object ─────────────────────────────
 // Use this for objects. (Avoid it for arrays — for...of is better there.)
+// ⚠️ for...in also visits INHERITED enumerable keys (up the prototype chain),
+// not just an object's own. For own keys only, prefer Object.keys() (lesson 14).
 const user = { name: 'Sam', age: 25, city: 'Pune' };
 for (const key in user) {
   console.log(`${key}: ${user[key]}`); // => name: Sam, age: 25, city: Pune

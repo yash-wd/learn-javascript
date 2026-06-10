@@ -13,6 +13,7 @@ one question at a time, tracking the score, and reacting to user choices.
 - **14 Objects / 12 Arrays** — questions modelled as an array of objects
 - **13 Array methods** — rendering options, checking answers
 - **09 Functions** — small functions that each do one job
+- **15 Destructuring** — array swap in the Fisher–Yates shuffle
 - **24 DOM / 25 Events** — rendering and handling clicks
 
 ## How to run

@@ -282,7 +282,7 @@ back-end REST API you run with Node.
 | --- | --- | --- | --- |
 | 1 | [To-Do App](projects/1-todo-app/) | 13, 14, 24, 25, 34 | DOM + events + localStorage persistence |
 | 2 | [Weather App](projects/2-weather-app/) | 20, 22, 26, 33 | real API calls, async UI, error states |
-| 3 | [Quiz App](projects/3-quiz-app/) | 09, 13, 24, 25 | managing app state |
+| 3 | [Quiz App](projects/3-quiz-app/) | 09, 13, 15, 24, 25 | managing app state |
 | 4 | [Route Finder](projects/4-route-finder/) | 49, 50, 16, 24, 25 | a graph + BFS shortest path in a real UI |
 | 5 | [Virtual List](projects/5-virtual-list/) | 42, 13, 24, 25, 30 | virtualization: scroll 50k rows with ~17 in the DOM |
 | 6 | [Form Validation](projects/6-form-validation/) | 24, 25, 27, 22, 07 | live per-field validation, accessible errors, submit gating |

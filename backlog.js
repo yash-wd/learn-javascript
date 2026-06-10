@@ -198,7 +198,7 @@ const ITEMS = [
     title: 'Self-verifying lesson output harness',
     detail:
       'tools/check-outputs.mjs runs every non-browser lesson and asserts its `// =>` ' +
-      'comments match real output (541 checked). Wired into verify.sh + CI + `npm run check`.',
+      'comments match real output (583 checked). Wired into verify.sh + CI + `npm run check`.',
     related: ['tools/check-outputs.mjs', 'scripts/verify.sh'],
     priority: 'high',
     status: 'done',
@@ -220,7 +220,7 @@ const ITEMS = [
   {
     id: 'browser-lesson-sandbox',
     kind: 'enhancement',
-    title: 'Runnable demo stage for browser lessons 24/24/46',
+    title: 'Runnable demo stage for browser lessons 24/25/47',
     detail:
       'playground.html now runs the browser lessons in an isolated iframe with a real ' +
       'scaffold DOM (#box, #myButton, etc.) and a visible console mirror, instead of ' +

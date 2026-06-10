@@ -38,6 +38,7 @@ Red ❌ tells you exactly which case failed; green ✅ means move on.
 | 3 · Intermediate | [`20-async`](20-async.mjs) | `delay`, `retry` |
 | 4 · Advanced | [`31-functional`](31-functional.mjs) | `compose`, `pipe`, `curry` |
 | 5 · Expert | [`43-polyfills`](43-polyfills.mjs) | `myMap`, `myFilter`, `myReduce`, `myBind` |
+| ⭐ Capstone | [`assessment`](assessment.mjs) | `fizzbuzz`, `dedupe`, `mapSeries`, `memoize`, `binarySearch` |
 
 > This is a starter set spanning all five levels — the pattern is meant to be
 > copied. To add a set for any other lesson, drop in the same three files and the

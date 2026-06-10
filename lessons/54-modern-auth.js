@@ -38,7 +38,10 @@ console.log(can(ana, 'delete')); // => false   (authenticated, but not authorize
 //   • SALT  — random per-user bytes mixed in, so identical passwords hash
 //             differently and precomputed "rainbow tables" are useless.
 //   • SLOW  — deliberately expensive (cost factor) so brute-force is painful.
-// Below: a real scrypt hash + verify with node:crypto. Store `salt:hash`.
+// Below: a runnable scrypt hash + verify with node:crypto. Store `salt:hash`.
+// ⚠️ PRODUCTION: use the ASYNC `scrypt` (scryptSync blocks the event loop on a
+// server), tune the cost params to current OWASP guidance, or prefer a vetted
+// library (argon2id is the modern first choice). This is a teaching demo.
 function hashPassword(password) {
   const salt = randomBytes(16);
   const hash = scryptSync(password, salt, 32);          // 32-byte derived key
@@ -154,7 +157,7 @@ oauthFlow.forEach((s) => console.log(s));
 // whole family. LOGOUT = delete the session / revoke the refresh token server-side
 // (you can't "unsign" a still-valid access JWT — hence keep it short).
 let serverEpoch = 1; // bump this to invalidate all access tokens at once
-function issueAccessToken(userId) { return { userId, epoch: serverEpoch, ttl: '15m' }; }
+function issueAccessToken(userId) { return { userId, epoch: serverEpoch, ttl: '15m' }; } // ttl is illustrative; the epoch is what we actually verify below
 function isStillValid(tok) { return tok.epoch === serverEpoch; }
 const access = issueAccessToken('user_42');
 console.log('valid before logout:', isStillValid(access)); // => valid before logout: true
@@ -170,7 +173,8 @@ console.log('valid after  logout:', isStillValid(access)); // => valid after  lo
 // the device and is bound to the site's origin, so passkeys are:
 //   • PHISHING-RESISTANT — a fake site can't get a signature for the real origin.
 //   • Nothing reusable to STEAL — the server holds only a public key.
-//   • Syncable across your devices via the platform keychain.
+//   • Syncable across your devices via the platform keychain (device-bound
+//     hardware keys are the exception — those deliberately stay on one device).
 // Browser API: navigator.credentials.create()/get() with publicKey options.
 // This is where modern auth is heading; offer passkeys alongside OAuth/passwords.
 

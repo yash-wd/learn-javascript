@@ -58,6 +58,7 @@ function validateField(key) {
   //   - only SHOW the error if the field has been touched (touched.has(key))
   //   - set the `${key}-error` element's textContent to msg
   //   - toggle the input's 'invalid' (msg !== '') and 'valid' (msg === '') classes
+  //   - set the input's aria-invalid attribute to match (accessibility)
   //   - return whether it was valid (msg === '')
 }
 

@@ -99,7 +99,9 @@ console.log(timeAgo(past, reference)); // => 3 days ago
 /* GOTCHAS --------------------------------------------------------------------
  *   • Months are 0-based (January = 0). Days of month are 1-based. Confusing!
  *   • Always prefer ISO strings ('2026-06-04') — other formats are ambiguous.
- *   • Dates carry a time zone; '2026-06-04' is parsed as UTC midnight.
+ *   • A Date is just a UTC timestamp shown in your LOCAL zone. A date-only string
+ *     '2026-06-04' parses as UTC midnight, but a date-TIME string with no offset
+ *     ('2026-06-04T09:30') parses as LOCAL time — a classic footgun.
  *   • For heavy date work, libraries like date-fns or Day.js save headaches.
  * --------------------------------------------------------------------------- */
 

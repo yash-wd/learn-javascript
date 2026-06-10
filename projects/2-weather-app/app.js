@@ -64,7 +64,7 @@ async function getWeather(lat, lon) {
 function showWeather(place, weather) {
   // TODO 3:
   //   - const [text, emoji] = describe(weather.weather_code)
-  //   - set placeEl, tempEl (weather.temperature_2m + '°C'), emojiEl,
+  //   - set placeEl, tempEl (Math.round(weather.temperature_2m) + '°C'), emojiEl,
   //     conditionEl, windEl (weather.wind_speed_10m + ' km/h')
   //   - set dateEl to today's date with Intl.DateTimeFormat (lesson 33)
   //   - reveal the card: result.classList.remove('hidden')

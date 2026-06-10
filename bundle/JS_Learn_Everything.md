@@ -278,8 +278,8 @@ console.log(typeof notSet);   // => undefined
 console.log(typeof big);      // => bigint
 console.log(typeof unique);   // => symbol
 
-// ⚠️ FAMOUS BUG: typeof null is "object". It's a 30-year-old mistake, kept for
-// backwards compatibility. Just memorize it.
+// ⚠️ FAMOUS BUG: typeof null is "object". It's a bug from JavaScript's earliest
+// days, kept for backwards compatibility. Just memorize it.
 console.log(typeof nothing);  // => object  (NOT "null"!)
 
 
@@ -595,6 +595,8 @@ console.log(0xff);   // => 255      (hexadecimal)
 // ── 2. Formatting & rounding ─────────────────────────────────────────────────
 const price = 19.99876;
 console.log(price.toFixed(2));   // => "20.00"  (string — toFixed ROUNDS: ...876 rounds up)
+// ⚠️ toFixed rounding is itself subject to the float quirks in §5 below:
+//    (1.005).toFixed(2) is "1.00", not "1.01". For money, work in integer cents.
 console.log(Math.round(2.5));    // => 3   (nearest integer)
 console.log(Math.floor(2.9));    // => 2   (round DOWN)
 console.log(Math.ceil(2.1));     // => 3   (round UP)
@@ -820,6 +822,8 @@ for (const char of 'hi') {
 
 // ── 5. for...in — iterate over KEYS of an object ─────────────────────────────
 // Use this for objects. (Avoid it for arrays — for...of is better there.)
+// ⚠️ for...in also visits INHERITED enumerable keys (up the prototype chain),
+// not just an object's own. For own keys only, prefer Object.keys() (lesson 14).
 const user = { name: 'Sam', age: 25, city: 'Pune' };
 for (const key in user) {
   console.log(`${key}: ${user[key]}`); // => name: Sam, age: 25, city: Pune
@@ -1050,7 +1054,7 @@ console.log(counter()); // => 1
 console.log(counter()); // => 2
 console.log(counter()); // => 3  (count persists — that's the closure!)
 
-// Each closure gets its OWN private copy:
+// Each closure gets its OWN private count (a fresh variable per call):
 const counterA = makeCounter();
 const counterB = makeCounter();
 console.log(counterA()); // => 1
@@ -1764,7 +1768,7 @@ ids.add(2);   // ignored — already present
 ids.add(3);
 console.log(ids);        // => Set(3) { 1, 2, 3 }
 console.log(ids.size);   // => 3
-console.log(ids.has(2)); // => true   (fast lookup, unlike array.includes)
+console.log(ids.has(2)); // => true   (O(1) lookup — beats array.includes for big collections)
 ids.delete(1);
 console.log([...ids]);   // => [ 2, 3 ]  (spread to convert back to an array)
 
@@ -2638,7 +2642,7 @@ Promise.reject(new Error('nobody caught me'));
  *
  * Notes:
  *   • import lines are hoisted and run first, before other code.
- *   • Paths are relative ('./') and usually need the .js extension in Node ESM.
+ *   • Paths are relative ('./') and must include the file extension (e.g. .js) in Node ESM.
  */
 
 
@@ -2714,8 +2718,9 @@ import('node:os').then((os) => {
  *   • A slow top-level await DELAYS every module that imports this one, so keep
  *     it for genuine startup work — not per-request logic.
  */
-// Runnable taste of it: this file is CommonJS, so we show it via a dynamic
-// import of an ESM data: URL (the imported module uses top-level await itself).
+// Runnable taste of it: static `import` and top-level `await` don't work in
+// CommonJS, so we demo top-level await indirectly via a dynamic import() of an
+// ESM data: URL (the module awaits internally — and import() works in CJS *and* ESM).
 import('data:text/javascript,export default await Promise.resolve(42)')
   .then((m) => console.log('top-level await → default export:', m.default)); // => 42
 
@@ -3073,7 +3078,7 @@ async function fetchRetry(url, { attempts = 3, ...options } = {}) {
     } catch (err) {
       if (i === attempts) throw err; // network error on the final attempt → give up
     }
-    await new Promise((r) => setTimeout(r, 2 ** (i - 1) * 100)); // 100ms, 200ms, 400ms…
+    await new Promise((r) => setTimeout(r, 2 ** (i - 1) * 100)); // 100ms, 200ms, 400ms… (prod: add random jitter)
   }
 }
 // Usage:  const res = await fetchRetry('https://api.example.com/flaky', { attempts: 4 });
@@ -3227,6 +3232,7 @@ console.log('1234567'.replace(/\B(?=(\d{3})+(?!\d))/g, ',')); // => 1,234,567
 // ── 6c. Modern flags: u (unicode), s (dotAll), y (sticky) ────────────────────
 //   u → full Unicode mode. Required for \p{...} property escapes & astral chars.
 console.log(/\p{Emoji}/u.test('hi 👋'));     // => true  (match by Unicode property)
+// ⚠️ \p{Emoji} also matches 0-9, # and * — for "is this an emoji?" prefer \p{Extended_Pictographic}.
 console.log([...'a😀b'].length);             // => 3  (spread is unicode-aware)
 //   s → "dotAll": let . match newlines too (by default it doesn't).
 console.log(/a.b/s.test('a\nb'));            // => true  (without /s → false)
@@ -3638,7 +3644,7 @@ async function withRetry(task, attempts = 3) {
       return await task();
     } catch (err) {
       if (i === attempts) throw err;        // out of tries → give up
-      await delay(10 * i);                   // wait longer each time (backoff)
+      await delay(10 * i);                   // wait longer each time (backoff; prod adds jitter)
       console.log(`retry ${i} after failure: ${err.message}`);
     }
   }
@@ -4076,7 +4082,9 @@ console.log(timeAgo(past, reference)); // => 3 days ago
 /* GOTCHAS --------------------------------------------------------------------
  *   • Months are 0-based (January = 0). Days of month are 1-based. Confusing!
  *   • Always prefer ISO strings ('2026-06-04') — other formats are ambiguous.
- *   • Dates carry a time zone; '2026-06-04' is parsed as UTC midnight.
+ *   • A Date is just a UTC timestamp shown in your LOCAL zone. A date-only string
+ *     '2026-06-04' parses as UTC midnight, but a date-TIME string with no offset
+ *     ('2026-06-04T09:30') parses as LOCAL time — a classic footgun.
  *   • For heavy date work, libraries like date-fns or Day.js save headaches.
  * --------------------------------------------------------------------------- */
 
@@ -4387,7 +4395,8 @@ try {
   console.log('message:', err.message); // => something failed deep down
   // err.stack lists the call path innermost-first: where it threw, then its callers.
   console.log('first stack line:', err.stack.split('\n')[1].trim());
-  // Read stacks from the TOP: the first line is where the error actually happened.
+  // The FIRST line of err.stack is the error message; the NEXT line (the first
+  // `at …` frame — index 1 above) is where it actually threw, then its callers.
 }
 
 
@@ -5512,10 +5521,11 @@ console.log(myFilter([1, 2, 3, 4], (n) => n % 2 === 0)); // => [ 2, 4 ]
 
 // ── 3. Array.prototype.reduce ────────────────────────────────────────────────
 function myReduce(arr, reducer, initial) {
-  let acc = initial;
-  let start = 0;
-  if (acc === undefined) { acc = arr[0]; start = 1; } // no seed → use first item
-  for (let i = start; i < arr.length; i++) acc = reducer(acc, arr[i], i, arr);
+  // Faithful to real reduce: tell "no seed" from "seed is undefined" by ARITY,
+  // not by `initial === undefined` — an explicit undefined seed is still a seed.
+  const hasSeed = arguments.length >= 3;
+  let acc = hasSeed ? initial : arr[0];
+  for (let i = hasSeed ? 0 : 1; i < arr.length; i++) acc = reducer(acc, arr[i], i, arr);
   return acc;
 }
 console.log(myReduce([1, 2, 3, 4], (a, b) => a + b, 0)); // => 10
@@ -5669,7 +5679,8 @@ console.log('first:', first([10, 20]), first(['x'])); // => 10 x
  *   Partial<User>      // all fields optional
  *   Readonly<User>     // all fields immutable
  *   Pick<User,'id'>    // just some fields
- *   enum Role { Admin, Editor, Viewer }
+ *   enum Role { Admin, Editor, Viewer }   // ⚠️ many teams now prefer a string
+ *                                         //    union ('admin'|'editor') or `as const`
  *   as const           // freeze a literal's type
  *   unknown vs any     // prefer `unknown` (forces you to check before use)
  */
@@ -5761,8 +5772,8 @@ console.log('semver: MAJOR(breaking).MINOR(features).PATCH(fixes)');
 // ── 3. Bundlers — many files → optimized output ──────────────────────────────
 // A bundler resolves your imports, bundles them, tree-shakes dead code, and
 // minifies for production. Modern choices:
-//   • Vite   — fast dev server + build (most common in 2026)
-//   • esbuild / Rollup — the engines under many tools
+//   • Vite   — fast dev server + build (most common in 2026; migrating to Rolldown)
+//   • esbuild / Rollup / Rolldown — the engines under many tools
 //   • Webpack — older, powerful, lots of legacy projects
 console.log('bundler job: resolve imports → tree-shake → minify → split');
 
@@ -6035,7 +6046,7 @@ if (typeof window === 'undefined') {
 //     ws.onopen    = () => ws.send('hello');
 //     ws.onmessage = (e) => console.log('got:', e.data);
 //   On the server (Node) you'd use the `ws` library or Socket.IO.
-console.log('real-time: poll (simple) < SSE (one-way) < WebSocket (two-way)');
+console.log('real-time: poll (simple) · SSE (one-way push) · WebSocket (two-way) — pick per need, not "bigger is better"');
 
 // Quick decision guide:
 function chooseTransport(need) {
@@ -6448,9 +6459,9 @@ console.log('merge :', mergeSort([5, 2, 9, 1, 5, 6])); // => [1, 2, 5, 5, 6, 9]
 // ── 5. QUICK SORT — O(n log n) average — pick a pivot, partition ─────────────
 // Choose a "pivot", put smaller items left and larger right, recurse on each.
 // ⚠️ Two simplifications for readability:
-//   • Pivot = first element. On ALREADY-SORTED input that gives lopsided
-//     partitions → O(n²). Real implementations pick a random/median-of-three
-//     pivot to avoid that worst case.
+//   • Pivot = first element. On ALREADY-SORTED input (or many DUPLICATE keys)
+//     that gives lopsided partitions → O(n²). Real implementations pick a
+//     random/median-of-three pivot (and 3-way partition) to avoid that.
 //   • This builds new arrays with filter + spread, so it uses O(n) extra
 //     memory. A production quicksort partitions IN PLACE (swapping within the
 //     same array) for O(log n) stack space and no copies.
@@ -6816,7 +6827,7 @@ console.log(Object.fromEntries(new Map([['a', 1]]))); // => { a: 1 }
 
 
 // ── 3. Array.prototype.flatMap — map, then flatten one level ──────────────────
-// Equivalent to arr.map(fn).flat(1), but in a single pass. Great when each item
+// Equivalent to arr.map(fn).flat(1), but in one call. Great when each item
 // maps to ZERO, ONE, or MANY results.
 console.log([1, 2, 3].flatMap((n) => [n, n * 10])); // => [1, 10, 2, 20, 3, 30]
 
@@ -6949,6 +6960,7 @@ console.log(rtf.format(-2, 'hour'));          // => 2 hours ago
 
 // A tiny helper: turn a past Date into a friendly relative string.
 function timeAgo(date) {
+  // (Demo uses a FIXED "now" for reproducible output; real code uses Date.now().)
   const seconds = Math.round((date - new Date('2026-06-05T12:00:00')) / 1000);
   const units = [['day', 86400], ['hour', 3600], ['minute', 60], ['second', 1]];
   for (const [unit, secs] of units) {
@@ -7048,7 +7060,10 @@ console.log(can(ana, 'delete')); // => false   (authenticated, but not authorize
 //   • SALT  — random per-user bytes mixed in, so identical passwords hash
 //             differently and precomputed "rainbow tables" are useless.
 //   • SLOW  — deliberately expensive (cost factor) so brute-force is painful.
-// Below: a real scrypt hash + verify with node:crypto. Store `salt:hash`.
+// Below: a runnable scrypt hash + verify with node:crypto. Store `salt:hash`.
+// ⚠️ PRODUCTION: use the ASYNC `scrypt` (scryptSync blocks the event loop on a
+// server), tune the cost params to current OWASP guidance, or prefer a vetted
+// library (argon2id is the modern first choice). This is a teaching demo.
 function hashPassword(password) {
   const salt = randomBytes(16);
   const hash = scryptSync(password, salt, 32);          // 32-byte derived key
@@ -7164,7 +7179,7 @@ oauthFlow.forEach((s) => console.log(s));
 // whole family. LOGOUT = delete the session / revoke the refresh token server-side
 // (you can't "unsign" a still-valid access JWT — hence keep it short).
 let serverEpoch = 1; // bump this to invalidate all access tokens at once
-function issueAccessToken(userId) { return { userId, epoch: serverEpoch, ttl: '15m' }; }
+function issueAccessToken(userId) { return { userId, epoch: serverEpoch, ttl: '15m' }; } // ttl is illustrative; the epoch is what we actually verify below
 function isStillValid(tok) { return tok.epoch === serverEpoch; }
 const access = issueAccessToken('user_42');
 console.log('valid before logout:', isStillValid(access)); // => valid before logout: true
@@ -7180,7 +7195,8 @@ console.log('valid after  logout:', isStillValid(access)); // => valid after  lo
 // the device and is bound to the site's origin, so passkeys are:
 //   • PHISHING-RESISTANT — a fake site can't get a signature for the real origin.
 //   • Nothing reusable to STEAL — the server holds only a public key.
-//   • Syncable across your devices via the platform keychain.
+//   • Syncable across your devices via the platform keychain (device-bound
+//     hardware keys are the exception — those deliberately stay on one device).
 // Browser API: navigator.credentials.create()/get() with publicKey options.
 // This is where modern auth is heading; offer passkeys alongside OAuth/passwords.
 
@@ -7315,7 +7331,7 @@ function contrastRatio(fg, bg) {
   const ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
   return Math.round(ratio * 100) / 100;
 }
-const meetsAA = (fg, bg) => contrastRatio(fg, bg) >= 4.5;
+const meetsAA = (fg, bg) => contrastRatio(fg, bg) >= 4.5; // 4.5:1 = AA for NORMAL text; large text / UI need only 3:1
 console.log(contrastRatio('#000000', '#ffffff')); // => 21
 console.log(contrastRatio('#ffffff', '#ffffff')); // => 1
 console.log(meetsAA('#000000', '#ffffff')); // => true
@@ -7607,7 +7623,7 @@ Every project folder has:
 | --- | --- | --- | --- |
 | 1 | [To-Do App](1-todo-app/) | 13–14 arrays/objects, 24 DOM, 25 events, 34 storage | DOM + events + persistence |
 | 2 | [Weather App](2-weather-app/) | 20–22 async, 26 fetch, 33 dates | real API calls + async UI |
-| 3 | [Quiz App](3-quiz-app/) | 09 functions, 13 array methods, 24–25 DOM/events | managing app "state" |
+| 3 | [Quiz App](3-quiz-app/) | 09 functions, 13 array methods, 15 destructuring, 24–25 DOM/events | managing app "state" |
 | 4 | [Route Finder](4-route-finder/) | 49 graph, 50 BFS, 16 Map/Set, 24–25 DOM/events | data structures + algorithms in a real UI |
 | 5 | [Virtual List](5-virtual-list/) | 42 performance, 13 array methods, 24–25 DOM/events, 30 throttle | virtualization — render only what's visible |
 | 6 | [Form Validation](6-form-validation/) | 24 DOM, 25 events, 27 regex, 22 errors, 07 conditionals | validate input before you trust it |
@@ -8006,6 +8022,7 @@ one question at a time, tracking the score, and reacting to user choices.
 - **14 Objects / 12 Arrays** — questions modelled as an array of objects
 - **13 Array methods** — rendering options, checking answers
 - **09 Functions** — small functions that each do one job
+- **15 Destructuring** — array swap in the Fisher–Yates shuffle
 - **24 DOM / 25 Events** — rendering and handling clicks
 
 ## How to run
@@ -8578,7 +8595,7 @@ let ticking = false;
 viewport.addEventListener('scroll', () => {
   if (ticking) return;           // already scheduled → skip (lesson 30 throttle idea)
   ticking = true;
-  requestAnimationFrame(() => {  // run at most once per frame (lesson 47 rAF)
+  requestAnimationFrame(() => {  // run at most once per frame (lesson 30 throttle)
     render();
     ticking = false;
   });

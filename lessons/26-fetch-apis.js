@@ -135,7 +135,7 @@ async function fetchRetry(url, { attempts = 3, ...options } = {}) {
     } catch (err) {
       if (i === attempts) throw err; // network error on the final attempt → give up
     }
-    await new Promise((r) => setTimeout(r, 2 ** (i - 1) * 100)); // 100ms, 200ms, 400ms…
+    await new Promise((r) => setTimeout(r, 2 ** (i - 1) * 100)); // 100ms, 200ms, 400ms… (prod: add random jitter)
   }
 }
 // Usage:  const res = await fetchRetry('https://api.example.com/flaky', { attempts: 4 });
