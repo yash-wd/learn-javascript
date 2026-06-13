@@ -72,7 +72,32 @@
       .practice-box a { color: var(--brand-strong); text-decoration: none; font-weight: 600; }
       .practice-box a:hover { text-decoration: underline; }
       @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+      /* ---------- Responsive: tablet & phone ---------- */
+      @media (max-width: 640px) {
+        body { padding: 22px 14px; }
+        .card { padding: 14px; margin: 14px 0; }
+        #code { min-height: 160px; font-size: 13px; }
+        .editor .gutter { font-size: 13px; }
+        /* let the filter + picker each take a full row instead of squeezing */
+        #lesson-filter, #lesson-picker { flex: 1 1 100%; min-width: 0; }
+        .row button, #random-lesson { flex: 1 1 auto; }
+      }
+      @media (max-width: 380px) {
+        body { padding: 18px 10px; }
+        #code { font-size: 12px; }
+      }
     </style>
+    <!-- Shared motion layer: entrance reveals, scroll effects, richer hovers. -->
+    <link rel="stylesheet" href="assets/motion.css" />
+    <script>
+      /* Pre-hide reveal targets, then auto-recover after 1.5s if motion.js
+         never loads. motion.js cancels this timer on init. */
+      document.documentElement.className += " motion";
+      window.__motionFailsafe = setTimeout(function () {
+        document.documentElement.classList.remove("motion");
+      }, 1500);
+    </script>
   </head>
   <body>
     <a class="skip" href="#code" style="position:absolute;left:-9999px">Skip to the editor</a>
@@ -408,5 +433,6 @@ setTimeout(() => console.log('…and this logs a moment later'), 300);
         }
       })();
     </script>
+    <script src="assets/motion.js"></script>
   </body>
 </html>

@@ -178,5 +178,14 @@ if [ "$VERBOSE" = "1" ]; then
   done <<< "$RESULTS"
   [ "$pfound" = "0" ] && echo "    (none name it directly)"
 else
-  echo "  $TOTAL lessons mention \"$KEYWORD\" · run  ./findtopic.sh -v $KEYWORD  for the full table"
+  # Default footer: list WHICH lessons mention the keyword (names + where it
+  # matched), not just a bare count. The full scored table + every matching
+  # practice line stay behind -v, so this is the "show me which, briefly" tier.
+  echo "  All $TOTAL lessons that mention \"$KEYWORD\" ($MODE):"
+  while IFS='|' read -r s c sig f; do
+    [ -z "$f" ] && continue
+    printf "    - %-22s (%s)\n" "$(basename "$f")" "${sig//,/, }"
+  done <<< "$RESULTS"
+  echo ""
+  echo "  run  ./findtopic.sh -v $KEYWORD  for scores + every matching practice line"
 fi

@@ -89,12 +89,21 @@ its **practice exercises**, and a few other lessons that **also teach** the topi
     1. Write makeAdder(x) that returns a function adding x to its argument.
        const add5 = makeAdder(5); add5(10) === 15
     2. Build a once(fn) wrapper that runs fn only the first time it's called.
-    3. Explain why `count` survives between counter() calls.
+    3. Explain in your own words why `count` survives between counter() calls.
 
   Also teaches "scope":
     - 01-variables.js  (learn)
 
-  6 lessons mention "scope" · run  ./findtopic.sh -v scope  for the full table
+  All 7 lessons that mention "scope" (substring):
+    - 10-scope-closures.js   (title, learn, name)
+    - 01-variables.js        (learn)
+    - 32-tricky-concepts.js  (body)
+    - 52-bigint-and-language-corners.js (body)
+    - 54-modern-auth.js      (body)
+    - 11-this-keyword.js     (body)
+    - 23-modules.js          (body)
+
+  run  ./findtopic.sh -v scope  for scores + every matching practice line
 ```
 
 The `run:` line uses each lesson's own instructions — so for the browser-based

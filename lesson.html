@@ -131,7 +131,41 @@
 
       .error-box { background: var(--surface); border: 1px solid var(--danger); border-radius: var(--radius); padding: 22px; }
       .error-box a { color: var(--brand-strong); }
+
+      /* ---------- Responsive: tablet & phone ---------- */
+      @media (max-width: 640px) {
+        .wrap { padding: 0 16px; }
+        main { padding: 22px 0 56px; }
+        .intro { padding: 20px 18px 18px; }
+        .intro::after { width: 160px; height: 160px; }
+        pre.code { padding: 16px 14px; font-size: 0.82rem; }
+        /* keep the long file path from pushing the copy button off-screen */
+        .code-card .bar .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+        .code-card .bar .copy { flex: 0 0 auto; }
+      }
+      @media (max-width: 520px) {
+        /* keep the brand + two links on one row without overflowing */
+        header.nav .wrap { gap: 8px; }
+        header.nav a.link { padding: 8px 9px; font-size: 0.86rem; }
+        .brand span:last-child { display: none; } /* logo stays, drop the wordmark */
+      }
+      @media (max-width: 380px) {
+        .wrap { padding: 0 12px; }
+        .run-row { gap: 8px; }
+        .run-pill { width: 100%; }
+        pre.code { font-size: 0.78rem; }
+      }
     </style>
+    <!-- Shared motion layer: entrance reveals, scroll effects, richer hovers. -->
+    <link rel="stylesheet" href="assets/motion.css" />
+    <script>
+      /* Pre-hide reveal targets, then auto-recover after 1.5s if motion.js
+         never loads. motion.js cancels this timer on init. */
+      document.documentElement.className += " motion";
+      window.__motionFailsafe = setTimeout(function () {
+        document.documentElement.classList.remove("motion");
+      }, 1500);
+    </script>
   </head>
   <body>
     <header class="nav">
@@ -478,5 +512,7 @@
         if (solParam) renderSolution(solParam); else render();
       })();
     </script>
+    <!-- After the lesson renders into #app, so reveals catch the rendered DOM. -->
+    <script src="assets/motion.js"></script>
   </body>
 </html>
