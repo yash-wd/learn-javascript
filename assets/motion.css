@@ -117,8 +117,31 @@ a.lesson:hover, a.project:hover {
   box-shadow: 0 14px 32px -20px color-mix(in srgb, var(--brand) 60%, transparent);
 }
 details:hover { border-color: color-mix(in srgb, var(--brand) 45%, var(--line)); }
-details summary::before { display: inline-block; transition: transform 0.2s ease; }
-details[open] summary::before { transform: rotate(180deg); }
+details summary::before { transition: transform 0.2s ease; }
+
+/* ----------------------------------------------------------------------------
+ * Expand / collapse smoothness — shared by every accordion-style toggle on the
+ * site: native <details> (e.g. the homepage FAQ) and custom JS collapsibles
+ * (e.g. the curriculum search "show where matched" panel). The revealed content
+ * fades + slides in; where the browser supports interpolate-size the panel also
+ * animates its height open/closed (a graceful no-op everywhere else).
+ * -------------------------------------------------------------------------- */
+@keyframes mo-expand {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: none; }
+}
+details > *:not(summary),
+#search-details {
+  animation: mo-expand 0.3s ease both;
+}
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  details::details-content {
+    height: 0; overflow: clip;
+    transition: height 0.3s ease, content-visibility 0.3s ease allow-discrete;
+  }
+  details[open]::details-content { height: auto; }
+}
 
 .btn:hover {
   transform: translateY(-2px);
@@ -155,6 +178,8 @@ a.lesson.done .done-toggle { transform: scale(1.08); }
     .intro, .code-card, .practice, .pager, .card
   ) { opacity: 1 !important; transform: none !important; }
   h1.title .grad { animation: none !important; }
+  details > *:not(summary), #search-details { animation: none !important; }
+  details::details-content { transition: none !important; }
   #scroll-progress, #back-to-top { display: none !important; }
   a.lesson:hover, a.project:hover, .stepbox:hover, .card:hover,
   .panel:hover, .stage .body:hover, .btn:hover, .mini:hover, .page-link:hover {

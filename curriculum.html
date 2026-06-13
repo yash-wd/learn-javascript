@@ -215,11 +215,18 @@
       }
       details summary {
         cursor: pointer; font-weight: 650; padding: 14px 0; list-style: none; font-size: 1rem;
+        display: flex; align-items: flex-start; gap: 14px; /* space between the +/− icon and the question */
       }
       details summary::-webkit-details-marker { display: none; }
-      details summary::before { content: "＋ "; color: var(--brand-2); font-weight: 800; }
-      details[open] summary::before { content: "－ "; }
+      details summary::before {
+        content: "＋"; color: var(--brand-2); font-weight: 800;
+        flex: 0 0 auto; min-width: 1.1em; text-align: center;
+        transition: transform 0.25s ease;
+      }
+      details[open] summary::before { content: "－"; }
       details p { margin: 0 0 16px; color: var(--ink-soft); font-size: 0.95rem; }
+      /* Open/close smoothness (fade-in + height animation) is shared across the
+         whole site from assets/motion.css so every collapsible behaves alike. */
       details code {
         background: var(--code-bg); border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; font-size: 0.85rem;
       }
