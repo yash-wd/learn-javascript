@@ -1,6 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="JavaScript">
-  <rect width="64" height="64" fill="#f7df1e"/>
-  <text x="59" y="55" text-anchor="end"
-        font-family="Helvetica, Arial, sans-serif" font-size="34" font-weight="700"
-        fill="#000">JS</text>
+  <defs>
+    <linearGradient id="yellow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe85a"/>
+      <stop offset="0.55" stop-color="#f7df1e"/>
+      <stop offset="1" stop-color="#e6c70d"/>
+    </linearGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.5"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <!-- rounded tile with a soft top-down gradient for depth -->
+  <rect x="2" y="2" width="60" height="60" rx="15" fill="url(#yellow)"/>
+  <!-- glossy highlight sheen across the upper half -->
+  <rect x="2" y="2" width="60" height="32" rx="15" fill="url(#gloss)"/>
+  <!-- crisp hairline edge -->
+  <rect x="2.5" y="2.5" width="59" height="59" rx="14.5" fill="none" stroke="#000000" stroke-opacity="0.12"/>
+  <!-- bold black JS wordmark, anchored bottom-right like the official logo -->
+  <text x="58" y="54" text-anchor="end"
+        font-family="Helvetica, Arial, sans-serif" font-size="33" font-weight="700"
+        fill="#0a0a0a">JS</text>
 </svg>
