@@ -9,6 +9,7 @@
       content="A complete, beginner-friendly JavaScript course. 56 short lessons from your first line of code to advanced, expert and interview-level topics, plus 8 real projects. Read, run, repeat."
     />
     <meta name="color-scheme" content="dark light" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <!-- This IS the course homepage (served at the site root). The old
          curriculum.html now just redirects here so existing links keep working. -->
     <link rel="canonical" href="https://js.ycnlabs.com/" />
@@ -19,7 +20,12 @@
       property="og:description"
       content="A complete, beginner-friendly JavaScript course. 56 short lessons plus 8 real projects. Read, run, repeat."
     />
+    <meta property="og:image" content="https://js.ycnlabs.com/assets/og-cover.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Learn JavaScript — a complete step-by-step course. 56 lessons, 8 projects." />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://js.ycnlabs.com/assets/og-cover.png" />
     <!-- One shared palette drives every page; rebrand in assets/theme.css. -->
     <link rel="stylesheet" href="assets/theme.css" />
     <style>
@@ -288,7 +294,7 @@
     <header class="nav">
       <div class="wrap">
         <a class="brand" href="#top"><span class="logo">JS</span><span>Learn JavaScript</span></a>
-        <nav>
+        <nav aria-label="Primary">
           <a href="#start">Start here</a>
           <a href="#path">The path</a>
           <a href="#lessons">Lessons</a>
@@ -1028,13 +1034,22 @@ node lessons/02-data-types.js
         var bar = document.querySelector('header.nav .wrap');
         var navEl = document.querySelector('header.nav nav');
         if (bar && navEl) {
+          if (!navEl.id) navEl.id = 'primary-nav';
           var burger = document.createElement('button');
           burger.className = 'nav-toggle'; burger.textContent = '☰';
           burger.setAttribute('aria-label', 'Toggle menu');
+          burger.setAttribute('aria-controls', navEl.id);
+          burger.setAttribute('aria-expanded', 'false');
           bar.appendChild(burger);
-          burger.addEventListener('click', function () { navEl.classList.toggle('show'); });
+          var setNavOpen = function (open) {
+            navEl.classList.toggle('show', open);
+            burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+          };
+          burger.addEventListener('click', function () {
+            setNavOpen(!navEl.classList.contains('show'));
+          });
           navEl.querySelectorAll('a').forEach(function (a) {
-            a.addEventListener('click', function () { navEl.classList.remove('show'); });
+            a.addEventListener('click', function () { setNavOpen(false); });
           });
         }
       })();

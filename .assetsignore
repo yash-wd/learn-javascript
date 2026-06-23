@@ -21,7 +21,10 @@ backlog.js
 # Internal docs & project config (not served)
 CLAUDE.md
 CONTRIBUTING.md
+CHANGELOG.md
 package.json
+wrangler.jsonc
+findtopic.sh
 
 # Transient bundle artifact — the .md and .pdf are served downloads, the .html is not
 bundle/JS_Learn_Everything.html

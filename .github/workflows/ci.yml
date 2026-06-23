@@ -9,13 +9,26 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 20 = the engines floor declared in package.json; 24 = current.
+        node-version: [20, 24]
+    name: verify (node ${{ matrix.node-version }})
     steps:
       - uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: ${{ matrix.node-version }}
+
+      - name: Guard deploy asset list
+        # The Cloudflare deploy serves the repo root, so node_modules/ MUST stay
+        # excluded from upload or the build hits the 25 MiB per-asset limit
+        # (workerd alone is ~119 MiB — the original deploy failure). Cheap guard
+        # against anyone removing that line from .assetsignore.
+        run: grep -qxF 'node_modules/' .assetsignore || { echo '::error::node_modules/ missing from .assetsignore — deploy would exceed the 25 MiB asset limit'; exit 1; }
 
       - name: Full repo verification
         run: bash scripts/verify.sh

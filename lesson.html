@@ -5,10 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lesson — Learn JavaScript</title>
     <meta name="description" content="A single JavaScript lesson — read it, run it, then practice." />
+    <meta name="color-scheme" content="dark light" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="https://js.ycnlabs.com/lesson.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Lesson — Learn JavaScript" />
+    <meta property="og:description" content="A single JavaScript lesson — read it, run it, then practice." />
+    <meta property="og:image" content="https://js.ycnlabs.com/assets/og-cover.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://js.ycnlabs.com/assets/og-cover.png" />
     <!-- One shared palette drives every page; rebrand in assets/theme.css. -->
     <link rel="stylesheet" href="assets/theme.css" />
     <style>
       .wrap { max-width: 920px; margin: 0 auto; padding: 0 22px; }
+
+      /* Keyboard skip link — off-screen until focused, all colours via tokens. */
+      .skip { position: absolute; left: -9999px; top: 8px; z-index: 100;
+        background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+        padding: 10px 14px; border-radius: 8px; font-weight: 700; }
+      .skip:focus { left: 8px; }
 
       /* ---------- top bar ---------- */
       header.nav {
@@ -168,6 +183,7 @@
     </script>
   </head>
   <body>
+    <a class="skip" href="#main">Skip to content</a>
     <header class="nav">
       <div class="wrap">
         <a class="brand" href="./"><span class="logo">JS</span><span>Learn JavaScript</span></a>
@@ -177,7 +193,7 @@
       </div>
     </header>
 
-    <main>
+    <main id="main">
       <div class="wrap"><div id="app"></div></div>
     </main>
 

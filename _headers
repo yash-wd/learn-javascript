@@ -1,0 +1,39 @@
+# Cloudflare Workers static assets — response headers.
+# Parsed from the served directory and applied to asset responses; the file is
+# NOT itself served. It must therefore stay OUT of .assetsignore (if ignored, it
+# wouldn't be uploaded and these rules wouldn't apply). Cloudflare applies the
+# most specific matching path per header, so the cache rules below override the
+# /* default on their paths.
+
+# ---- Non-fingerprinted code & content → always revalidate ----
+# assets/*.js, assets/*.css, lessons/*.js and projects/** have stable filenames
+# (no content hash), so they must revalidate or visitors get stale code/styles
+# after a deploy. Revalidation is a cheap 304 when nothing changed.
+/assets/*
+  Cache-Control: public, max-age=0, must-revalidate
+/lessons/*
+  Cache-Control: public, max-age=0, must-revalidate
+/projects/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# ---- Large static downloads (the offline bundle) → cache for a day ----
+/bundle/*
+  Cache-Control: public, max-age=86400
+
+# ---- All routes: security headers + always-fresh HTML ----
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  # NOTE: script-src KEEPS 'unsafe-eval' AND 'unsafe-inline' ON PURPOSE. The
+  # Playground runs user-typed code via new Function() (playground.html) and
+  # injects an inline <script> into an iframe srcdoc for browser-lesson demos.
+  # Removing either keyword BREAKS the playground. Do not "harden" this without
+  # first moving code execution into a sandboxed worker/iframe. The site loads no
+  # external origins, so 'self' + those two keywords is as tight as it gets here.
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self'; frame-src 'self'; manifest-src 'self'; upgrade-insecure-requests
