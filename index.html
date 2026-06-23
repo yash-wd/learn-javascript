@@ -59,11 +59,8 @@
       }
       .nav .wrap { display: flex; align-items: center; gap: 18px; height: 62px; }
       .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; }
-      .logo {
-        width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center;
-        font-weight: 800; color: #0b1020;
-        background: linear-gradient(135deg, var(--amber), #ffe08a); box-shadow: var(--shadow);
-      }
+      /* Brand mark — the modern JS logo SVG (same asset as the favicon). */
+      .logo { width: 30px; height: 30px; border-radius: 8px; display: block; box-shadow: var(--shadow); }
       .nav nav { margin-left: auto; display: flex; gap: 4px; flex-wrap: wrap; }
       .nav nav a {
         text-decoration: none; color: var(--ink-soft); padding: 8px 12px;
@@ -293,7 +290,7 @@
     <!-- ============================ NAV ============================ -->
     <header class="nav">
       <div class="wrap">
-        <a class="brand" href="#top"><span class="logo">JS</span><span>Learn JavaScript</span></a>
+        <a class="brand" href="#top"><img class="logo" src="favicon.svg" alt="" width="30" height="30" /><span>Learn JavaScript</span></a>
         <nav aria-label="Primary">
           <a href="#start">Start here</a>
           <a href="#path">The path</a>
