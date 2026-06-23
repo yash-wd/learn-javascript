@@ -20,7 +20,7 @@
  *                                      algorithms, i18n, auth, a11y, clean code
  *
  * Browser-only lessons (open via playground.html, not Node): 24, 25, 47.
- * See README.md or curriculum.html for the full clickable path.
+ * See README.md or open index.html (the homepage) for the full clickable path.
  * ========================================================================== */
 
-console.log('👋 Open curriculum.html, or start with: node lessons/01-variables.js');
+console.log('👋 Open index.html (the homepage), or start with: node lessons/01-variables.js');

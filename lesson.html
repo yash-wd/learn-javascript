@@ -170,9 +170,9 @@
   <body>
     <header class="nav">
       <div class="wrap">
-        <a class="brand" href="curriculum.html"><span class="logo">JS</span><span>Learn JavaScript</span></a>
+        <a class="brand" href="./"><span class="logo">JS</span><span>Learn JavaScript</span></a>
         <span class="spacer"></span>
-        <a class="link" href="curriculum.html#lessons">All lessons</a>
+        <a class="link" href="./#lessons">All lessons</a>
         <a class="link" href="playground.html">Playground</a>
       </div>
     </header>
@@ -193,7 +193,7 @@
         var ORDER = Object.keys(SOURCES).sort();      // lessons/01..56
         var BROWSER = { 'lessons/24-dom.js': 1, 'lessons/25-events.js': 1, 'lessons/47-browser-apis.js': 1 };
 
-        // level bands mirror curriculum.html
+        // level bands mirror index.html (the homepage)
         function levelOf(n) {
           if (n <= 8) return 'Level 1 · Foundation';
           if (n <= 16) return 'Level 2 · Core Concepts';
@@ -466,7 +466,7 @@
           window.scrollTo(0, 0);
         }
 
-        // ---------- progress (shared with curriculum.html, keyed by lesson path) ----------
+        // ---------- progress (shared with index.html, keyed by lesson path) ----------
         function wireProgress() {
           var KEY = 'jslearn-progress', done;
           try { done = new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch (e) { done = new Set(); }
@@ -496,7 +496,7 @@
           app.appendChild(el('div', { class: 'error-box' }, [
             el('h1', { text: 'Lesson not found' }),
             el('p', { html: 'Could not find <code>' + esc(which || '') + '</code>. It may not be part of the course, or the sources index needs rebuilding (<code>npm run search-index</code>).' }),
-            el('p', {}, [el('a', { href: 'curriculum.html#lessons', text: '← Back to all lessons' })]),
+            el('p', {}, [el('a', { href: './#lessons', text: '← Back to all lessons' })]),
           ]));
         }
 

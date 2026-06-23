@@ -60,15 +60,15 @@ fi
 echo "▶ Checking counts line up…"
 L=$(ls lessons/[0-9]*.js | wc -l | tr -d ' ')
 S=$(ls lessons/solutions/*.js | wc -l | tr -d ' ')
-C=$(grep -o 'lessons/[0-9][0-9]-[a-z-]*\.js' curriculum.html | sort -u | wc -l | tr -d ' ')
+C=$(grep -o 'lessons/[0-9][0-9]-[a-z-]*\.js' index.html | sort -u | wc -l | tr -d ' ')
 P=$(ls -d projects/[0-9]* | wc -l | tr -d ' ')
-PC=$(grep -c 'class="project"' curriculum.html | tr -d ' ')
+PC=$(grep -c 'class="project"' index.html | tr -d ' ')
 echo "  lessons=$L solutions=$S curriculum-links=$C · projects=$P cards=$PC"
 { [ "$L" = "$S" ] && [ "$L" = "$C" ]; } || { echo "  ✗ lesson counts disagree"; status=1; }
 [ "$P" = "$PC" ] || { echo "  ✗ project counts disagree"; status=1; }
 
 echo "▶ Scanning for stale project counts…"
-if grep -rniIq "5 real project\|these five project\|build all five" README.md projects curriculum.html 2>/dev/null; then
+if grep -rniIq "5 real project\|these five project\|build all five" README.md projects index.html 2>/dev/null; then
   echo "  ✗ found a stale '5 projects' reference"; status=1
 else
   echo "  ✓ none"

@@ -1,6 +1,6 @@
 <div align="center">
 
-## 👉 &nbsp; [Open the Live Course](https://yash-wd.github.io/learn-javascript/) &nbsp; 👈
+## 👉 &nbsp; [Open the Live Course](https://js.ycnlabs.com/) &nbsp; 👈
 
 <sub>Runs right in your browser — no install needed</sub>
 
@@ -28,9 +28,9 @@ A beginner-friendly course that starts from **zero** and goes all the way to
 Every lesson is a single file you **read**, then **run**, then move on. That's the
 whole method.
 
-> 🧭 **Prefer a visual guide?** Open **[`curriculum.html`](curriculum.html)** in
-> your browser for a clickable learning path, a beginner FAQ, and links to every
-> lesson.
+> 🧭 **Prefer a visual guide?** Open **[`index.html`](index.html)** (or the live
+> site, [js.ycnlabs.com](https://js.ycnlabs.com/)) in your browser for a clickable
+> learning path, a beginner FAQ, and links to every lesson.
 
 ## Start here (3 steps)
 
@@ -150,8 +150,8 @@ mentions it in passing.
 
 ```text
 .
-├── curriculum.html     → visual learning path + beginner FAQ  (start here)
-├── index.html          → front door (sends you to the curriculum)
+├── index.html          → ⭐ the homepage: visual learning path + beginner FAQ  (start here)
+├── curriculum.html     → legacy redirect → index.html  (keeps old links working)
 ├── playground.html     → host page for the browser-only lessons
 ├── findtopic.sh        → find which lesson teaches a topic + its practice
 │

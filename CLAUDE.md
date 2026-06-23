@@ -13,8 +13,14 @@ projects** (`projects/N-name/`; project 8 is a Node backend — no `index.html`)
 with Node → move on. There is **no build step** for the course itself; the only
 generated artifact is the offline bundle (PDF/Markdown).
 
-Live site (GitHub Pages): https://yash-wd.github.io/learn-javascript/
+Live site: <https://js.ycnlabs.com/> (Cloudflare Workers static assets — deploy
+config in `wrangler.jsonc` + `.assetsignore`; the whole repo root is served).
 Remote: `git@github.com:yash-wd/learn-javascript.git` (branch `main`)
+
+**Homepage:** `index.html` IS the course homepage (the visual learning path + all
+lesson/project cards live there, served at the site root `/`). `curriculum.html`
+is now just a redirect → `/`, kept so old links/bookmarks still work. When the
+docs below say "the homepage" they mean `index.html`.
 
 ---
 
@@ -22,7 +28,7 @@ Remote: `git@github.com:yash-wd/learn-javascript.git` (branch `main`)
 
 | Kind | Files | Rule |
 | --- | --- | --- |
-| **Source of truth** | `lessons/*.js`, `lessons/solutions/*.js`, `projects/**`, `practice/**`, `README.md`, `projects/README.md`, `curriculum.html`, `lesson.html`, `index.html`, `playground.html`, `assets/*` (incl. `theme.css`), `findtopic.sh`, `backlog.js` | Hand-edited. |
+| **Source of truth** | `lessons/*.js`, `lessons/solutions/*.js`, `projects/**`, `practice/**`, `README.md`, `projects/README.md`, `index.html` (the homepage), `lesson.html`, `playground.html`, `curriculum.html` (tiny redirect → `/`), `assets/*` (incl. `theme.css`), `findtopic.sh`, `backlog.js` | Hand-edited. |
 | **Planning** | `backlog.js` | Living "what's missing" tracker — runnable (`node backlog.js`). Not in the bundle; add an item when you spot a gap. |
 | **Quality gates** | `tools/check-outputs.mjs`, `scripts/verify.sh`, `practice/*.test.mjs`, `projects/8-rest-api/test.mjs` | `check-outputs.mjs` asserts every lesson's `// =>` comments match real output; `verify.sh` (CI) runs lessons + output check + all test suites. Run `npm run check` after editing any `// =>`. |
 | **Generated** | `bundle/JS_Learn_Everything.md`, `.pdf`, `.html` | **Never hand-edit.** Always regenerate with `node tools/build-bundle.mjs` (+ PDF step). |
@@ -44,7 +50,7 @@ appends a `# Projects` section to all three outputs.
 - [ ] If you changed any `// =>` output comment, **run the lesson** and confirm it
       matches: `node lessons/NN-name.js`.
 - [ ] If the topic coverage changed, update the lesson's row in **README.md**
-      ("What you learn" column) and its `<p class="desc">` in **curriculum.html**.
+      ("What you learn" column) and its `<p class="desc">` in **index.html**.
 - [ ] **Regenerate the bundle** (see Commands).
 
 ### ➕ Add a new lesson
@@ -55,11 +61,11 @@ appends a `# Projects` section to all three outputs.
       solutions file, and confirm it runs clean: `node lessons/solutions/NN-solutions.js`.
 - [ ] **README.md**: add a row to the right Level table; bump every lesson-count
       ("56") — intro line, `<br>` line, repo-layout note, hero/stat text.
-- [ ] **curriculum.html**: add a lesson card under the right Level; update the
+- [ ] **index.html** (the homepage): add a lesson card under the right Level; update the
       "All 56 lessons" heading, hero `<b>56</b>` stat, footer, and `<meta>` description.
 - [ ] **assets/script.js**: update the level map if the range changed.
 - [ ] If browser-only, tag it `(browser)` and add it to the playground picker
-      (`playground.html`) and the browser-lesson lists (README + curriculum).
+      (`playground.html`) and the browser-lesson lists (README + index.html).
 - [ ] **Regenerate the bundle.**
 
 ### 🔢 Remove or renumber a lesson
@@ -87,14 +93,14 @@ appends a `# Projects` section to all three outputs.
 - [ ] Bump the **project count ("7")** everywhere:
       **README.md** (projects table + "N real projects" prose + repo-layout note),
       **projects/README.md** (table + "these N projects" / "build all N" prose),
-      **curriculum.html** (project cards, hero `<b>6</b>` stat, "N real projects"
+      **index.html** (project cards, hero `<b>6</b>` stat, "N real projects"
       heading, footer, `<meta>` description).
 - [ ] Keep the project's "lessons used" list consistent across **3 places**: the
       root README table, `projects/README.md`, and the file header comments in
       `app.js`/`solution.js`.
 - [ ] **Regenerate the bundle** (projects feed the `.md` via `projects/README.md`).
 
-### 🎨 UI change (`curriculum.html`, `lesson.html`, `index.html`, `playground.html`, `assets/*`)
+### 🎨 UI change (`index.html`, `lesson.html`, `playground.html`, `assets/*`)
 - [ ] These are **not** in the bundle — no regenerate needed for pure UI tweaks.
 - [ ] **Colours/spacing live in `assets/theme.css` only** — every page links it and
       styles itself with the `--tokens` (`--brand`, `--surface`, `--ink`, …). To
@@ -110,8 +116,8 @@ appends a `# Projects` section to all three outputs.
       row) — it **parses** the header (title `·` line, `WHAT YOU'LL LEARN`, `Run:`)
       and `PRACTICE` block. If you change that lesson header structure, re-check both
       `lesson.html`'s `parse()` and `findtopic.sh`'s zone extractors.
-- [ ] The curriculum "enhancement layer" (progress tracking, lesson filter, mobile
-      nav) is one `<style>`+`<script>` block at the **bottom of `curriculum.html`**,
+- [ ] The homepage "enhancement layer" (progress tracking, lesson filter, mobile
+      nav) is one `<style>`+`<script>` block at the **bottom of `index.html`**,
       just before `</body>`. It targets `a.lesson`, `#lessons .parts`, and
       `header.nav nav` — keep those selectors intact when restructuring markup.
 
@@ -121,9 +127,9 @@ appends a `# Projects` section to all three outputs.
 
 | Value | Lives in |
 | --- | --- |
-| **56 lessons** | `README.md` (table + intro + stats), `curriculum.html` (links, `<b>56</b>`, "All 56 lessons", `<meta>`), `assets/script.js` (level map), `package.json` (description), bundle |
-| **8 projects** | `README.md` (table + prose + layout), `projects/README.md` (table + prose), `curriculum.html` (cards, `<b>8</b>`, heading, footer, `<meta>`), `package.json` (description), bundle |
-| **5 levels / browser lessons (24, 25, 47)** | `README.md`, `curriculum.html`, `playground.html` |
+| **56 lessons** | `README.md` (table + intro + stats), `index.html` (links, `<b>56</b>`, "All 56 lessons", `<meta>`), `assets/script.js` (level map), `package.json` (description), bundle |
+| **8 projects** | `README.md` (table + prose + layout), `projects/README.md` (table + prose), `index.html` (cards, `<b>8</b>`, heading, footer, `<meta>`), `package.json` (description), bundle |
+| **5 levels / browser lessons (24, 25, 47)** | `README.md`, `index.html`, `playground.html` |
 
 ---
 
@@ -187,11 +193,11 @@ node tools/build-bundle.mjs && git diff --quiet bundle/JS_Learn_Everything.md \
   && echo "bundle .md in sync" || echo "bundle .md drifted — commit it"
 
 # 3. counts line up
-echo "lessons: $(ls lessons/[0-9]*.js | wc -l)  solutions: $(ls lessons/solutions/*.js | wc -l)  curriculum-links: $(grep -o 'lessons/[0-9][0-9]-[a-z-]*\.js' curriculum.html | sort -u | wc -l)"
-echo "projects: $(ls -d projects/[0-9]* | wc -l)  curriculum-cards: $(grep -c 'class=\"project\"' curriculum.html)"
+echo "lessons: $(ls lessons/[0-9]*.js | wc -l)  solutions: $(ls lessons/solutions/*.js | wc -l)  curriculum-links: $(grep -o 'lessons/[0-9][0-9]-[a-z-]*\.js' index.html | sort -u | wc -l)"
+echo "projects: $(ls -d projects/[0-9]* | wc -l)  curriculum-cards: $(grep -c 'class=\"project\"' index.html)"
 
 # 4. no stale counts
-grep -rniI "5 real project\|5 projects\|~13.*DOM" README.md projects curriculum.html || echo "no stale counts"
+grep -rniI "5 real project\|5 projects\|~13.*DOM" README.md projects index.html || echo "no stale counts"
 ```
 
 Then commit (branch off `main` if you aren't on it) and push. End commit messages
