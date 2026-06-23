@@ -1,0 +1,19 @@
+{
+  // Cloudflare Workers static-assets config for the Learn JavaScript site.
+  // This is a pure static site (no Worker script / no "main" entry): every page
+  // is plain HTML + assets served straight from the repo root.
+  //
+  // Committing this file makes `npx wrangler deploy` deterministic — the build no
+  // longer falls back to interactive prompts. Files that must not be served (most
+  // importantly the build-time node_modules/) are excluded via .assetsignore.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "learn-javascript",
+  "compatibility_date": "2026-06-23",
+  "assets": {
+    // The whole repo root is the static site. Files that must NOT be served
+    // (node_modules/, .git/, internal docs, …) are excluded via .assetsignore.
+    // Default html handling is used on purpose: "/" serves index.html (the front
+    // door) and .html pages resolve to clean URLs — both reachable with a 200.
+    "directory": "."
+  }
+}

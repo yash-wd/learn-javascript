@@ -24,6 +24,10 @@ bundle/JS_Learn_Everything.html
 .env.*
 !.env.example
 
+# Cloudflare Wrangler (deploy tooling) — local state, never committed
+.wrangler/
+.dev.vars
+
 # Editor / IDE
 .vscode/
 .idea/

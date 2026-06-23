@@ -1,0 +1,31 @@
+# Files in the repo root that must NOT be uploaded as static-site assets.
+# Cloudflare deploys with the assets directory set to "." (the repo root), so
+# without this list it tries to upload everything — including the node_modules/
+# that `npx wrangler` installs during the build (workerd alone is 119 MiB, which
+# blows the 25 MiB per-asset limit and fails the deploy).
+
+# Dependencies installed during the Cloudflare build (the actual cause of the failure)
+node_modules/
+
+# Version control & CI (not part of the served site)
+.git/
+.github/
+.gitignore
+
+# Build tooling & dev-only scripts/tests
+tools/
+scripts/
+practice/
+backlog.js
+
+# Internal docs & project config (not served)
+CLAUDE.md
+CONTRIBUTING.md
+package.json
+
+# Transient bundle artifact — the .md and .pdf are served downloads, the .html is not
+bundle/JS_Learn_Everything.html
+
+# Wrangler's own generated files (also auto-ignored, listed for clarity)
+.dev.vars
+.wrangler/
