@@ -32,3 +32,24 @@ jobs:
 
       - name: Full repo verification
         run: bash scripts/verify.sh
+
+  deploy:
+    name: Deploy to Cloudflare
+    # Only deploy real pushes to main — never on PRs — and only once the
+    # verify matrix has passed, so a broken commit can't reach production.
+    needs: verify
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Cloudflare Workers
+        # Runs `wrangler deploy` using the config in wrangler.jsonc (serves the
+        # repo root as static assets). Needs two repo secrets:
+        #   CLOUDFLARE_API_TOKEN  — token with "Edit Cloudflare Workers" perms
+        #   CLOUDFLARE_ACCOUNT_ID — your account id
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy
