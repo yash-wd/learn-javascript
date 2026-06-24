@@ -12,8 +12,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # 20 = the engines floor declared in package.json; 24 = current.
-        node-version: [20, 24]
+        # 22 = the engines floor declared in package.json (lesson 38 uses
+        # ES2024 Object.groupBy/Map.groupBy, which need Node 21+); 24 = current.
+        node-version: [22, 24]
     name: verify (node ${{ matrix.node-version }})
     steps:
       - uses: actions/checkout@v4

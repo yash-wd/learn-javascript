@@ -15,6 +15,6 @@
   },
   "keywords": ["javascript", "course", "tutorial", "learning", "beginner"],
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   }
 }
