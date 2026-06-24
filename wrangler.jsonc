@@ -9,6 +9,11 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "learn-javascript",
   "compatibility_date": "2026-06-23",
+  // Serve only on the custom domain (js.ycnlabs.com). Disable the
+  // *.workers.dev preview subdomain and per-version preview URLs so the site
+  // isn't also exposed at learn-javascript.<account>.workers.dev.
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     // The whole repo root is the static site. Files that must NOT be served
     // (node_modules/, .git/, internal docs, …) are excluded via .assetsignore.

@@ -12,6 +12,9 @@ node_modules/
 .github/
 .gitignore
 
+# Build-environment hint for Cloudflare (pins Node 24); not part of the site
+.nvmrc
+
 # Build tooling & dev-only scripts/tests
 tools/
 scripts/

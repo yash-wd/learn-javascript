@@ -19,7 +19,9 @@
     <style>
       body { background: var(--bg); color: var(--ink); }
       .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
-      main { padding: 30px 0 60px; }
+      /* longhand top/bottom so it beats `.wrap`'s shorthand padding (which is
+         more specific than a bare `main`) without clobbering its 0 20px sides. */
+      main.wrap { padding-top: 32px; padding-bottom: 60px; }
       a { color: var(--brand-strong); }
 
       /* ---------- top bar (matches lesson.html / index.html) ---------- */
@@ -103,7 +105,7 @@
       /* ---------- Responsive: tablet & phone ---------- */
       @media (max-width: 640px) {
         .wrap { padding: 0 14px; }
-        main { padding: 22px 0 50px; }
+        main.wrap { padding-top: 24px; padding-bottom: 50px; }
         header.nav .wrap { gap: 8px; }
         header.nav a.link { padding: 8px 9px; font-size: 0.86rem; }
         .brand span:last-child { display: none; } /* logo stays, drop the wordmark */
