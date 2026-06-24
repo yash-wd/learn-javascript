@@ -35,6 +35,7 @@ jobs:
       - name: Full repo verification
         run: bash scripts/verify.sh
 
-  # NOTE: Deployment is handled by Cloudflare Pages' Git integration (the repo is
-  # connected in the Cloudflare dashboard and auto-builds on every push to main),
-  # so there is intentionally no deploy job here.
+  # NOTE: Deployment is handled by Cloudflare Workers Builds (the repo is connected
+  # to the learn-javascript Worker in the Cloudflare dashboard, which runs
+  # `npx wrangler deploy` on every push to main), so there is intentionally no
+  # deploy job here.
