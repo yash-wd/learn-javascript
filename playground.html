@@ -17,8 +17,25 @@
     <link rel="stylesheet" href="assets/theme.css" />
     <link rel="stylesheet" href="assets/style.css" />
     <style>
-      body { background: var(--bg); color: var(--ink); padding: 32px 20px; max-width: 860px; margin: 0 auto; }
+      body { background: var(--bg); color: var(--ink); }
+      .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+      main { padding: 30px 0 60px; }
       a { color: var(--brand-strong); }
+
+      /* ---------- top bar (matches lesson.html / index.html) ---------- */
+      header.nav {
+        position: sticky; top: 0; z-index: 50;
+        backdrop-filter: blur(10px);
+        background: color-mix(in srgb, var(--bg) 82%, transparent);
+        border-bottom: 1px solid var(--line);
+      }
+      header.nav .wrap { display: flex; align-items: center; gap: 14px; height: 60px; }
+      .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; color: inherit; }
+      .logo { width: 30px; height: 30px; border-radius: 8px; display: block; box-shadow: var(--shadow-sm); }
+      header.nav .spacer { margin-left: auto; }
+      header.nav a.link { color: var(--ink-soft); text-decoration: none; padding: 8px 12px; border-radius: 10px; font-size: 0.92rem; font-weight: 500; }
+      header.nav a.link:hover { color: var(--ink); background: var(--surface); }
+      header.nav a.link[aria-current="page"] { color: var(--ink); background: var(--surface); }
       h1 { margin-bottom: 6px; }
       h2 { margin: 0 0 8px; }
       .muted { color: var(--ink-dim); }
@@ -85,7 +102,11 @@
 
       /* ---------- Responsive: tablet & phone ---------- */
       @media (max-width: 640px) {
-        body { padding: 22px 14px; }
+        .wrap { padding: 0 14px; }
+        main { padding: 22px 0 50px; }
+        header.nav .wrap { gap: 8px; }
+        header.nav a.link { padding: 8px 9px; font-size: 0.86rem; }
+        .brand span:last-child { display: none; } /* logo stays, drop the wordmark */
         .card { padding: 14px; margin: 14px 0; }
         #code { min-height: 160px; font-size: 13px; }
         .editor .gutter { font-size: 13px; }
@@ -94,7 +115,7 @@
         .row button, #random-lesson { flex: 1 1 auto; }
       }
       @media (max-width: 380px) {
-        body { padding: 18px 10px; }
+        .wrap { padding: 0 10px; }
         #code { font-size: 12px; }
       }
     </style>
@@ -111,6 +132,19 @@
   </head>
   <body>
     <a class="skip" href="#code" style="position:absolute;left:-9999px">Skip to the editor</a>
+
+    <header class="nav">
+      <div class="wrap">
+        <a class="brand" href="./"><img class="logo" src="favicon.svg" alt="" width="30" height="30" /><span>Learn JavaScript</span></a>
+        <span class="spacer"></span>
+        <a class="link" href="./">Home</a>
+        <a class="link" href="./#lessons">All lessons</a>
+        <a class="link" href="./#projects">Projects</a>
+        <a class="link" href="playground.html" aria-current="page">Playground</a>
+      </div>
+    </header>
+
+    <main class="wrap">
     <h1>JavaScript Playground</h1>
     <p class="muted">
       New here? Start at the <a href="./">course curriculum</a>. Most lessons
@@ -162,6 +196,7 @@ setTimeout(() => console.log('…and this logs a moment later'), 300);
       <div id="practice-panel"></div>
       <div id="lesson-frame" style="margin-top: 14px"></div>
     </section>
+    </main>
 
     <script src="assets/lessons-manifest.js"></script>
     <script>
