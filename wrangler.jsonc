@@ -9,10 +9,12 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "learn-javascript",
   "compatibility_date": "2026-06-23",
-  // Serve only on the custom domain (js.ycnlabs.com). Disable the
-  // *.workers.dev preview subdomain and per-version preview URLs so the site
-  // isn't also exposed at learn-javascript.<account>.workers.dev.
-  "workers_dev": false,
+  // workers_dev: true keeps the learn-javascript.<account>.workers.dev URL
+  // live alongside the custom domain (js.ycnlabs.com) — handy as a cache-free
+  // URL for confirming deploys. For a production-only setup, set this back to
+  // false so the branded domain is the single canonical entry point.
+  // preview_urls stays false (no per-version preview links needed).
+  "workers_dev": true,
   "preview_urls": false,
   "assets": {
     // The whole repo root is the static site. Files that must NOT be served
