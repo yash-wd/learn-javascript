@@ -116,7 +116,7 @@
           background: none; border: 1px solid var(--line); color: inherit;
           border-radius: 8px; padding: 4px 11px; cursor: pointer; font-size: 20px; line-height: 1.2;
         }
-        .nav-toggle:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+        .nav-toggle:focus-visible { outline: 2px solid var(--brand-strong); outline-offset: 2px; }
         header.nav nav.show {
           display: flex; flex-direction: column; gap: 6px; width: 100%;
           margin-top: 6px; padding-bottom: 6px;
@@ -128,8 +128,6 @@
       @media (max-width: 640px) {
         .wrap { padding: 0 14px; }
         main.wrap { padding-top: 24px; padding-bottom: 50px; }
-        header.nav .wrap { gap: 8px; }
-        header.nav a.link { padding: 8px 9px; font-size: 0.86rem; }
         .brand span:last-child { display: none; } /* logo stays, drop the wordmark */
         .card { padding: 14px; margin: 14px 0; }
         #code { min-height: 160px; font-size: 13px; }
