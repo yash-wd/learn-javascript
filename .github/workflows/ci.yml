@@ -12,9 +12,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # 22 = the engines floor declared in package.json (lesson 38 uses
-        # ES2024 Object.groupBy/Map.groupBy, which need Node 21+); 24 = current.
-        node-version: [22, 24]
+        # 24 = the engines floor declared in package.json. lesson 38 uses
+        # RegExp.escape (ES2025, ships in Node 24 / V8 13.5) un-guarded, so the
+        # course genuinely needs Node 24+; older runtimes throw on that line.
+        node-version: [24]
     name: verify (node ${{ matrix.node-version }})
     steps:
       - uses: actions/checkout@v4
