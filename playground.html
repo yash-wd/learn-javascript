@@ -34,10 +34,11 @@
       header.nav .wrap { display: flex; align-items: center; gap: 14px; height: 60px; }
       .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; color: inherit; }
       .logo { width: 30px; height: 30px; border-radius: 8px; display: block; box-shadow: var(--shadow-sm); }
-      header.nav .spacer { margin-left: auto; }
+      header.nav nav { margin-left: auto; display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
       header.nav a.link { color: var(--ink-soft); text-decoration: none; padding: 8px 12px; border-radius: 10px; font-size: 0.92rem; font-weight: 500; }
       header.nav a.link:hover { color: var(--ink); background: var(--surface); }
       header.nav a.link[aria-current="page"] { color: var(--ink); background: var(--surface); }
+      .nav-toggle { display: none; }
       h1 { margin-bottom: 6px; }
       h2 { margin: 0 0 8px; }
       .muted { color: var(--ink-dim); }
@@ -102,6 +103,27 @@
       .practice-box a:hover { text-decoration: underline; }
       @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 
+      /* ---------- mobile nav: collapse the links into a hamburger ---------- */
+      @media (max-width: 720px) {
+        /* let the open menu drop to its own row instead of being clipped */
+        header.nav .wrap { flex-wrap: wrap; height: auto; min-height: 60px; padding-top: 10px; padding-bottom: 10px; }
+        /* the burger is injected after <nav> — order keeps it on the top row
+           (beside the brand) and the open menu below, not under it */
+        header.nav .brand { order: 0; }
+        header.nav nav { order: 2; display: none; }
+        .nav-toggle {
+          order: 1; display: inline-flex; margin-left: auto; align-items: center;
+          background: none; border: 1px solid var(--line); color: inherit;
+          border-radius: 8px; padding: 4px 11px; cursor: pointer; font-size: 20px; line-height: 1.2;
+        }
+        .nav-toggle:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+        header.nav nav.show {
+          display: flex; flex-direction: column; gap: 6px; width: 100%;
+          margin-top: 6px; padding-bottom: 6px;
+        }
+        header.nav nav.show a.link { padding: 10px 12px; border-radius: 10px; }
+      }
+
       /* ---------- Responsive: tablet & phone ---------- */
       @media (max-width: 640px) {
         .wrap { padding: 0 14px; }
@@ -138,11 +160,12 @@
     <header class="nav">
       <div class="wrap">
         <a class="brand" href="./"><img class="logo" src="favicon.svg" alt="" width="30" height="30" /><span>Learn JavaScript</span></a>
-        <span class="spacer"></span>
-        <a class="link" href="./">Home</a>
-        <a class="link" href="./#lessons">All lessons</a>
-        <a class="link" href="./#projects">Projects</a>
-        <a class="link" href="playground.html" aria-current="page">Playground</a>
+        <nav aria-label="Primary">
+          <a class="link" href="./">Home</a>
+          <a class="link" href="./#lessons">All lessons</a>
+          <a class="link" href="./#projects">Projects</a>
+          <a class="link" href="playground.html" aria-current="page">Playground</a>
+        </nav>
       </div>
     </header>
 
@@ -478,6 +501,32 @@ setTimeout(() => console.log('…and this logs a moment later'), 300);
           var saved = null; try { saved = localStorage.getItem(KEY); } catch (e) {}
           if (saved && byHref(saved)) selectLesson(saved, { scroll: false });
         }
+      })();
+    </script>
+    <script>
+      /* MOBILE NAV — a hamburger that toggles the menu under 720px
+         (same pattern as the homepage). */
+      (function () {
+        var bar = document.querySelector('header.nav .wrap');
+        var navEl = document.querySelector('header.nav nav');
+        if (!bar || !navEl) return;
+        if (!navEl.id) navEl.id = 'primary-nav';
+        var burger = document.createElement('button');
+        burger.className = 'nav-toggle'; burger.textContent = '☰';
+        burger.setAttribute('aria-label', 'Toggle menu');
+        burger.setAttribute('aria-controls', navEl.id);
+        burger.setAttribute('aria-expanded', 'false');
+        bar.appendChild(burger);
+        var setNavOpen = function (open) {
+          navEl.classList.toggle('show', open);
+          burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        };
+        burger.addEventListener('click', function () {
+          setNavOpen(!navEl.classList.contains('show'));
+        });
+        navEl.querySelectorAll('a').forEach(function (a) {
+          a.addEventListener('click', function () { setNavOpen(false); });
+        });
       })();
     </script>
     <script src="assets/motion.js"></script>
